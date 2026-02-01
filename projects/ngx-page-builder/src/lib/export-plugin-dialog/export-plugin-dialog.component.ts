@@ -9,6 +9,7 @@ import { IPlugin } from '../../contracts/IPlugin';
 import { PageItem } from '../../models/PageItem';
 import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
+import { PageBuilderService } from '../../public-api';
 
 @Component({
   selector: 'app-export-plugin-dialog',
@@ -35,24 +36,34 @@ export class ExportPluginDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<ExportPluginDialogComponent>,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
+    private pageBuilder: PageBuilderService,
   ) {
     this.loading = true;
-    pluginService
-      .getPlugin(_data)
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
+    const tmpShowOutlines = this.pageBuilder.showOutlines();
+    this.pageBuilder.showOutlines.set(false);
+    this.pluginService
+      .getPlugin(this._data)
       .then((p) => {
         this.plugin = p;
         this.img = p.image;
         this.name = p.name;
         this.loading = false;
-        chdr.detectChanges();
+        this.pageBuilder.showOutlines.set(tmpShowOutlines);
+        this.chdr.detectChanges();
       })
       .catch((error) => {
         Notify.error(error);
-        dialogRef.close();
+        this.pageBuilder.showOutlines.set(tmpShowOutlines);
+        this.dialogRef.close();
       });
   }
-
-  ngOnInit() {}
 
   ok(ev?: Event) {
     if (ev) {

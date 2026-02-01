@@ -22,20 +22,31 @@ export class PBPluginService {
   async getPlugin(item: PageItem): Promise<IPlugin> {
     return new Promise<IPlugin>(async (resolve, reject) => {
       try {
+        const { snapdom } = await import('@zumer/snapdom');
+        if (!snapdom) {
+          throw new Error('snapdom not exist. `npm i @zumer/snapdom`');
+        }
+
         if (!item.el) {
           throw new Error('Can not get html element!');
         }
 
-        const { snapdom } = await import('@zumer/snapdom');
-        if (!snapdom) {
-          throw new Error('SnamDom not exist. `npm i @zumer/snapdom`');
-        }
-
         const style = this.cls.getBlockStyles(item);
-        const img = (await snapdom.toPng(item.el, { embedFonts: true })).src ?? '';
+
+        const img =
+          (
+            await snapdom.toPng(item.el, {
+              embedFonts: true,
+              backgroundColor: '#fff',
+              outerShadows: true,
+              fast: false,
+              placeholders: true,
+            })
+          ).src ?? '';
         const clonedData = deepCloneInstance(item);
         const data = preparePageItems([clonedData])[0];
         const sanitized = sanitizeForStorage(data);
+
         resolve({
           image: img,
           name: '',

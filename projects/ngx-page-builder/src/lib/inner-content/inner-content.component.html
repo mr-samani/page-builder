@@ -7,7 +7,7 @@
     <div
       class="page-header"
       #PageHeader
-      [class.show-outlines]="pageBuilder.showOutlines"
+      [class.show-outlines]="pageBuilder.showOutlines()"
       ngxDropList
       [data]="pageBuilder.currentPage?.headerItems"
       [class.is-empty]="pageBuilder.currentPage?.headerItems?.length == 0"
@@ -18,7 +18,7 @@
   <div
     class="page-body"
     #PageBody
-    [class.show-outlines]="pageBuilder.showOutlines"
+    [class.show-outlines]="pageBuilder.showOutlines()"
     ngxDropList
     [data]="pageBuilder.currentPage?.bodyItems"
     (drop)="pageBuilder.onDrop($event)"
@@ -28,7 +28,7 @@
     <div
       class="page-footer"
       #PageFooter
-      [class.show-outlines]="pageBuilder.showOutlines"
+      [class.show-outlines]="pageBuilder.showOutlines()"
       ngxDropList
       [class.is-empty]="pageBuilder.currentPage?.footerItems?.length == 0"
       [data]="pageBuilder.currentPage?.footerItems"

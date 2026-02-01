@@ -47,7 +47,7 @@ export class PageBuilderService implements OnDestroy {
   pageFooter: Signal<ElementRef<HTMLElement> | undefined> = signal<
     ElementRef<HTMLElement> | undefined
   >(undefined);
-  showOutlines = true;
+  showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
 
   private _changed$ = new Subject<PageItemChange>();

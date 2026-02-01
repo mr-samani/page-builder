@@ -1,7 +1,9 @@
 <h2 mat-dialog-title>Export Plugin</h2>
 <mat-dialog-content>
   <div class="screenshot-container">
-    <img [src]="img" alt="" class="screenshot" />
+    @if (img) {
+      <img [src]="img" alt="" class="screenshot" />
+    }
   </div>
   <div class="loading-container">
     <loading [loading]="loading"></loading>

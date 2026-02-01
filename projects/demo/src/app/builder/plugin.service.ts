@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IPaginationPlugin, IPlugin, IPluginStore } from '@ngx-page-builder';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PluginService implements IPluginStore {
   private _plugins: IPlugin[] = [
     {

@@ -128,7 +128,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   toggleOutlines() {
-    this.pageBuilder.showOutlines = !this.pageBuilder.showOutlines;
+    this.pageBuilder.showOutlines.set(!this.pageBuilder.showOutlines());
   }
   deSelectBlock() {
     this.pageBuilder.deSelectBlock();
