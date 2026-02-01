@@ -112,7 +112,7 @@ export class PagePreviewService {
     targetDoc.head.appendChild(style);
     for (let s of this.data.styles) {
       const style = targetDoc.createElement('style');
-      style.innerHTML = `${this.data.styles}`;
+      style.innerHTML = `${s.data}`;
       style.id = s.name;
       targetDoc.head.appendChild(style);
     }
