@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DOCUMENT, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ImportHtmlService } from '../../services/import-export/import-html.service';
 import { ImportResult } from '../../services/import-export/ImportResult';
@@ -51,12 +51,13 @@ export class ImportDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) _data: any,
     private importer: ImportHtmlService,
     private chdr: ChangeDetectorRef,
+    @Inject(DOCUMENT) private doc: Document,
   ) {}
 
   ngOnInit() {}
   ngAfterViewInit(): void {
     // fix bug for show colors in tinymce editor
-    document.querySelector('.cdk-overlay-popover')?.removeAttribute('popover');
+    this.doc.querySelector('.cdk-overlay-popover')?.removeAttribute('popover');
   }
 
   importFromUrl(resultSection: HTMLElement) {

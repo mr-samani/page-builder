@@ -180,7 +180,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   applyStyle(styleObj: { [k: string]: string }) {
     const range = this.savedSelection;
-    const sel = document.getSelection();
+    const sel = this.doc.getSelection();
 
     // اگر هیچ متنی انتخاب نشده
     if (!range || range.collapsed || !sel) {
@@ -188,7 +188,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const span = document.createElement('span');
+    const span = this.doc.createElement('span');
     this.applyStyleObject(span.style, styleObj);
 
     try {
@@ -202,7 +202,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
     // ✅ selection را حفظ کن
     sel.removeAllRanges();
-    const newRange = document.createRange();
+    const newRange = this.doc.createRange();
     newRange.selectNodeContents(span);
     sel.addRange(newRange);
 
@@ -213,7 +213,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   applyStyleToFragment(fragment: DocumentFragment, styleObj: { [k: string]: string }) {
-    const walker = document.createTreeWalker(
+    const walker = this.doc.createTreeWalker(
       fragment,
       NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
       null,
@@ -234,7 +234,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     nodesToWrap.forEach((textNode) => {
-      const span = document.createElement('span');
+      const span = this.doc.createElement('span');
       this.applyStyleObject(span.style, styleObj);
 
       const parent = textNode.parentNode;

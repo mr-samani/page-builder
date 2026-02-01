@@ -1,6 +1,8 @@
 import {
   Directive,
+  DOCUMENT,
   ElementRef,
+  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -19,6 +21,7 @@ export class SvgIconDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
+    @Inject(DOCUMENT) private doc: Document,
   ) {}
 
   async ngOnInit() {
@@ -39,7 +42,7 @@ export class SvgIconDirective implements OnInit {
       }
 
       // تبدیل string → Element
-      const temp = document.createElement('div');
+      const temp = this.doc.createElement('div');
       temp.innerHTML = svgContent.trim();
 
       const innerSvg = temp.querySelector('svg');

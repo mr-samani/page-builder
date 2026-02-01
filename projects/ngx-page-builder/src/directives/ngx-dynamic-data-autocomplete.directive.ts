@@ -8,6 +8,8 @@ import {
   EventEmitter,
   Output,
   OnDestroy,
+  Inject,
+  DOCUMENT,
 } from '@angular/core';
 import { DynamicDataStructure, DynamicValueType } from '../models/DynamicData';
 
@@ -37,13 +39,14 @@ export class DynamicAutocompleteDirective implements OnDestroy {
 
   constructor(
     private el: ElementRef<HTMLElement>,
+    @Inject(DOCUMENT) private doc: Document,
     private renderer: Renderer2,
   ) {
-    document.addEventListener('click', this.onDocClick, true);
+    this.doc.addEventListener('click', this.onDocClick, true);
   }
 
   ngOnDestroy() {
-    document.removeEventListener('click', this.onDocClick, true);
+    this.doc.removeEventListener('click', this.onDocClick, true);
     this.closePopup();
   }
 
@@ -148,7 +151,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
       if (!sel || !sel.rangeCount) return '';
 
       const range = sel.getRangeAt(0);
-      const preRange = document.createRange();
+      const preRange = this.doc.createRange();
       preRange.selectNodeContents(el);
       preRange.setEnd(range.endContainer, range.endOffset);
 
@@ -358,7 +361,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
       this.renderer.setStyle(popup, 'max-height', '250px');
       this.renderer.setStyle(popup, 'overflow', 'auto');
       this.renderer.setStyle(popup, 'min-width', '150px');
-      this.renderer.appendChild(document.body, popup);
+      this.renderer.appendChild(this.doc.body, popup);
       this.popupEl = popup;
     }
     this.updatePopupItems();
@@ -431,7 +434,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   private closePopup() {
     if (this.popupEl) {
       try {
-        this.renderer.removeChild(document.body, this.popupEl);
+        this.renderer.removeChild(this.doc.body, this.popupEl);
       } catch {}
       this.popupEl = undefined;
     }
@@ -488,13 +491,13 @@ export class DynamicAutocompleteDirective implements OnDestroy {
         } else {
           // Just insert at cursor
           range.deleteContents();
-          range.insertNode(document.createTextNode(textToInsert));
+          range.insertNode(this.doc.createTextNode(textToInsert));
           range.collapse(false);
         }
       } else {
         // Fallback: insert at cursor
         range.deleteContents();
-        range.insertNode(document.createTextNode(textToInsert));
+        range.insertNode(this.doc.createTextNode(textToInsert));
         range.collapse(false);
       }
 
@@ -547,7 +550,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
       }
 
       // Fallback: create a temporary span at cursor
-      const span = document.createElement('span');
+      const span = this.doc.createElement('span');
       span.textContent = '\u200B'; // zero-width space
       range.insertNode(span);
       const rect = span.getBoundingClientRect();
@@ -568,7 +571,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
     const rect = textarea.getBoundingClientRect();
     const style = window.getComputedStyle(textarea);
 
-    const mirror = document.createElement('div');
+    const mirror = this.doc.createElement('div');
     const props = [
       'boxSizing',
       'width',
@@ -606,19 +609,19 @@ export class DynamicAutocompleteDirective implements OnDestroy {
     mirror.style.left = '-9999px';
     mirror.style.whiteSpace = 'pre-wrap';
 
-    document.body.appendChild(mirror);
+    this.doc.body.appendChild(mirror);
 
     const start = textarea.selectionStart || 0;
     mirror.textContent = textarea.value.substring(0, start);
 
-    const span = document.createElement('span');
+    const span = this.doc.createElement('span');
     span.textContent = '|';
     mirror.appendChild(span);
 
     const spanRect = span.getBoundingClientRect();
     const mirrorRect = mirror.getBoundingClientRect();
 
-    document.body.removeChild(mirror);
+    this.doc.body.removeChild(mirror);
 
     const x = rect.left + (spanRect.left - mirrorRect.left) - (textarea.scrollLeft || 0);
     const y = rect.top + (spanRect.top - mirrorRect.top) - (textarea.scrollTop || 0);

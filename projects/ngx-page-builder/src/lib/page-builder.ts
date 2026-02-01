@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DOCUMENT,
   EventEmitter,
   Inject,
   Injector,
@@ -97,6 +98,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     @Inject(NGX_PAGE_BUILDER_STORAGE_SERVICE) private storageService: IStorageService,
     private cls: ClassManagerService,
     private dialog: MatDialog,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     super(injector);
     this.pageBuilder.storageService = this.storageService;
@@ -265,7 +267,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         const context = this.shortcuts.getCurrentContext();
         if (context === FocusContext.TEXT_EDITING) {
           // خروج از حالت ویرایش متن
-          (document.activeElement as HTMLElement)?.blur();
+          (this.doc.activeElement as HTMLElement)?.blur();
         } else {
           // لغو انتخاب بلاک
           this.pageBuilder.deSelectBlock();

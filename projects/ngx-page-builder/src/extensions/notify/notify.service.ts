@@ -1,4 +1,11 @@
-import { Injectable, ComponentRef, ApplicationRef, Injector } from '@angular/core';
+import {
+  Injectable,
+  ComponentRef,
+  ApplicationRef,
+  Injector,
+  Inject,
+  DOCUMENT,
+} from '@angular/core';
 import { NGX_PG_NOTIFY_DEFAULTS } from './notify-config';
 import { NgxPgNotifyOptions } from './notify-options';
 import { NgxPgNotifyPayload, NgxPgNotifyType } from './notify.model';
@@ -18,6 +25,7 @@ export class NgxPgNotifyService {
   constructor(
     private appRef: ApplicationRef,
     private injector: Injector,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     // global event listeners for notifications finishing or close
     window.addEventListener('ngx-pg-notify:finish', (e: any) =>
@@ -31,7 +39,7 @@ export class NgxPgNotifyService {
   configureContainer(position: NgxPgNotifyOptions['position'], containerClass: string) {
     if (this.container) return; // created already
 
-    const container = document.createElement('div');
+    const container = this.doc.createElement('div');
     container.className = containerClass + ' ngx-pg-notify-container ' + `ngx-pg-pos-${position}`;
     container.style.position = 'fixed';
     container.style.zIndex = '99999';
@@ -61,7 +69,7 @@ export class NgxPgNotifyService {
       container.style.pointerEvents = 'none';
     }
 
-    document.body.appendChild(container);
+    this.doc.body.appendChild(container);
     this.container = container;
   }
 
@@ -88,7 +96,7 @@ export class NgxPgNotifyService {
     if (!this.container)
       this.configureContainer(payload.options.position!, payload.options.containerClass!);
     // create DOM node wrapper for pointer events handling
-    const wrapper = document.createElement('div');
+    const wrapper = this.doc.createElement('div');
     wrapper.style.pointerEvents = 'auto';
     wrapper.setAttribute('data-id', payload.id);
 
@@ -110,7 +118,7 @@ export class NgxPgNotifyService {
 
     // add close button
     if (payload.options.dismissible) {
-      const btn = document.createElement('button');
+      const btn = this.doc.createElement('button');
       btn.className = 'ngx-pg-close';
       btn.innerText = '×';
       btn.style.position = 'absolute';

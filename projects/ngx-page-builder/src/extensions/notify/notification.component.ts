@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef,
+  Inject,
+  DOCUMENT,
+} from '@angular/core';
 import { NgxPgNotifyPayload } from './notify.model';
 
 @Component({
@@ -33,7 +41,10 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
 
   safeMessage = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Inject(DOCUMENT) private doc: Document,
+  ) {}
 
   ngOnInit(): void {
     this.options = { ...(this.payload.options || {}) };
@@ -55,7 +66,7 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
         ? (this as any).elementRef.nativeElement
         : null;
       try {
-        (this as any).rootEl = document.querySelector(
+        (this as any).rootEl = this.doc.querySelector(
           `.ngx-pg-notify[data-id=\"${this.payload.id}\"]`,
         );
       } catch (e) {}
@@ -112,14 +123,14 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
 
   addShowClass() {
     try {
-      const el = document.querySelector(`.ngx-pg-notify[data-id="${this.payload.id}"]`);
+      const el = this.doc.querySelector(`.ngx-pg-notify[data-id="${this.payload.id}"]`);
       if (el) el.classList.add('ngx-pg-show');
     } catch (e) {}
   }
 
   escapeHtml(input: string) {
-    const div = document.createElement('div');
-    div.appendChild(document.createTextNode(input));
+    const div = this.doc.createElement('div');
+    div.appendChild(this.doc.createTextNode(input));
     return div.innerHTML;
   }
 

@@ -142,7 +142,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     } catch (error) {}
   }
   ngAfterViewInit(): void {
-    document.querySelector('ngx-page-builder')?.scrollIntoView();
+    this.doc.querySelector('ngx-page-builder')?.scrollIntoView();
   }
   getData() {
     this.pageBuilder()
