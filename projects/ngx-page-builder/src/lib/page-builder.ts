@@ -34,6 +34,7 @@ import { InnerContentComponent } from './inner-content/inner-content.component';
 import { IStyleSheetFile } from '../contracts/IStyleSheetFile';
 import { LibConsts } from '../consts/defauls';
 import { MatDialog } from '@angular/material/dialog';
+import { PageBuilderConfig } from '../models/PageBuilderDto';
 
 @Component({
   selector: 'ngx-page-builder',
@@ -52,13 +53,19 @@ import { MatDialog } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
-  @Input() set data(val: IPage[]) {
+  @Input() set data(val: IPage[] | undefined) {
     if (!val || Array.isArray(val) == false) {
       console.warn('NgxPageBuilder', 'Input data not valid!');
       return;
     }
     const pages = val.map((m) => Page.fromJSON(m));
     this.loadPageData(pages);
+  }
+
+  @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
+    if (val) {
+      this.pageBuilder.pageInfo.config = new PageBuilderConfig(val);
+    }
   }
 
   @Input('styles') set setStyles(val: IStyleSheetFile[]) {

@@ -5,6 +5,7 @@ import {
   NGX_PAGE_BUILDER_FILE_PICKER,
   NGX_PAGE_BUILDER_HTML_EDITOR,
   NgxPageBuilder,
+  PageBuilderConfig,
 } from '@ngx-page-builder';
 import { FilePickerService } from './file-picker.service';
 import { DynamicData } from '../dynamic-data/dynamic-data';
@@ -69,6 +70,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     },
   ];
 
+  config?: PageBuilderConfig;
   data: IPage[] = [
     {
       headerItems: [],
@@ -135,6 +137,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       const savedData = localStorage.getItem('page');
       const parsed = JSON.parse(savedData || '{}');
       this.data = parsed?.data;
+      this.config = parsed?.config;
       this.styles = parsed?.styles;
     } catch (error) {}
   }
