@@ -1,15 +1,20 @@
-<div class="tab-group-container">
-  <div class="tab-group" [class.dont-show-single]="dontShowSingleTab && tabs?.length === 1">
+<div class="k-tab-group" [class.dont-show-single]="dontShowSingleTab && tabs?.length === 1">
+  <button type="button" id="toggleTabItems" (click)="openTabItemMenu = !openTabItemMenu">☰</button>
+  <div
+    class="tab-item-container-back-drop"
+    [class.open]="openTabItemMenu"
+    (click)="openTabItemMenu = false"
+  ></div>
+  <div class="tab-item-container" [class.open]="openTabItemMenu" create-form-builder-tour-step="1">
     @for (tab of tabs; track $index; let tabIndex = $index) {
-      <div
-        class="tab-group__item"
-        #tabEl
-        (click)="selectTab(tab, tabIndex)"
-        [class.active]="tab.active"
-      >
+      <div class="tab-item" [class.active]="tab.active" (click)="selectTab(tab, tabIndex)">
         {{ tab.title }}
       </div>
     }
+  </div>
+
+  <div class="active-line"></div>
+  <div class="fixed-actions">
     @if (showPlusButton) {
       <div class="tab-group__item plus" (click)="onClickPlus()">+</div>
     }

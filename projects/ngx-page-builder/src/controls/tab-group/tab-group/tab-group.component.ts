@@ -23,6 +23,9 @@ export class TabGroupComponent implements AfterContentInit {
   @Output() selectedIndex = new EventEmitter<number>();
   @ContentChildren(TabItemComponent) tabs?: QueryList<TabItemComponent>;
   rndId = Math.round(Math.random() * 5000);
+
+  /** toggle tab item menu in tablet or mobile */
+  openTabItemMenu = false;
   constructor(private chdr: ChangeDetectorRef) {}
 
   ngAfterContentInit() {
