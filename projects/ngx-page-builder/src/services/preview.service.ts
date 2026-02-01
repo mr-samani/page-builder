@@ -47,6 +47,7 @@ export class PagePreviewService {
       this.cleanCanvas();
       this.pageContainer = this.doc.createElement('div');
       this.pageContainer.id = 'prvMRS';
+      this.pageContainer.classList.add('ngx-page-builder');
       // مخفی کردن کانتینر موقت تا کاربر متوجه نشود
       this.pageContainer.style.left = '-9999px';
       this.pageContainer.style.position = 'absolute';
@@ -93,12 +94,11 @@ export class PagePreviewService {
     });
   }
 
-  private transferContentToNewWindow(targetWindow: Window) {
+  private async transferContentToNewWindow(targetWindow: Window) {
     if (!this.data || !this.pageContainer) return;
 
     const targetDoc = targetWindow.document;
-
-    // ۱. کپی کردن استایل‌های صفحه
+    // import compiled paper.scss in assets/style.css
     const style = targetDoc.createElement('style');
     style.innerHTML = `
       body { margin: 0; padding: 0; overflow: auto; }
@@ -107,8 +107,109 @@ export class PagePreviewService {
         size: ${this.data.config.size} ${this.data.config.orientation.toLowerCase()};
         orientation: ${this.data.config.orientation}; 
       }
+       
+      /**************************************************/
       
+.web-page-view {
+  min-height: 100%;
+  display: contents;
+}
+.web-page-view .page-body {
+  min-height: 95%;
+}
+
+.paper {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.paper.A4.Portrait {
+  width: var(--a4-width);
+  min-height: var(--a4-height);
+}
+.paper.A4.Landscape {
+  width: var(--a4-height);
+  min-height: var(--a4-width);
+}
+.paper.A5.Portrait {
+  width: var(--a5-width);
+  min-height: var(--a5-height);
+}
+.paper.A5.Landscape {
+  width: var(--a5-height);
+  min-height: var(--a5-width);
+}
+.paper.Letter.Portrait {
+  width: var(--letter-width);
+  min-height: var(--letter-height);
+}
+.paper.Letter.Landscape {
+  width: var(--letter-height);
+  min-height: var(--letter-width);
+}
+.paper .page-body {
+  min-height: calc(var(--a5-height) / 2);
+  flex: auto;
+}
+.paper img,
+.paper svg,
+.paper video {
+  max-width: 100%;
+  max-height: 100%;
+}
+.paper * {
+  box-sizing: border-box;
+}
+
+.paper-inner {
+  min-height: inherit;
+}
+
+.ngx-page-builder table.ngx-page-table {
+  width: 100%;
+  border-spacing: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.ngx-page-builder .page-break {
+  page-break-after: always !important;
+}
+.ngx-page-builder img,
+.ngx-page-builder svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+.ngx-page-builder table.ngx-page-table th.repeatable-header {
+  text-align: start;
+  max-height: 270px; /* maximum browser page header */
+  overflow: hidden;
+  display: block;
+}
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  ::ng-deep.paper,
+  .paper {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  html,
+  body {
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
     `;
+
     targetDoc.head.appendChild(style);
     for (let s of this.data.styles) {
       const style = targetDoc.createElement('style');
@@ -129,9 +230,11 @@ export class PagePreviewService {
 
     // اعمال کلاس‌های مربوط به کاغذ و جهت‌گیری
     if (LibConsts.viewMode == 'PrintPage') {
-      this.pageContainer.className = `paper ${this.data.config.size} ${this.data.config.orientation}`;
+      this.pageContainer.classList.add('paper');
+      this.pageContainer.classList.add(this.data.config.size);
+      this.pageContainer.classList.add(this.data.config.orientation);
     } else {
-      this.pageContainer.className = `web-page-view`;
+      this.pageContainer.classList.add('web-page-view');
     }
   }
 
