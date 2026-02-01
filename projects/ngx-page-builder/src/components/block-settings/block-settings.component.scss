@@ -1,5 +1,5 @@
 .inner {
   padding: 10px;
-  max-height: calc(100vh - var(--topbar-height) - 31px);
+  height: calc(100vh - var(--topbar-height) - 31px);
   overflow: auto;
 }

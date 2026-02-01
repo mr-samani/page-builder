@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
+import { LibConsts } from '../../consts/defauls';
 
 @Component({
   selector: 'inner-content',
@@ -15,6 +16,7 @@ import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
   styleUrls: [
     './inner-content.component.scss',
     '../../../../../node_modules/ngx-drag-drop-kit/assets/styles.css',
+    ...LibConsts.publicCss,
   ],
   encapsulation: ViewEncapsulation.ShadowDom,
   imports: [NgxDragDropKitModule],

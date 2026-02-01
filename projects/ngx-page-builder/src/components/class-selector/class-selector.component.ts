@@ -40,6 +40,12 @@ export class ClassSelectorComponent implements OnInit {
 
   classes: IClassList[] = [];
   availableClasses: string[] = [];
+
+  // auto complete
+  searchClassModel: string = '';
+  showSuggestions: boolean = false;
+  filteredSuggestions: string[] = [];
+
   constructor(
     private cdr: ChangeDetectorRef,
     public cls: ClassManagerService,
@@ -69,17 +75,31 @@ export class ClassSelectorComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  onInputChange(): void {
+    if (this.searchClassModel.length > 0) {
+      this.filteredSuggestions = this.availableClasses.filter((suggestion) =>
+        suggestion.toLowerCase().includes(this.searchClassModel.toLowerCase()),
+      );
+    }
+  }
+
   onAddClass(ev: any) {
     if (this.item && this.item.classList) {
-      const val = ev.currentTarget?.value;
-      if (this.item.classList.indexOf(val) == -1) {
-        this.item.classList.push(val);
-        this.item.el?.classList.add(val);
-        this.classes.push({ name: val });
+      const val = (typeof ev == 'string' ? ev : ev.currentTarget?.value).trim();
+      // not start witn number
+      if (val && /\d/.test(val.at(0)) == false) {
+        if (this.item.classList.indexOf(val) == -1) {
+          this.item.classList.push(val);
+          this.item.el?.classList.add(val);
+          this.classes.push({ name: val });
+        }
+        this.onSelectClass(val);
       }
-      this.onSelectClass(val);
-      this.showAddClassBtn = true;
     }
+    this.showAddClassBtn = true;
+    this.showSuggestions = false;
+    this.searchClassModel = '';
+    this.cdr.detectChanges();
   }
 
   onSelectClass(className: string) {
@@ -120,10 +140,10 @@ export class ClassSelectorComponent implements OnInit {
   onBlurEditClassName(item: IClassList) {
     if (!item.editMode || !this.item) return;
     if (item.newName) {
-      if (this.cls.hasClass(item.newName.trim())) {
-        Notify.error(item.newName + ' is duplicated!');
-        return;
-      }
+      // if (this.cls.hasClass(item.newName.trim())) {
+      //   Notify.error(item.newName + ' is duplicated!');
+      //   return;
+      // }
 
       this.cls.renameClass(item.name, item.newName);
       let i = this.item.classList.findIndex((x) => x == item.name);

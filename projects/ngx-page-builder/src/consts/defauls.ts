@@ -26,6 +26,9 @@ export const LibConsts: {
   showPlugins: boolean;
 
   toolbarConfig?: PageBuilderToolbarConfig;
+
+  publicCss: string[];
+  publicJs: string[];
 } = {
   SourceItemList: [],
   backendProxyImportUrl: 'http://localhost:3000/api/render',
@@ -35,6 +38,8 @@ export const LibConsts: {
   showPlugins: false,
   viewMode: 'PrintPage',
   toolbarConfig: new PageBuilderToolbarConfig(),
+  publicCss: [],
+  publicJs: [],
 };
 
 export const LOCAL_STORAGE_SAVE_KEY = 'page';

@@ -4,6 +4,8 @@ import { parseCssBlockToRecord, parseCssToRecord } from '../utiles/css-parser';
 import { PageItem } from '../models/PageItem';
 import { IStyleSheetFile } from '../contracts/IStyleSheetFile';
 import { isEqual } from '../utiles/isEqual';
+import { LibConsts } from '../consts/defauls';
+import { HttpClient } from '@angular/common/http';
 
 interface ICssFile {
   id: string; // UUID یا unique ID
@@ -40,11 +42,13 @@ export class ClassManagerService {
   private isInitialized = false;
 
   doc = inject(DOCUMENT);
+  http = inject(HttpClient);
   innerShadowRootDom?: ShadowRoot | null;
 
   constructor() {
     // Initialize با فایل پیش‌فرض
     this.initializeDefaultFile();
+    this.importPublicCss();
   }
 
   /**
@@ -65,6 +69,29 @@ export class ClassManagerService {
     this.cssFileData.push(defaultFile);
     this.updateAvailableClasses();
     this.cssFilesSubject.next(this.cssFileData);
+  }
+
+  importPublicCss() {
+    for (let css of LibConsts.publicCss) {
+      let fileName = css.split('/').pop()?.split('.')?.[0] ?? 'default';
+      this.http
+        .get(css, {
+          responseType: 'text',
+          headers: {
+            accept: 'text/plain',
+          },
+        })
+        .subscribe({
+          next: (content) => {
+            if (content && typeof content == 'string') {
+              this.addCssFile(fileName, content);
+            }
+          },
+          error: (err) => {
+            console.warn('Import css file:', err);
+          },
+        });
+    }
   }
 
   /**
@@ -480,6 +507,8 @@ export class ClassManagerService {
     try {
       const ruleText = `${selector} { ${cssText} }`;
       const index = this.styleSheet.cssRules.length;
+      if (ruleText.startsWith('@') || ruleText.includes('::') || ruleText.includes(':-')) return;
+
       this.styleSheet.insertRule(ruleText, index);
       this.rulesMap.set(selector, { index, fileId });
     } catch (e) {

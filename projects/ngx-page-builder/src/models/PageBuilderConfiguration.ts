@@ -11,6 +11,9 @@ export class PageBuilderConfiguration {
   enableAddCssFile?: boolean = false;
   enableExportAsPlugin?: boolean = false;
   showPlugins?: boolean = false;
+
+  publicCss?: string[] = [];
+  publicJs?: string[] = [];
 }
 
 export class PageBuilderToolbarConfig {

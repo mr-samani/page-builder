@@ -22,6 +22,14 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.enableAddCssFile = config.enableAddCssFile === true;
   LibConsts.enableExportAsPlugin = config.enableExportAsPlugin === true;
   LibConsts.showPlugins = config.showPlugins === true;
+
+  if (config.publicCss && Array.isArray(config.publicCss)) {
+    LibConsts.publicCss = config.publicCss;
+  }
+  if (config.publicJs && Array.isArray(config.publicJs)) {
+    LibConsts.publicJs = config.publicJs;
+  }
+
   if (config.toolbarConfig) {
     LibConsts.toolbarConfig = { ...new PageBuilderToolbarConfig(), ...config.toolbarConfig };
   }

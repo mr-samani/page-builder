@@ -10,16 +10,51 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
 
       const result: Record<string, string> = {};
 
-      // utility: split declarations by ';' but ignore ; داخل پرانتز
+      // utility: split declarations by ';' but ignore ; داخل پرانتز و quote و url(...) و escapes
       function splitDecls(body: string): string[] {
         const parts: string[] = [];
         let cur = '';
         let paren = 0;
+        let bracket = 0;
+        let brace = 0;
+        let inSingle = false;
+        let inDouble = false;
+        let escaped = false;
+
         for (let i = 0; i < body.length; i++) {
           const ch = body[i];
-          if (ch === '(') paren++;
-          else if (ch === ')') paren = Math.max(0, paren - 1);
-          if (ch === ';' && paren === 0) {
+
+          if (escaped) {
+            cur += ch;
+            escaped = false;
+            continue;
+          }
+          if (ch === '\\') {
+            cur += ch;
+            escaped = true;
+            continue;
+          }
+
+          if (ch === "'" && !inDouble) {
+            inSingle = !inSingle;
+            cur += ch;
+            continue;
+          }
+          if (ch === '"' && !inSingle) {
+            inDouble = !inDouble;
+            cur += ch;
+            continue;
+          }
+          if (!inSingle && !inDouble) {
+            if (ch === '(') paren++;
+            else if (ch === ')') paren = Math.max(0, paren - 1);
+            else if (ch === '[') bracket++;
+            else if (ch === ']') bracket = Math.max(0, bracket - 1);
+            else if (ch === '{') brace++;
+            else if (ch === '}') brace = Math.max(0, brace - 1);
+          }
+
+          if (ch === ';' && paren === 0 && bracket === 0 && brace === 0 && !inSingle && !inDouble) {
             parts.push(cur.trim());
             cur = '';
           } else {
@@ -31,7 +66,8 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
       }
 
       // main parser: scan and handle nested blocks via brace counting
-      function parseBlocks(src: string) {
+      // prefix: to keep context for at-rules (like "@keyframes name")
+      function parseBlocks(src: string, prefix = '') {
         let i = 0;
         const len = src.length;
 
@@ -42,9 +78,11 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
 
           // if starts with @ (at-rule)
           if (src[i] === '@') {
-            // read at-rule header until first '{' or ';'
-            let headerStart = i;
+            const headerStart = i;
+            // read header until first '{' or ';'
             while (i < len && src[i] !== '{' && src[i] !== ';') i++;
+            const headerRaw = src.slice(headerStart, i).trim();
+
             if (i < len && src[i] === ';') {
               // at-rule without block e.g. @charset "utf-8";
               i++; // consume ;
@@ -64,8 +102,9 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
             const innerEnd = i - 1; // index of char before closing brace
             if (innerEnd >= innerStart) {
               const inner = src.slice(innerStart, innerEnd);
-              // recursively parse inner content so nested selectors are extracted too
-              parseBlocks(inner);
+              // include headerRaw as prefix for inner parsing so selectors inside keep context
+              const newPrefix = prefix ? `${prefix} ${headerRaw}` : headerRaw;
+              parseBlocks(inner, newPrefix);
             }
             continue;
           }
@@ -99,11 +138,16 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
             .map((d) => d.replace(/\s+/g, ' ').trim()) // normalize spaces
             .filter(Boolean);
 
+          // create final key prefix: combine prefix and selector
+          const makeKey = (s: string) => {
+            const normalizedSel = s.replace(/\s+/g, ' ').trim();
+            return prefix ? `${prefix} ${normalizedSel}` : normalizedSel;
+          };
+
           if (decls.length === 0) {
-            // empty block => set empty string
+            // empty block => set empty string (but keep namespaced keys)
             for (const s of selectors) {
-              const key = normalizeSelectorKey(s);
-              // do not overwrite existing declarations if present: append nothing
+              const key = makeKey(s);
               if (!(key in result)) result[key] = '';
             }
           } else {
@@ -117,11 +161,10 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
                 return `${prop}:${val}`;
               })
               .join(';');
-            // ensure trailing semicolon (like examples)
+            // ensure trailing semicolon
             const valueStr = joined.endsWith(';') ? joined : joined + ';';
             for (const s of selectors) {
-              const key = normalizeSelectorKey(s);
-              // if key already exists, append new declarations (avoid duplicate semicolons)
+              const key = makeKey(s);
               if (result[key]) {
                 // remove trailing ; to concat cleanly
                 const a = result[key].replace(/;+\s*$/, '');
@@ -135,12 +178,6 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
         }
       }
 
-      // normalize selector to a key acceptable for Record<string,string>
-      function normalizeSelectorKey(sel: string): string {
-        // collapse whitespace/newlines and keep full selector (including attributes, ids, complex selectors)
-        return sel.replace(/\s+/g, ' ').trim();
-      }
-
       parseBlocks(noComments);
       resolve(result);
     } catch (error) {
@@ -149,6 +186,7 @@ export function parseCssBlockToRecord(cssText: string): Promise<Record<string, s
   });
 }
 
+// small helper: parseCssToRecord (unchanged logic for inline styles)
 export function parseCssToRecord(css: string): Record<string, string> {
   const declarations = css.split(';').filter((decl) => decl.trim() !== '');
   const result: Record<string, string> = {};

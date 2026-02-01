@@ -25,6 +25,8 @@ export const appConfig: ApplicationConfig = {
       storageType: StorageType.LocalStorage,
       enableExportAsPlugin: true,
       showPlugins: true,
+      publicCss: ['/bootstrap.min.css'],
+      publicJs: ['/bootstrap.min.js'],
     }),
     {
       provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
