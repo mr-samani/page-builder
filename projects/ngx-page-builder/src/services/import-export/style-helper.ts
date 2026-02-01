@@ -85,6 +85,7 @@ export abstract class StyleHelper {
 
         // پاکسازی reference element
         referenceElement.remove();
+        (referenceElement as any).__container.remove();
       } catch (error) {
         console.warn('Error on export computed styles:', error);
       }

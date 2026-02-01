@@ -60,7 +60,8 @@ export class ClassManagerService {
       name: 'default',
       data: {
         '*': 'box-sizing:border-box',
-        '.img': `max-width:100%`,
+        '.img,img': `max-width:100%`,
+        pre: 'white-space: pre-wrap;font-family:inherit;',
       },
       createdAt: new Date(),
       updatedAt: new Date(),

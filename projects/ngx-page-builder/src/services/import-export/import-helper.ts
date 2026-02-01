@@ -224,7 +224,13 @@ export abstract class HtmlImporter {
 
     // استخراج استایل‌ها (با پشتیبانی از computed styles در iframe)
     // TODO: Import style to class
-    // pageItem.style = await StyleHelper.extractStyles(element, options);
+    const css = await StyleHelper.extractStyles(element, options);
+    if (css) {
+      debugger;
+      const className = pageItem.tag + '_' + pageItem.id;
+      pageItem.classList = [className];
+      pageItem.css = `.${className}{${css}}`;
+    }
 
     // پردازش فرزندان
     if (pageItem.canHaveChild && element.children.length > 0) {

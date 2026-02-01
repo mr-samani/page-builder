@@ -9,10 +9,8 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { PageItem } from '../../models/PageItem';
 
 import { BaseControl } from '../base-control';
-import { mergeCssStyles } from '../../utiles/merge-css-styles';
 
 @Component({
   selector: 'typography-control',

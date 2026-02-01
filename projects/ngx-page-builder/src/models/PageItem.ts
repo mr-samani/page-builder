@@ -43,6 +43,8 @@ export class PageItem implements IPageItem {
   template?: PageItem;
 
   classList: string[] = [];
+
+  /** like .class{color:white;} */
   css?: string;
 
   constructor(data?: IPageItem, parent?: PageItem) {
