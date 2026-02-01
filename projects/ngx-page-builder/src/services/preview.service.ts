@@ -218,6 +218,13 @@ export class PagePreviewService {
       targetDoc.head.appendChild(style);
     }
 
+    for (let js of LibConsts.publicJs) {
+      const j = targetDoc.createElement('script');
+      j.src = js;
+      j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
+      targetDoc.head.appendChild(j);
+    }
+
     // ۲. انتقال فیزیکی DOM Node به پنجره جدید
     // این کار باعث می‌شود Event Listenerهای Angular همچنان کار کنند
     // چون المنت‌ها از بین نمی‌روند، فقط والدشان عوض می‌شود.

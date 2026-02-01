@@ -1,6 +1,8 @@
 import {
   Component,
+  DOCUMENT,
   ElementRef,
+  Inject,
   Injector,
   OnInit,
   viewChild,
@@ -29,6 +31,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   constructor(
     injector: Injector,
     private el: ElementRef<HTMLElement>,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     super(injector);
 
@@ -44,6 +47,13 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       this.containerClassName = `paper ${this.pageBuilder.pageInfo.config.size} ${this.pageBuilder.pageInfo.config.orientation}`;
     } else {
       this.containerClassName = `web-page-view`;
+    }
+
+    for (let js of LibConsts.publicJs) {
+      const j = this.doc.createElement('script');
+      j.src = js;
+      j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
+      this.el.nativeElement.appendChild(j);
     }
   }
 }
