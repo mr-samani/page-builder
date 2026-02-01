@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { parseCssBlockToRecord, parseCssToRecord } from '../utiles/css-parser';
 import { PageItem } from '../models/PageItem';
 import { IStyleSheetFile } from '../contracts/IStyleSheetFile';
-import { isEqual } from '../utiles/isEqual';
 import { LibConsts } from '../consts/defauls';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,6 +10,9 @@ interface ICssFile {
   id: string; // UUID یا unique ID
   name: string;
   data: Record<string, string>;
+
+  /** excluded public fils from export data */
+  isPublic: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +65,7 @@ export class ClassManagerService {
         '.img,img': `max-width:100%`,
         pre: 'white-space: pre-wrap;font-family:inherit;',
       },
+      isPublic: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -85,7 +88,7 @@ export class ClassManagerService {
         .subscribe({
           next: (content) => {
             if (content && typeof content == 'string') {
-              this.addCssFile(fileName, content);
+              this.addCssFile(fileName, content, true);
             }
           },
           error: (err) => {
@@ -342,7 +345,7 @@ export class ClassManagerService {
   /**
    * اضافه کردن فایل CSS جدید
    */
-  public async addCssFile(name: string, content: string): Promise<ICssFile> {
+  public async addCssFile(name: string, content: string, isPublicFile = false): Promise<ICssFile> {
     name = this.validateName(name);
     const data = await parseCssBlockToRecord(content);
 
@@ -352,6 +355,7 @@ export class ClassManagerService {
       data,
       createdAt: new Date(),
       updatedAt: new Date(),
+      isPublic: isPublicFile,
     };
 
     this.cssFileData.push(newFile);
@@ -789,6 +793,9 @@ export class ClassManagerService {
   public exportAllFileCSS(): IStyleSheetFile[] {
     const files: IStyleSheetFile[] = [];
     for (let file of this.cssFileData) {
+      if (file.isPublic) {
+        continue;
+      }
       const rules: string[] = [];
       Object.entries(file.data).forEach(([selector, cssText]) => {
         rules.push(`${selector} { ${cssText} }`);
