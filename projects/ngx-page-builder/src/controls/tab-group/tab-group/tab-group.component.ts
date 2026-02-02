@@ -20,6 +20,10 @@ export class TabGroupComponent implements AfterContentInit {
   @Input() showPlusButton = false;
   @Input() dontShowSingleTab = true;
   @Output() onAddTab = new EventEmitter();
+
+  /**
+   * index started from zero
+   */
   @Output() selectedIndex = new EventEmitter<number>();
   @ContentChildren(TabItemComponent) tabs?: QueryList<TabItemComponent>;
   rndId = Math.round(Math.random() * 5000);

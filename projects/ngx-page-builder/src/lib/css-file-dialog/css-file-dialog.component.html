@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>CSS Classes</h2>
 <mat-dialog-content>
-  <tab-group>
-    @for (item of cls.cssFileData; track $index) {
+  <tab-group (selectedIndex)="selectedTabIndex = $event">
+    @for (item of files; track $index) {
       <tab-item [title]="item.name" [active]="$index == 0">
         <css-classes-editor [(ngModel)]="item.data"></css-classes-editor>
       </tab-item>
@@ -9,11 +9,19 @@
   </tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-
+  <button mat-button (click)="onCancel()">CLose</button>
+  selectedTabIndex={{ selectedTabIndex }}
   @if (enableAddCssFile) {
     <button mat-raised-button color="primary" (click)="addFile()" [disabled]="loading">
       Add file
     </button>
   }
+
+  <button mat-raised-button color="primary" (click)="updateFile()" [disabled]="loading">
+    Update
+  </button>
+
+  <button mat-raised-button color="accent" (click)="deleteFile()" [disabled]="loading">
+    Delete
+  </button>
 </mat-dialog-actions>

@@ -6,7 +6,7 @@ import { IStyleSheetFile } from '../contracts/IStyleSheetFile';
 import { LibConsts } from '../consts/defauls';
 import { HttpClient } from '@angular/common/http';
 
-interface ICssFile {
+export interface ICssFile {
   id: string;
   name: string;
   data: Record<string, string>;
@@ -389,7 +389,7 @@ export class ClassManagerService {
     return newFile;
   }
 
-  public async importPluginCss(name: string, content: string): Promise<void> {
+  public async addToDefaultStyles(content: string): Promise<void> {
     const defulatFile = this.cssFileData.find((f) => f.name === 'default');
     if (defulatFile) {
       await this.updateCssFile(defulatFile.id, content, false);
@@ -398,16 +398,22 @@ export class ClassManagerService {
     }
   }
 
-  public async updateCssFile(fileId: string, content: string, replace = true): Promise<void> {
+  public async updateCssFile(
+    fileId: string,
+    content: string | Record<string, string>,
+    replace = true,
+  ): Promise<void> {
     const fileIndex = this.cssFileData.findIndex((f) => f.id === fileId);
     if (fileIndex === -1) {
       throw new Error(`File with id ${fileId} not found`);
     }
-
     const file = this.cssFileData[fileIndex];
 
     // اگر فایل raw است
     if (file.isRawCss) {
+      if (typeof content != 'string') {
+        throw new Error('File css Content must be string');
+      }
       file.rawContent = content;
       // دوباره extract کردن کلاس‌ها
       file.data = this.extractClassNames(content);
@@ -421,7 +427,7 @@ export class ClassManagerService {
       return;
     }
 
-    const data = await parseCssBlockToRecord(content);
+    const data = typeof content == 'string' ? await parseCssBlockToRecord(content) : content;
 
     if (replace) {
       this.removeFileRules(fileId);
@@ -451,21 +457,30 @@ export class ClassManagerService {
     });
   }
 
-  public removeCssFile(fileId: string): void {
-    const fileIndex = this.cssFileData.findIndex((f) => f.id === fileId);
-    if (fileIndex === -1) return;
+  public removeCssFile(fileId: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
+        const fileIndex = this.cssFileData.findIndex((f) => f.id === fileId);
+        if (fileIndex === -1) {
+          throw new Error('File not found');
+        }
 
-    const file = this.cssFileData[fileIndex];
+        const file = this.cssFileData[fileIndex];
+        this.cssFileData.splice(fileIndex, 1);
 
-    if (file.isRawCss) {
-      this.reloadAllRawFiles();
-    } else {
-      this.removeFileRules(fileId);
-    }
+        if (file.isRawCss) {
+          this.reloadAllRawFiles();
+        } else {
+          this.removeFileRules(fileId);
+        }
 
-    this.cssFileData.splice(fileIndex, 1);
-    this.updateAvailableClasses();
-    this.cssFilesSubject.next(this.cssFileData);
+        this.updateAvailableClasses();
+        this.cssFilesSubject.next(this.cssFileData);
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   public renameCssFile(fileId: string, newName: string): void {

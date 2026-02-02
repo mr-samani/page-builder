@@ -71,7 +71,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   @Input('styles') set setStyles(val: IStyleSheetFile[]) {
     if (val && Array.isArray(val)) {
-      for (let f of val) this.cls.addCssFile(f.name ?? 'default', f.data);
+      for (let f of val) this.cls.addToDefaultStyles(f.data);
     }
   }
 

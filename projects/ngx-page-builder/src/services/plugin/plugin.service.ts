@@ -71,7 +71,7 @@ export class PBPluginService {
 
         this.pageBuilder.addBlockToCurrentPage(parsed.sanitized);
         if (parsed.style) {
-          this.cls.importPluginCss(plugin.name, parsed.style);
+          this.cls.addToDefaultStyles(parsed.style);
         }
       } catch (error) {
         reject(error);

@@ -95,9 +95,8 @@ export class NgxPagePreviewComponent implements OnInit {
 
   load(val: IPagebuilderOutput) {
     this.direction = val.config.direction;
-    debugger;
     if (val.styles && Array.isArray(val.styles)) {
-      for (let f of val.styles) this.cls.addCssFile(f.name ?? 'default', f.data);
+      for (let f of val.styles) this.cls.addToDefaultStyles(f.data);
     }
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
