@@ -10,7 +10,7 @@ interface ICssFile {
   id: string;
   name: string;
   data: Record<string, string>;
-  isPublic: boolean;
+  isImportedPublicCss: boolean;
   createdAt: Date;
   updatedAt: Date;
   /** آیا این فایل به صورت خام (بدون parse) باید اضافه بشه؟ */
@@ -65,7 +65,7 @@ export class ClassManagerService {
         '.img,img': `max-width:100%`,
         pre: 'white-space: pre-wrap;font-family:inherit;',
       },
-      isPublic: true,
+      isImportedPublicCss: false,
       createdAt: new Date(),
       updatedAt: new Date(),
       isRawCss: false,
@@ -89,8 +89,8 @@ export class ClassManagerService {
         .subscribe({
           next: (content) => {
             if (content && typeof content == 'string') {
-              // برای فایل‌های public از addCssFileRaw استفاده می‌کنیم
-              this.addCssFileRaw(fileName, content, true);
+              // استفاده از Hybrid approach
+              this.addCssFileHybrid(fileName, content, true);
             }
           },
           error: (err) => {
@@ -101,32 +101,62 @@ export class ClassManagerService {
   }
 
   /**
-   * اضافه کردن فایل CSS به صورت خام (بدون parse)
-   * برای Bootstrap و فایل‌های بزرگ استفاده می‌شه
+   * Hybrid Approach: فایل رو raw load می‌کنیم + کلاس‌ها رو extract می‌کنیم
+   * این روش بهترین performance و compatibility رو داره
    */
-  public addCssFileRaw(name: string, content: string, isPublicFile = false): ICssFile {
+  public async addCssFileHybrid(
+    name: string,
+    content: string,
+    isPublicFile = false,
+  ): Promise<ICssFile> {
     name = this.validateName(name);
+
+    // Extract کردن کلاس‌های موجود برای autocomplete
+    const extractedClasses = this.extractClassNames(content);
 
     const newFile: ICssFile = {
       id: this.generateId(),
       name,
-      data: {},
+      data: extractedClasses, // فقط نام کلاس‌ها (برای لیست)
       createdAt: new Date(),
       updatedAt: new Date(),
-      isPublic: isPublicFile,
+      isImportedPublicCss: isPublicFile,
       isRawCss: true,
       rawContent: content,
     };
 
     this.cssFileData.push(newFile);
+    this.updateAvailableClasses();
     this.cssFilesSubject.next(this.cssFileData);
 
-    // اگر initialized هست، فایل رو اضافه کن
     if (this.isInitialized) {
       this.loadRawCssFile(newFile);
     }
 
     return newFile;
+  }
+
+  /**
+   * Extract کردن نام کلاس‌ها از CSS بدون parse کامل
+   * این خیلی سریعتر از parse کامل هست
+   */
+  private extractClassNames(cssContent: string): Record<string, string> {
+    const classes: Record<string, string> = {};
+
+    // RegEx برای پیدا کردن class selectors
+    // این regex کلاس‌های ساده رو پیدا می‌کنه (مثل .btn, .carousel-item)
+    const classRegex = /\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g;
+
+    let match;
+    while ((match = classRegex.exec(cssContent)) !== null) {
+      const className = match[1];
+      // ذخیره کلاس با value خالی (چون فقط برای لیست لازمه)
+      if (!classes[`.${className}`]) {
+        classes[`.${className}`] = '';
+      }
+    }
+
+    return classes;
   }
 
   /**
@@ -344,7 +374,7 @@ export class ClassManagerService {
       data,
       createdAt: new Date(),
       updatedAt: new Date(),
-      isPublic: isPublicFile,
+      isImportedPublicCss: isPublicFile,
       isRawCss: false,
     };
 
@@ -379,11 +409,13 @@ export class ClassManagerService {
     // اگر فایل raw است
     if (file.isRawCss) {
       file.rawContent = content;
+      // دوباره extract کردن کلاس‌ها
+      file.data = this.extractClassNames(content);
       file.updatedAt = new Date();
+      this.updateAvailableClasses();
       this.cssFilesSubject.next(this.cssFileData);
 
       if (this.isInitialized && this.publicStyleElement) {
-        // پاک کردن و دوباره load کردن همه فایل‌های raw
         this.reloadAllRawFiles();
       }
       return;
@@ -407,16 +439,11 @@ export class ClassManagerService {
     }
   }
 
-  /**
-   * Reload کردن همه فایل‌های raw
-   */
   private reloadAllRawFiles(): void {
     if (!this.publicStyleElement) return;
 
-    // پاک کردن محتوای فعلی
     this.publicStyleElement.textContent = '';
 
-    // اضافه کردن دوباره همه فایل‌های raw
     this.cssFileData.forEach((file) => {
       if (file.isRawCss && file.rawContent) {
         this.loadRawCssFile(file);
@@ -430,7 +457,6 @@ export class ClassManagerService {
 
     const file = this.cssFileData[fileIndex];
 
-    // حذف rules
     if (file.isRawCss) {
       this.reloadAllRawFiles();
     } else {
@@ -464,7 +490,6 @@ export class ClassManagerService {
 
     this.clearAllRules();
 
-    // Load فایل‌های raw
     this.cssFileData.forEach((file) => {
       if (file.isRawCss) {
         this.loadRawCssFile(file);
@@ -510,13 +535,9 @@ export class ClassManagerService {
       const ruleText = `${selector} { ${cssText} }`;
       const index = this.styleSheet.cssRules.length;
 
-      // حذف این خط که مشکل اصلی بود!
-      // if (ruleText.startsWith('@') || ruleText.includes('::') || ruleText.includes(':-')) return;
-
       this.styleSheet.insertRule(ruleText, index);
       this.rulesMap.set(selector, { index, fileId });
     } catch (e) {
-      // Log می‌کنیم ولی crash نمی‌کنیم
       console.debug(`Could not insert rule ${selector}:`, e);
     }
   }
@@ -729,7 +750,6 @@ export class ClassManagerService {
     const file = this.cssFileData.find((f) => f.id === fileId);
     if (!file) return '';
 
-    // اگر فایل raw است
     if (file.isRawCss && file.rawContent) {
       return file.rawContent;
     }
@@ -745,7 +765,7 @@ export class ClassManagerService {
   public exportAllFileCSS(): IStyleSheetFile[] {
     const files: IStyleSheetFile[] = [];
     for (let file of this.cssFileData) {
-      if (file.isPublic) {
+      if (file.isImportedPublicCss) {
         continue;
       }
 
@@ -777,12 +797,10 @@ export class ClassManagerService {
     try {
       let allCss = '';
 
-      // اضافه کردن CSS های public
       if (this.publicStyleElement && this.publicStyleElement.textContent) {
         allCss += this.publicStyleElement.textContent + '\n\n';
       }
 
-      // اضافه کردن CSS های custom
       const rules = Array.from(this.styleSheet.cssRules);
       allCss += rules.map((rule) => rule.cssText).join('\n');
 
@@ -797,9 +815,6 @@ export class ClassManagerService {
     const classes = new Set<string>();
 
     this.cssFileData.forEach((file) => {
-      // برای فایل‌های raw، کلاس‌ها رو extract نمی‌کنیم
-      if (file.isRawCss) return;
-
       Object.keys(file.data).forEach((selector) => {
         if (selector.startsWith('.')) {
           const classNames = selector

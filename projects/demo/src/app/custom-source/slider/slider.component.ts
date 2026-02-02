@@ -3,7 +3,9 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  DOCUMENT,
   ElementRef,
+  Inject,
   OnDestroy,
   ViewChild,
   viewChild,
@@ -20,33 +22,43 @@ declare const bootstrap: any;
   imports: [CommonModule],
 })
 export class SliderComponent implements AfterViewInit, OnDestroy {
-  constructor(private chdr: ChangeDetectorRef) {}
   @ViewChild('myCarousel') myCarousel!: ElementRef<HTMLElement>;
   carouselId = 'carousel-' + crypto.randomUUID();
   slider: any = {};
+  constructor(
+    private chdr: ChangeDetectorRef,
+    @Inject(DOCUMENT) private doc: Document,
+  ) {}
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      const el = this.myCarousel.nativeElement;
-      debugger;
-      bootstrap.Carousel.getInstance(el)?.dispose();
-
-      this.slider = new bootstrap.Carousel(el, {
-        interval: 4000,
-        wrap: true,
-      });
-
-      this.chdr.detectChanges();
-    });
+    //this.doc.addEventListener('DOMContentLoaded', () => this.loadSlider());
   }
 
-  ngOnDestroy() {
-    if (this.slider) {
-      this.slider.dispose();
-    }
-  }
+  // loadSlider() {
+  //   setTimeout(() => {
+  //     const el = this.myCarousel.nativeElement;
+  //     debugger;
+  //     bootstrap.Carousel.getInstance(el)?.dispose();
 
-  next() {
-    debugger;
-    this.slider.next();
-  }
+  //     this.slider = new bootstrap.Carousel(el, {
+  //       interval: 4000,
+  //       wrap: true,
+  //     });
+
+  //     this.chdr.detectChanges();
+  //   });
+  // }
+
+  // ngOnDestroy() {
+  //   if (this.slider) {
+  //     this.slider.dispose();
+  //   }
+  // }
+
+  // next() {
+  //   debugger;
+  //   this.slider.next();
+  // }
 }

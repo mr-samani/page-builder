@@ -25,10 +25,10 @@ export class PagePreviewService {
   }
   private previewWindow?: Window | null;
   private renderer!: Renderer2;
+
   constructor(
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-
     rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private doc: Document,
   ) {
@@ -48,7 +48,6 @@ export class PagePreviewService {
       this.pageContainer = this.doc.createElement('div');
       this.pageContainer.id = 'prvMRS';
       this.pageContainer.classList.add('ngx-page-builder');
-      // مخفی کردن کانتینر موقت تا کاربر متوجه نشود
       this.pageContainer.style.left = '-9999px';
       this.pageContainer.style.position = 'absolute';
       this.pageContainer.style.top = '-9999px';
@@ -56,49 +55,154 @@ export class PagePreviewService {
 
       await this.loadPageData();
 
-      // باز کردن window جدید
       this.previewWindow = window.open(
-        '', // URL را خالی می‌گذاریم چون خودمان محتوا را جابجا می‌کنیم
+        '',
         '_blank',
         type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes',
       );
 
       if (!this.previewWindow) {
         Notify.error('Popup blocked! Please allow popups for this site.');
-        this.cleanCanvas(); // تمیز کردن در صورت بروز خطا
+        this.cleanCanvas();
         reject('Popup blocked');
         return;
       }
 
-      // انتقال استایل‌ها و المنت‌ها به پنجره جدید
-      this.transferContentToNewWindow(this.previewWindow);
-
-      // حذف کانتینر خالی از پنجره اصلی (چون المنت‌ها به پنجره جدید منتقل شدند)
-      // if (this.pageContainer && this.pageContainer.parentNode) {
-      //   this.pageContainer.parentNode.removeChild(this.pageContainer);
-      // }
+      // انتقال محتوا به window جدید
+      await this.transferContentToNewWindow(this.previewWindow);
 
       setTimeout(() => {
         let html = '';
-        // صبر کوتاه برای لود شدن فونت‌ها و رندر شدن در پنجره جدید
         if (type == 'Print') {
           this.previewWindow?.print();
           this.previewWindow?.close();
           this.previewWindow = null;
         } else if (type == 'ExportHml') {
+          html = this.previewWindow?.document.documentElement?.outerHTML ?? '';
           this.previewWindow?.close();
-          html = this.previewWindow?.document.firstElementChild?.outerHTML ?? '';
         }
         resolve(html);
       }, 1000);
     });
   }
 
+  /**
+   * جمع‌آوری همه Angular ViewEncapsulation attributes از یک element و children هاش
+   */
+  private collectAngularAttributes(element: HTMLElement): Set<string> {
+    const attributes = new Set<string>();
+
+    // Recursive function برای traverse کردن DOM tree
+    const traverse = (el: Element) => {
+      // بررسی همه attribute های المنت
+      Array.from(el.attributes).forEach((attr) => {
+        const attrName = attr.name;
+
+        // پیدا کردن Angular ViewEncapsulation attributes
+        // Pattern: _nghost-xxx-yyy یا _ngcontent-xxx-yyy
+        if (attrName.startsWith('_nghost-') || attrName.startsWith('_ngcontent-')) {
+          attributes.add(attrName);
+
+          // همچنین base attribute رو هم اضافه کن
+          // مثلا از _ngcontent-abc-c123 به _nghost-abc-c123
+          const baseAttr = attrName.replace('_ngcontent-', '_nghost-');
+          attributes.add(baseAttr);
+        }
+      });
+
+      // بررسی children
+      Array.from(el.children).forEach((child) => {
+        traverse(child);
+      });
+    };
+
+    traverse(element);
+    return attributes;
+  }
+
+  /**
+   * پیدا کردن style elements مرتبط با Angular attributes
+   */
+  private findRelatedStyleElements(
+    attributes: Set<string>,
+    sourceDoc: Document,
+  ): HTMLStyleElement[] {
+    const relatedStyles: HTMLStyleElement[] = [];
+    const styleElements = sourceDoc.head.querySelectorAll('style');
+
+    styleElements.forEach((styleEl) => {
+      const content = styleEl.textContent || '';
+
+      // چک کردن آیا این style شامل هر یک از attributes ماست؟
+      let isRelated = false;
+      attributes.forEach((attr) => {
+        if (content.includes(attr)) {
+          isRelated = true;
+        }
+      });
+
+      if (isRelated) {
+        relatedStyles.push(styleEl as HTMLStyleElement);
+      }
+    });
+
+    return relatedStyles;
+  }
+
+  /**
+   * کپی کردن فقط استایل‌های مرتبط با کامپوننت‌های استفاده شده
+   */
+  private copyRelatedStyles(targetDoc: Document): void {
+    if (!this.pageContainer) return;
+    // ۱. جمع‌آوری همه Angular attributes از pageContainer
+    const usedAttributes = this.collectAngularAttributes(this.pageContainer);
+
+    console.log('🔍 Found Angular attributes:', Array.from(usedAttributes));
+
+    // ۲. پیدا کردن style elements مرتبط
+    const relatedStyles = this.findRelatedStyleElements(usedAttributes, this.doc);
+
+    console.log('📝 Found related style elements:', relatedStyles.length);
+
+    // ۳. کپی کردن فقط style های مرتبط
+    relatedStyles.forEach((styleEl) => {
+      const clonedStyle = targetDoc.createElement('style');
+      clonedStyle.textContent = styleEl.textContent;
+
+      // کپی کردن attributes (id, nonce, و غیره)
+      Array.from(styleEl.attributes).forEach((attr) => {
+        clonedStyle.setAttribute(attr.name, attr.value);
+      });
+
+      targetDoc.head.appendChild(clonedStyle);
+    });
+
+    // ۴. کپی کردن link stylesheets که global هستند
+    // (اینها معمولاً برای Bootstrap, FontAwesome و غیره هستند)
+    // const linkElements = this.doc.head.querySelectorAll('link[rel="stylesheet"]');
+    // linkElements.forEach((linkEl) => {
+    //   const clonedLink = targetDoc.createElement('link');
+
+    //   Array.from(linkEl.attributes).forEach((attr) => {
+    //     clonedLink.setAttribute(attr.name, attr.value);
+    //   });
+
+    //   targetDoc.head.appendChild(clonedLink);
+    // });
+  }
+
   private async transferContentToNewWindow(targetWindow: Window) {
     if (!this.data || !this.pageContainer) return;
 
     const targetDoc = targetWindow.document;
-    // import compiled paper.scss in assets/style.css
+
+    // ۱. کپی کردن فقط استایل‌های مرتبط با کامپوننت‌های استفاده شده
+    setTimeout(() => {
+      this.copyRelatedStyles(targetDoc);
+      // TODO: wait for load all components ended
+    }, 100);
+
+    // ۲. اضافه کردن استایل‌های سفارشی preview
     const style = targetDoc.createElement('style');
     style.innerHTML = `
       body { margin: 0; padding: 0; overflow: auto; }
@@ -183,7 +287,7 @@ export class PagePreviewService {
 }
 .ngx-page-builder table.ngx-page-table th.repeatable-header {
   text-align: start;
-  max-height: 270px; /* maximum browser page header */
+  max-height: 270px;
   overflow: hidden;
   display: block;
 }
@@ -209,16 +313,9 @@ export class PagePreviewService {
   }
 }
     `;
-
     targetDoc.head.appendChild(style);
 
-    for (let s of this.data.styles) {
-      const style = targetDoc.createElement('style');
-      style.innerHTML = `${s.data}`;
-      style.id = s.name;
-      targetDoc.head.appendChild(style);
-    }
-
+    // 3. اضافه کردن CSS های عمومی (Bootstrap و غیره)
     for (let css of LibConsts.publicCss) {
       const s = targetDoc.createElement('link');
       s.href = css;
@@ -229,6 +326,15 @@ export class PagePreviewService {
       targetDoc.head.appendChild(s);
     }
 
+    // 4. اضافه کردن استایل‌های کاربر
+    for (let s of this.data.styles) {
+      const style = targetDoc.createElement('style');
+      style.innerHTML = `${s.data}`;
+      style.id = s.name;
+      targetDoc.head.appendChild(style);
+    }
+
+    // ۵. اضافه کردن JavaScript های عمومی
     for (let js of LibConsts.publicJs) {
       const j = targetDoc.createElement('script');
       j.src = js;
@@ -236,17 +342,15 @@ export class PagePreviewService {
       targetDoc.head.appendChild(j);
     }
 
-    // ۲. انتقال فیزیکی DOM Node به پنجره جدید
-    // این کار باعث می‌شود Event Listenerهای Angular همچنان کار کنند
-    // چون المنت‌ها از بین نمی‌روند، فقط والدشان عوض می‌شود.
+    // ۶. انتقال فیزیکی DOM Node به پنجره جدید
     targetDoc.body.appendChild(this.pageContainer);
 
-    // حذف استایل مخفی‌سازی که برای ساخت المنت گذاشته بودیم
+    // حذف استایل مخفی‌سازی
     this.pageContainer.style.position = '';
     this.pageContainer.style.top = '';
     this.pageContainer.style.left = '';
 
-    // اعمال کلاس‌های مربوط به کاغذ و جهت‌گیری
+    // اعمال کلاس‌های مربوط به کاغذ
     if (LibConsts.viewMode == 'PrintPage') {
       this.pageContainer.classList.add('paper');
       this.pageContainer.classList.add(this.data.config.size);
@@ -303,6 +407,7 @@ export class PagePreviewService {
     }
     this.pageContainer.innerHTML = '';
   }
+
   private async loadPageData() {
     try {
       if (!this.data) return;
@@ -310,12 +415,11 @@ export class PagePreviewService {
       for (let page of pages) {
         const isLastPage = page === pages[pages.length - 1];
         const { header, body, footer } = this.createPageHtml(isLastPage);
-        // setTimeout(() => {
+
         const { headerItems, bodyItems, footerItems } = page;
         this.genElms(headerItems, header);
         this.genElms(bodyItems, body);
         this.genElms(footerItems, footer);
-        // }, 100);
       }
       this.dynamicDataService.replaceValues(pages);
     } catch (error) {
@@ -419,9 +523,16 @@ export class PagePreviewService {
       }
     `;
     this.doc.head.appendChild(style);
+
+    // اضافه کردن styles به صورت تکی
     for (let s of this.data.styles) {
+      let existingStyle = this.doc.querySelector(`style#${s.name}`);
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+
       const style = this.doc.createElement('style');
-      style.innerHTML = `${this.data.styles}`;
+      style.innerHTML = s.data;
       style.id = s.name;
       this.doc.head.appendChild(style);
     }
