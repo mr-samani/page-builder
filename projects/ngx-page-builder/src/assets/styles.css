@@ -317,8 +317,14 @@ block-properties button:has(svg[Icon]),
   padding: 2rem;
 }
 
+/*
+FOR UPDATE 
+
+npm run build:sass 
+
+*/
 .ngx-mat-dialog-header {
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
 .ngx-mat-dialog-header span {

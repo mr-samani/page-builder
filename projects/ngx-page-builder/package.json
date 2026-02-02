@@ -1,6 +1,6 @@
 {
   "name": "ngx-page-builder",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "peerDependencies": {
     "@angular/core": "^21.0.0",
     "@angular/common": "^21.0.0",

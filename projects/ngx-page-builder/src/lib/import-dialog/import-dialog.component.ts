@@ -22,7 +22,6 @@ import { LibConsts } from '../../consts/defauls';
     FormsModule,
     MatDialogModule,
     PreviewImportTreeComponent,
-    SvgIconDirective,
     MatAnchor,
     TabGroupModule,
     LoadingComponent,
