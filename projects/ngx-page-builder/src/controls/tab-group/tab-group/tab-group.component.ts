@@ -21,10 +21,21 @@ export class TabGroupComponent implements AfterContentInit {
   @Input() dontShowSingleTab = true;
   @Output() onAddTab = new EventEmitter();
 
+  _selectedIndex?: number;
   /**
    * index started from zero
    */
-  @Output() selectedIndex = new EventEmitter<number>();
+  @Input('selectedIndex') set selectedIndex(val: number) {
+    if (this._selectedIndex == val) {
+      return;
+    }
+    const selectedTab = this.tabs?.get(val);
+    if (selectedTab) {
+      this.tabs?.toArray().forEach((tab) => (tab.active = false));
+      selectedTab.active = true;
+    }
+  }
+  @Output() selectedIndexChange = new EventEmitter<number>();
   @ContentChildren(TabItemComponent) tabs?: QueryList<TabItemComponent>;
   rndId = Math.round(Math.random() * 5000);
 
@@ -52,7 +63,8 @@ export class TabGroupComponent implements AfterContentInit {
     this.tabs.toArray().forEach((tab) => (tab.active = false));
     // activate the tab the user has clicked on.
     tab.active = true;
-    this.selectedIndex.emit(index);
+    this._selectedIndex = index;
+    this.selectedIndexChange.emit(index);
     this.chdr.detectChanges();
   }
 

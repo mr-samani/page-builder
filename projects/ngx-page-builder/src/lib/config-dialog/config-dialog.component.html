@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>Configuration</h2>
+<div class="ngx-mat-dialog-header" mat-dialog-title>
+  <span>Configuration</span>
+  <button mat-dialog-close>X</button>
+</div>
+
 <mat-dialog-content>
   <p>Configure your settings below:</p>
 
@@ -41,6 +45,5 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close>Cancel</button>
   <button matButton (click)="ok()">Ok</button>
 </mat-dialog-actions>

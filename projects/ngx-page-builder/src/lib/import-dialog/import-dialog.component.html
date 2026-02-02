@@ -1,10 +1,7 @@
-<h2 mat-dialog-title class="dialog-title">
-  Import Html
-
-  <button matButton mat-dialog-close class="close-btn">
-    <svg Icon="assets/icons/xmark.svg"></svg>
-  </button>
-</h2>
+<div class="ngx-mat-dialog-header" mat-dialog-title>
+  <span>Import Html</span>
+  <button mat-dialog-close>X</button>
+</div>
 <mat-dialog-content>
   <tab-group>
     <tab-item title="Import from URL" [active]="true">
@@ -117,6 +114,5 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close>Cancel</button>
   <button matButton (click)="ok()" [disabled]="!result || !result.data || loading">Ok</button>
 </mat-dialog-actions>

@@ -42,10 +42,6 @@ export class CssFileDialogComponent {
     this.files = cloneDeep(cls.cssFileData);
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
   async addFile() {
     try {
       this.loading = true;
@@ -91,6 +87,11 @@ export class CssFileDialogComponent {
       .then((result) => {
         Notify.success('Changed Successfully');
         this.files.splice(this.selectedTabIndex, 1);
+        if (this.selectedTabIndex > 0) {
+          this.selectedTabIndex--;
+        } else {
+          this.selectedTabIndex = 0;
+        }
       })
       .catch((err) => {
         Notify.error(err);

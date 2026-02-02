@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>Export Plugin</h2>
+<div class="ngx-mat-dialog-header" mat-dialog-title>
+  <span>Export Plugin</span>
+  <button mat-dialog-close>X</button>
+</div>
 <mat-dialog-content>
   <div class="screenshot-container">
     @if (img) {
@@ -26,6 +29,5 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close>Cancel</button>
   <button matButton (click)="ok()" color="primary">Ok</button>
 </mat-dialog-actions>

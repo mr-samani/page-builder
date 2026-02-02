@@ -317,4 +317,26 @@ block-properties button:has(svg[Icon]),
   padding: 2rem;
 }
 
+.ngx-mat-dialog-header {
+  display: flex;
+  align-items: center;
+}
+.ngx-mat-dialog-header span {
+  flex: auto;
+}
+.ngx-mat-dialog-header button {
+  all: unset;
+  font-size: 16px;
+  font-family: cursive;
+  cursor: pointer;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+}
+.ngx-mat-dialog-header button svg {
+  width: 24px;
+  height: 24px;
+  fill: inherit;
+}
+
 /*# sourceMappingURL=styles.css.map */
