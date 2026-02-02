@@ -1,7 +1,6 @@
 /*
  * Public API Surface of page-builder
  */
-
 export * from './lib/page-builder';
 export * from './ngx-page-builder.provider';
 export * from './lib/page-preview/page-preview.component';

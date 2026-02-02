@@ -48,12 +48,15 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     } else {
       this.containerClassName = `web-page-view`;
     }
-
     for (let js of LibConsts.publicJs) {
       const j = this.doc.createElement('script');
       j.src = js;
       j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
-      this.el.nativeElement.appendChild(j);
+
+      this.el.nativeElement.shadowRoot?.insertBefore(
+        j,
+        this.el.nativeElement.shadowRoot?.firstChild,
+      );
     }
   }
 }

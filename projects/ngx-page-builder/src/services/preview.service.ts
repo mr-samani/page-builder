@@ -211,6 +211,7 @@ export class PagePreviewService {
     `;
 
     targetDoc.head.appendChild(style);
+
     for (let s of this.data.styles) {
       const style = targetDoc.createElement('style');
       style.innerHTML = `${s.data}`;
@@ -218,10 +219,20 @@ export class PagePreviewService {
       targetDoc.head.appendChild(style);
     }
 
+    for (let css of LibConsts.publicCss) {
+      const s = targetDoc.createElement('link');
+      s.href = css;
+      s.rel = 'stylesheet';
+      s.type = 'text/css';
+      s.id =
+        'S_' + (css.split('/').pop()?.split('.').at(0) ?? 'publicCss-' + Math.random() * 10000);
+      targetDoc.head.appendChild(s);
+    }
+
     for (let js of LibConsts.publicJs) {
       const j = targetDoc.createElement('script');
       j.src = js;
-      j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
+      j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
       targetDoc.head.appendChild(j);
     }
 

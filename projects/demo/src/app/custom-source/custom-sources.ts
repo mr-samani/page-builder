@@ -1,7 +1,9 @@
 import { SourceItem } from '@ngx-page-builder';
 import { ChartService } from './chart/chart.service';
+import { SLIDER_BLOCK } from './slider/slider-definition';
 
 export const CustomSources: SourceItem[] = [
+  SLIDER_BLOCK,
   {
     tag: 'slider',
     title: 'Slider',
