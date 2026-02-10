@@ -65,7 +65,11 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     private pagePreviewService: PagePreviewService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService
-  ) {}
+  ) {
+    this.pageItem.dataSource = context.data;
+    this.pageItem.customComponent!.componentData = context.data;
+    this.settings = context.data;
+  }
 
   ngOnInit() {
     if (this.pageItem.customComponent?.componentData) {
@@ -79,15 +83,6 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.settingChangeSubscription = this.context.onChange.subscribe((data: TableSetting) => {
-      this.pageItem.dataSource = data;
-      this.pageItem.customComponent!.componentData = data;
-      this.settings = data;
-
-      this.generate();
-      this.chdRef.detectChanges();
-    });
-
     this.generate();
   }
 

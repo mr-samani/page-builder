@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { DynamicElementService, PageItem, PagePreviewService } from 'ngx-page-builder/core';
+import { PageItem, PagePreviewService } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-column',

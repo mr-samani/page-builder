@@ -36,7 +36,6 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   // inputs auto filled by create dynamic element
   @Input() editMode: boolean = false;
   @Input() pageItem!: PageItem;
-  settingChangeSubscription?: Subscription;
 
   _template: IPageItem = {
     tag: 'article',
@@ -59,11 +58,9 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     private dynamicDataService: DynamicDataService,
     private previewService: PagePreviewService
   ) {
-    this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
-      this.pageItem.dataSource = data;
-      this.getData();
-      this.chdRef.detectChanges();
-    });
+    this.pageItem.dataSource = context.data;
+    this.getData();
+    this.chdRef.detectChanges();
   }
 
   ngOnInit() {
@@ -77,11 +74,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   ngAfterViewInit(): void {
     this.getData();
   }
-  ngOnDestroy(): void {
-    if (this.settingChangeSubscription) {
-      this.settingChangeSubscription.unsubscribe();
-    }
-  }
+  ngOnDestroy(): void {}
   async getData() {
     this.dataList = [];
     if (!this.pageItem.dataSource || !this.pageItem.template) {
