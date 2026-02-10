@@ -9,8 +9,8 @@ import { routes } from './app.routes';
 import {
   NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
   providePageBuilder,
-  StorageType,
-} from '@ngx-page-builder';
+} from 'ngx-page-builder/designer';
+import { StorageType } from 'ngx-page-builder/core';
 import { CustomSources } from './custom-source/custom-sources';
 import { provideHighcharts } from 'highcharts-angular';
 import { PluginService } from './builder/plugin.service';

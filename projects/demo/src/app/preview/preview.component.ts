@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  IPagebuilderOutput,
-  IStyleSheetFile,
-  NgxPagePreviewComponent,
-  PageBuilderConfig,
-} from '@ngx-page-builder';
+import { NgxPagePreviewComponent } from 'ngx-page-builder/preview';
+import { IPagebuilderOutput } from 'ngx-page-builder/core';
 import { DynamicData } from '../dynamic-data/dynamic-data';
 import { FormsModule } from '@angular/forms';
 
@@ -19,7 +15,9 @@ export class PreviewComponent implements OnInit {
 
   data: IPagebuilderOutput;
   constructor() {
+    debugger;
     const savedData = localStorage.getItem('page') || '{}';
+
     const parsed = JSON.parse(savedData);
     this.data = parsed;
   }

@@ -1,7 +1,7 @@
 import { Component, computed, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartService } from '../chart.service';
-import { COMPONENT_DATA, ComponentDataContext } from '@ngx-page-builder';
+import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
 import { IChartConfig } from '../chart-config.interface';
 
 @Component({
@@ -14,7 +14,7 @@ export class ChartSettingComponent implements OnInit {
   constructor(
     @Inject(COMPONENT_DATA) private context: ComponentDataContext<IChartConfig>,
 
-    public chartService: ChartService,
+    public chartService: ChartService
   ) {}
 
   ngOnInit() {}

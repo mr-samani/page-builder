@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, DOCUMENT, Inject, OnInit, viewChild } from '@angular/core';
+import { IPage, IStyleSheetFile, PageBuilderConfig } from 'ngx-page-builder/core';
 import {
-  IPage,
-  IStyleSheetFile,
   NGX_PAGE_BUILDER_FILE_PICKER,
   NGX_PAGE_BUILDER_HTML_EDITOR,
   NgxPageBuilder,
-  PageBuilderConfig,
-} from '@ngx-page-builder';
+} from 'ngx-page-builder/designer';
 import { FilePickerService } from './file-picker.service';
 import { DynamicData } from '../dynamic-data/dynamic-data';
 import { HtmlEditorService } from './html-editor.service';
@@ -127,10 +125,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       order: 0,
     },
   ];
-  constructor(
-    private dialog: MatDialog,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  constructor(private dialog: MatDialog, @Inject(DOCUMENT) private doc: Document) {}
 
   ngOnInit() {
     try {

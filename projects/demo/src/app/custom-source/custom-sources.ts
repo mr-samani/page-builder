@@ -1,4 +1,4 @@
-import { SourceItem } from '@ngx-page-builder';
+import { SourceItem } from 'ngx-page-builder/core';
 import { ChartService } from './chart/chart.service';
 import { SLIDER_BLOCK } from './slider/slider-definition';
 
@@ -35,7 +35,7 @@ export const CustomSources: SourceItem[] = [
       component: () => import('./chart/chart.component').then((c) => c.SignalHighChartComponent),
       componentSettings: () =>
         import('./chart/chart-setting/chart-setting.component').then(
-          (c) => c.ChartSettingComponent,
+          (c) => c.ChartSettingComponent
         ),
       providers: [
         {

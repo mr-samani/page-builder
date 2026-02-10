@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPageBuilderFilePicker } from '@ngx-page-builder';
+import { IPageBuilderFilePicker } from 'ngx-page-builder/designer';
 
 @Injectable()
 export class FilePickerService implements IPageBuilderFilePicker {

@@ -1,14 +1,16 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
   "newProjectRoot": "projects",
   "projects": {
     "ngx-page-builder": {
       "projectType": "library",
       "root": "projects/ngx-page-builder",
-      "sourceRoot": "projects/ngx-page-builder/src",
+      "sourceRoot": "projects/ngx-page-builder",
       "prefix": "lib",
-
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
@@ -20,11 +22,10 @@
               "tsConfig": "projects/ngx-page-builder/tsconfig.lib.json"
             }
           },
-          "defaultConfiguration": "production",
-          "options": {}
+          "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ngx-page-builder/tsconfig.spec.json"
           }
@@ -55,7 +56,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "./projects/ngx-page-builder/src/assets/",
+                "input": "./projects/ngx-page-builder/designer/assets/",
                 "output": "/assets/"
               },
               {
@@ -72,7 +73,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "2MB"
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -102,27 +103,10 @@
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "projects/demo/tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/demo/public"
-              }
-            ],
-            "styles": ["projects/demo/src/styles.scss"]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

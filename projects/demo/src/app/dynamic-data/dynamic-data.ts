@@ -1,4 +1,4 @@
-import { DynamicDataStructure, DynamicValueType } from '@ngx-page-builder';
+import { DynamicDataStructure, DynamicValueType } from 'ngx-page-builder/core';
 
 export const DynamicData: DynamicDataStructure[] = [
   {

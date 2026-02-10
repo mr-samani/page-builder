@@ -1,7 +1,7 @@
 import { Component, signal, NgZone, inject, computed, Inject } from '@angular/core';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import { ChartService } from './chart.service';
-import { COMPONENT_DATA, ComponentDataContext } from '@ngx-page-builder';
+import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
 import { IChartConfig } from './chart-config.interface';
 
 @Component({
@@ -23,7 +23,7 @@ export class SignalHighChartComponent {
   constructor(
     @Inject(COMPONENT_DATA) private context: ComponentDataContext<IChartConfig>,
 
-    public chartService: ChartService,
+    public chartService: ChartService
   ) {
     // get saved data from pagebuilder
     if (context.data) this.chartService.myConfig = context.data;

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
+import { IPagebuilderOutput, PageBuilderConfig } from 'ngx-page-builder/core';
 import {
-  IPagebuilderOutput,
   IStorageService,
-  PageBuilderConfig,
   PageBuilderService,
   preparePageDataForSave,
-} from '@ngx-page-builder';
+} from 'ngx-page-builder/designer';
 import { encode, decode } from 'msgpack-lite';
 
 @Injectable()

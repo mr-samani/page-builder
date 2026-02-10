@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IPaginationPlugin, IPlugin, IPluginStore } from '@ngx-page-builder';
+import { IPaginationPlugin, IPlugin } from 'ngx-page-builder/core';
+import { IPluginStore } from 'ngx-page-builder/designer';
 
 @Injectable({
   providedIn: 'root',

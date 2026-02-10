@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { IPageBuilderHtmlEditor } from '@ngx-page-builder';
+import { IPageBuilderHtmlEditor } from 'ngx-page-builder/designer';
 import { HtmlEditorComponent } from '../html-editor/html-editor.component';
 
 @Injectable()

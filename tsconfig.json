@@ -4,40 +4,34 @@
   "compileOnSave": false,
   "compilerOptions": {
     "strict": true,
+    "outDir": "./dist/out-tsc",
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
+    "paths": {
+      "ngx-page-builder/*": ["./projects/ngx-page-builder/*"],
+      "ngx-page-builder": ["./projects/ngx-page-builder"]
+    },
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "paths": {
-      "ngx-page-builder": ["./dist/ngx-page-builder"]
-    },
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "es2022",
+    "lib": ["ES2022", "DOM"],
+    "moduleResolution": "bundler",
+
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    /* very important when using false then optional field in class not set in this.hasOwnProperty(property) */
+    "useDefineForClassFields": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "typeCheckHostBindings": true,
     "strictTemplates": true
-  },
-  "files": [],
-  "references": [
-    {
-      "path": "./projects/ngx-page-builder/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/ngx-page-builder/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/demo/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/demo/tsconfig.spec.json"
-    }
-  ]
+  }
 }
