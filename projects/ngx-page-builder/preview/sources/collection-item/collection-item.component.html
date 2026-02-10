@@ -1,0 +1,9 @@
+@if (
+  !pageItem.children ||
+  !pageItem.children.length ||
+  !pageItem.dataSource ||
+  !pageItem.dataSource.maxResultCount
+) {
+  <div class="ngx-page-alert info">View setting for set data source and filters</div>
+}
+<div class="collection-container" #collectionContainer></div>

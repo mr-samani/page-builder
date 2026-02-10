@@ -10,7 +10,7 @@ import {
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { DynamicElementService, PageItem } from "ngx-page-builder/core";
+import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-column',
@@ -28,7 +28,7 @@ export class ColumnComponent implements OnInit {
   @ViewChild('colContainer', { static: true }) colContainer!: ElementRef<HTMLDivElement>;
   constructor(
     private dynamicElementService: DynamicElementService,
-    public pageBuilder: PageBuilderService,
+    public pageBuilder: PageBuilderService
   ) {}
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class ColumnComponent implements OnInit {
       let el = await this.pageBuilder.createBlockElement(
         this.editMode,
         child,
-        this.colContainer.nativeElement,
+        this.colContainer.nativeElement
       );
       if (!el) continue;
       if (child.children && child.children.length > 0 && el) {
@@ -53,9 +53,9 @@ export class ColumnComponent implements OnInit {
     }
   }
 
-  loadChilds(childs: PageItem[], container: HTMLElement) {
+  async loadChilds(childs: PageItem[], container: HTMLElement) {
     for (const child of childs) {
-      this.pageBuilder.createBlockElement(this.editMode, child, container);
+      await this.pageBuilder.createBlockElement(this.editMode, child, container);
     }
   }
   addNewColumn(index?: number) {
@@ -69,13 +69,13 @@ export class ColumnComponent implements OnInit {
           },
         },
       },
-      this.pageItem,
+      this.pageItem
     );
     this.pageBuilder.createBlockElement(
       this.editMode,
       newColumn,
       this.colContainer.nativeElement,
-      index,
+      index
     );
     this.pageItem.children.splice(index ?? this.pageItem.children.length, 0, newColumn);
   }

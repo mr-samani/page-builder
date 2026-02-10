@@ -1,6 +1,5 @@
 import { SourceItem } from './SourceItem';
 import { StorageType } from './storage-type';
-
 export class PageBuilderConfiguration {
   storageType?: StorageType = StorageType.LocalStorage;
   customSources?: SourceItem[];

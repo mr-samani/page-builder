@@ -30,7 +30,7 @@ export class PagePreviewService {
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
     rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) private doc: Document,
+    @Inject(DOCUMENT) private doc: Document
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -40,7 +40,7 @@ export class PagePreviewService {
    */
   async openPreview(
     data: IPagebuilderOutput,
-    type: 'Print' | 'Preview' | 'ExportHml' = 'Preview',
+    type: 'Print' | 'Preview' | 'ExportHml' = 'Preview'
   ): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
       this.data = data;
@@ -58,7 +58,7 @@ export class PagePreviewService {
       this.previewWindow = window.open(
         '',
         '_blank',
-        type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes',
+        type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes'
       );
 
       if (!this.previewWindow) {
@@ -125,7 +125,7 @@ export class PagePreviewService {
    */
   private findRelatedStyleElements(
     attributes: Set<string>,
-    sourceDoc: Document,
+    sourceDoc: Document
   ): HTMLStyleElement[] {
     const relatedStyles: HTMLStyleElement[] = [];
     const styleElements = sourceDoc.head.querySelectorAll('style');
@@ -490,12 +490,12 @@ export class PagePreviewService {
     }
   }
 
-  private async createBlockElement(item: IPageItem, container: HTMLElement, index = -1) {
+  async createBlockElement(item: IPageItem, container: HTMLElement, index = -1) {
     let el = await this.dynamicElementService.createBlock(
       false,
       container,
       index,
-      item as PageItem,
+      item as PageItem
     );
     if (item.children && item.children.length > 0 && el) {
       for (const child of item.children) {

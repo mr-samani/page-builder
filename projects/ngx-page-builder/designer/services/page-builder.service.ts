@@ -16,9 +16,11 @@ import {
   PageBuilderDto,
   PageItem,
   SourceItem,
+} from 'ngx-page-builder/core';
+import {
   getDefaultBlockClasses,
   getDefaultBlockDirective,
-} from "ngx-page-builder/core";
+} from '../helper/getDefaultBlockDirective';
 
 export interface PageItemChange {
   item: PageItem | null;
@@ -62,7 +64,7 @@ export class PageBuilderService implements OnDestroy {
   /** جابجایی بین صفحات */
   onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
   onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(
-    undefined,
+    undefined
   );
 
   blockSelector?: BlockSelectorComponent;
@@ -73,7 +75,7 @@ export class PageBuilderService implements OnDestroy {
   constructor(
     private dynamicElementService: DynamicElementService,
     private history: HistoryService,
-    public cls: ClassManagerService,
+    public cls: ClassManagerService
   ) {}
 
   ngOnDestroy(): void {
@@ -143,7 +145,9 @@ export class PageBuilderService implements OnDestroy {
       this.history.save(
         'edit',
         dragItem,
-        `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${event.container.data[event.currentIndex]?.parent?.id}'`,
+        `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${
+          event.container.data[event.currentIndex]?.parent?.id
+        }'`
       );
     }
     // this.chdRef.detectChanges();
@@ -308,7 +312,7 @@ export class PageBuilderService implements OnDestroy {
     editMode: boolean,
     item: PageItem,
     container?: HTMLElement,
-    index: number = -1,
+    index: number = -1
   ) {
     if (!container) {
       container = this.pageBody()?.nativeElement;

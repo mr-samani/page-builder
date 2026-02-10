@@ -1,0 +1,43 @@
+.hero-table-wrapper {
+  position: relative;
+}
+
+.table-toolbar {
+  position: absolute;
+  background: var(--side-config-bg);
+  color: var(--side-config-fg);
+  padding: 5px 15px;
+  border-radius: 5px;
+  display: flex;
+  min-width: max-content;
+  &.hide {
+    display: none;
+  }
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    flex-shrink: 0;
+    &:hover {
+      background: color-mix(in srgb, var(--side-config-bg), #000 60%);
+    }
+  }
+  svg {
+    fill: var(--side-config-fg);
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.selection-range {
+  position: absolute;
+  outline: 2px solid #ff8900;
+  pointer-events: none;
+}
+
+.hero-table-wrapper {
+  td,
+  th {
+    border: #000 solid 1px;
+  }
+}

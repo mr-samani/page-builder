@@ -1,0 +1,27 @@
+@media screen {
+  .page-break {
+    height: 20px;
+    background: #f6f6f6;
+    margin: 2px -100%;
+    // margin: 0px -20px;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.26);
+    position: relative;
+    &:after,
+    &:before {
+      position: absolute;
+      content: ' ';
+      top: 0;
+      bottom: 0;
+
+      background-color: #f6f6f6;
+      width: 40px;
+      border-radius: 9px;
+    }
+    &::after {
+      left: -18px;
+    }
+    &::before {
+      right: -18px;
+    }
+  }
+}
