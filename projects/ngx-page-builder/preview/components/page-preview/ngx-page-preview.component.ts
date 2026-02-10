@@ -39,7 +39,6 @@ export class NgxPagePreviewComponent implements OnInit {
   }
 
   @Input('data') set setData(val: IPagebuilderOutput) {
-    debugger;
     this.load(val);
   }
 

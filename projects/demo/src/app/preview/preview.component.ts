@@ -15,7 +15,6 @@ export class PreviewComponent implements OnInit {
 
   data: IPagebuilderOutput;
   constructor() {
-    debugger;
     const savedData = localStorage.getItem('page') || '{}';
 
     const parsed = JSON.parse(savedData);

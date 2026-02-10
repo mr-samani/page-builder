@@ -25,10 +25,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('myCarousel') myCarousel!: ElementRef<HTMLElement>;
   carouselId = 'carousel-' + crypto.randomUUID();
   slider: any = {};
-  constructor(
-    private chdr: ChangeDetectorRef,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  constructor(private chdr: ChangeDetectorRef, @Inject(DOCUMENT) private doc: Document) {}
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
@@ -39,7 +36,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   // loadSlider() {
   //   setTimeout(() => {
   //     const el = this.myCarousel.nativeElement;
-  //     debugger;
   //     bootstrap.Carousel.getInstance(el)?.dispose();
 
   //     this.slider = new bootstrap.Carousel(el, {
@@ -58,7 +54,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   // }
 
   // next() {
-  //   debugger;
   //   this.slider.next();
   // }
 }
