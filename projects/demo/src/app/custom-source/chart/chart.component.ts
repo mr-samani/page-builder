@@ -20,13 +20,11 @@ export class SignalHighChartComponent {
   ngZone = inject(NgZone);
   updateChart = computed(() => this.chartService.initializeChart());
 
-  constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<IChartConfig>,
+  private readonly context: ComponentDataContext<IChartConfig> = inject(COMPONENT_DATA);
 
-    public chartService: ChartService
-  ) {
+  constructor(public chartService: ChartService) {
     // get saved data from pagebuilder
-    if (context.data) this.chartService.myConfig = context.data;
+    if (this.context.data) this.chartService.myConfig = this.context.data;
   }
 
   ngOnInit() {

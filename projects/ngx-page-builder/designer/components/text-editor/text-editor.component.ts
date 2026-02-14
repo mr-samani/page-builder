@@ -5,6 +5,7 @@ import {
   DOCUMENT,
   ElementRef,
   EventEmitter,
+  inject,
   Inject,
   Input,
   OnDestroy,
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicAutocompleteDirective } from '../../directives/ngx-dynamic-data-autocomplete.directive';
 import { fromEvent, Subscription } from 'rxjs';
-import { DynamicDataService, PageItem } from "ngx-page-builder/core";
+import { DynamicDataService, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-text-editor',
@@ -63,15 +64,15 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   selectedCharCount = 0;
 
   subscriptions: Subscription[] = [];
+  data = inject<PageItem>(MAT_DIALOG_DATA);
+  private doc = inject(DOCUMENT);
   constructor(
     private sanitizer: DomSanitizer,
-    @Inject(MAT_DIALOG_DATA) public data: PageItem,
     private dialogRef: MatDialogRef<TextEditorComponent>,
-    @Inject(DOCUMENT) private doc: Document,
     private chdRef: ChangeDetectorRef,
-    public dynamicDataService: DynamicDataService,
+    public dynamicDataService: DynamicDataService
   ) {
-    this._value = data.content || '';
+    this._value = this.data.content || '';
   }
 
   ngAfterViewInit() {
@@ -79,10 +80,10 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
     this.subscriptions = [
       fromEvent(this.editableRef.nativeElement, 'selectstart').subscribe(() =>
-        this.saveSelection('selectstart'),
+        this.saveSelection('selectstart')
       ),
       fromEvent(this.editableRef.nativeElement, 'selectend').subscribe(() =>
-        this.saveSelection('selectend'),
+        this.saveSelection('selectend')
       ),
       // ✅ Listen به تغییرات selection
       fromEvent(this.doc, 'mouseup').subscribe(() => this.saveSelection('mouseup')),
@@ -144,8 +145,8 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
       direction === 'left'
         ? 'justifyleft'
         : direction === 'center'
-          ? 'justifycenter'
-          : 'justifyright';
+        ? 'justifycenter'
+        : 'justifyright';
     this.execCommand(cmd);
 
     this.saveSelection(); // ✅ ذخیره selection جدید
@@ -215,7 +216,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
     const walker = this.doc.createTreeWalker(
       fragment,
       NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
-      null,
+      null
     );
 
     const nodesToWrap: Node[] = [];

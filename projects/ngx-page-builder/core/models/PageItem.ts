@@ -110,14 +110,14 @@ export class PageItem implements IPageItem {
   public async getComponentInstance() {
     if (this.customComponent && this.customComponent.componentKey) {
       const finded = LibConsts.SourceItemList.find(
-        (x) => x.customComponent?.componentKey === this.customComponent!.componentKey,
+        (x) => x.customComponent?.componentKey === this.customComponent!.componentKey
       );
       if (finded) {
         this.customComponent = { ...this.customComponent, ...finded.customComponent! };
         return await this.customComponent.component();
       } else {
         console.error(
-          `Custom component with key ${this.customComponent.componentKey} not found in CustomSources.`,
+          `Custom component with key ${this.customComponent.componentKey} not found in CustomSources.`
         );
       }
     }

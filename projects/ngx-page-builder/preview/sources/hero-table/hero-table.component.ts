@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Inject,
   Input,
   OnInit,
@@ -35,7 +36,7 @@ import {
   imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
 })
-export class HeroTableComponent implements OnInit, AfterViewInit {
+export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
   // inputs auto filled by create dynamic element
   @Input() pageItem!: PageItem;
   settingChangeSubscription?: Subscription;
@@ -59,16 +60,16 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   settings: TableSetting = new TableSetting();
 
+  private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
   constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<TableSetting>,
     private chdRef: ChangeDetectorRef,
     private pagePreviewService: PagePreviewService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService
   ) {
-    this.pageItem.dataSource = context.data;
-    this.pageItem.customComponent!.componentData = context.data;
-    this.settings = context.data;
+    this.pageItem.dataSource = this.context.data;
+    this.pageItem.customComponent!.componentData = this.context.data;
+    this.settings = this.context.data;
   }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-break',
@@ -7,7 +7,7 @@ import { PageItem } from "ngx-page-builder/core";
   styleUrls: ['./page-break.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageBreakComponent implements OnInit {
+export class PreviewPageBreakComponent implements OnInit {
   // inputs auto filled by create dynamic element
   @Input() editMode: boolean = false;
   @Input() pageItem!: PageItem;

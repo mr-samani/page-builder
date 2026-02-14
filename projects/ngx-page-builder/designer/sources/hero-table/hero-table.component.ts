@@ -5,6 +5,7 @@ import {
   Component,
   DOCUMENT,
   ElementRef,
+  inject,
   Inject,
   Input,
   OnInit,
@@ -40,7 +41,7 @@ import {
   cloneDeep,
   cloneTemplate,
   itemInThisTemplate,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'hero-table',
@@ -77,14 +78,15 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   settings: TableSetting = new TableSetting();
 
+  private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
+  private doc = inject(DOCUMENT);
+
   constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<TableSetting>,
     private chdRef: ChangeDetectorRef,
     private pageBuilder: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private doc: Document,
+    private renderer: Renderer2
   ) {
     this.handlePageBuilderChange();
   }
@@ -175,7 +177,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         this.dataList = this.dynamicDataService.getCollectionData(
           this.pageItem.dataSource.id,
           skip,
-          count,
+          count
         );
       }
 
@@ -198,7 +200,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     await this.pageBuilder.createBlockElement(
       this.editMode,
       this.pageItem.children[0],
-      this.tableContainer.nativeElement,
+      this.tableContainer.nativeElement
     );
     this.chdRef.detectChanges();
   }
@@ -219,7 +221,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       const cell = BlockHelper.findParentByTag(
         selectedBlock,
         ['td', 'th'],
-        ['tbody', 'thead', 'tfoot'],
+        ['tbody', 'thead', 'tfoot']
       );
       if (!cell) {
         throw new Error('No cell found');
@@ -252,7 +254,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         // compute normalized range (use only row/col)
         const normalized = getNormalizedRange(
           { row: start.row, col: start.col },
-          { row: end.row, col: end.col },
+          { row: end.row, col: end.col }
         );
 
         // validate using helper (pass the section rows array)
@@ -355,7 +357,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       this.dynamicElementService,
       table,
       section,
-      rowIndex,
+      rowIndex
     );
 
     this.update();
@@ -388,7 +390,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       sectionName,
       childRowIdx,
       childColIdx,
-      this.firstSelectedCell,
+      this.firstSelectedCell
     );
 
     this.pageBuilder.deSelectBlock();
@@ -474,7 +476,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       const tableAfter = this.pageItem.children?.[0];
       if (!tableAfter) return;
       const sectionAfter = tableAfter.children?.find(
-        (x: PageItem) => x.tag === section,
+        (x: PageItem) => x.tag === section
       ) as PageItem;
       if (!sectionAfter) return;
       // بازسازی grid بعدی
@@ -515,7 +517,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       const tableAfter = this.pageItem?.children?.[0];
       if (!tableAfter) return;
       const sectionAfter = tableAfter.children?.find(
-        (x: PageItem) => x.tag === section,
+        (x: PageItem) => x.tag === section
       ) as PageItem;
       if (!sectionAfter) return;
       // انتخاب master جدید (همان top-left قبلی)

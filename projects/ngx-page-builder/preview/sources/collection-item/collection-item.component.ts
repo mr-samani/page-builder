@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Inject,
   Input,
   OnDestroy,
@@ -32,7 +33,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
 })
-export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterViewInit {
   // inputs auto filled by create dynamic element
   @Input() editMode: boolean = false;
   @Input() pageItem!: PageItem;
@@ -51,14 +52,14 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   dataList: DynamicDataStructure[][] = [];
   @ViewChild('collectionContainer') collectionContainer!: ElementRef<HTMLDivElement>;
 
+  private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<DataSourceSetting>,
     private chdRef: ChangeDetectorRef,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
     private previewService: PagePreviewService
   ) {
-    this.pageItem.dataSource = context.data;
+    this.pageItem.dataSource = this.context.data;
     this.getData();
     this.chdRef.detectChanges();
   }

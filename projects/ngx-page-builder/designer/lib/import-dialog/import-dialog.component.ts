@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DOCUMENT, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DOCUMENT, inject, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ImportHtmlService } from '../../services/import-export/import-html.service';
 import { ImportResult } from '../../services/import-export/ImportResult';
@@ -10,7 +10,7 @@ import { Notify } from '../../extensions/notify';
 import { MatAnchor } from '@angular/material/button';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { LoadingComponent } from '../../controls/loading/loading.component';
-import { LibConsts } from "ngx-page-builder/core";
+import { LibConsts } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-import-dialog',
@@ -44,12 +44,12 @@ export class ImportDialogComponent implements OnInit {
   useBackendApi = false;
 
   loading: boolean = false;
+  private doc = inject(DOCUMENT);
+
   constructor(
     private dialogRef: MatDialogRef<ImportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) _data: any,
     private importer: ImportHtmlService,
-    private chdr: ChangeDetectorRef,
-    @Inject(DOCUMENT) private doc: Document,
+    private chdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -69,14 +69,14 @@ export class ImportDialogComponent implements OnInit {
     let api = this.importer.importFromUrl(
       this.urlInput,
       this.querySelectorInput,
-      this.importOptions,
+      this.importOptions
     );
     if (this.useBackendApi) {
       api = this.importer.importFromUrlWithBackend(
         this.urlInput,
         this.querySelectorInput,
         LibConsts.backendProxyImportUrl,
-        this.importOptions,
+        this.importOptions
       );
     }
 

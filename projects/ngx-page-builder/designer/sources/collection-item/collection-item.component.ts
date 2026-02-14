@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Inject,
   Input,
   OnDestroy,
@@ -25,7 +26,7 @@ import {
   cloneDeep,
   cloneTemplate,
   itemInThisTemplate,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'collection-item',
@@ -55,12 +56,12 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   dataList: DynamicDataStructure[][] = [];
   @ViewChild('collectionContainer') collectionContainer!: ElementRef<HTMLDivElement>;
 
+  private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<DataSourceSetting>,
     private chdRef: ChangeDetectorRef,
     private pageBuilder: PageBuilderService,
     private dynamicElementService: DynamicElementService,
-    private dynamicDataService: DynamicDataService,
+    private dynamicDataService: DynamicDataService
   ) {
     this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
       this.pageItem.dataSource = data;
@@ -125,7 +126,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
       this.dataList = this.dynamicDataService.getCollectionData(
         this.pageItem.dataSource.id,
         skip,
-        count,
+        count
       );
     }
 
@@ -140,7 +141,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
       await this.pageBuilder.createBlockElement(
         true,
         cloned,
-        this.collectionContainer.nativeElement,
+        this.collectionContainer.nativeElement
       );
       this.pageItem.children.push(cloned);
     }
@@ -162,7 +163,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
       await this.pageBuilder.createBlockElement(
         this.editMode,
         cloned,
-        this.collectionContainer.nativeElement,
+        this.collectionContainer.nativeElement
       );
       this.pageItem.children.push(cloned);
     }

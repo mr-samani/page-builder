@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DOCUMENT,
+  inject,
   Inject,
   Injector,
   Input,
@@ -38,7 +39,7 @@ import {
   PageBuilderConfig,
   ViewMode,
   validateViewMode,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Component({
   standalone: true,
@@ -61,6 +62,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   @Input() set data(val: IPage[] | undefined) {
     if (!val || Array.isArray(val) == false) {
       console.warn('NgxPageBuilder', 'Input data not valid!');
+      Notify.error('Input data not valid!');
       return;
     }
     const pages = val.map((m) => Page.fromJSON(m));
@@ -97,13 +99,10 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   showPlugins = LibConsts.showPlugins;
 
-  constructor(
-    injector: Injector,
-    @Inject(NGX_PAGE_BUILDER_STORAGE_SERVICE) private storageService: IStorageService,
-    private cls: ClassManagerService,
-    private dialog: MatDialog,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {
+  private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
+  private doc = inject(DOCUMENT);
+
+  constructor(injector: Injector, private cls: ClassManagerService, private dialog: MatDialog) {
     super(injector);
     this.pageBuilder.storageService = this.storageService;
     this.pageBuilder.changed$.subscribe((data: PageItemChange) => {

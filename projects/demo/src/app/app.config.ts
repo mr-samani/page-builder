@@ -8,34 +8,25 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {
   NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
-  providePageBuilder,
+  NGX_PAGE_BUILDER_STORAGE_SERVICE,
 } from 'ngx-page-builder/designer';
-import { StorageType } from 'ngx-page-builder/core';
-import { CustomSources } from './custom-source/custom-sources';
 import { provideHighcharts } from 'highcharts-angular';
 import { PluginService } from './builder/plugin.service';
+import { MessagePackStorageService } from './custom-storage/msgpack.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    providePageBuilder({
-      customSources: CustomSources,
-      storageType: StorageType.LocalStorage,
-      enableExportAsPlugin: true,
-      showPlugins: true,
-      publicCss: ['/bootstrap.min.css'],
-      publicJs: ['/bootstrap.min.js'],
-    }),
     {
       provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
       useExisting: PluginService,
     },
-    // {
-    //   provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
-    //   useClass: MessagePackStorageService,
-    // },
+    {
+      provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
+      useClass: MessagePackStorageService,
+    },
     provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
       instance: () => import('highcharts'),

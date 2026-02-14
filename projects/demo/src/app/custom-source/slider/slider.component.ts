@@ -25,7 +25,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('myCarousel') myCarousel!: ElementRef<HTMLElement>;
   carouselId = 'carousel-' + crypto.randomUUID();
   slider: any = {};
-  constructor(private chdr: ChangeDetectorRef, @Inject(DOCUMENT) private doc: Document) {}
+  constructor() {}
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }

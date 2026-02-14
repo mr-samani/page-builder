@@ -1,4 +1,4 @@
-import { Renderer2, Inject, DOCUMENT, Injectable, RendererFactory2 } from '@angular/core';
+import { Renderer2, Inject, DOCUMENT, Injectable, RendererFactory2, inject } from '@angular/core';
 import { DynamicDataService } from './dynamic-data.service';
 import { DynamicElementService } from './dynamic-element.service';
 import { NotifyHelper as Notify } from '../utiles/notify-helper';
@@ -25,12 +25,11 @@ export class PagePreviewService {
   }
   private previewWindow?: Window | null;
   private renderer!: Renderer2;
-
+  private doc = inject(DOCUMENT);
   constructor(
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-    rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) private doc: Document
+    rendererFactory: RendererFactory2
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -417,9 +416,9 @@ export class PagePreviewService {
         const { header, body, footer } = this.createPageHtml(isLastPage);
 
         const { headerItems, bodyItems, footerItems } = page;
-        this.genElms(headerItems, header);
-        this.genElms(bodyItems, body);
-        this.genElms(footerItems, footer);
+        await this.genElms(headerItems, header);
+        await this.genElms(bodyItems, body);
+        await this.genElms(footerItems, footer);
       }
       this.dynamicDataService.replaceValues(pages);
     } catch (error) {
@@ -497,7 +496,7 @@ export class PagePreviewService {
       index,
       item as PageItem
     );
-    if (item.children && item.children.length > 0 && el) {
+    if (!(item as PageItem).customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {
         await this.createBlockElement(child, el);
       }

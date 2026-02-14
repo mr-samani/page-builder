@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   forwardRef,
+  inject,
   Inject,
   Injector,
   Input,
@@ -17,7 +18,7 @@ import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.filepicker';
 import { BaseControl } from '../base-control';
 import { Notify } from '../../extensions/notify';
-import { parseBackground } from "ngx-page-builder/core";
+import { parseBackground } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'background-control',
@@ -43,12 +44,8 @@ export class BackgroundControlComponent
   backgroundGradient = '';
   /** css bacground-image  */
   backgroundImage = '';
-
-  constructor(
-    injector: Injector,
-    @Inject(NGX_PAGE_BUILDER_FILE_PICKER) private filePicker: IPageBuilderFilePicker | null,
-    private cdr: ChangeDetectorRef,
-  ) {
+  private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
+  constructor(injector: Injector, private cdr: ChangeDetectorRef) {
     super(injector);
   }
 

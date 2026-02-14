@@ -46,18 +46,9 @@ export class ColumnComponent implements OnInit {
         child,
         this.colContainer.nativeElement
       );
-      if (!el) continue;
-      if (child.children && child.children.length > 0 && el) {
-        this.loadChilds(child.children, el);
-      }
     }
   }
 
-  async loadChilds(childs: PageItem[], container: HTMLElement) {
-    for (const child of childs) {
-      await this.pageBuilder.createBlockElement(this.editMode, child, container);
-    }
-  }
   addNewColumn(index?: number) {
     const newColumn = new PageItem(
       {

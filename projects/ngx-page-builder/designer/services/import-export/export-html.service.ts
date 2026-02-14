@@ -1,14 +1,10 @@
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
 import { Notify } from '../../extensions/notify';
-import { IPagebuilderOutput, PagePreviewService, downloadFile } from "ngx-page-builder/core";
+import { IPagebuilderOutput, PagePreviewService, downloadFile } from 'ngx-page-builder/core';
 
 @Injectable()
 export class ExportHtmlService {
-  constructor(
-    private previewService: PagePreviewService,
-
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  constructor(private previewService: PagePreviewService) {}
   async exportHtml(data: IPagebuilderOutput) {
     try {
       let html = await this.previewService.openPreview(data, 'ExportHml');

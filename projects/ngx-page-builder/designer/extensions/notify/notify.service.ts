@@ -5,6 +5,7 @@ import {
   Injector,
   Inject,
   DOCUMENT,
+  inject,
 } from '@angular/core';
 import { NGX_PG_NOTIFY_DEFAULTS } from './notify-config';
 import { NgxPgNotifyOptions } from './notify-options';
@@ -22,17 +23,14 @@ export class NgxPgNotifyService {
   private visible: { ref: ComponentRef<any>; payload: NgxPgNotifyPayload }[] = [];
   private container: HTMLElement | null = null;
 
-  constructor(
-    private appRef: ApplicationRef,
-    private injector: Injector,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {
+  private doc = inject(DOCUMENT);
+  constructor(private appRef: ApplicationRef, private injector: Injector) {
     // global event listeners for notifications finishing or close
     window.addEventListener('ngx-pg-notify:finish', (e: any) =>
-      this.onNotificationFinish(e.detail.id),
+      this.onNotificationFinish(e.detail.id)
     );
     window.addEventListener('ngx-pg-notify:close', (e: any) =>
-      this.onNotificationClose(e.detail.id),
+      this.onNotificationClose(e.detail.id)
     );
   }
 
@@ -109,7 +107,7 @@ export class NgxPgNotifyService {
     wrapper.setAttribute('data-id', payload.id);
     // add type class as well
     wrapper.classList.add(
-      `${payload.options.notificationClass || 'ngx-pg-notify'}-${payload.type}`,
+      `${payload.options.notificationClass || 'ngx-pg-notify'}-${payload.type}`
     );
 
     // inner HTML (safe or escaped)

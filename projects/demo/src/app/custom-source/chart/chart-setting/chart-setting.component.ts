@@ -1,4 +1,4 @@
-import { Component, computed, Inject, OnInit } from '@angular/core';
+import { Component, computed, inject, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartService } from '../chart.service';
 import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
@@ -11,11 +11,8 @@ import { IChartConfig } from '../chart-config.interface';
   imports: [FormsModule],
 })
 export class ChartSettingComponent implements OnInit {
-  constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<IChartConfig>,
-
-    public chartService: ChartService
-  ) {}
+  private readonly context: ComponentDataContext<IChartConfig> = inject(COMPONENT_DATA);
+  constructor(public chartService: ChartService) {}
 
   ngOnInit() {}
   update() {

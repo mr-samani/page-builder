@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import { sanitizeForStorage } from '../storage/sanitizeForStorage';
 
 import { PageBuilderService } from '../page-builder.service';
@@ -13,15 +13,12 @@ import {
   IPlugin,
   PageItem,
   deepCloneInstance,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Injectable()
 export class PBPluginService {
-  constructor(
-    private cls: ClassManagerService,
-    private pageBuilder: PageBuilderService,
-    @Inject(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE) private pluginStore: IPluginStore,
-  ) {}
+  private pluginStore = inject<IPluginStore>(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE);
+  constructor(private cls: ClassManagerService, private pageBuilder: PageBuilderService) {}
   async getPlugin(item: PageItem): Promise<IPlugin> {
     return new Promise<IPlugin>(async (resolve, reject) => {
       try {

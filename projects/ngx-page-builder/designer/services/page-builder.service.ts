@@ -355,7 +355,7 @@ export class PageBuilderService implements OnDestroy {
     }
 
     let el = await this.dynamicElementService.createBlock(editMode, container, index, item);
-    if (item.children && item.children.length > 0 && el) {
+    if (!item.customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {
         await this.createBlockElement(editMode, child, el, -1);
       }

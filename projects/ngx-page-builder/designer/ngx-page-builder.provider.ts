@@ -74,7 +74,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
     ids.add(item.customComponent.componentKey);
   }
 
-  return makeEnvironmentProviders([
+  return [
     {
       provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
       useClass: storage,
@@ -95,5 +95,8 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
       provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
       useValue: new PluginStore(),
     },
-  ]);
+  ];
+}
+export function providePageBuilderEnv(cfg: PageBuilderConfiguration) {
+  return makeEnvironmentProviders(providePageBuilder(cfg));
 }

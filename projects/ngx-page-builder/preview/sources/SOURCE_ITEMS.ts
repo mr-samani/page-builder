@@ -1,7 +1,7 @@
-import { CollectionItemSource } from './collection-item/definition';
-import { HeroTableSource } from './hero-table/definition';
-import { PageBreakSource } from './page-break/definition';
-import { ColumnSource } from './column/definition';
+import { CollectionItemPreview } from './collection-item/definition';
+import { HeroTablePreview } from './hero-table/definition';
+import { PageBreakPreview } from './page-break/definition';
+import { ColumnPreview } from './column/definition';
 import { SourceItem, randomNumber } from 'ngx-page-builder/core';
 
 export const PREVIEW_SOURCE_ITEMS: SourceItem[] = [
@@ -94,8 +94,8 @@ export const PREVIEW_SOURCE_ITEMS: SourceItem[] = [
     icon: 'assets/icons/rectangle-fill.svg',
     content: 'Button',
   },
-  ColumnSource,
-  PageBreakSource,
-  CollectionItemSource,
-  HeroTableSource,
+  ColumnPreview,
+  PageBreakPreview,
+  CollectionItemPreview,
+  HeroTablePreview,
 ];

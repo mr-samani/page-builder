@@ -37,10 +37,12 @@ export function providePagePreview(config: PagePreviewConfiguration) {
     ids.add(item.customComponent.componentKey);
   }
 
-  return makeEnvironmentProviders([
-    {
-      provide: PAGE_PREVIEW_CONFIGURATION,
-      useValue: config,
-    },
-  ]);
+  return {
+    provide: PAGE_PREVIEW_CONFIGURATION,
+    useValue: config,
+  };
+}
+
+export function providePagePreviewEnv(cfg: PagePreviewConfiguration) {
+  return makeEnvironmentProviders([providePagePreview(cfg)]);
 }

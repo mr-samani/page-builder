@@ -1,16 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'my-slider',
+  selector: 'input-range',
   standalone: true,
   template: `
-    <div class="slider">
+    <div class="input-range">
       <input type="range" [value]="value" (input)="onInput($event)" />
       <span>range:{{ value }}</span>
     </div>
   `,
 })
-export class MySliderComponent {
+export class InpurRangeComponent {
   @Input() value = 50;
   @Output() valueChange = new EventEmitter<number>();
 

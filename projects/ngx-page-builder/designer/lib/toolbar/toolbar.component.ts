@@ -11,8 +11,7 @@ import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../services/storage/prepare-page-builder-data';
-import { LibConsts, PageItem } from "ngx-page-builder/core";
-import { PagePreviewService } from '../../services/preview.service';
+import { LibConsts, PageItem, PagePreviewService } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'toolbar',
@@ -34,7 +33,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     private exporter: ExportHtmlService,
 
     public history: HistoryService,
-    private previewService: PagePreviewService,
+    private previewService: PagePreviewService
   ) {
     super(injector);
     effect(() => {

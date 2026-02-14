@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,7 @@ import { PBPluginService } from '../../services/plugin/plugin.service';
 import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { IPlugin, PageItem } from "ngx-page-builder/core";
+import { IPlugin, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-export-plugin-dialog',
@@ -30,12 +30,12 @@ export class ExportPluginDialogComponent implements OnInit {
 
   plugin?: IPlugin;
   loading = true;
+  private _data = inject<PageItem>(MAT_DIALOG_DATA);
   constructor(
-    @Inject(MAT_DIALOG_DATA) private _data: PageItem,
     private dialogRef: MatDialogRef<ExportPluginDialogComponent>,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
-    private pageBuilder: PageBuilderService,
+    private pageBuilder: PageBuilderService
   ) {
     this.loading = true;
   }

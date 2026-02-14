@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -7,7 +7,7 @@ import {
   DataSourceSetting,
   DynamicDataService,
   DynamicDataStructure,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-collection-settings',
@@ -20,13 +20,11 @@ export class DataSourceSettingsComponent implements OnInit {
   settings: DataSourceSetting = {};
 
   collectionDataSource: DynamicDataStructure[] = [];
-  constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<DataSourceSetting>,
-    public dynamicDataService: DynamicDataService,
-  ) {
+  private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
+  constructor(public dynamicDataService: DynamicDataService) {
     this.settings = this.context.data || new DataSourceSetting();
     this.collectionDataSource = this.dynamicDataService.dynamicData.filter(
-      (x: DynamicDataStructure) => x.list,
+      (x: DynamicDataStructure) => x.list
     );
   }
 

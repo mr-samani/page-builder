@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPagePreviewComponent } from 'ngx-page-builder/preview';
+import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
 import { IPagebuilderOutput } from 'ngx-page-builder/core';
 import { DynamicData } from '../dynamic-data/dynamic-data';
 import { FormsModule } from '@angular/forms';
+import { CustomSources } from '../custom-source/custom-sources';
 
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   imports: [NgxPagePreviewComponent, FormsModule],
+  providers: [
+    providePagePreview({
+      customSources: CustomSources,
+      publicCss: ['/bootstrap.min.css'],
+      publicJs: ['/bootstrap.min.js'],
+    }),
+  ],
 })
 export class PreviewComponent implements OnInit {
   dynamicData = DynamicData;

@@ -1,6 +1,6 @@
 import { SourceItem } from 'ngx-page-builder/core';
 
-export const CollectionItemSource = new SourceItem({
+export const CollectionItemPreview = new SourceItem({
   tag: 'collection',
   icon: 'assets/icons/collection.svg',
   title: 'Collection Item',
@@ -23,6 +23,7 @@ export const CollectionItemSource = new SourceItem({
   }`,
   customComponent: {
     componentKey: 'NgxPgCollectionItem',
-    component: () => import('./collection-item.component').then((c) => c.CollectionItemComponent),
+    component: () =>
+      import('./collection-item.component').then((c) => c.PreviewCollectionItemComponent),
   },
 });

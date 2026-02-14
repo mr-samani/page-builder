@@ -2,6 +2,7 @@ import {
   Component,
   DOCUMENT,
   ElementRef,
+  inject,
   Inject,
   Injector,
   OnInit,
@@ -10,7 +11,7 @@ import {
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
-import { LibConsts } from "ngx-page-builder/core";
+import { LibConsts } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'inner-content',
@@ -28,11 +29,9 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private _pageBody = viewChild<ElementRef<HTMLElement>>('PageBody');
   private _pageHeader = viewChild<ElementRef<HTMLElement>>('PageHeader');
   private _pageFooter = viewChild<ElementRef<HTMLElement>>('PageFooter');
-  constructor(
-    injector: Injector,
-    private el: ElementRef<HTMLElement>,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {
+  private doc = inject(DOCUMENT);
+
+  constructor(injector: Injector, private el: ElementRef<HTMLElement>) {
     super(injector);
 
     this.pageBuilder.pageBody = this._pageBody;
@@ -55,7 +54,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
 
       this.el.nativeElement.shadowRoot?.insertBefore(
         j,
-        this.el.nativeElement.shadowRoot?.firstChild,
+        this.el.nativeElement.shadowRoot?.firstChild
       );
     }
   }

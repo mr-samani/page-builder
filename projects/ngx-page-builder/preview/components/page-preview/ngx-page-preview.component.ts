@@ -84,6 +84,7 @@ export class NgxPagePreviewComponent implements OnInit {
     if (val.styles && Array.isArray(val.styles)) {
       for (let f of val.styles) this.cls.addToDefaultStyles(f.data);
     }
+    console.log(val);
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
       if (pageContainer) {

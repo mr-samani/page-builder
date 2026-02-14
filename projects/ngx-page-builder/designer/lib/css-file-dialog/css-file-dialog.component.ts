@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Inject,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +13,7 @@ import { FileSelector } from '../../helper/FileSelector';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
 import { Notify } from '../../extensions/notify';
-import { ClassManagerService, ICssFile, LibConsts, cloneDeep } from "ngx-page-builder/core";
+import { ClassManagerService, ICssFile, LibConsts, cloneDeep } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-css-file-dialog',
@@ -31,11 +37,12 @@ export class CssFileDialogComponent {
   selectedTabIndex: number = 0;
 
   files: ICssFile[] = [];
+
+  data = inject<{ classes?: Record<string, string> }>(MAT_DIALOG_DATA);
   constructor(
     public dialogRef: MatDialogRef<CssFileDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { classes?: Record<string, string> },
     private cls: ClassManagerService,
-    private chdRef: ChangeDetectorRef,
+    private chdRef: ChangeDetectorRef
   ) {
     this.files = cloneDeep(cls.cssFileData);
   }

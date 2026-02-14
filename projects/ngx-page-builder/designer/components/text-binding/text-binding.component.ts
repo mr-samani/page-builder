@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Inject,
   Injector,
   Input,
@@ -21,7 +22,12 @@ import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
 import { Notify } from '../../extensions/notify';
-import { DEFAULT_IMAGE_URL, DynamicDataService, DynamicDataStructure, PageItem } from "ngx-page-builder/core";
+import {
+  DEFAULT_IMAGE_URL,
+  DynamicDataService,
+  DynamicDataStructure,
+  PageItem,
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'text-binding',
@@ -53,13 +59,13 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
 
   /** img tag src url */
   imageUrl = '';
+  private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
+  private htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
   constructor(
     injector: Injector,
     private matDialog: MatDialog,
     public dynamicDataService: DynamicDataService,
-    private renderer: Renderer2,
-    @Inject(NGX_PAGE_BUILDER_FILE_PICKER) private filePicker: IPageBuilderFilePicker | null,
-    @Inject(NGX_PAGE_BUILDER_HTML_EDITOR) private htmlEditor: IPageBuilderHtmlEditor | null,
+    private renderer: Renderer2
   ) {
     super(injector);
     // dynamic data if is not item collection

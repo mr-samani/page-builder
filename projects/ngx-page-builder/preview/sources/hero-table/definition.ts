@@ -1,12 +1,12 @@
 import { SourceItem } from 'ngx-page-builder/core';
 
-export const HeroTableSource = new SourceItem({
+export const HeroTablePreview = new SourceItem({
   tag: 'hero-table',
   icon: 'assets/icons/table.svg',
   title: 'Hero Table',
   customComponent: {
     componentKey: 'NgxPgHeroTable',
-    component: () => import('./hero-table.component').then((c) => c.HeroTableComponent),
+    component: () => import('./hero-table.component').then((c) => c.PreviewHeroTableComponent),
   },
   css: `
   .ngx-hero-table{

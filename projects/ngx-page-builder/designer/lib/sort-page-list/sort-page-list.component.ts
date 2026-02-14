@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { PageBuilderService } from '../../services/page-builder.service';
 import { IDropEvent, moveItemInArray, NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { MatButtonModule } from '@angular/material/button';
-import { Page } from "ngx-page-builder/core";
+import { Page } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-sort-page-list',
@@ -15,9 +15,8 @@ import { Page } from "ngx-page-builder/core";
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
   constructor(
-    @Inject(MAT_DIALOG_DATA) _data: any,
     private dialogRef: MatDialogRef<SortPageListComponent>,
-    private pageBuilder: PageBuilderService,
+    private pageBuilder: PageBuilderService
   ) {
     this.pageList = [...(pageBuilder.pageInfo.pages ?? [])];
     this.pageList.map((m: Page, index: number) => (m.order = index));

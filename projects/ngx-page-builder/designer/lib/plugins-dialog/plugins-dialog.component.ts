@@ -9,7 +9,7 @@ import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
-import { IPlugin, PageItem } from "ngx-page-builder/core";
+import { IPlugin, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-plugins-dialog',
@@ -40,10 +40,9 @@ export class PluginsDialogComponent implements OnInit {
   selectedPage = 0;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private _data: PageItem,
     private dialogRef: MatDialogRef<PluginsDialogComponent>,
     private pluginService: PBPluginService,
-    private chdr: ChangeDetectorRef,
+    private chdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

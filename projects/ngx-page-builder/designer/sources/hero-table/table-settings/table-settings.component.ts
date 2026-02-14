@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TableSetting } from '../table-setting';
 import { SwitchComponent } from '../../../controls/switch/switch.component';
@@ -8,7 +8,7 @@ import {
   ComponentDataContext,
   DynamicDataService,
   DynamicDataStructure,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-table-settings',
@@ -21,13 +21,11 @@ export class HeroTableSettingsComponent implements OnInit {
   settings: TableSetting = {};
 
   collectionDataSource: DynamicDataStructure[] = [];
-  constructor(
-    @Inject(COMPONENT_DATA) private context: ComponentDataContext<TableSetting>,
-    public dynamicDataService: DynamicDataService,
-  ) {
+  private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
+  constructor(public dynamicDataService: DynamicDataService) {
     this.settings = this.context.data || new TableSetting();
     this.collectionDataSource = this.dynamicDataService.dynamicData.filter(
-      (x: DynamicDataStructure) => x.list,
+      (x: DynamicDataStructure) => x.list
     );
   }
 

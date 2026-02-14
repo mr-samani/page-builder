@@ -2,6 +2,7 @@ import {
   Directive,
   DOCUMENT,
   ElementRef,
+  inject,
   Inject,
   Input,
   OnChanges,
@@ -18,11 +19,8 @@ const SvgCache = new Map<string, string>(); // Cache for performance
 export class SvgIconDirective implements OnInit {
   @Input() Icon!: string;
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  private doc = inject(DOCUMENT);
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   async ngOnInit() {
     if (!this.Icon) return;

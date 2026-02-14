@@ -13,6 +13,7 @@ import {
   Inject,
   DOCUMENT,
   ComponentRef,
+  inject,
 } from '@angular/core';
 import 'reflect-metadata';
 import { Subject } from 'rxjs';
@@ -29,11 +30,11 @@ export class DynamicElementService {
   public dynamicData?: DynamicDataStructure;
   private renderer!: Renderer2;
 
+  private readonly doc = inject(DOCUMENT);
   constructor(
     rendererFactory: RendererFactory2,
     private appRef: ApplicationRef,
-    private envInjector: EnvironmentInjector,
-    @Inject(DOCUMENT) private doc: Document,
+    private envInjector: EnvironmentInjector
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -46,7 +47,7 @@ export class DynamicElementService {
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     index: number,
-    item: PageItem,
+    item: PageItem
   ): Promise<HTMLElement> {
     let element: HTMLElement;
     const parentEl: HTMLElement =
@@ -88,7 +89,7 @@ export class DynamicElementService {
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     item: PageItem,
-    index: number | null,
+    index: number | null
   ): Promise<HTMLElement> {
     const component = await item.getComponentInstance();
     if (!component) {
@@ -238,7 +239,7 @@ export class DynamicElementService {
   private attachDirective<T>(
     element: HTMLElement,
     directive: Directive,
-    dirInjector: Injector,
+    dirInjector: Injector
   ): any {
     const DirType = directive.directive;
     const { inputs, outputs } = directive;

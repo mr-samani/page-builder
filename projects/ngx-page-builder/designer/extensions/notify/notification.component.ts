@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Inject,
   DOCUMENT,
+  inject,
 } from '@angular/core';
 import { NgxPgNotifyPayload } from './notify.model';
 
@@ -23,7 +24,7 @@ import { NgxPgNotifyPayload } from './notify.model';
       [innerHTML]="safeMessage"
     >
       @if (options.dismissible) {
-        <button class="ngx-pg-close" (click)="close($event)" aria-label="close">×</button>
+      <button class="ngx-pg-close" (click)="close($event)" aria-label="close">×</button>
       }
     </div>
   `,
@@ -41,10 +42,8 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
 
   safeMessage = '';
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  private doc = inject(DOCUMENT);
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.options = { ...(this.payload.options || {}) };
@@ -67,7 +66,7 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
         : null;
       try {
         (this as any).rootEl = this.doc.querySelector(
-          `.ngx-pg-notify[data-id=\"${this.payload.id}\"]`,
+          `.ngx-pg-notify[data-id=\"${this.payload.id}\"]`
         );
       } catch (e) {}
       this.addShowClass();

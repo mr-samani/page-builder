@@ -1,4 +1,4 @@
-import { SourceItem } from "ngx-page-builder/core";
+import { SourceItem } from 'ngx-page-builder/core';
 
 export const ColumnSource = new SourceItem({
   tag: 'column',
@@ -8,7 +8,7 @@ export const ColumnSource = new SourceItem({
     inputs: {},
   },
   customComponent: {
-    componentKey: 'NgxPg',
+    componentKey: 'NgxPgColumn',
     component: () => import('./column.component').then((c) => c.ColumnComponent),
   },
 });
