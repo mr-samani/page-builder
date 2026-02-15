@@ -1,16 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  DOCUMENT,
-  inject,
-  Inject,
-  OnInit,
-  viewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, DOCUMENT, inject, OnInit, viewChild } from '@angular/core';
 import { IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
+  NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
   NGX_PAGE_BUILDER_FILE_PICKER,
   NGX_PAGE_BUILDER_HTML_EDITOR,
+  NGX_PAGE_BUILDER_STORAGE_SERVICE,
   NgxPageBuilder,
   providePageBuilder,
 } from 'ngx-page-builder/designer';
@@ -18,8 +12,9 @@ import { FilePickerService } from './file-picker.service';
 import { DynamicData } from '../dynamic-data/dynamic-data';
 import { HtmlEditorService } from './html-editor.service';
 import { RouterLink } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { CustomSources } from '../custom-source/custom-sources';
+import { LocalStoreService } from '../custom-storage/localstore.service';
+import { PluginService } from './plugin.service';
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
@@ -33,13 +28,27 @@ import { CustomSources } from '../custom-source/custom-sources';
       showPlugins: false,
       toolbarConfig: {
         showSaveButton: true,
-        showOpenButton: true,
+        showOpenButton: false,
+        showPreviewButton: true,
       },
       publicCss: ['/bootstrap.min.css'],
       publicJs: ['/bootstrap.min.js'],
     }),
     { provide: NGX_PAGE_BUILDER_FILE_PICKER, useClass: FilePickerService },
     { provide: NGX_PAGE_BUILDER_HTML_EDITOR, useClass: HtmlEditorService },
+
+    {
+      provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
+      useExisting: PluginService,
+    },
+    {
+      provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
+      useClass: LocalStoreService,
+    },
+    // {
+    //   provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
+    //   useClass: MessagePackStorageService,
+    // },
   ],
 })
 export class BuilderComponent implements OnInit, AfterViewInit {

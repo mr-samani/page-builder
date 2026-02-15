@@ -8,14 +8,13 @@
     [disableSort]="true"
   >
     @if (showPlugins) {
-      <div class="tool" (click)="viewPlugins()" title="Plugins">
-        <svg Icon="assets/icons/layer-plus.svg"></svg>
-      </div>
-    }
-    @for (item of pageBuilder.sources; track $index) {
-      <div class="tool" ngxDraggable [title]="item.title">
-        <svg [Icon]="item.icon"></svg>
-      </div>
+    <div class="tool" (click)="viewPlugins()" title="Plugins">
+      <svg Icon="assets/icons/layer-plus.svg"></svg>
+    </div>
+    } @for (item of pageBuilder.sources; track $index) {
+    <div class="tool" ngxDraggable [title]="item.title">
+      <svg [Icon]="item.icon"></svg>
+    </div>
     }
   </div>
   <div

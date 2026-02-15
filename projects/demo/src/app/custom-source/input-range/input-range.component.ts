@@ -9,6 +9,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <span>range:{{ value }}</span>
     </div>
   `,
+  styles: `
+  :host{
+    display:block;
+  }`,
 })
 export class InpurRangeComponent {
   @Input() value = 50;

@@ -86,40 +86,6 @@ export class PagePreviewService {
   }
 
   /**
-   * جمع‌آوری همه Angular ViewEncapsulation attributes از یک element و children هاش
-   */
-  private collectAngularAttributes(element: HTMLElement): Set<string> {
-    const attributes = new Set<string>();
-
-    // Recursive function برای traverse کردن DOM tree
-    const traverse = (el: Element) => {
-      // بررسی همه attribute های المنت
-      Array.from(el.attributes).forEach((attr) => {
-        const attrName = attr.name;
-
-        // پیدا کردن Angular ViewEncapsulation attributes
-        // Pattern: _nghost-xxx-yyy یا _ngcontent-xxx-yyy
-        if (attrName.startsWith('_nghost-') || attrName.startsWith('_ngcontent-')) {
-          attributes.add(attrName);
-
-          // همچنین base attribute رو هم اضافه کن
-          // مثلا از _ngcontent-abc-c123 به _nghost-abc-c123
-          const baseAttr = attrName.replace('_ngcontent-', '_nghost-');
-          attributes.add(baseAttr);
-        }
-      });
-
-      // بررسی children
-      Array.from(el.children).forEach((child) => {
-        traverse(child);
-      });
-    };
-
-    traverse(element);
-    return attributes;
-  }
-
-  /**
    * پیدا کردن style elements مرتبط با Angular attributes
    */
   private findRelatedStyleElements(
@@ -152,6 +118,7 @@ export class PagePreviewService {
    * کپی کردن فقط استایل‌های مرتبط با کامپوننت‌های استفاده شده
    */
   private copyRelatedStyles(targetDoc: Document): void {
+    debugger;
     if (!this.pageContainer) return;
     // ۱. جمع‌آوری همه Angular attributes از pageContainer
     const usedAttributes = this.collectAngularAttributes(this.pageContainer);
@@ -189,7 +156,39 @@ export class PagePreviewService {
     //   targetDoc.head.appendChild(clonedLink);
     // });
   }
+  /**
+   * جمع‌آوری همه Angular ViewEncapsulation attributes از یک element و children هاش
+   */
+  private collectAngularAttributes(element: HTMLElement): Set<string> {
+    const attributes = new Set<string>();
 
+    // Recursive function برای traverse کردن DOM tree
+    const traverse = (el: Element) => {
+      // بررسی همه attribute های المنت
+      Array.from(el.attributes).forEach((attr) => {
+        const attrName = attr.name;
+
+        // پیدا کردن Angular ViewEncapsulation attributes
+        // Pattern: _nghost-xxx-yyy یا _ngcontent-xxx-yyy
+        if (attrName.startsWith('_nghost-') || attrName.startsWith('_ngcontent-')) {
+          attributes.add(attrName);
+
+          // همچنین base attribute رو هم اضافه کن
+          // مثلا از _ngcontent-abc-c123 به _nghost-abc-c123
+          const baseAttr = attrName.replace('_ngcontent-', '_nghost-');
+          attributes.add(baseAttr);
+        }
+      });
+
+      // بررسی children
+      Array.from(el.children).forEach((child) => {
+        traverse(child);
+      });
+    };
+
+    traverse(element);
+    return attributes;
+  }
   private async transferContentToNewWindow(targetWindow: Window) {
     if (!this.data || !this.pageContainer) return;
 

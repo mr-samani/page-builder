@@ -15,6 +15,9 @@ declare const bootstrap: any;
   selector: 'blc-slider',
   templateUrl: './slider.component.html',
   styles: `
+  :host{
+    display:block;
+  }
     .carousel-item {
       height: 500px;
     }

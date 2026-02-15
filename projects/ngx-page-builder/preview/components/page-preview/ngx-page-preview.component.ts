@@ -28,7 +28,7 @@ import {
   styleUrls: ['./ngx-page-preview.component.scss'],
 })
 export class NgxPagePreviewComponent implements OnInit {
-  private readonly doc = inject(DOCUMENT);
+  @Input() doc = inject(DOCUMENT);
   private readonly cls = inject(ClassManagerService);
   public readonly previewService = inject(PagePreviewService);
   private readonly dynamicDataService = inject(DynamicDataService);

@@ -11,7 +11,8 @@ import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../services/storage/prepare-page-builder-data';
-import { LibConsts, PageItem, PagePreviewService } from 'ngx-page-builder/core';
+import { DynamicDataService, LibConsts, PageItem, PagePreviewService } from 'ngx-page-builder/core';
+import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 
 @Component({
   selector: 'toolbar',
@@ -138,7 +139,16 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
   async preview() {
     const data = await preparePageDataForSave(this.pageBuilder);
-    await this.previewService.openPreview(data, 'Preview');
+    this.matDialog.open(PreviewDialogComponent, {
+      data: {
+        data,
+        dynamicData: this.dynamicDataService.dynamicData,
+        viewMode: this.viewMode,
+      },
+      width: '95%',
+      maxWidth: '100%',
+    });
+    // await this.previewService.openPreview(data, 'Preview');
   }
 
   previewPage() {
