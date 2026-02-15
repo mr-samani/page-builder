@@ -28,7 +28,6 @@ export class PreviewColumnComponent implements OnInit {
     this.loadCols();
   }
   async loadCols() {
-    debugger;
     for (const child of this.pageItem.children) {
       let el = await this.pagePreviewService.createBlockElement(
         child,

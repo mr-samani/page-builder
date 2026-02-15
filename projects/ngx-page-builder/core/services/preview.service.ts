@@ -6,7 +6,7 @@ import { PageItem } from '../models/PageItem';
 import { Page } from '../models/Page';
 import { IPagebuilderOutput } from '../contracts/IPageBuilderOutput';
 import { IPageItem } from '../contracts/IPageItem';
-import { LibConsts } from '../consts/defauls';
+import { LibPreviewConsts } from '../consts/LibPreviewConsts';
 import { waitForFontsToLoad, waitForRenderComplete } from '../utiles/rendering';
 
 @Injectable({ providedIn: 'root' })
@@ -213,7 +213,7 @@ export class PagePreviewService {
     targetDoc.head.appendChild(style);
 
     // 3. اضافه کردن CSS های عمومی (Bootstrap و غیره)
-    for (let css of LibConsts.publicCss) {
+    for (let css of LibPreviewConsts.publicCss) {
       const s = targetDoc.createElement('link');
       s.href = css;
       s.rel = 'stylesheet';
@@ -232,7 +232,7 @@ export class PagePreviewService {
     }
 
     // ۵. اضافه کردن JavaScript های عمومی
-    for (let js of LibConsts.publicJs) {
+    for (let js of LibPreviewConsts.publicJs) {
       const j = targetDoc.createElement('script');
       j.src = js;
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
@@ -250,7 +250,7 @@ export class PagePreviewService {
     this.copyDynamicStyles(targetDoc);
 
     // اعمال کلاس‌های مربوط به کاغذ
-    if (LibConsts.viewMode == 'PrintPage') {
+    if (LibPreviewConsts.viewMode == 'PrintPage') {
       this.pageContainer.classList.add('ngx-paper');
       this.pageContainer.classList.add(this.data.config.size);
       this.pageContainer.classList.add(this.data.config.orientation);
@@ -298,7 +298,7 @@ export class PagePreviewService {
     this.data = data;
     await this.loadPageData();
     this.setStyle();
-    if (LibConsts.viewMode == 'PrintPage') {
+    if (LibPreviewConsts.viewMode == 'PrintPage') {
       this.containerClassName = `ngx-paper ${this.data.config.size} ${this.data.config.orientation}`;
     } else {
       this.containerClassName = `web-page-view`;
@@ -369,7 +369,7 @@ export class PagePreviewService {
     let footer: HTMLElement | null = null;
     let body: HTMLElement | null = null;
     const inner = this.doc.createElement('div');
-    if (LibConsts.viewMode == 'PrintPage') {
+    if (LibPreviewConsts.viewMode == 'PrintPage') {
       inner.classList.add('paper-inner');
       const mainTable = this.doc.createElement('table');
       mainTable.classList.add('ngx-page-table');
@@ -421,6 +421,7 @@ export class PagePreviewService {
 
   async createBlockElement(item: IPageItem, container: HTMLElement, index = -1) {
     let el = await this.dynamicElementService.createBlock(
+      LibPreviewConsts.SourceItemList,
       false,
       container,
       index,

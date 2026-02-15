@@ -59,7 +59,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
 
   LibConsts.SourceItemList = [
     ...SOURCE_ITEMS,
-    ...(config.customSources ?? []).map((item: SourceItem) => new SourceItem(item)),
+    ...(config.customSources ?? []).map((item: SourceItem) => new SourceItem(item, true)),
   ];
   // check duplicates
   const ids = new Set();

@@ -13,16 +13,22 @@ import {
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { DynamicDataStructure, IPagebuilderOutput, ViewMode } from 'ngx-page-builder/core';
+import {
+  DynamicDataStructure,
+  IPagebuilderOutput,
+  LibConsts,
+  ViewMode,
+} from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgxPagePreviewComponent } from 'ngx-page-builder/preview';
+import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
 
 @Component({
   selector: 'app-preview-dialog',
   templateUrl: './preview-dialog.component.html',
   styleUrls: ['./preview-dialog.component.scss'],
   imports: [FormsModule, MatDialogModule, MatButtonModule],
+  providers: [],
 })
 export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
   @ViewChild('previewIframe') iframe!: ElementRef<HTMLIFrameElement>;
@@ -34,7 +40,13 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
     dynamicData: DynamicDataStructure[];
     viewMode: ViewMode;
   }>(MAT_DIALOG_DATA);
-  constructor(private dialogRef: MatDialogRef<PreviewDialogComponent>) {}
+  constructor(private dialogRef: MatDialogRef<PreviewDialogComponent>) {
+    providePagePreview({
+      customSources: LibConsts.SourceItemList.filter((x) => x.isUserDefined),
+      publicCss: LibConsts.publicCss,
+      publicJs: LibConsts.publicJs,
+    });
+  }
 
   ngAfterViewInit() {
     this.loadComponentInIframe();

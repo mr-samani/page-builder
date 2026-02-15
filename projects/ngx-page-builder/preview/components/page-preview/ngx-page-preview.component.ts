@@ -6,7 +6,6 @@ import {
   ElementRef,
   inject,
   Input,
-  OnInit,
   Renderer2,
   viewChild,
 } from '@angular/core';
@@ -14,7 +13,7 @@ import {
 import {
   validateViewMode,
   ViewMode,
-  LibConsts,
+  LibPreviewConsts,
   PagePreviewService,
   DynamicDataService,
   DynamicDataStructure,
@@ -32,7 +31,6 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   public readonly previewService = inject(PagePreviewService);
   private readonly dynamicDataService = inject(DynamicDataService);
   isPrintPage = false;
-  direction = '';
   @Input('dynamicData') set setDynamicData(val: DynamicDataStructure[]) {
     this.dynamicDataService.dynamicData = val;
   }
@@ -44,10 +42,10 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     transform: validateViewMode,
   })
   set viewMode(val: ViewMode) {
-    LibConsts.viewMode = val;
+    LibPreviewConsts.viewMode = val;
   }
   get viewMode() {
-    return LibConsts.viewMode;
+    return LibPreviewConsts.viewMode;
   }
 
   private paper = viewChild<ElementRef<HTMLElement>>('paper');
@@ -57,7 +55,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.renderer.listen(window, 'beforeprint', this.onBeforePrint.bind(this));
     // ۴. اضافه کردن CSS های عمومی (Bootstrap و غیره)
-    for (let css of LibConsts.publicCss) {
+    for (let css of LibPreviewConsts.publicCss) {
       const s = this.doc.createElement('link');
       s.href = css;
       s.rel = 'stylesheet';
@@ -68,7 +66,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     }
 
     // ۵. اضافه کردن JavaScript های عمومی
-    for (let js of LibConsts.publicJs) {
+    for (let js of LibPreviewConsts.publicJs) {
       const j = this.doc.createElement('script');
       j.src = js;
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
@@ -79,7 +77,6 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   }
 
   load() {
-    this.direction = this.data.config.direction;
     if (this.data.styles && Array.isArray(this.data.styles)) {
       for (let f of this.data.styles) {
         const s = this.doc.createElement('style');
@@ -92,6 +89,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
       if (pageContainer) {
+        pageContainer.setAttribute('dir', this.data.config.direction);
         await this.previewService.initializePreview(pageContainer, this.data);
         pageContainer.classList.add(...this.previewService.containerClassName.split(' '));
       }

@@ -78,15 +78,7 @@ ngx-pg-notification {
   --topbar-height: 28px;
 }
 
-.web-page-view {
-  min-height: 100%;
-  display: contents;
-}
-.web-page-view .page-body {
-  min-height: 95%;
-}
-
-.paper {
+.ngx-paper {
   display: flex;
   flex-direction: column;
   border: var(--tools-border);
@@ -97,92 +89,98 @@ ngx-pg-notification {
   padding: var(--page-padding);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.26);
 }
-.paper.A4.Portrait {
+.ngx-paper.A4.Portrait {
   width: var(--a4-width);
   min-height: var(--a4-height);
 }
-.paper.A4.Landscape {
+.ngx-paper.A4.Landscape {
   width: var(--a4-height);
   min-height: var(--a4-width);
 }
-.paper.A5.Portrait {
+.ngx-paper.A5.Portrait {
   width: var(--a5-width);
   min-height: var(--a5-height);
 }
-.paper.A5.Landscape {
+.ngx-paper.A5.Landscape {
   width: var(--a5-height);
   min-height: var(--a5-width);
 }
-.paper.Letter.Portrait {
+.ngx-paper.Letter.Portrait {
   width: var(--letter-width);
   min-height: var(--letter-height);
 }
-.paper.Letter.Landscape {
+.ngx-paper.Letter.Landscape {
   width: var(--letter-height);
   min-height: var(--letter-width);
 }
-.paper .page-body {
+.ngx-paper .page-body {
   min-height: calc(var(--a5-height) / 2);
   flex: auto;
 }
-.paper img,
-.paper svg,
-.paper video {
+.ngx-paper img,
+.ngx-paper svg,
+.ngx-paper video {
   max-width: 100%;
   max-height: 100%;
 }
-.paper * {
+.ngx-paper * {
   box-sizing: border-box;
 }
-
-.paper-inner {
+.ngx-paper .paper-inner {
   min-height: inherit;
 }
 
-::ng-deep .ngx-page-builder table.ngx-page-table {
+.web-page-view {
+  min-height: 100%;
+  display: contents;
+}
+.web-page-view .page-body {
+  min-height: 95%;
+}
+
+.ngx-page-builder .page-break {
+  page-break-after: always !important;
+}
+.ngx-page-builder img,
+.ngx-page-builder svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+table.ngx-page-table {
   width: 100%;
   border-spacing: 0;
   border: 0;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
-::ng-deep .ngx-page-builder .page-break {
-  page-break-after: always !important;
-}
-::ng-deep .ngx-page-builder img,
-::ng-deep .ngx-page-builder svg {
-  max-width: 100%;
-  max-height: 100%;
-}
-::ng-deep .ngx-page-builder table.ngx-page-table th.repeatable-header {
+table.ngx-page-table th.repeatable-header {
   text-align: start;
   max-height: 270px; /* maximum browser page header */
   overflow: hidden;
   display: block;
 }
+
 @media print {
-  ::ng-deep body {
+  html,
+  body {
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  ::ng-deep.paper,
-  ::ng-deep .paper {
+  .ngx-paper {
     display: block !important;
     width: 100% !important;
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
   }
-  ::ng-deep html,
-  ::ng-deep body {
-    min-height: 100%;
-    min-width: 100%;
-    margin: 0;
-    padding: 0;
-  }
 }
-
 .ngx-page-builder {
   --select-background: #3a434f;
   --input-background: linear-gradient(

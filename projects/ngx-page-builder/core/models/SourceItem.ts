@@ -82,11 +82,11 @@ export class SourceItem {
 
   css?: string;
   classList?: string[];
-  constructor(data?: SourceItem) {
-    if (data) {
-      for (var property in data) {
-        if (this.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
-      }
+  isUserDefined?: boolean = false;
+  constructor(data: SourceItem, isUserDefined?: boolean) {
+    for (var property in data) {
+      if (this.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
     }
+    this.isUserDefined = isUserDefined == true;
   }
 }

@@ -1,7 +1,7 @@
 import { makeEnvironmentProviders } from '@angular/core';
 
 import {
-  LibConsts,
+  LibPreviewConsts,
   PAGE_PREVIEW_CONFIGURATION,
   PagePreviewConfiguration,
   SourceItem,
@@ -10,23 +10,23 @@ import { PREVIEW_SOURCE_ITEMS } from './sources/SOURCE_ITEMS';
 
 export function providePagePreview(config: PagePreviewConfiguration) {
   if (config.publicCss && Array.isArray(config.publicCss)) {
-    LibConsts.publicCss = config.publicCss;
+    LibPreviewConsts.publicCss = config.publicCss;
   }
   if (config.publicJs && Array.isArray(config.publicJs)) {
-    LibConsts.publicJs = config.publicJs;
+    LibPreviewConsts.publicJs = config.publicJs;
   }
 
   if (!config.customSources || !Array.isArray(config.customSources)) {
     config.customSources = [];
   }
 
-  LibConsts.SourceItemList = [
+  LibPreviewConsts.SourceItemList = [
     ...PREVIEW_SOURCE_ITEMS,
-    ...(config.customSources ?? []).map((item: SourceItem) => new SourceItem(item)),
+    ...(config.customSources ?? []).map((item: SourceItem) => new SourceItem(item, true)),
   ];
   // check duplicates
   const ids = new Set();
-  for (const item of LibConsts.SourceItemList) {
+  for (const item of LibPreviewConsts.SourceItemList) {
     if (!item.customComponent) continue;
     if (ids.has(item.customComponent.componentKey)) {
       throw new Error(

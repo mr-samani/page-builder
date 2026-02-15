@@ -1,7 +1,6 @@
 import { ViewMode } from './ViewMode';
 import { PageBuilderToolbarConfig } from '../models/PageBuilderConfiguration';
 import { SourceItem } from '../models/SourceItem';
-import { PageItem } from '../models/PageItem';
 
 /** loaded from initial provider
  *
@@ -40,7 +39,3 @@ export const LibConsts: {
   publicCss: [],
   publicJs: [],
 };
-
-export const LOCAL_STORAGE_SAVE_KEY = 'page';
-
-export const DEFAULT_IMAGE_URL = '/assets/default-image.png';

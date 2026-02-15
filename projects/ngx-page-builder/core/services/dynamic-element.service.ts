@@ -21,8 +21,8 @@ import { DynamicDataStructure } from '../models/DynamicData';
 import { PageItem } from '../models/PageItem';
 import { ComponentDataContext } from '../models/ComponentDataContext';
 import { COMPONENT_DATA } from '../models/tokens';
-import { DEFAULT_IMAGE_URL } from '../consts/defauls';
-import { Directive } from '../models/SourceItem';
+import { DEFAULT_IMAGE_URL } from '../consts/defaults';
+import { Directive, SourceItem } from '../models/SourceItem';
 import { IPageItem } from '../contracts/IPageItem';
 
 @Injectable({ providedIn: 'root' })
@@ -44,6 +44,7 @@ export class DynamicElementService {
    * ایجاد المنت از روی سورس ها
    */
   async createBlock(
+    sourceItemList: SourceItem[],
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     index: number,
@@ -54,7 +55,7 @@ export class DynamicElementService {
       container instanceof ViewContainerRef ? container.element.nativeElement : container;
 
     if (item.customComponent) {
-      element = await this.createComponentElement(editMode, container, item, index);
+      element = await this.createComponentElement(sourceItemList, editMode, container, item, index);
     } else {
       if (!item.tag) {
         item.tag = 'div';
@@ -86,12 +87,13 @@ export class DynamicElementService {
   }
 
   private async createComponentElement(
+    sourceItemList: SourceItem[],
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     item: PageItem,
     index: number | null
   ): Promise<HTMLElement> {
-    const component = await item.getComponentInstance();
+    const component = await item.getComponentInstance(sourceItemList);
     if (!component) {
       console.warn('Not exist custom component:', item.customComponent);
       throw new Error('Not exist custom component');

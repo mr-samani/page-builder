@@ -1,9 +1,9 @@
-import { ISourceOptions } from './SourceItem';
+import { ISourceOptions, SourceItem } from './SourceItem';
 import { CustomComponent } from './CustomComponent';
 import { DataSourceSetting } from './DataSourceSetting';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
-import { LibConsts } from '../consts/defauls';
+import { LibConsts } from '../consts/LibConsts';
 import { cloneDeep } from '../utiles/clone-deep';
 
 export class PageItem implements IPageItem {
@@ -107,9 +107,9 @@ export class PageItem implements IPageItem {
     this.options.attributes[name] = value;
   }
 
-  public async getComponentInstance() {
+  public async getComponentInstance(sourceItemList: SourceItem[]) {
     if (this.customComponent && this.customComponent.componentKey) {
-      const finded = LibConsts.SourceItemList.find(
+      const finded = sourceItemList.find(
         (x) => x.customComponent?.componentKey === this.customComponent!.componentKey
       );
       if (finded) {
