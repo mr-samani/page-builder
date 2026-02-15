@@ -11,7 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { Notify } from '../../extensions/notify';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { ClassManagerService, PageItem } from 'ngx-page-builder/core';
+import { PageItem } from 'ngx-page-builder/core';
+import { ClassManagerService } from '../../services/class-manager.service';
+
 interface IClassList {
   name: string;
   editMode?: boolean;

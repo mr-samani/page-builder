@@ -1,5 +1,5 @@
 import { Renderer2, Injector, inject } from '@angular/core';
-import { ClassManagerService } from "ngx-page-builder/core";
+import { ClassManagerService } from '../services/class-manager.service';
 
 export abstract class BaseControl {
   style!: Partial<CSSStyleDeclaration>;

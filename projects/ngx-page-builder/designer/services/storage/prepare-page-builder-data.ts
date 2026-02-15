@@ -2,7 +2,6 @@ import { sanitizeForStorage } from './sanitizeForStorage';
 import { PageBuilderService } from '../page-builder.service';
 
 import {
-  ClassManagerService,
   IPageBuilderDto,
   IPagebuilderOutput,
   ISourceOptions,
@@ -11,10 +10,11 @@ import {
   PageBuilderDto,
   PageItem,
   deepCloneInstance,
-} from "ngx-page-builder/core";
+} from 'ngx-page-builder/core';
+import { ClassManagerService } from '../class-manager.service';
 
 export function preparePageDataForSave(
-  pageBuilder: PageBuilderService,
+  pageBuilder: PageBuilderService
 ): Promise<IPagebuilderOutput> {
   const pageInfo: PageBuilderDto = pageBuilder.pageInfo;
   const cls: ClassManagerService = pageBuilder.cls;
@@ -95,7 +95,7 @@ export function preparePageItems(list: PageItem[]) {
 function removeClassesFromHtml(
   html: string,
   classesToRemove: string[],
-  attributesToRemove: string[],
+  attributesToRemove: string[]
 ): string {
   if (!html) return html;
   const doc = new DOMParser().parseFromString(html, 'text/html');

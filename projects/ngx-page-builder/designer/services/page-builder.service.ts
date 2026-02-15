@@ -7,7 +7,6 @@ import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {
-  ClassManagerService,
   Directive,
   DynamicElementService,
   IPageItem,
@@ -21,6 +20,7 @@ import {
   getDefaultBlockClasses,
   getDefaultBlockDirective,
 } from '../helper/getDefaultBlockDirective';
+import { ClassManagerService } from '../services/class-manager.service';
 
 export interface PageItemChange {
   item: PageItem | null;

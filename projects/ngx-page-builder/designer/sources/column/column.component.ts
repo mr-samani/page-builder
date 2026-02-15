@@ -10,7 +10,7 @@ import {
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
+import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-column',
@@ -26,10 +26,7 @@ export class ColumnComponent implements OnInit {
   @Input() pageItem!: PageItem;
 
   @ViewChild('colContainer', { static: true }) colContainer!: ElementRef<HTMLDivElement>;
-  constructor(
-    private dynamicElementService: DynamicElementService,
-    public pageBuilder: PageBuilderService
-  ) {}
+  constructor(public pageBuilder: PageBuilderService) {}
 
   ngOnInit() {
     if (this.pageItem.children.length == 0) {

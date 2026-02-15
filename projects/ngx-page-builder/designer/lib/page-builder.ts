@@ -29,7 +29,6 @@ import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.stor
 import { PageItemChange } from '../services/page-builder.service';
 
 import {
-  ClassManagerService,
   DynamicDataStructure,
   IPage,
   IPagebuilderOutput,
@@ -40,6 +39,7 @@ import {
   ViewMode,
   validateViewMode,
 } from 'ngx-page-builder/core';
+import { ClassManagerService } from '../services/class-manager.service';
 
 @Component({
   standalone: true,

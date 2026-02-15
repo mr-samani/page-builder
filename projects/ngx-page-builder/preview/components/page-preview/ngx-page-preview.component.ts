@@ -14,7 +14,6 @@ import {
   validateViewMode,
   ViewMode,
   LibConsts,
-  ClassManagerService,
   PagePreviewService,
   DynamicDataService,
   DynamicDataStructure,
@@ -29,7 +28,6 @@ import {
 })
 export class NgxPagePreviewComponent implements OnInit {
   @Input() doc = inject(DOCUMENT);
-  private readonly cls = inject(ClassManagerService);
   public readonly previewService = inject(PagePreviewService);
   private readonly dynamicDataService = inject(DynamicDataService);
   isPrintPage = false;
@@ -38,9 +36,7 @@ export class NgxPagePreviewComponent implements OnInit {
     this.dynamicDataService.dynamicData = val;
   }
 
-  @Input('data') set setData(val: IPagebuilderOutput) {
-    this.load(val);
-  }
+  @Input() data!: IPagebuilderOutput;
 
   @Input({
     alias: 'viewMode',
@@ -77,19 +73,26 @@ export class NgxPagePreviewComponent implements OnInit {
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
       this.doc.head.appendChild(j);
     }
+
+    this.load();
   }
 
-  load(val: IPagebuilderOutput) {
-    this.direction = val.config.direction;
-    if (val.styles && Array.isArray(val.styles)) {
-      for (let f of val.styles) this.cls.addToDefaultStyles(f.data);
+  load() {
+    this.direction = this.data.config.direction;
+    if (this.data.styles && Array.isArray(this.data.styles)) {
+      for (let f of this.data.styles) {
+        const s = this.doc.createElement('style');
+        s.id = f.name;
+        s.innerHTML = f.data;
+        this.doc.head.appendChild(s);
+      }
     }
-    console.log(val);
+    console.log(this.data);
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
       if (pageContainer) {
-        await this.previewService.initializePreview(pageContainer, val);
-        pageContainer.classList.add(this.previewService.containerClassName);
+        await this.previewService.initializePreview(pageContainer, this.data);
+        pageContainer.classList.add(...this.previewService.containerClassName.split(' '));
       }
     });
   }

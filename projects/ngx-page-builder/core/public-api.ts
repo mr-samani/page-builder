@@ -27,7 +27,6 @@ export * from './models/types';
 export * from './models/storage-type';
 
 // Services (بدون dependency به Material یا libraries دیگر)
-export * from './services/class-manager.service';
 export * from './services/dynamic-data.service';
 export * from './services/preview.service';
 export * from './services/dynamic-element.service';

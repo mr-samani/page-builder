@@ -13,7 +13,8 @@ import { FileSelector } from '../../helper/FileSelector';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
 import { Notify } from '../../extensions/notify';
-import { ClassManagerService, ICssFile, LibConsts, cloneDeep } from 'ngx-page-builder/core';
+import { LibConsts, cloneDeep } from 'ngx-page-builder/core';
+import { ICssFile, ClassManagerService } from '../../services/class-manager.service';
 
 @Component({
   selector: 'app-css-file-dialog',

@@ -1,10 +1,7 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { PageItem } from '../models/PageItem';
 import { HttpClient } from '@angular/common/http';
-import { IStyleSheetFile } from '../contracts/IStyleSheetFile';
-import { LibConsts } from '../consts/defauls';
-import { parseCssBlockToRecord } from '../utiles/css-parser';
+import { IStyleSheetFile, LibConsts, PageItem, parseCssBlockToRecord } from 'ngx-page-builder/core';
 
 export interface ICssFile {
   id: string;
@@ -107,7 +104,7 @@ export class ClassManagerService {
   public async addCssFileHybrid(
     name: string,
     content: string,
-    isPublicFile = false,
+    isPublicFile = false
   ): Promise<ICssFile> {
     name = this.validateName(name);
 
@@ -180,7 +177,7 @@ export class ClassManagerService {
 
     // ساخت style element برای CSS های عمومی (Bootstrap و غیره)
     let existingPublicStyle = this.innerShadowRootDom.querySelector(
-      'style#NgxPageBuilderPublicCSS',
+      'style#NgxPageBuilderPublicCSS'
     ) as HTMLStyleElement;
 
     if (!existingPublicStyle) {
@@ -194,7 +191,7 @@ export class ClassManagerService {
 
     // ساخت style element برای CSS های custom
     let existingStyle = this.innerShadowRootDom.querySelector(
-      'style#NgxPageBuilderClassUI',
+      'style#NgxPageBuilderClassUI'
     ) as HTMLStyleElement;
 
     if (!existingStyle) {
@@ -224,7 +221,7 @@ export class ClassManagerService {
 
     while (
       this.cssFileData.some(
-        (x) => x.name.toLowerCase() === finalName.toLowerCase() && x.id !== excludeId,
+        (x) => x.name.toLowerCase() === finalName.toLowerCase() && x.id !== excludeId
       )
     ) {
       index++;
@@ -401,7 +398,7 @@ export class ClassManagerService {
   public async updateCssFile(
     fileId: string,
     content: string | Record<string, string>,
-    replace = true,
+    replace = true
   ): Promise<void> {
     const fileIndex = this.cssFileData.findIndex((f) => f.id === fileId);
     if (fileIndex === -1) {
@@ -580,7 +577,7 @@ export class ClassManagerService {
   public updateClass(
     selector: string,
     styles: Partial<CSSStyleDeclaration> | string,
-    fileId?: string,
+    fileId?: string
   ): void {
     if (!this.styleSheet) {
       console.warn('StyleSheet not initialized. Call initialize() first.');
@@ -627,7 +624,7 @@ export class ClassManagerService {
     selector: string,
     styles: Partial<CSSStyleDeclaration> | string,
     delay: number = 16,
-    fileId?: string,
+    fileId?: string
   ): void {
     const normalizedSelector = this.normalizeSelector(selector);
 
@@ -647,7 +644,7 @@ export class ClassManagerService {
   public updateClassImmediate(
     selector: string,
     styles: Partial<CSSStyleDeclaration> | string,
-    fileId?: string,
+    fileId?: string
   ): void {
     requestAnimationFrame(() => {
       this.updateClass(selector, styles, fileId);
@@ -656,7 +653,7 @@ export class ClassManagerService {
 
   public updateClasses(
     classes: Record<string, Partial<CSSStyleDeclaration> | string>,
-    fileId?: string,
+    fileId?: string
   ): void {
     requestAnimationFrame(() => {
       Object.entries(classes).forEach(([selector, styles]) => {
@@ -840,7 +837,7 @@ export class ClassManagerService {
               s
                 .substring(1)
                 .split(/[\s:>\+~\[]/)[0]
-                .trim(),
+                .trim()
             )
             .filter((s) => s);
 

@@ -7,13 +7,13 @@ import { IPluginStore } from './plugin.store';
 import { preparePageItems } from '../storage/prepare-page-builder-data';
 
 import {
-  ClassManagerService,
   IPageItem,
   IPaginationPlugin,
   IPlugin,
   PageItem,
   deepCloneInstance,
 } from 'ngx-page-builder/core';
+import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
 export class PBPluginService {
