@@ -60,7 +60,7 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
         <head>
           <meta charset="utf-8">
           <base href="/">
-          ${''}
+          ${this.copyAllStyles()} 
         </head>
         <body>
           <div id="angular-app-root"></div>
@@ -94,12 +94,46 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
     componentRef.setInput('data', this.daialogData.data);
     componentRef.setInput('dynamicData', this.daialogData.dynamicData);
     componentRef.setInput('viewMode', this.daialogData.viewMode);
-    componentRef.setInput('doc', this.iframe.nativeElement.contentDocument);
+    componentRef.setInput('doc', iframeDoc);
 
     // ۶. اتصال به Angular
     this.iframeApp.attachView(componentRef.hostView);
 
     // ۷. اجرای change detection
     componentRef.changeDetectorRef.detectChanges();
+
+    this.copyDynamicStyles(iframeDoc);
+  }
+
+  /**
+   * کپی کردن همه استایل‌ها از document اصلی
+   *
+   * TODO: همه استایل های پروژه نباید انتقال پیدا کند فقط استایل ها استفاده شده در صفحه ساز
+   */
+  private copyAllStyles(): string {
+    const styles = Array.from(document.head.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map((el) => el.outerHTML)
+      .join('\n');
+
+    return styles;
+  }
+
+  /**
+   * کپی کردن استایل‌هایی که بعد از render اضافه شدند
+   * TODO: همه استایل های پروژه نباید انتقال پیدا کند فقط استایل ها استفاده شده در صفحه ساز
+   */
+  private copyDynamicStyles(iframeDoc: Document): void {
+    const mainDocStyles = document.head.querySelectorAll('style');
+    const iframeStyles = new Set(
+      Array.from(iframeDoc.head.querySelectorAll('style')).map((s) => s.textContent)
+    );
+
+    mainDocStyles.forEach((styleEl) => {
+      // اگه این style قبلاً کپی نشده، کپی کن
+      if (!iframeStyles.has(styleEl.textContent)) {
+        const clonedStyle = styleEl.cloneNode(true) as HTMLStyleElement;
+        iframeDoc.head.appendChild(clonedStyle);
+      }
+    });
   }
 }

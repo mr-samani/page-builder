@@ -74,7 +74,7 @@ export class PagePreviewService {
         let html = '';
         if (type == 'Print') {
           this.previewWindow?.print();
-          this.previewWindow?.close();
+          // this.previewWindow?.close();
           this.previewWindow = null;
         } else if (type == 'ExportHml') {
           html = this.previewWindow?.document.documentElement?.outerHTML ?? '';
@@ -118,7 +118,6 @@ export class PagePreviewService {
    * کپی کردن فقط استایل‌های مرتبط با کامپوننت‌های استفاده شده
    */
   private copyRelatedStyles(targetDoc: Document): void {
-    debugger;
     if (!this.pageContainer) return;
     // ۱. جمع‌آوری همه Angular attributes از pageContainer
     const usedAttributes = this.collectAngularAttributes(this.pageContainer);
@@ -209,107 +208,7 @@ export class PagePreviewService {
         size: ${this.data.config.size} ${this.data.config.orientation.toLowerCase()};
         orientation: ${this.data.config.orientation}; 
       }
-       
-      /**************************************************/
-      
-.web-page-view {
-  min-height: 100%;
-  display: contents;
-}
-.web-page-view .page-body {
-  min-height: 95%;
-}
-
-.paper {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-}
-.paper.A4.Portrait {
-  width: var(--a4-width);
-  min-height: var(--a4-height);
-}
-.paper.A4.Landscape {
-  width: var(--a4-height);
-  min-height: var(--a4-width);
-}
-.paper.A5.Portrait {
-  width: var(--a5-width);
-  min-height: var(--a5-height);
-}
-.paper.A5.Landscape {
-  width: var(--a5-height);
-  min-height: var(--a5-width);
-}
-.paper.Letter.Portrait {
-  width: var(--letter-width);
-  min-height: var(--letter-height);
-}
-.paper.Letter.Landscape {
-  width: var(--letter-height);
-  min-height: var(--letter-width);
-}
-.paper .page-body {
-  min-height: calc(var(--a5-height) / 2);
-  flex: auto;
-}
-.paper img,
-.paper svg,
-.paper video {
-  max-width: 100%;
-  max-height: 100%;
-}
-.paper * {
-  box-sizing: border-box;
-}
-
-.paper-inner {
-  min-height: inherit;
-}
-
-.ngx-page-builder table.ngx-page-table {
-  width: 100%;
-  border-spacing: 0;
-  border: 0;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-.ngx-page-builder .page-break {
-  page-break-after: always !important;
-}
-.ngx-page-builder img,
-.ngx-page-builder svg {
-  max-width: 100%;
-  max-height: 100%;
-}
-.ngx-page-builder table.ngx-page-table th.repeatable-header {
-  text-align: start;
-  max-height: 270px;
-  overflow: hidden;
-  display: block;
-}
-@media print {
-  body {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  ::ng-deep.paper,
-  .paper {
-    display: block !important;
-    width: 100% !important;
-    padding: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-  html,
-  body {
-    min-height: 100%;
-    min-width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-}
+        ${this.copyAllStyles()}
     `;
     targetDoc.head.appendChild(style);
 
@@ -348,14 +247,46 @@ export class PagePreviewService {
     this.pageContainer.style.top = '';
     this.pageContainer.style.left = '';
 
+    this.copyDynamicStyles(targetDoc);
+
     // اعمال کلاس‌های مربوط به کاغذ
     if (LibConsts.viewMode == 'PrintPage') {
-      this.pageContainer.classList.add('paper');
+      this.pageContainer.classList.add('ngx-paper');
       this.pageContainer.classList.add(this.data.config.size);
       this.pageContainer.classList.add(this.data.config.orientation);
     } else {
       this.pageContainer.classList.add('web-page-view');
     }
+  }
+  /**
+   * کپی کردن همه استایل‌ها از document اصلی
+   *
+   * TODO: همه استایل های پروژه نباید انتقال پیدا کند فقط استایل ها استفاده شده در صفحه ساز
+   */
+  private copyAllStyles(): string {
+    const styles = Array.from(document.head.querySelectorAll('style, link[rel="stylesheet"]'))
+      .map((el) => el.outerHTML)
+      .join('\n');
+
+    return styles;
+  }
+  /**
+   * کپی کردن استایل‌هایی که بعد از render اضافه شدند
+   * TODO: همه استایل های پروژه نباید انتقال پیدا کند فقط استایل ها استفاده شده در صفحه ساز
+   */
+  private copyDynamicStyles(targetDoc: Document): void {
+    const mainDocStyles = document.head.querySelectorAll('style');
+    const iframeStyles = new Set(
+      Array.from(targetDoc.head.querySelectorAll('style')).map((s) => s.textContent)
+    );
+
+    mainDocStyles.forEach((styleEl) => {
+      // اگه این style قبلاً کپی نشده، کپی کن
+      if (!iframeStyles.has(styleEl.textContent)) {
+        const clonedStyle = styleEl.cloneNode(true) as HTMLStyleElement;
+        targetDoc.head.appendChild(clonedStyle);
+      }
+    });
   }
 
   /**
@@ -368,7 +299,7 @@ export class PagePreviewService {
     await this.loadPageData();
     this.setStyle();
     if (LibConsts.viewMode == 'PrintPage') {
-      this.containerClassName = `paper ${this.data.config.size} ${this.data.config.orientation}`;
+      this.containerClassName = `ngx-paper ${this.data.config.size} ${this.data.config.orientation}`;
     } else {
       this.containerClassName = `web-page-view`;
     }

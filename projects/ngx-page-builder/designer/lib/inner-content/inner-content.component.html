@@ -4,15 +4,15 @@
   [attr.dir]="pageBuilder.pageInfo.config.direction"
 >
   @if (viewMode == 'PrintPage') {
-    <div
-      class="page-header"
-      #PageHeader
-      [class.show-outlines]="pageBuilder.showOutlines()"
-      ngxDropList
-      [data]="pageBuilder.currentPage?.headerItems"
-      [class.is-empty]="pageBuilder.currentPage?.headerItems?.length == 0"
-      (drop)="pageBuilder.onDrop($event)"
-    ></div>
+  <div
+    class="page-header"
+    #PageHeader
+    [class.show-outlines]="pageBuilder.showOutlines()"
+    ngxDropList
+    [data]="pageBuilder.currentPage?.headerItems"
+    [class.is-empty]="pageBuilder.currentPage?.headerItems?.length == 0"
+    (drop)="pageBuilder.onDrop($event)"
+  ></div>
   }
 
   <div
@@ -25,14 +25,14 @@
   ></div>
 
   @if (viewMode == 'PrintPage') {
-    <div
-      class="page-footer"
-      #PageFooter
-      [class.show-outlines]="pageBuilder.showOutlines()"
-      ngxDropList
-      [class.is-empty]="pageBuilder.currentPage?.footerItems?.length == 0"
-      [data]="pageBuilder.currentPage?.footerItems"
-      (drop)="pageBuilder.onDrop($event)"
-    ></div>
+  <div
+    class="page-footer"
+    #PageFooter
+    [class.show-outlines]="pageBuilder.showOutlines()"
+    ngxDropList
+    [class.is-empty]="pageBuilder.currentPage?.footerItems?.length == 0"
+    [data]="pageBuilder.currentPage?.footerItems"
+    (drop)="pageBuilder.onDrop($event)"
+  ></div>
   }
 </div>

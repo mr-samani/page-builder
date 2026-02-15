@@ -43,7 +43,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
 
   ngOnInit() {
     if (this.viewMode == 'PrintPage') {
-      this.containerClassName = `paper ${this.pageBuilder.pageInfo.config.size} ${this.pageBuilder.pageInfo.config.orientation}`;
+      this.containerClassName = `ngx-paper ${this.pageBuilder.pageInfo.config.size} ${this.pageBuilder.pageInfo.config.orientation}`;
     } else {
       this.containerClassName = `web-page-view`;
     }
