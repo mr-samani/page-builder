@@ -15,9 +15,7 @@ ngx-pg-notification {
   text-align: center;
   opacity: 0;
   transform: translateY(-8px);
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s ease;
+  transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
 .ngx-pg-show {
@@ -239,9 +237,7 @@ table.ngx-page-table th.repeatable-header {
 block-properties button,
 .btn {
   all: unset;
-  box-shadow:
-    0px 0.5px 1px rgba(0, 0, 0, 0.8),
-    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.8), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
   background-color: rgba(255, 255, 255, 0.13);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
   cursor: pointer;
