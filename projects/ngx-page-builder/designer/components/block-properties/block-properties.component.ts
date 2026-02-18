@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  Injector,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SpacingControlComponent } from '../../controls/spacing-control/spacing-control.component';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +10,7 @@ import { SizeControlComponent } from '../../controls/size-control/size-control.c
 import { ShadowControlComponent } from '../../controls/shadow-control/shadow-control.component';
 import { ClassSelectorComponent, IClassOutput } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'block-properties',

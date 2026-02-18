@@ -1,4 +1,4 @@
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 export declare type TableSection = 'thead' | 'tbody' | 'tfoot';
 export interface SelectedCellInfo {

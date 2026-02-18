@@ -29,7 +29,7 @@ export class PagePreviewService {
   constructor(
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -37,10 +37,7 @@ export class PagePreviewService {
   /**
    * open preview window from page builder
    */
-  async openPreview(
-    data: IPagebuilderOutput,
-    type: 'Print' | 'Preview' | 'ExportHml' = 'Preview'
-  ): Promise<string> {
+  async openPreview(data: IPagebuilderOutput, type: 'Print' | 'Preview' | 'ExportHml' = 'Preview'): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
       this.data = data;
       this.cleanCanvas();
@@ -57,7 +54,7 @@ export class PagePreviewService {
       this.previewWindow = window.open(
         '',
         '_blank',
-        type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes'
+        type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes',
       );
 
       if (!this.previewWindow) {
@@ -88,10 +85,7 @@ export class PagePreviewService {
   /**
    * پیدا کردن style elements مرتبط با Angular attributes
    */
-  private findRelatedStyleElements(
-    attributes: Set<string>,
-    sourceDoc: Document
-  ): HTMLStyleElement[] {
+  private findRelatedStyleElements(attributes: Set<string>, sourceDoc: Document): HTMLStyleElement[] {
     const relatedStyles: HTMLStyleElement[] = [];
     const styleElements = sourceDoc.head.querySelectorAll('style');
 
@@ -218,8 +212,7 @@ export class PagePreviewService {
       s.href = css;
       s.rel = 'stylesheet';
       s.type = 'text/css';
-      s.id =
-        'S_' + (css.split('/').pop()?.split('.').at(0) ?? 'publicCss-' + Math.random() * 10000);
+      s.id = 'S_' + (css.split('/').pop()?.split('.').at(0) ?? 'publicCss-' + Math.random() * 10000);
       targetDoc.head.appendChild(s);
     }
 
@@ -276,9 +269,7 @@ export class PagePreviewService {
    */
   private copyDynamicStyles(targetDoc: Document): void {
     const mainDocStyles = document.head.querySelectorAll('style');
-    const iframeStyles = new Set(
-      Array.from(targetDoc.head.querySelectorAll('style')).map((s) => s.textContent)
-    );
+    const iframeStyles = new Set(Array.from(targetDoc.head.querySelectorAll('style')).map((s) => s.textContent));
 
     mainDocStyles.forEach((styleEl) => {
       // اگه این style قبلاً کپی نشده، کپی کن
@@ -425,7 +416,7 @@ export class PagePreviewService {
       false,
       container,
       index,
-      item as PageItem
+      item as PageItem,
     );
     if (!(item as PageItem).customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {

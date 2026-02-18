@@ -1,16 +1,8 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  HostListener,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, HostListener, Injector, OnDestroy, OnInit } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'block-selector',

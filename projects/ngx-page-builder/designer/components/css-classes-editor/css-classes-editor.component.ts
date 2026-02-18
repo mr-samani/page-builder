@@ -34,9 +34,7 @@ interface ValidationError {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CssClassesEditorComponent
-  implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy
-{
+export class CssClassesEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorTextarea', { static: false }) textareaRef?: ElementRef<HTMLTextAreaElement>;
   @ViewChild('highlightDiv', { static: false }) highlightRef?: ElementRef<HTMLDivElement>;
 
@@ -364,8 +362,7 @@ export class CssClassesEditorComponent
       // CSS property: value
       const match = line.match(/^(\s*)([a-z-\d]+)(\s*):(\s*)([^;]+)(;?)(.*)$/i);
       if (match) {
-        const [, leadingSpace, property, spaceAfter, spaceBefore, value, semicolon, trailing] =
-          match;
+        const [, leadingSpace, property, spaceAfter, spaceBefore, value, semicolon, trailing] = match;
 
         const isInvalid = !semicolon.trim();
         const invalidClass = isInvalid ? ' css-invalid' : '';
@@ -391,10 +388,7 @@ export class CssClassesEditorComponent
     let result = selector;
 
     // Class selectors
-    result = result.replace(
-      /(\.[a-zA-Z0-9_-]+)/g,
-      '<span class="css-selector css-class">$1</span>',
-    );
+    result = result.replace(/(\.[a-zA-Z0-9_-]+)/g, '<span class="css-selector css-class">$1</span>');
 
     // ID selectors
     result = result.replace(/(#[a-zA-Z0-9_-]+)/g, '<span class="css-selector css-id">$1</span>');
@@ -403,10 +397,7 @@ export class CssClassesEditorComponent
     result = result.replace(/(\[[^\]]+\])/g, '<span class="css-selector css-attribute">$1</span>');
 
     // Pseudo-classes and pseudo-elements
-    result = result.replace(
-      /(::?[a-zA-Z-]+(?:\([^)]*\))?)/g,
-      '<span class="css-selector css-pseudo">$1</span>',
-    );
+    result = result.replace(/(::?[a-zA-Z-]+(?:\([^)]*\))?)/g, '<span class="css-selector css-pseudo">$1</span>');
 
     // اگر هیچ کدوم از بالایی‌ها نبود، احتمالا element selector هست
     if (!result.includes('<span')) {

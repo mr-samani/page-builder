@@ -9,12 +9,11 @@
     <span class="tag-name">&lt;{{ item.tag }}&gt;</span>
     @if (item.content) {
       <span class="item-info">
-        "{{ item.content && item.content.substring(0, 30)
-        }}{{ item.content && item.content.length > 30 ? '...' : '' }}"
+        "{{ item.content && item.content.substring(0, 30) }}{{ item.content && item.content.length > 30 ? '...' : '' }}"
       </span>
     }
     @if (item.children && item.children.length > 0) {
-      <span class="children-count"> ({{ item.children.length }} فرزند) </span>
+      <span class="children-count">({{ item.children.length }} فرزند)</span>
     }
   </div>
 

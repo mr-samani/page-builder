@@ -21,11 +21,7 @@
   <p>Page size: {{ configs.size }}</p>
   <div class="box-list">
     @for (size of sizeList; track $index) {
-      <div
-        class="box {{ size }}"
-        [class.active]="size == configs.size"
-        (click)="configs.size = size"
-      >
+      <div class="box {{ size }}" [class.active]="size == configs.size" (click)="configs.size = size">
         {{ size }}
       </div>
     }
@@ -37,8 +33,7 @@
       <div
         class="box {{ orientation }}"
         [class.active]="orientation == configs.orientation"
-        (click)="configs.orientation = orientation"
-      >
+        (click)="configs.orientation = orientation">
         {{ orientation }}
       </div>
     }

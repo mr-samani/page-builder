@@ -1,12 +1,4 @@
-import {
-  Injectable,
-  ComponentRef,
-  ApplicationRef,
-  Injector,
-  Inject,
-  DOCUMENT,
-  inject,
-} from '@angular/core';
+import { Injectable, ComponentRef, ApplicationRef, Injector, Inject, DOCUMENT, inject } from '@angular/core';
 import { NGX_PG_NOTIFY_DEFAULTS } from './notify-config';
 import { NgxPgNotifyOptions } from './notify-options';
 import { NgxPgNotifyPayload, NgxPgNotifyType } from './notify.model';
@@ -24,14 +16,13 @@ export class NgxPgNotifyService {
   private container: HTMLElement | null = null;
 
   private doc = inject(DOCUMENT);
-  constructor(private appRef: ApplicationRef, private injector: Injector) {
+  constructor(
+    private appRef: ApplicationRef,
+    private injector: Injector,
+  ) {
     // global event listeners for notifications finishing or close
-    window.addEventListener('ngx-pg-notify:finish', (e: any) =>
-      this.onNotificationFinish(e.detail.id)
-    );
-    window.addEventListener('ngx-pg-notify:close', (e: any) =>
-      this.onNotificationClose(e.detail.id)
-    );
+    window.addEventListener('ngx-pg-notify:finish', (e: any) => this.onNotificationFinish(e.detail.id));
+    window.addEventListener('ngx-pg-notify:close', (e: any) => this.onNotificationClose(e.detail.id));
   }
 
   configureContainer(position: NgxPgNotifyOptions['position'], containerClass: string) {
@@ -74,9 +65,7 @@ export class NgxPgNotifyService {
   show(message: string, type: NgxPgNotifyType = 'info', options?: NgxPgNotifyOptions) {
     const opts: NgxPgNotifyOptions = { ...(NGX_PG_NOTIFY_DEFAULTS as any), ...(options || {}) };
     const id =
-      typeof (window as any).crypto?.randomUUID === 'function'
-        ? (window as any).crypto.randomUUID()
-        : makeId();
+      typeof (window as any).crypto?.randomUUID === 'function' ? (window as any).crypto.randomUUID() : makeId();
 
     const payload: NgxPgNotifyPayload = { id, message, type, options: opts };
 
@@ -91,8 +80,7 @@ export class NgxPgNotifyService {
   }
 
   private _createAndShow(payload: NgxPgNotifyPayload) {
-    if (!this.container)
-      this.configureContainer(payload.options.position!, payload.options.containerClass!);
+    if (!this.container) this.configureContainer(payload.options.position!, payload.options.containerClass!);
     // create DOM node wrapper for pointer events handling
     const wrapper = this.doc.createElement('div');
     wrapper.style.pointerEvents = 'auto';
@@ -106,9 +94,7 @@ export class NgxPgNotifyService {
     wrapper.className = 'ngx-pg-notify ' + (payload.options.notificationClass || 'ngx-pg-notify');
     wrapper.setAttribute('data-id', payload.id);
     // add type class as well
-    wrapper.classList.add(
-      `${payload.options.notificationClass || 'ngx-pg-notify'}-${payload.type}`
-    );
+    wrapper.classList.add(`${payload.options.notificationClass || 'ngx-pg-notify'}-${payload.type}`);
 
     // inner HTML (safe or escaped)
     if (payload.options.allowHtml) wrapper.innerHTML = payload.message;

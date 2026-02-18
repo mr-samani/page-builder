@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-break',

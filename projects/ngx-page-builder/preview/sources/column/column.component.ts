@@ -29,10 +29,7 @@ export class PreviewColumnComponent implements OnInit {
   }
   async loadCols() {
     for (const child of this.pageItem.children) {
-      let el = await this.pagePreviewService.createBlockElement(
-        child,
-        this.colContainer.nativeElement
-      );
+      let el = await this.pagePreviewService.createBlockElement(child, this.colContainer.nativeElement);
     }
   }
 }

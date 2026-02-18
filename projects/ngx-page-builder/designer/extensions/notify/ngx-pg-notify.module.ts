@@ -7,10 +7,7 @@ import { Notify as NotifyFacade } from './notify-facade';
   providers: [NgxPgNotifyService],
 })
 export class NgxPgNotifyModule {
-  constructor(
-    @Optional() @SkipSelf() parentModule: NgxPgNotifyModule | null,
-    service: NgxPgNotifyService,
-  ) {
+  constructor(@Optional() @SkipSelf() parentModule: NgxPgNotifyModule | null, service: NgxPgNotifyService) {
     if (parentModule) return;
     // connect static facade
     NotifyFacade._setService(service as any);

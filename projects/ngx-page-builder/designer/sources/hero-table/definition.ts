@@ -1,4 +1,4 @@
-import { SourceItem } from "ngx-page-builder/core";
+import { SourceItem } from 'ngx-page-builder/core';
 
 export const HeroTableSource = new SourceItem({
   tag: 'hero-table',

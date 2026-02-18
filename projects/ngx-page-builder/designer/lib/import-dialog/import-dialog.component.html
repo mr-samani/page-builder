@@ -18,18 +18,21 @@
         </div>
         <div>
           <label>
-            <input type="checkbox" [(ngModel)]="importOptions.useRenderer" />Use renderer
+            <input type="checkbox" [(ngModel)]="importOptions.useRenderer" />
+            Use renderer
           </label>
         </div>
         <div>
           <label>
-            <input type="checkbox" [(ngModel)]="importOptions.useCorsProxy" />Use public proxies
+            <input type="checkbox" [(ngModel)]="importOptions.useCorsProxy" />
+            Use public proxies
           </label>
         </div>
         @if (showBackendapiCheckbox) {
           <div>
             <label>
-              <input type="checkbox" [(ngModel)]="useBackendApi" />Use backend api proxy
+              <input type="checkbox" [(ngModel)]="useBackendApi" />
+              Use backend api proxy
             </label>
           </div>
         }
@@ -46,11 +49,7 @@
         <h3>2. Import from HTML String</h3>
         <div class="form-group">
           <label>HTML Content:</label>
-          <textarea
-            [(ngModel)]="htmlInput"
-            rows="10"
-            placeholder="<div>HTML Content ... </div>"
-          ></textarea>
+          <textarea [(ngModel)]="htmlInput" rows="10" placeholder="<div>HTML Content ... </div>"></textarea>
         </div>
         <div class="form-group">
           <label>Query Selector:</label>
@@ -58,11 +57,12 @@
         </div>
         <div>
           <label>
-            <input type="checkbox" [(ngModel)]="importOptions.useRenderer" />Use renderer
+            <input type="checkbox" [(ngModel)]="importOptions.useRenderer" />
+            Use renderer
           </label>
         </div>
         <button mat-raised-button (click)="importFromHtml(resultSection)" [disabled]="loading">
-          <span> Import from HTML</span>
+          <span>Import from HTML</span>
           <loading [loading]="loading"></loading>
         </button>
       </section>

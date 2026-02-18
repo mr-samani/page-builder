@@ -21,8 +21,7 @@
       [(ngModel)]="name"
       #nameInput="ngModel"
       required
-      (keydown.enter)="ok($event)"
-    />
+      (keydown.enter)="ok($event)" />
     @if (nameInput.hasError('required')) {
       <mat-error class="text-danger">Name is required for plugin</mat-error>
     }

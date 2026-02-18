@@ -66,10 +66,7 @@ export function cloneDeep<T>(value: T, stack = new WeakMap()): T {
 }
 
 // utils/clone-safe.ts
-export function deepCloneInstance<T>(
-  input: T,
-  options: { cloneDom?: boolean } = { cloneDom: false },
-): T {
+export function deepCloneInstance<T>(input: T, options: { cloneDom?: boolean } = { cloneDom: false }): T {
   const { cloneDom } = options;
   const map = new WeakMap<any, any>();
 

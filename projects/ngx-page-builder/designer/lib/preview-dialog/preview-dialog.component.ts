@@ -13,12 +13,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import {
-  DynamicDataStructure,
-  IPagebuilderOutput,
-  LibConsts,
-  ViewMode,
-} from 'ngx-page-builder/core';
+import { DynamicDataStructure, IPagebuilderOutput, LibConsts, ViewMode } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
@@ -136,9 +131,7 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
    */
   private copyDynamicStyles(iframeDoc: Document): void {
     const mainDocStyles = document.head.querySelectorAll('style');
-    const iframeStyles = new Set(
-      Array.from(iframeDoc.head.querySelectorAll('style')).map((s) => s.textContent)
-    );
+    const iframeStyles = new Set(Array.from(iframeDoc.head.querySelectorAll('style')).map((s) => s.textContent));
 
     mainDocStyles.forEach((styleEl) => {
       // اگه این style قبلاً کپی نشده، کپی کن

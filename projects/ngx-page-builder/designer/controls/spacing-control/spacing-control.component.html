@@ -14,8 +14,7 @@
               key: 'margin',
               direction: direction.key,
             }
-          "
-        ></ng-container>
+          "></ng-container>
       </ng-container>
     }
   </tbody>
@@ -37,8 +36,7 @@
               key: 'padding',
               direction: direction.key,
             }
-          "
-        ></ng-container>
+          "></ng-container>
       </ng-container>
     }
   </tbody>
@@ -49,8 +47,7 @@
   let-marginOrPadding="marginOrPadding"
   let-spacing="spacing"
   let-key="key"
-  let-direction="direction"
->
+  let-direction="direction">
   @if (spacing) {
     <tr>
       <td>
@@ -66,14 +63,12 @@
             (ngModelChange)="update()"
             [min]="key === 'padding' ? 0 : undefined"
             [disabled]="spacing.unit == 'auto'"
-            [readonly]="spacing.unit == 'auto'"
-          />
+            [readonly]="spacing.unit == 'auto'" />
           <select
             [(ngModel)]="spacing.unit"
             (ngModelChange)="onChangeUnit(marginOrPadding, direction)"
             [attr.name]="'unit-' + direction"
-            class="unit"
-          >
+            class="unit">
             <option value="auto">Auto</option>
             <option value="px">px</option>
             <option value="em">em</option>

@@ -17,7 +17,7 @@ import {
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseControl } from '../base-control';
-import { parseStyleString } from "ngx-page-builder/core";
+import { parseStyleString } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'textcss-control',
@@ -168,16 +168,7 @@ export class TextCssControlComponent
       const match = line.match(/^(\s*)([a-z-]+)(\s*):(\s*)([^;]*)(;?)(.*)$/i);
 
       if (match) {
-        const [
-          ,
-          leadingSpace,
-          property,
-          spaceAfterProp,
-          spaceBeforeValue,
-          value,
-          semicolon,
-          trailing,
-        ] = match;
+        const [, leadingSpace, property, spaceAfterProp, spaceBeforeValue, value, semicolon, trailing] = match;
 
         // Validate
         const isInvalid = !value.trim() || !semicolon;

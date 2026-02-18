@@ -20,7 +20,10 @@ export class SvgIconDirective implements OnInit {
   @Input() Icon!: string;
 
   private doc = inject(DOCUMENT);
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   async ngOnInit() {
     if (!this.Icon) return;

@@ -57,7 +57,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     private chdRef: ChangeDetectorRef,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-    private previewService: PagePreviewService
+    private previewService: PagePreviewService,
   ) {
     this.pageItem.dataSource = this.context.data;
     this.getData();
@@ -84,11 +84,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     const count = this.pageItem.dataSource?.maxResultCount || 10;
     const skip = this.pageItem.dataSource?.skipCount || 0;
     if (this.pageItem.dataSource.id) {
-      this.dataList = this.dynamicDataService.getCollectionData(
-        this.pageItem.dataSource.id,
-        skip,
-        count
-      );
+      this.dataList = this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count);
     }
 
     // const childCount = Math.min(count, this.dataList.length);

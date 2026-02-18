@@ -42,7 +42,7 @@ export class PluginsDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<PluginsDialogComponent>,
     private pluginService: PBPluginService,
-    private chdr: ChangeDetectorRef
+    private chdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {

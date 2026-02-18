@@ -1,4 +1,4 @@
-import { IPageItem, cloneDeep } from "ngx-page-builder/core";
+import { IPageItem, cloneDeep } from 'ngx-page-builder/core';
 
 export const _th: IPageItem = {
   tag: 'th',

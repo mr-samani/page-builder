@@ -108,12 +108,7 @@ export abstract class FileSelector {
           if (settled) return;
 
           // If we got focus back but no file was selected → user cancelled
-          safeReject(
-            new FileSelectionException(
-              FileSelectionError.USER_CANCELLED,
-              'User cancelled file selection.',
-            ),
-          );
+          safeReject(new FileSelectionException(FileSelectionError.USER_CANCELLED, 'User cancelled file selection.'));
         }, 300); // Delay to ensure onchange fires first
       };
 
@@ -197,8 +192,7 @@ export abstract class FileSelector {
         input.type = 'file';
         input.accept = accept.join(',');
         input.multiple = multiple;
-        input.style.cssText =
-          'position:fixed;top:-100px;left:-100px;opacity:0;pointer-events:none;';
+        input.style.cssText = 'position:fixed;top:-100px;left:-100px;opacity:0;pointer-events:none;';
         document.body.appendChild(input);
 
         // ============================================================
@@ -211,12 +205,7 @@ export abstract class FileSelector {
             const filesArray = Array.from(input.files);
             safeResolve(filesArray);
           } else {
-            safeReject(
-              new FileSelectionException(
-                FileSelectionError.NO_FILE_SELECTED,
-                'No file was selected.',
-              ),
-            );
+            safeReject(new FileSelectionException(FileSelectionError.NO_FILE_SELECTED, 'No file was selected.'));
           }
         };
 
@@ -226,11 +215,7 @@ export abstract class FileSelector {
         input.onerror = (errorEvent: Event | string) => {
           if (settled) return;
           safeReject(
-            new FileSelectionException(
-              FileSelectionError.UNKNOWN_ERROR,
-              'File input error occurred.',
-              errorEvent,
-            ),
+            new FileSelectionException(FileSelectionError.UNKNOWN_ERROR, 'File input error occurred.', errorEvent),
           );
         };
 
@@ -263,11 +248,7 @@ export abstract class FileSelector {
           }, 100);
         } catch (clickError) {
           safeReject(
-            new FileSelectionException(
-              FileSelectionError.CLICK_FAILED,
-              'Failed to trigger file dialog.',
-              clickError,
-            ),
+            new FileSelectionException(FileSelectionError.CLICK_FAILED, 'Failed to trigger file dialog.', clickError),
           );
         }
       } catch (unexpectedError) {
@@ -324,10 +305,7 @@ export abstract class FileSelector {
   /**
    * ✅ Utility: Request user gesture with helpful message
    */
-  private createUserGestureButton(
-    onActivated: () => void,
-    buttonText = 'Select File',
-  ): HTMLButtonElement {
+  private createUserGestureButton(onActivated: () => void, buttonText = 'Select File'): HTMLButtonElement {
     const button = document.createElement('button');
     button.textContent = buttonText;
     button.onclick = () => {

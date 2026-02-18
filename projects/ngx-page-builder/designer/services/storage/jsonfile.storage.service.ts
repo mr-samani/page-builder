@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { IStorageService } from './IStorageService';
 import { PageBuilderService } from '../page-builder.service';
 import { preparePageDataForSave } from './prepare-page-builder-data';
-import {
-  FileSelectionError,
-  FileSelectionException,
-  FileSelector,
-} from '../../helper/FileSelector';
+import { FileSelectionError, FileSelectionException, FileSelector } from '../../helper/FileSelector';
 import { IPagebuilderOutput, PageBuilderDto, downloadFile } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
 export class JsonFileStorageService implements IStorageService {
-  constructor(private pageBuilder: PageBuilderService, private cls: ClassManagerService) {}
+  constructor(
+    private pageBuilder: PageBuilderService,
+    private cls: ClassManagerService,
+  ) {}
 
   async loadData(): Promise<IPagebuilderOutput> {
     return new Promise<IPagebuilderOutput>(async (resolve, reject) => {

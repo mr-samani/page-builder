@@ -11,8 +11,7 @@
       class="list-item"
       [class.active]="item == selectedShadow"
       #el
-      (click)="setShadow(el, item, i)"
-    >
+      (click)="setShadow(el, item, i)">
       <span>{{ item.cssValue }}</span>
       <button (click)="removeShadow($event, i)">
         <svg Icon="assets/icons/xmark.svg"></svg>
@@ -35,8 +34,7 @@
             autocomplete="off"
             [(ngModel)]="selectedShadow.inset"
             (ngModelChange)="updateShadow({ inset: selectedShadow.inset })"
-            [value]="false"
-          />
+            [value]="false" />
           <label class="button" for="SHoutside" title="Outside">Outside</label>
           <input
             type="radio"
@@ -46,8 +44,7 @@
             autocomplete="off"
             [(ngModel)]="selectedShadow.inset"
             (ngModelChange)="updateShadow({ inset: selectedShadow.inset })"
-            [value]="true"
-          />
+            [value]="true" />
           <label class="button" for="SHinside" title="Inside">Inside</label>
         </div>
         <button (click)="showPopup = false">
@@ -55,12 +52,7 @@
         </button>
       </div>
 
-      <div
-        class="pad-container"
-        #pad
-        (mousedown)="onPadClick($event)"
-        (touchstart)="onPadClick($event)"
-      >
+      <div class="pad-container" #pad (mousedown)="onPadClick($event)" (touchstart)="onPadClick($event)">
         <div class="card-sample" [style.boxShadow]="selectedShadow.cssValue"></div>
         <svg
           class="flashlight-svg"
@@ -70,8 +62,7 @@
           [style.left.px]="x"
           [style.top.px]="y"
           (mousedown)="dragStart($event)"
-          (touchstart)="dragStart($event)"
-        >
+          (touchstart)="dragStart($event)">
           <defs>
             <style>
               .fa-secondary {
@@ -81,12 +72,10 @@
           </defs>
           <path
             class="fa-primary"
-            d="M607.1 96h-32v320h32c17.62 0 32-14.38 32-32V128C639.1 110.4 625.6 96 607.1 96zM287.1 224h-32c-17.62 0-32 14.38-32 32s14.38 32 32 32h32c17.62 0 32-14.38 32-32S305.6 224 287.1 224z"
-          />
+            d="M607.1 96h-32v320h32c17.62 0 32-14.38 32-32V128C639.1 110.4 625.6 96 607.1 96zM287.1 224h-32c-17.62 0-32 14.38-32 32s14.38 32 32 32h32c17.62 0 32-14.38 32-32S305.6 224 287.1 224z" />
           <path
             class="fa-secondary"
-            d="M400.1 149.2L383.1 160H31.1c-17.62 0-32 14.38-32 32v128c0 17.62 14.38 32 32 32h352l16.12 10.75C443.2 391.5 511.1 416 575.1 416V96C511.1 96 443.2 120.5 400.1 149.2zM287.1 288h-32c-17.62 0-32-14.38-32-32s14.38-32 32-32h32c17.62 0 32 14.38 32 32S305.6 288 287.1 288z"
-          />
+            d="M400.1 149.2L383.1 160H31.1c-17.62 0-32 14.38-32 32v128c0 17.62 14.38 32 32 32h352l16.12 10.75C443.2 391.5 511.1 416 575.1 416V96C511.1 96 443.2 120.5 400.1 149.2zM287.1 288h-32c-17.62 0-32-14.38-32-32s14.38-32 32-32h32c17.62 0 32 14.38 32 32S305.6 288 287.1 288z" />
         </svg>
       </div>
       <div class="shadow-item">
@@ -102,15 +91,13 @@
                   [min]="-maxRange"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.xOffset"
-                  (ngModelChange)="updateShadow({ xOffset: selectedShadow.xOffset })"
-                />
+                  (ngModelChange)="updateShadow({ xOffset: selectedShadow.xOffset })" />
                 <input
                   type="number"
                   [min]="-maxRange"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.xOffset"
-                  (ngModelChange)="updateShadow({ xOffset: selectedShadow.xOffset })"
-                />
+                  (ngModelChange)="updateShadow({ xOffset: selectedShadow.xOffset })" />
               </div>
             </td>
           </tr>
@@ -125,15 +112,13 @@
                   [min]="-maxRange"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.yOffset"
-                  (ngModelChange)="updateShadow({ yOffset: selectedShadow.yOffset })"
-                />
+                  (ngModelChange)="updateShadow({ yOffset: selectedShadow.yOffset })" />
                 <input
                   type="number"
                   [min]="-maxRange"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.yOffset"
-                  (ngModelChange)="updateShadow({ yOffset: selectedShadow.yOffset })"
-                />
+                  (ngModelChange)="updateShadow({ yOffset: selectedShadow.yOffset })" />
               </div>
             </td>
           </tr>
@@ -149,16 +134,14 @@
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.blurRadius"
                   min="0"
-                  (ngModelChange)="updateShadow({ blurRadius: selectedShadow.blurRadius })"
-                />
+                  (ngModelChange)="updateShadow({ blurRadius: selectedShadow.blurRadius })" />
                 <input
                   type="number"
                   [min]="0"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.blurRadius"
                   min="0"
-                  (ngModelChange)="updateShadow({ blurRadius: selectedShadow.blurRadius })"
-                />
+                  (ngModelChange)="updateShadow({ blurRadius: selectedShadow.blurRadius })" />
               </div>
             </td>
           </tr>
@@ -173,15 +156,13 @@
                   [min]="0"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.spreadRadius"
-                  (ngModelChange)="updateShadow({ spreadRadius: selectedShadow.spreadRadius })"
-                />
+                  (ngModelChange)="updateShadow({ spreadRadius: selectedShadow.spreadRadius })" />
                 <input
                   type="number"
                   [min]="0"
                   [max]="maxRange"
                   [(ngModel)]="selectedShadow.spreadRadius"
-                  (ngModelChange)="updateShadow({ spreadRadius: selectedShadow.spreadRadius })"
-                />
+                  (ngModelChange)="updateShadow({ spreadRadius: selectedShadow.spreadRadius })" />
               </div>
             </td>
           </tr>
@@ -195,8 +176,7 @@
                 [(ngModel)]="selectedShadow.color"
                 (ngModelChange)="updateShadow({ color: selectedShadow.color })"
                 ngxInputColor
-                [simpleMode]="true"
-              />
+                [simpleMode]="true" />
             </td>
           </tr>
         </table>

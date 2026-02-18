@@ -25,10 +25,7 @@ import { BaseControl } from '../base-control';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
 })
-export class TypographyControlComponent
-  extends BaseControl
-  implements OnInit, ControlValueAccessor
-{
+export class TypographyControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
   @Input() currentClassName = '';
 
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();

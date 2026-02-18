@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IStorageService } from './IStorageService';
-import { IPagebuilderOutput } from "ngx-page-builder/core";
+import { IPagebuilderOutput } from 'ngx-page-builder/core';
 
 @Injectable()
 export class HttpStorageService implements IStorageService {

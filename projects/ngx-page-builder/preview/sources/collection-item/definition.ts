@@ -23,7 +23,6 @@ export const CollectionItemPreview = new SourceItem({
   }`,
   customComponent: {
     componentKey: 'NgxPgCollectionItem',
-    component: () =>
-      import('./collection-item.component').then((c) => c.PreviewCollectionItemComponent),
+    component: () => import('./collection-item.component').then((c) => c.PreviewCollectionItemComponent),
   },
 });

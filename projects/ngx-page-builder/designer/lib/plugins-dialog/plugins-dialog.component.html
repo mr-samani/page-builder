@@ -4,13 +4,7 @@
 </div>
 <mat-dialog-content>
   <div class="search-bar">
-    <input
-      type="text"
-      name="search"
-      [(ngModel)]="search"
-      (keydown.enter)="filterList()"
-      placeholder="Search ..."
-    />
+    <input type="text" name="search" [(ngModel)]="search" (keydown.enter)="filterList()" placeholder="Search ..." />
     <button type="button" (click)="filterList()">
       <svg Icon="assets/icons/search.svg"></svg>
     </button>

@@ -23,9 +23,7 @@ export class DataSourceSettingsComponent implements OnInit {
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(public dynamicDataService: DynamicDataService) {
     this.settings = this.context.data || new DataSourceSetting();
-    this.collectionDataSource = this.dynamicDataService.dynamicData.filter(
-      (x: DynamicDataStructure) => x.list
-    );
+    this.collectionDataSource = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => x.list);
   }
 
   ngOnInit() {}

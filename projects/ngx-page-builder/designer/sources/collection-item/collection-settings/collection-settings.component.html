@@ -10,13 +10,7 @@
 </div>
 <div class="data-field">
   <label for="skipcount">Skip count</label>
-  <input
-    type="number"
-    [(ngModel)]="settings.skipCount"
-    id="skipcount"
-    name="skipCount"
-    (change)="update()"
-  />
+  <input type="number" [(ngModel)]="settings.skipCount" id="skipcount" name="skipCount" (change)="update()" />
 </div>
 <div class="data-field">
   <label for="maxResultCount">Max result count</label>
@@ -25,6 +19,5 @@
     [(ngModel)]="settings.maxResultCount"
     id="maxResultCount"
     name="maxResultCount"
-    (change)="update()"
-  />
+    (change)="update()" />
 </div>

@@ -1,4 +1,4 @@
-import { DynamicElementService, PageItem } from "ngx-page-builder/core";
+import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { TableSection, SelectedCellInfo, RangeSelectionInfo } from './model';
 import { buildLogicalGrid, getLogicalColIndexForChild } from './table-utiles';
@@ -18,10 +18,7 @@ export abstract class TableHelper {
     const theadOrTbody = table.children?.find((x: PageItem) => x.tag === section);
     if (!theadOrTbody) return;
     // ensure rowIndex valid
-    const safeRowIndex = Math.min(
-      Math.max(0, rowIndex),
-      Math.max(0, theadOrTbody.children.length - 1),
-    );
+    const safeRowIndex = Math.min(Math.max(0, rowIndex), Math.max(0, theadOrTbody.children.length - 1));
     const row = theadOrTbody.children[safeRowIndex].clone(theadOrTbody);
 
     for (let cell of row.children) {
@@ -29,12 +26,7 @@ export abstract class TableHelper {
     }
     theadOrTbody.children?.splice(after ? safeRowIndex + 1 : safeRowIndex, 0, row);
 
-    await pageBuilder.createBlockElement(
-      true,
-      row,
-      theadOrTbody.el!,
-      after ? safeRowIndex + 1 : safeRowIndex,
-    );
+    await pageBuilder.createBlockElement(true, row, theadOrTbody.el!, after ? safeRowIndex + 1 : safeRowIndex);
   }
 
   /**
@@ -166,14 +158,7 @@ export abstract class TableHelper {
     if (!grid || grid.length === 0) return;
 
     // bounds safety
-    if (
-      row1 < 0 ||
-      row2 >= grid.length ||
-      col1 < 0 ||
-      col2 >= (grid[0]?.length ?? 0) ||
-      row1 > row2 ||
-      col1 > col2
-    ) {
+    if (row1 < 0 || row2 >= grid.length || col1 < 0 || col2 >= (grid[0]?.length ?? 0) || row1 > row2 || col1 > col2) {
       return;
     }
 
@@ -272,13 +257,7 @@ export abstract class TableHelper {
       const grid = buildLogicalGrid(rows);
 
       // اطمینان از bounds
-      if (
-        !grid ||
-        rowIndex < 0 ||
-        rowIndex >= grid.length ||
-        colIndex < 0 ||
-        colIndex >= (grid[0]?.length ?? 0)
-      ) {
+      if (!grid || rowIndex < 0 || rowIndex >= grid.length || colIndex < 0 || colIndex >= (grid[0]?.length ?? 0)) {
         return;
       }
 

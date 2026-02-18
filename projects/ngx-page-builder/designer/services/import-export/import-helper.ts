@@ -1,10 +1,5 @@
 import { ISourceOptions, PageItem } from 'ngx-page-builder/core';
-import {
-  CONVERT_TAGS,
-  DEFAULT_ALLOWED_ATTRIBUTES,
-  NOT_ALLOWED_TAGS,
-  USEFUL_STYLES,
-} from './allowed-consts';
+import { CONVERT_TAGS, DEFAULT_ALLOWED_ATTRIBUTES, NOT_ALLOWED_TAGS, USEFUL_STYLES } from './allowed-consts';
 import { ImportOptions } from './ImportOptions';
 import { StyleHelper } from './style-helper';
 
@@ -186,10 +181,7 @@ export abstract class HtmlImporter {
   /**
    * تبدیل HTMLElement به PageItem
    */
-  static async convertElementToPageItem(
-    element: HTMLElement,
-    options?: ImportOptions
-  ): Promise<PageItem | null> {
+  static async convertElementToPageItem(element: HTMLElement, options?: ImportOptions): Promise<PageItem | null> {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
       return null;
     }
@@ -376,11 +368,7 @@ export abstract class HtmlImporter {
   /**
    * بررسی اینکه آیا استایل باید شامل شود
    */
-  private static shouldIncludeStyle(
-    propertyName: string,
-    value: string,
-    options?: ImportOptions
-  ): boolean {
+  private static shouldIncludeStyle(propertyName: string, value: string, options?: ImportOptions): boolean {
     // اگر فیلتر سفارشی داریم
     if (options?.styleFilter) {
       return options.styleFilter(propertyName, value);

@@ -3,12 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TableSetting } from '../table-setting';
 import { SwitchComponent } from '../../../controls/switch/switch.component';
 
-import {
-  COMPONENT_DATA,
-  ComponentDataContext,
-  DynamicDataService,
-  DynamicDataStructure,
-} from 'ngx-page-builder/core';
+import { COMPONENT_DATA, ComponentDataContext, DynamicDataService, DynamicDataStructure } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-table-settings',
@@ -24,9 +19,7 @@ export class HeroTableSettingsComponent implements OnInit {
   private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
   constructor(public dynamicDataService: DynamicDataService) {
     this.settings = this.context.data || new TableSetting();
-    this.collectionDataSource = this.dynamicDataService.dynamicData.filter(
-      (x: DynamicDataStructure) => x.list
-    );
+    this.collectionDataSource = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => x.list);
   }
 
   ngOnInit() {}

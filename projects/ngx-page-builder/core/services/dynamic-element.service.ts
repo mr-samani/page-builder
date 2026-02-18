@@ -34,7 +34,7 @@ export class DynamicElementService {
   constructor(
     rendererFactory: RendererFactory2,
     private appRef: ApplicationRef,
-    private envInjector: EnvironmentInjector
+    private envInjector: EnvironmentInjector,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
@@ -48,11 +48,10 @@ export class DynamicElementService {
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     index: number,
-    item: PageItem
+    item: PageItem,
   ): Promise<HTMLElement> {
     let element: HTMLElement;
-    const parentEl: HTMLElement =
-      container instanceof ViewContainerRef ? container.element.nativeElement : container;
+    const parentEl: HTMLElement = container instanceof ViewContainerRef ? container.element.nativeElement : container;
 
     if (item.customComponent) {
       element = await this.createComponentElement(sourceItemList, editMode, container, item, index);
@@ -91,7 +90,7 @@ export class DynamicElementService {
     editMode: boolean,
     container: HTMLElement | ViewContainerRef,
     item: PageItem,
-    index: number | null
+    index: number | null,
   ): Promise<HTMLElement> {
     const component = await item.getComponentInstance(sourceItemList);
     if (!component) {
@@ -130,8 +129,7 @@ export class DynamicElementService {
 
     let element = compRef.location.nativeElement as HTMLElement;
 
-    const parentEl =
-      container instanceof ViewContainerRef ? container.element.nativeElement : container;
+    const parentEl = container instanceof ViewContainerRef ? container.element.nativeElement : container;
 
     if (index != null && index >= 0) {
       const refNode = parentEl.children[index] || null;
@@ -238,11 +236,7 @@ export class DynamicElementService {
     return element;
   }
 
-  private attachDirective<T>(
-    element: HTMLElement,
-    directive: Directive,
-    dirInjector: Injector
-  ): any {
+  private attachDirective<T>(element: HTMLElement, directive: Directive, dirInjector: Injector): any {
     const DirType = directive.directive;
     const { inputs, outputs } = directive;
     if (!DirType) return null;

@@ -6,19 +6,16 @@ import { NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE } from './plugin.token';
 import { IPluginStore } from './plugin.store';
 import { preparePageItems } from '../storage/prepare-page-builder-data';
 
-import {
-  IPageItem,
-  IPaginationPlugin,
-  IPlugin,
-  PageItem,
-  deepCloneInstance,
-} from 'ngx-page-builder/core';
+import { IPageItem, IPaginationPlugin, IPlugin, PageItem, deepCloneInstance } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
 export class PBPluginService {
   private pluginStore = inject<IPluginStore>(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE);
-  constructor(private cls: ClassManagerService, private pageBuilder: PageBuilderService) {}
+  constructor(
+    private cls: ClassManagerService,
+    private pageBuilder: PageBuilderService,
+  ) {}
   async getPlugin(item: PageItem): Promise<IPlugin> {
     return new Promise<IPlugin>(async (resolve, reject) => {
       try {

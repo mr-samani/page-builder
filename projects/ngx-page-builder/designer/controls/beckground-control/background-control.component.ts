@@ -34,10 +34,7 @@ import { parseBackground } from 'ngx-page-builder/core';
   imports: [FormsModule, NgxInputColorModule, NgxInputGradientModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BackgroundControlComponent
-  extends BaseControl
-  implements OnInit, ControlValueAccessor
-{
+export class BackgroundControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
   @Input() currentClassName = '';
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
@@ -45,7 +42,10 @@ export class BackgroundControlComponent
   /** css bacground-image  */
   backgroundImage = '';
   private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
-  constructor(injector: Injector, private cdr: ChangeDetectorRef) {
+  constructor(
+    injector: Injector,
+    private cdr: ChangeDetectorRef,
+  ) {
     super(injector);
   }
 

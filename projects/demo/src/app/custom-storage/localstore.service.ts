@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IPagebuilderOutput, PageBuilderConfig } from 'ngx-page-builder/core';
-import {
-  IStorageService,
-  PageBuilderService,
-  preparePageDataForSave,
-} from 'ngx-page-builder/designer';
+import { IStorageService, PageBuilderService, preparePageDataForSave } from 'ngx-page-builder/designer';
 import { Notify } from 'ngx-page-builder/designer/extensions/notify';
 
 @Injectable()

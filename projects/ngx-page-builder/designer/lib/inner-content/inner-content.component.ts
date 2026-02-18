@@ -16,10 +16,7 @@ import { LibConsts } from 'ngx-page-builder/core';
 @Component({
   selector: 'inner-content',
   templateUrl: './inner-content.component.html',
-  styleUrls: [
-    './inner-content.component.scss',
-    '../../../../../node_modules/ngx-drag-drop-kit/assets/styles.css',
-  ],
+  styleUrls: ['./inner-content.component.scss', '../../../../../node_modules/ngx-drag-drop-kit/assets/styles.css'],
   encapsulation: ViewEncapsulation.ShadowDom,
   imports: [NgxDragDropKitModule],
 })
@@ -31,7 +28,10 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private _pageFooter = viewChild<ElementRef<HTMLElement>>('PageFooter');
   private doc = inject(DOCUMENT);
 
-  constructor(injector: Injector, private el: ElementRef<HTMLElement>) {
+  constructor(
+    injector: Injector,
+    private el: ElementRef<HTMLElement>,
+  ) {
     super(injector);
 
     this.pageBuilder.pageBody = this._pageBody;
@@ -52,10 +52,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       j.src = js;
       j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
 
-      this.el.nativeElement.shadowRoot?.insertBefore(
-        j,
-        this.el.nativeElement.shadowRoot?.firstChild
-      );
+      this.el.nativeElement.shadowRoot?.insertBefore(j, this.el.nativeElement.shadowRoot?.firstChild);
     }
   }
 }

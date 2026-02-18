@@ -18,7 +18,7 @@ export class ConfigDialogComponent implements OnInit {
   private data = inject(MAT_DIALOG_DATA);
   constructor(
     private dialogRef: MatDialogRef<ConfigDialogComponent>,
-    private pageBuilder: PageBuilderService
+    private pageBuilder: PageBuilderService,
   ) {
     this.configs = Object.assign({}, pageBuilder.pageInfo.config);
   }

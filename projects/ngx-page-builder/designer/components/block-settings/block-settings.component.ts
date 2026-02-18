@@ -3,7 +3,7 @@ import { Component, effect, Injector, OnInit, Type, ViewChild } from '@angular/c
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from "ngx-page-builder/core";
+import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'block-settings',
@@ -31,11 +31,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
       this.item = this.pageBuilder.activeEl();
       this.checkParentIsCollection();
 
-      if (
-        this.item &&
-        this.item.customComponent &&
-        typeof this.item.customComponent.componentSettings === 'function'
-      ) {
+      if (this.item && this.item.customComponent && typeof this.item.customComponent.componentSettings === 'function') {
         this.settingComponent = await this.item.customComponent.componentSettings();
       } else {
         this.settingComponent = undefined;
@@ -71,9 +67,8 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
 
   async exportBlockAsPlugin() {
     if (!this.item) return;
-    const { ExportPluginDialogComponent } = await import(
-      '../../lib/export-plugin-dialog/export-plugin-dialog.component'
-    );
+    const { ExportPluginDialogComponent } =
+      await import('../../lib/export-plugin-dialog/export-plugin-dialog.component');
     this.dialog.open(ExportPluginDialogComponent, {
       data: this.item,
       width: '80%',

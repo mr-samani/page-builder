@@ -1,18 +1,15 @@
 <div class="inner">
   <div class="title">Header</div>
   <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageHeaderItems, isOpen: true }"
-  ></ng-container>
+    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageHeaderItems, isOpen: true }"></ng-container>
 
   <div class="title">Body</div>
   <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"
-  ></ng-container>
+    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
 
   <div class="title">Footer</div>
   <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageFooterItems, isOpen: true }"
-  ></ng-container>
+    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageFooterItems, isOpen: true }"></ng-container>
 </div>
 
 <ng-template #treeLayout let-list let-isOpen="isOpen">
@@ -33,11 +30,7 @@
         </div>
         @if (item.children && item.children.length > 0) {
           <ng-container
-            *ngTemplateOutlet="
-              treeLayout;
-              context: { $implicit: item.children, isOpen: item.isOpen }
-            "
-          ></ng-container>
+            *ngTemplateOutlet="treeLayout; context: { $implicit: item.children, isOpen: item.isOpen }"></ng-container>
         }
       </li>
     }

@@ -1,14 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Inject,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-  Renderer2,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Inject, Injector, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { MatDialog } from '@angular/material/dialog';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
@@ -22,25 +12,14 @@ import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
 import { Notify } from '../../extensions/notify';
-import {
-  DEFAULT_IMAGE_URL,
-  DynamicDataService,
-  DynamicDataStructure,
-  PageItem,
-} from 'ngx-page-builder/core';
+import { DEFAULT_IMAGE_URL, DynamicDataService, DynamicDataStructure, PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'text-binding',
   templateUrl: './text-binding.component.html',
   styleUrls: ['./text-binding.component.scss'],
   standalone: true,
-  imports: [
-    FormsModule,
-    SafeHtmlPipe,
-    DataSourceSelectorComponent,
-    SvgIconDirective,
-    SwitchComponent,
-  ],
+  imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, SvgIconDirective, SwitchComponent],
 })
 export class TextBindingComponent extends BaseComponent implements OnInit {
   @Input() item!: PageItem;
@@ -65,7 +44,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
     injector: Injector,
     private matDialog: MatDialog,
     public dynamicDataService: DynamicDataService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     super(injector);
     // dynamic data if is not item collection

@@ -61,7 +61,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     private chdRef: ChangeDetectorRef,
     private pageBuilder: PageBuilderService,
     private dynamicElementService: DynamicElementService,
-    private dynamicDataService: DynamicDataService
+    private dynamicDataService: DynamicDataService,
   ) {
     this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
       this.pageItem.dataSource = data;
@@ -74,26 +74,24 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
      * - move block -> not rebuild all: only move same contents
      * - addd block only add new block
      */
-    this.pagebuiderChangeSubscription = this.pageBuilder.changed$
-      .pipe(debounceTime(300))
-      .subscribe((data) => {
-        if (
-          data.type == 'AddBlock' ||
-          data.type == 'RemoveBlock' ||
-          data.type == 'MoveBlock' ||
-          data.type == 'ChangeBlockContent' ||
-          data.type == 'ChangeBlockProperties'
-        ) {
-          // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
-          const found = itemInThisTemplate(data.item, this.pageItem.children);
-          if (found.result) {
-            console.time('updateTemplate');
-            this.pageItem.template = cloneDeep(found.root!);
-            console.timeEnd('updateTemplate');
-            this.update(data);
-          }
+    this.pagebuiderChangeSubscription = this.pageBuilder.changed$.pipe(debounceTime(300)).subscribe((data) => {
+      if (
+        data.type == 'AddBlock' ||
+        data.type == 'RemoveBlock' ||
+        data.type == 'MoveBlock' ||
+        data.type == 'ChangeBlockContent' ||
+        data.type == 'ChangeBlockProperties'
+      ) {
+        // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
+        const found = itemInThisTemplate(data.item, this.pageItem.children);
+        if (found.result) {
+          console.time('updateTemplate');
+          this.pageItem.template = cloneDeep(found.root!);
+          console.timeEnd('updateTemplate');
+          this.update(data);
         }
-      });
+      }
+    });
   }
 
   ngOnInit() {
@@ -123,11 +121,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     const count = this.pageItem.dataSource?.maxResultCount || 10;
     const skip = this.pageItem.dataSource?.skipCount || 0;
     if (this.pageItem.dataSource.id) {
-      this.dataList = this.dynamicDataService.getCollectionData(
-        this.pageItem.dataSource.id,
-        skip,
-        count
-      );
+      this.dataList = this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count);
     }
 
     // const childCount = Math.min(count, this.dataList.length);
@@ -138,11 +132,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
 
-      await this.pageBuilder.createBlockElement(
-        true,
-        cloned,
-        this.collectionContainer.nativeElement
-      );
+      await this.pageBuilder.createBlockElement(true, cloned, this.collectionContainer.nativeElement);
       this.pageItem.children.push(cloned);
     }
     // console.log('data-collection', this.pageItem.id, this.pageItem);
@@ -160,11 +150,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     const childCount = count;
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pageBuilder.createBlockElement(
-        this.editMode,
-        cloned,
-        this.collectionContainer.nativeElement
-      );
+      await this.pageBuilder.createBlockElement(this.editMode, cloned, this.collectionContainer.nativeElement);
       this.pageItem.children.push(cloned);
     }
     this.chdRef.detectChanges();

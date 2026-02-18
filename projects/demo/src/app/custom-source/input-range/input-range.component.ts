@@ -10,9 +10,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     </div>
   `,
   styles: `
-  :host{
-    display:block;
-  }`,
+    :host {
+      display: block;
+    }
+  `,
 })
 export class InpurRangeComponent {
   @Input() value = 50;

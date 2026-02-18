@@ -50,7 +50,7 @@ export class ClassSelectorComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     public cls: ClassManagerService,
-    private pageBuilder: PageBuilderService
+    private pageBuilder: PageBuilderService,
   ) {
     effect(() => {
       this.item = this.pageBuilder.activeEl();
@@ -79,7 +79,7 @@ export class ClassSelectorComponent implements OnInit {
   onInputChange(): void {
     if (this.searchClassModel.length > 0) {
       this.filteredSuggestions = this.availableClasses.filter((suggestion) =>
-        suggestion.toLowerCase().includes(this.searchClassModel.toLowerCase())
+        suggestion.toLowerCase().includes(this.searchClassModel.toLowerCase()),
       );
     }
   }

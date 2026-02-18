@@ -30,16 +30,16 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   // close popup when clicking outside
   private onDocClick = (e: MouseEvent) => {
     if (!this.popupEl) return;
-    if (
-      !this.popupEl.contains(e.target as Node) &&
-      !this.el.nativeElement.contains(e.target as Node)
-    ) {
+    if (!this.popupEl.contains(e.target as Node) && !this.el.nativeElement.contains(e.target as Node)) {
       this.closePopup();
     }
   };
 
   private doc = inject(DOCUMENT);
-  constructor(private el: ElementRef<HTMLElement>, private renderer: Renderer2) {
+  constructor(
+    private el: ElementRef<HTMLElement>,
+    private renderer: Renderer2,
+  ) {
     this.doc.addEventListener('click', this.onDocClick, true);
   }
 
@@ -69,8 +69,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
         return;
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        this.activeIndex =
-          (this.activeIndex - 1 + this.suggestions.length) % this.suggestions.length;
+        this.activeIndex = (this.activeIndex - 1 + this.suggestions.length) % this.suggestions.length;
         this.updateHighlight();
         return;
       } else if (event.key === 'Enter') {
@@ -328,9 +327,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
         if (!currentToken) {
           suggestions.push(...itemKeys);
         } else {
-          suggestions.push(
-            ...itemKeys.filter((k) => k.toLowerCase().startsWith(currentToken.toLowerCase()))
-          );
+          suggestions.push(...itemKeys.filter((k) => k.toLowerCase().startsWith(currentToken.toLowerCase())));
         }
       }
     }
@@ -473,10 +470,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
 
         if (chainMatch) {
           const chainStart = offset - chainMatch[0].length;
-          const newText =
-            textBefore.slice(0, textBefore.length - chainMatch[0].length) +
-            textToInsert +
-            textAfter;
+          const newText = textBefore.slice(0, textBefore.length - chainMatch[0].length) + textToInsert + textAfter;
 
           textNode.textContent = newText;
 

@@ -48,9 +48,7 @@ export function parseBoxShadow(cssValue: string): BoxShadow[] {
     let numberString = shadow.replace('inset', '').replace(colorRegex, '').trim();
 
     // Extract numbers
-    const numbers = (numberString.match(numberRegex) ?? [])
-      .map((shadow) => shadow.trim())
-      .filter((shadow) => shadow);
+    const numbers = (numberString.match(numberRegex) ?? []).map((shadow) => shadow.trim()).filter((shadow) => shadow);
     if (!numbers) continue;
 
     // Parse numbers

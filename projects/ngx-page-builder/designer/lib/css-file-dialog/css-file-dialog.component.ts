@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,7 +37,7 @@ export class CssFileDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CssFileDialogComponent>,
     private cls: ClassManagerService,
-    private chdRef: ChangeDetectorRef
+    private chdRef: ChangeDetectorRef,
   ) {
     this.files = cloneDeep(cls.cssFileData);
   }

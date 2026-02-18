@@ -13,9 +13,7 @@ import {
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
-export function preparePageDataForSave(
-  pageBuilder: PageBuilderService
-): Promise<IPagebuilderOutput> {
+export function preparePageDataForSave(pageBuilder: PageBuilderService): Promise<IPagebuilderOutput> {
   const pageInfo: PageBuilderDto = pageBuilder.pageInfo;
   const cls: ClassManagerService = pageBuilder.cls;
   return new Promise(async (resolve, reject) => {
@@ -92,11 +90,7 @@ export function preparePageItems(list: PageItem[]) {
   return list;
 }
 
-function removeClassesFromHtml(
-  html: string,
-  classesToRemove: string[],
-  attributesToRemove: string[]
-): string {
+function removeClassesFromHtml(html: string, classesToRemove: string[], attributesToRemove: string[]): string {
   if (!html) return html;
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const allElements = doc.body.querySelectorAll('*');

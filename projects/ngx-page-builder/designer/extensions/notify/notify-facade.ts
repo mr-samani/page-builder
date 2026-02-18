@@ -12,11 +12,7 @@ export class Notify {
     this.serviceInstance = svc;
   }
 
-  static show(
-    message: string,
-    type: 'info' | 'success' | 'warning' | 'error' = 'info',
-    options?: NgxPgNotifyOptions,
-  ) {
+  static show(message: string, type: 'info' | 'success' | 'warning' | 'error' = 'info', options?: NgxPgNotifyOptions) {
     if (!this.serviceInstance) {
       console.warn('ngx-pg-notify: service not initialized. Ensure NgxPgNotifyModule is imported.');
       return;

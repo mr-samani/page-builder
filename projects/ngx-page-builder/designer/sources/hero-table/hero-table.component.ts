@@ -19,12 +19,7 @@ import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 
 import { BlockHelper } from '../../helper/BlockHelper';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import {
-  buildLogicalGrid,
-  findCellLogicalIndex,
-  getNormalizedRange,
-  isValidMergeRange,
-} from './table-utiles';
+import { buildLogicalGrid, findCellLogicalIndex, getNormalizedRange, isValidMergeRange } from './table-utiles';
 import { TableSetting } from './table-setting';
 import { TableHelper } from './table-helper';
 import { _td, _template, _th } from './template';
@@ -86,7 +81,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     private pageBuilder: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     this.handlePageBuilderChange();
   }
@@ -125,26 +120,24 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
      * - move block -> not rebuild all: only move same contents
      * - addd block only add new block
      */
-    this.pagebuiderChangeSubscription = this.pageBuilder.changed$
-      .pipe(debounceTime(300))
-      .subscribe((data) => {
-        if (
-          data.type == 'AddBlock' ||
-          data.type == 'RemoveBlock' ||
-          data.type == 'MoveBlock' ||
-          data.type == 'ChangeBlockContent' ||
-          data.type == 'ChangeBlockProperties'
-        ) {
-          // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
-          const found = itemInThisTemplate(data.item, this.pageItem.children);
-          if (found.result) {
-            console.time('updateTemplate');
-            this.pageItem.template = cloneDeep(found.root!);
-            console.timeEnd('updateTemplate');
-            this.generate();
-          }
+    this.pagebuiderChangeSubscription = this.pageBuilder.changed$.pipe(debounceTime(300)).subscribe((data) => {
+      if (
+        data.type == 'AddBlock' ||
+        data.type == 'RemoveBlock' ||
+        data.type == 'MoveBlock' ||
+        data.type == 'ChangeBlockContent' ||
+        data.type == 'ChangeBlockProperties'
+      ) {
+        // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
+        const found = itemInThisTemplate(data.item, this.pageItem.children);
+        if (found.result) {
+          console.time('updateTemplate');
+          this.pageItem.template = cloneDeep(found.root!);
+          console.timeEnd('updateTemplate');
+          this.generate();
         }
-      });
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -174,11 +167,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       const bodyTemplate = body.children[0];
       this.dataList = [];
       if (this.pageItem.dataSource.id) {
-        this.dataList = this.dynamicDataService.getCollectionData(
-          this.pageItem.dataSource.id,
-          skip,
-          count
-        );
+        this.dataList = this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count);
       }
 
       const childCount = Math.min(count, this.dataList.length);
@@ -200,7 +189,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     await this.pageBuilder.createBlockElement(
       this.editMode,
       this.pageItem.children[0],
-      this.tableContainer.nativeElement
+      this.tableContainer.nativeElement,
     );
     this.chdRef.detectChanges();
   }
@@ -218,11 +207,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         throw new Error('No selected block');
       }
 
-      const cell = BlockHelper.findParentByTag(
-        selectedBlock,
-        ['td', 'th'],
-        ['tbody', 'thead', 'tfoot']
-      );
+      const cell = BlockHelper.findParentByTag(selectedBlock, ['td', 'th'], ['tbody', 'thead', 'tfoot']);
       if (!cell) {
         throw new Error('No cell found');
       }
@@ -252,10 +237,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const end = { row: rowIndex, col: colIndex, block: selectedBlock };
 
         // compute normalized range (use only row/col)
-        const normalized = getNormalizedRange(
-          { row: start.row, col: start.col },
-          { row: end.row, col: end.col }
-        );
+        const normalized = getNormalizedRange({ row: start.row, col: start.col }, { row: end.row, col: end.col });
 
         // validate using helper (pass the section rows array)
         const valid = isValidMergeRange(bodyChilds, normalized);
@@ -300,10 +282,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   checkCanChangeRows() {
     this.canChangeRows = false;
-    if (
-      !this.settings.useDynamicData ||
-      (this.firstSelectedCell && this.firstSelectedCell.section != 'tbody')
-    ) {
+    if (!this.settings.useDynamicData || (this.firstSelectedCell && this.firstSelectedCell.section != 'tbody')) {
       this.canChangeRows = true;
     }
   }
@@ -352,13 +331,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     const { rowIndex, colIndex } = this.getRowColIndex();
     const section = this.firstSelectedCell?.section ?? 'tbody';
     const table = this.pageItem.children[0];
-    await TableHelper.deleteRow(
-      this.pageBuilder,
-      this.dynamicElementService,
-      table,
-      section,
-      rowIndex
-    );
+    await TableHelper.deleteRow(this.pageBuilder, this.dynamicElementService, table, section, rowIndex);
 
     this.update();
   }
@@ -385,13 +358,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     const sectionName = this.firstSelectedCell?.section ?? 'tbody';
     const sectionBlock = table.children?.find((x: PageItem) => x.tag === sectionName) as PageItem;
     if (!sectionBlock) return;
-    await TableHelper.deleteColumn(
-      table,
-      sectionName,
-      childRowIdx,
-      childColIdx,
-      this.firstSelectedCell
-    );
+    await TableHelper.deleteColumn(table, sectionName, childRowIdx, childColIdx, this.firstSelectedCell);
 
     this.pageBuilder.deSelectBlock();
     this.generate();
@@ -475,9 +442,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       // بعد از generate دوباره grid و master را پیدا می‌کنیم تا selection بزنیم
       const tableAfter = this.pageItem.children?.[0];
       if (!tableAfter) return;
-      const sectionAfter = tableAfter.children?.find(
-        (x: PageItem) => x.tag === section
-      ) as PageItem;
+      const sectionAfter = tableAfter.children?.find((x: PageItem) => x.tag === section) as PageItem;
       if (!sectionAfter) return;
       // بازسازی grid بعدی
       const rowsAfter = sectionAfter.children ?? [];
@@ -516,9 +481,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       const tableAfter = this.pageItem?.children?.[0];
       if (!tableAfter) return;
-      const sectionAfter = tableAfter.children?.find(
-        (x: PageItem) => x.tag === section
-      ) as PageItem;
+      const sectionAfter = tableAfter.children?.find((x: PageItem) => x.tag === section) as PageItem;
       if (!sectionAfter) return;
       // انتخاب master جدید (همان top-left قبلی)
       try {

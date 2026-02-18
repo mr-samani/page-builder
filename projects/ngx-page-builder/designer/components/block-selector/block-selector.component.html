@@ -4,8 +4,7 @@
     [style.left.px]="x"
     [style.top.px]="y"
     [style.width.px]="width"
-    [style.height.px]="height"
-  >
+    [style.height.px]="height">
     <div class="actions" [class.bottom]="showInBottom">
       @if (item.parent) {
         <button type="button" (click)="selectParent($event)">
@@ -19,9 +18,7 @@
         </button>
       }
 
-      <span class="tag">{{
-        item.tag ? (item.tag | uppercase) : item.customComponent?.componentKey
-      }}</span>
+      <span class="tag">{{ item.tag ? (item.tag | uppercase) : item.customComponent?.componentKey }}</span>
       <span class="id">{{ item.id }}</span>
     </div>
   </div>

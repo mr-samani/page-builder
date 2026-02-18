@@ -14,14 +14,7 @@ import { IPlugin, PageItem } from 'ngx-page-builder/core';
   selector: 'app-export-plugin-dialog',
   templateUrl: './export-plugin-dialog.component.html',
   styleUrls: ['./export-plugin-dialog.component.scss'],
-  imports: [
-    FormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    LoadingComponent,
-  ],
+  imports: [FormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, LoadingComponent],
   providers: [PBPluginService],
 })
 export class ExportPluginDialogComponent implements OnInit {
@@ -35,7 +28,7 @@ export class ExportPluginDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<ExportPluginDialogComponent>,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
-    private pageBuilder: PageBuilderService
+    private pageBuilder: PageBuilderService,
   ) {
     this.loading = true;
   }

@@ -1,4 +1,4 @@
-import { IPaginationPlugin, IPlugin } from "ngx-page-builder/core";
+import { IPaginationPlugin, IPlugin } from 'ngx-page-builder/core';
 
 export interface IPluginStore {
   save(plugin: IPlugin): void;

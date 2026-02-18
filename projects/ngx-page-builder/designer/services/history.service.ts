@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { LibConsts, PageItem, cloneDeep, isEqual } from "ngx-page-builder/core";
+import { LibConsts, PageItem, cloneDeep, isEqual } from 'ngx-page-builder/core';
 
 type HistoryAction = 'add' | 'delete' | 'edit';
 
@@ -18,9 +18,7 @@ export class HistoryService {
   private _currentIndex = signal<number>(-1);
 
   readonly canUndo = computed(() => this._currentIndex() >= 0 && LibConsts.enableHistory);
-  readonly canRedo = computed(
-    () => this._currentIndex() < this._history().length - 1 && LibConsts.enableHistory,
-  );
+  readonly canRedo = computed(() => this._currentIndex() < this._history().length - 1 && LibConsts.enableHistory);
 
   /** وضعیت فعلی بلاک‌ها */
   readonly currentState = computed(() => this._history()[this._currentIndex()]?.snapshot ?? []);
@@ -78,11 +76,7 @@ export class HistoryService {
   /**
    * اعمال وضعیت جدید روی لیست فعلی
    */
-  private _applySnapshot(
-    allBlocks: PageItem[],
-    next: PageItem | null,
-    isUndo: boolean,
-  ): PageItem[] {
+  private _applySnapshot(allBlocks: PageItem[], next: PageItem | null, isUndo: boolean): PageItem[] {
     const blocks = cloneDeep(allBlocks);
     const currentHistory = this._history()[this._currentIndex()];
 

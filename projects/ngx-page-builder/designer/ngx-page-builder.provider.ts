@@ -67,8 +67,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
     if (!item.customComponent) continue;
     if (ids.has(item.customComponent.componentKey)) {
       throw new Error(
-        'NgxPageBuilder: ' +
-          `Custom component has Duplicate componentKey: ${item.customComponent.componentKey}`
+        'NgxPageBuilder: ' + `Custom component has Duplicate componentKey: ${item.customComponent.componentKey}`,
       );
     }
     ids.add(item.customComponent.componentKey);

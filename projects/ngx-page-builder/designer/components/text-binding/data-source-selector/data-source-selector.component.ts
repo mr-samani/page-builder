@@ -1,14 +1,6 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DynamicDataStructure } from "ngx-page-builder/core";
+import { DynamicDataStructure } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'data-source-selector',
@@ -26,8 +18,7 @@ export class DataSourceSelectorComponent implements OnInit {
     setTimeout(() => {
       const parts = (value ?? '').trim().split('.');
       this.selectedItem = parts[0];
-      this.childs =
-        this.list.find((x: DynamicDataStructure) => x.name === this.selectedItem)?.values || [];
+      this.childs = this.list.find((x: DynamicDataStructure) => x.name === this.selectedItem)?.values || [];
       this.selectedChild = parts.splice(1).join('.');
       this.chdr.detectChanges();
     }, 0);

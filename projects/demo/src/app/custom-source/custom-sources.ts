@@ -20,8 +20,7 @@ export const CustomSources: SourceItem[] = [
     },
     customComponent: {
       componentKey: 'input-range',
-      component: () =>
-        import('./input-range/input-range.component').then((c) => c.InpurRangeComponent),
+      component: () => import('./input-range/input-range.component').then((c) => c.InpurRangeComponent),
     },
   },
   {
@@ -35,9 +34,7 @@ export const CustomSources: SourceItem[] = [
       componentKey: 'my-chart',
       component: () => import('./chart/chart.component').then((c) => c.SignalHighChartComponent),
       componentSettings: () =>
-        import('./chart/chart-setting/chart-setting.component').then(
-          (c) => c.ChartSettingComponent
-        ),
+        import('./chart/chart-setting/chart-setting.component').then((c) => c.ChartSettingComponent),
       providers: [
         {
           provide: ChartService,

@@ -38,11 +38,7 @@ export class ColumnComponent implements OnInit {
   }
   async loadCols() {
     for (const child of this.pageItem.children) {
-      let el = await this.pageBuilder.createBlockElement(
-        this.editMode,
-        child,
-        this.colContainer.nativeElement
-      );
+      let el = await this.pageBuilder.createBlockElement(this.editMode, child, this.colContainer.nativeElement);
     }
   }
 
@@ -57,14 +53,9 @@ export class ColumnComponent implements OnInit {
           },
         },
       },
-      this.pageItem
+      this.pageItem,
     );
-    this.pageBuilder.createBlockElement(
-      this.editMode,
-      newColumn,
-      this.colContainer.nativeElement,
-      index
-    );
+    this.pageBuilder.createBlockElement(this.editMode, newColumn, this.colContainer.nativeElement, index);
     this.pageItem.children.splice(index ?? this.pageItem.children.length, 0, newColumn);
   }
 

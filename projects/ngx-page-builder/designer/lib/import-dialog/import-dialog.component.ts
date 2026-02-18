@@ -49,7 +49,7 @@ export class ImportDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<ImportDialogComponent>,
     private importer: ImportHtmlService,
-    private chdr: ChangeDetectorRef
+    private chdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {}
@@ -66,17 +66,13 @@ export class ImportDialogComponent implements OnInit {
     this.result = undefined;
     this.loading = true;
 
-    let api = this.importer.importFromUrl(
-      this.urlInput,
-      this.querySelectorInput,
-      this.importOptions
-    );
+    let api = this.importer.importFromUrl(this.urlInput, this.querySelectorInput, this.importOptions);
     if (this.useBackendApi) {
       api = this.importer.importFromUrlWithBackend(
         this.urlInput,
         this.querySelectorInput,
         LibConsts.backendProxyImportUrl,
-        this.importOptions
+        this.importOptions,
       );
     }
 

@@ -6,8 +6,7 @@
         class="btn"
         (click)="execCommand('bold')"
         [class.active]="isCommandActive('bold')"
-        title="Bold"
-      >
+        title="Bold">
         B
       </button>
       <button
@@ -15,25 +14,16 @@
         class="btn"
         (click)="execCommand('italic')"
         [class.active]="isCommandActive('italic')"
-        title="Italic"
-      >
+        title="Italic">
         I
       </button>
     </div>
 
     <div class="group">
       <label class="label">Text</label>
-      <input
-        type="color"
-        (change)="applyStyle({ color: $any($event).target.value })"
-        [value]="textColor"
-      />
+      <input type="color" (change)="applyStyle({ color: $any($event).target.value })" [value]="textColor" />
       <label class="label">Background</label>
-      <input
-        type="color"
-        (change)="applyStyle({ backgroundColor: $any($event).target.value })"
-        [value]="bgColor"
-      />
+      <input type="color" (change)="applyStyle({ backgroundColor: $any($event).target.value })" [value]="bgColor" />
     </div>
 
     <div class="group">
@@ -71,8 +61,7 @@
     spellcheck="true"
     ngxDynamicAutocomplete
     [dynamicData]="dynamicDataService.dynamicData"
-    (inserted)="onInsert($event)"
-  ></div>
+    (inserted)="onInsert($event)"></div>
 </div>
 
 <div class="footer">

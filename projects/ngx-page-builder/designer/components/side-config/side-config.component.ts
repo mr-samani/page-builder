@@ -10,12 +10,7 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
   templateUrl: './side-config.component.html',
   styleUrls: ['./side-config.component.scss'],
   standalone: true,
-  imports: [
-    BlockPropertiesComponent,
-    BlockLayoutsComponent,
-    BlockSettingsComponent,
-    SvgIconDirective,
-  ],
+  imports: [BlockPropertiesComponent, BlockLayoutsComponent, BlockSettingsComponent, SvgIconDirective],
 })
 export class SideConfigComponent extends BaseComponent implements OnInit {
   selectedTab: 'layouts' | 'properties' | 'settings' = 'properties';

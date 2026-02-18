@@ -65,7 +65,7 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
     private chdRef: ChangeDetectorRef,
     private pagePreviewService: PagePreviewService,
     private dynamicElementService: DynamicElementService,
-    private dynamicDataService: DynamicDataService
+    private dynamicDataService: DynamicDataService,
   ) {
     this.pageItem.dataSource = this.context.data;
     this.pageItem.customComponent!.componentData = this.context.data;
@@ -108,11 +108,7 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
       const bodyTemplate = body.children[0];
       this.dataList = [];
       if (this.pageItem.dataSource.id) {
-        this.dataList = this.dynamicDataService.getCollectionData(
-          this.pageItem.dataSource.id,
-          skip,
-          count
-        );
+        this.dataList = this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count);
       }
 
       const childCount = Math.min(count, this.dataList.length);
@@ -131,10 +127,7 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
       this.pageItem.children = [new PageItem(_template, this.pageItem)];
     }
 
-    await this.pagePreviewService.createBlockElement(
-      this.pageItem.children[0],
-      this.tableContainer.nativeElement
-    );
+    await this.pagePreviewService.createBlockElement(this.pageItem.children[0], this.tableContainer.nativeElement);
     this.chdRef.detectChanges();
   }
   private async clearContainer() {

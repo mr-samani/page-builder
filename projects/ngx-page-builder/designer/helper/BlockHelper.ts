@@ -1,4 +1,4 @@
-import { Page, PageItem } from "ngx-page-builder/core";
+import { Page, PageItem } from 'ngx-page-builder/core';
 
 export abstract class BlockHelper {
   /**
@@ -8,11 +8,7 @@ export abstract class BlockHelper {
    * @param breakTags break parent tag like=['tbody','thead','tfoot']
    * @returns pageItem or undefined
    */
-  static findParentByTag(
-    item: PageItem,
-    tags: string[],
-    breakTags: string[],
-  ): PageItem | undefined {
+  static findParentByTag(item: PageItem, tags: string[], breakTags: string[]): PageItem | undefined {
     if (tags.includes(item.tag)) {
       return item;
     }

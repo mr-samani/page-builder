@@ -2,7 +2,7 @@ import { CollectionItemSource } from './collection-item/definition';
 import { HeroTableSource } from './hero-table/definition';
 import { PageBreakSource } from './page-break/definition';
 import { ColumnSource } from './column/definition';
-import { SourceItem, randomNumber } from "ngx-page-builder/core";
+import { SourceItem, randomNumber } from 'ngx-page-builder/core';
 
 export const SOURCE_ITEMS: SourceItem[] = [
   {

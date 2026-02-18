@@ -1,4 +1,4 @@
-import { SourceItem } from "ngx-page-builder/core";
+import { SourceItem } from 'ngx-page-builder/core';
 
 export const CollectionItemSource = new SourceItem({
   tag: 'collection',
@@ -25,8 +25,6 @@ export const CollectionItemSource = new SourceItem({
     componentKey: 'NgxPgCollectionItem',
     component: () => import('./collection-item.component').then((c) => c.CollectionItemComponent),
     componentSettings: () =>
-      import('./collection-settings/collection-settings.component').then(
-        (c) => c.DataSourceSettingsComponent,
-      ),
+      import('./collection-settings/collection-settings.component').then((c) => c.DataSourceSettingsComponent),
   },
 });

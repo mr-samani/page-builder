@@ -6,10 +6,7 @@ export abstract class StyleHelper {
    * استخراج استایل‌های المنت (بهینه شده)
    * فقط استایل‌هایی که واقعاً روی این المنت تنظیم شده‌اند
    */
-  public static async extractStyles(
-    element: HTMLElement,
-    options?: ImportOptions,
-  ): Promise<string | undefined> {
+  public static async extractStyles(element: HTMLElement, options?: ImportOptions): Promise<string | undefined> {
     const styles: Record<string, string> = {};
 
     // 1. استایل‌های inline (اینها حتماً مختص خود المنت هستند)
@@ -36,9 +33,7 @@ export abstract class StyleHelper {
         const referenceStyles = window.getComputedStyle(referenceElement);
 
         // گرفتن استایل‌های parent برای مقایسه
-        const parentStyles = element.parentElement
-          ? window.getComputedStyle(element.parentElement)
-          : null;
+        const parentStyles = element.parentElement ? window.getComputedStyle(element.parentElement) : null;
 
         USEFUL_STYLES.forEach((propertyName) => {
           const value = computedStyles.getPropertyValue(propertyName);
@@ -46,13 +41,7 @@ export abstract class StyleHelper {
           const parentValue = parentStyles?.getPropertyValue(propertyName);
 
           // شرط 1: مقدار نباید خالی یا پیش‌فرض باشه
-          if (
-            !value ||
-            value === 'none' ||
-            value === 'initial' ||
-            value === 'normal' ||
-            value === ''
-          ) {
+          if (!value || value === 'none' || value === 'initial' || value === 'normal' || value === '') {
             return;
           }
 
@@ -225,11 +214,7 @@ export abstract class StyleHelper {
   /**
    * بررسی اینکه آیا استایل باید شامل شود
    */
-  private static shouldIncludeStyle(
-    propertyName: string,
-    value: string,
-    options?: ImportOptions,
-  ): boolean {
+  private static shouldIncludeStyle(propertyName: string, value: string, options?: ImportOptions): boolean {
     // اگر فیلتر سفارشی داریم
     if (options?.styleFilter) {
       return options.styleFilter(propertyName, value);
@@ -271,21 +256,13 @@ export abstract class StyleHelper {
         const computedStyles = window.getComputedStyle(element);
 
         // گرفتن استایل‌های parent
-        const parentComputed = element.parentElement
-          ? window.getComputedStyle(element.parentElement)
-          : null;
+        const parentComputed = element.parentElement ? window.getComputedStyle(element.parentElement) : null;
 
         USEFUL_STYLES.forEach((propertyName) => {
           const value = computedStyles.getPropertyValue(propertyName);
 
           // فیلتر اولیه
-          if (
-            !value ||
-            value === 'none' ||
-            value === 'initial' ||
-            value === 'normal' ||
-            value === ''
-          ) {
+          if (!value || value === 'none' || value === 'initial' || value === 'normal' || value === '') {
             return;
           }
 
@@ -349,11 +326,7 @@ export abstract class StyleHelper {
    * بررسی اینکه آیا استایل واقعاً روی این المنت اعمال شده
    * (نه اینکه صرفاً از parent inherit شده)
    */
-  private static isStyleActuallyApplied(
-    element: HTMLElement,
-    propertyName: string,
-    value: string,
-  ): boolean {
+  private static isStyleActuallyApplied(element: HTMLElement, propertyName: string, value: string): boolean {
     // اگر inline style داره، قطعاً applied هست
     if (element.style.getPropertyValue(propertyName)) {
       return true;

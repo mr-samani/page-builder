@@ -42,11 +42,7 @@ export function findCellContainer(item: PageItem): PageItem | undefined {
   return undefined;
 }
 
-export function cloneTemplate(
-  dataList: DynamicDataStructure[][],
-  template: PageItem,
-  index: number,
-) {
+export function cloneTemplate(dataList: DynamicDataStructure[][], template: PageItem, index: number) {
   const cleanTree = (item: PageItem) => {
     delete item.options?.events;
     delete item.options?.directives;

@@ -32,11 +32,7 @@
           <td><label for="flex-direction">Flex Direction</label></td>
           <td>
             <div class="pi-group">
-              <select
-                [(ngModel)]="style.flexDirection"
-                (ngModelChange)="update()"
-                id="flex-direction"
-              >
+              <select [(ngModel)]="style.flexDirection" (ngModelChange)="update()" id="flex-direction">
                 <option value="row">Row →</option>
                 <option value="row-reverse">Row Reverse ←</option>
                 <option value="column">Column ↓</option>
@@ -64,15 +60,9 @@
           <td><label for="justifyContent">Justify Content (Main Axis)</label></td>
           <td>
             <div class="pi-group">
-              <select
-                [(ngModel)]="style.justifyContent"
-                id="justifyContent"
-                (ngModelChange)="update()"
-              >
+              <select [(ngModel)]="style.justifyContent" id="justifyContent" (ngModelChange)="update()">
                 @for (option of justifyOptions; track option) {
-                  <option [value]="option.value">
-                    {{ option.icon }} &nbsp; {{ option.label }}
-                  </option>
+                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
               <button class="btn-clear" type="button" (click)="clear('justifyContent')">x</button>
@@ -86,9 +76,7 @@
             <div class="pi-group">
               <select [(ngModel)]="style.alignItems" id="alignItems" (ngModelChange)="update()">
                 @for (option of alignOptions; track option) {
-                  <option [value]="option.value">
-                    {{ option.icon }} &nbsp; {{ option.label }}
-                  </option>
+                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
               <button class="btn-clear" type="button" (click)="clear('alignItems')">x</button>
@@ -102,9 +90,7 @@
             <div class="pi-group">
               <select [(ngModel)]="style.alignContent" id="alignContent" (ngModelChange)="update()">
                 @for (option of alignContentOptions; track option) {
-                  <option [value]="option.value">
-                    {{ option.icon }} &nbsp; {{ option.label }}
-                  </option>
+                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
               <button class="btn-clear" type="button" (click)="clear('alignContent')">x</button>
@@ -116,13 +102,7 @@
           <td><label for="gap">Gap</label></td>
           <td>
             <div class="pi-group">
-              <input
-                id="gap"
-                type="text"
-                [(ngModel)]="style.gap"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+              <input id="gap" type="text" [(ngModel)]="style.gap" (ngModelChange)="update()" placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('gap')">x</button>
             </div>
           </td>
@@ -136,8 +116,7 @@
                 type="text"
                 [(ngModel)]="style.rowGap"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('rowGap')">x</button>
             </div>
           </td>
@@ -151,8 +130,7 @@
                 type="text"
                 [(ngModel)]="style.columnGap"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('columnGap')">x</button>
             </div>
           </td>
@@ -167,8 +145,7 @@
                 type="text"
                 [(ngModel)]="style.flexGrow"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('flexGrow')">x</button>
             </div>
           </td>
@@ -183,8 +160,7 @@
                 type="text"
                 [(ngModel)]="style.flexShrink"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('flexShrink')">x</button>
             </div>
           </td>
@@ -199,8 +175,7 @@
                 type="text"
                 [(ngModel)]="style.flexBasis"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('flexBasis')">x</button>
             </div>
           </td>
@@ -215,8 +190,7 @@
                 type="text"
                 [(ngModel)]="style.order"
                 (ngModelChange)="update()"
-                placeholder="e.g., 10px"
-              />
+                placeholder="e.g., 10px" />
               <button class="btn-clear" type="button" (click)="clear('order')">x</button>
             </div>
           </td>
@@ -228,9 +202,7 @@
             <div class="pi-group">
               <select [(ngModel)]="style.alignSelf" id="alignSelf" (ngModelChange)="update()">
                 @for (option of alignSelfOptions; track option) {
-                  <option [value]="option.value">
-                    {{ option.icon }} &nbsp; {{ option.label }}
-                  </option>
+                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
               <button class="btn-clear" type="button" (click)="clear('alignSelf')">x</button>
@@ -275,19 +247,14 @@
                 type="text"
                 [(ngModel)]="style.gridTemplateColumns"
                 (ngModelChange)="update()"
-                placeholder="e.g., repeat(3, 1fr)"
-              />
-              <button class="btn-clear" type="button" (click)="clear('gridTemplateColumns')">
-                x
-              </button>
+                placeholder="e.g., repeat(3, 1fr)" />
+              <button class="btn-clear" type="button" (click)="clear('gridTemplateColumns')">x</button>
             </div>
           </td>
         </tr>
         <tr>
           <td colspan="2">
-            <small class="text-info"
-              >Examples: "200px 1fr 2fr", "repeat(3, 1fr)", "minmax(100px, 1fr)"</small
-            >
+            <small class="text-info">Examples: "200px 1fr 2fr", "repeat(3, 1fr)", "minmax(100px, 1fr)"</small>
           </td>
         </tr>
 
@@ -300,8 +267,7 @@
                 type="text"
                 [(ngModel)]="style.gridTemplateRows"
                 (ngModelChange)="update()"
-                placeholder="e.g., auto 1fr auto"
-              />
+                placeholder="e.g., auto 1fr auto" />
               <button class="btn-clear" type="button" (click)="clear('gridTemplateRows')">x</button>
             </div>
           </td>
@@ -317,11 +283,8 @@
                 type="text"
                 [(ngModel)]="style.gridTemplateAreas"
                 (ngModelChange)="update()"
-                placeholder="e.g., 'header header' 'sidebar main' 'footer footer'"
-              ></textarea>
-              <button class="btn-clear" type="button" (click)="clear('gridTemplateAreas')">
-                x
-              </button>
+                placeholder="e.g., 'header header' 'sidebar main' 'footer footer'"></textarea>
+              <button class="btn-clear" type="button" (click)="clear('gridTemplateAreas')">x</button>
             </div>
           </td>
         </tr>
@@ -335,8 +298,7 @@
                 type="text"
                 [(ngModel)]="style.gridAutoColumns"
                 (ngModelChange)="update()"
-                placeholder="e.g., 1fr"
-              />
+                placeholder="e.g., 1fr" />
               <button class="btn-clear" type="button" (click)="clear('gridAutoColumns')">x</button>
             </div>
           </td>
@@ -351,8 +313,7 @@
                 type="text"
                 [(ngModel)]="style.gridAutoRows"
                 (ngModelChange)="update()"
-                placeholder="e.g., 1fr"
-              />
+                placeholder="e.g., 1fr" />
               <button class="btn-clear" type="button" (click)="clear('gridAutoRows')">x</button>
             </div>
           </td>

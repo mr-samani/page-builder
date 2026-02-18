@@ -1,4 +1,4 @@
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 export interface LogicalGridCell {
   cell: PageItem;
@@ -8,10 +8,7 @@ export interface LogicalGridCell {
 /**
  * Create rectangle from two coordinates
  */
-export function getNormalizedRange(
-  a: { row: number; col: number },
-  b: { row: number; col: number },
-) {
+export function getNormalizedRange(a: { row: number; col: number }, b: { row: number; col: number }) {
   return {
     row1: Math.min(a.row, b.row),
     row2: Math.max(a.row, b.row),
@@ -123,10 +120,7 @@ export function isValidMergeRange(
   return true;
 }
 
-export function findCellLogicalIndex(
-  rows: PageItem[],
-  cell: PageItem,
-): { rowIndex: number; colIndex: number } {
+export function findCellLogicalIndex(rows: PageItem[], cell: PageItem): { rowIndex: number; colIndex: number } {
   const grid = buildLogicalGrid(rows);
 
   for (let r = 0; r < grid.length; r++) {
@@ -142,11 +136,7 @@ export function findCellLogicalIndex(
 }
 
 // helper: محاسبه logical column index برای یک child index در یک row
-export function getLogicalColIndexForChild(
-  sectionBlock: PageItem,
-  rowIndex: number,
-  childIndex: number,
-): number {
+export function getLogicalColIndexForChild(sectionBlock: PageItem, rowIndex: number, childIndex: number): number {
   const row = sectionBlock.children?.[rowIndex];
   if (!row) return 0;
   let curr = 0;

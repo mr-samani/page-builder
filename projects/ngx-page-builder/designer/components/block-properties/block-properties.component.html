@@ -7,10 +7,7 @@
     <details name="block-properties" (toggle)="openPanel(display)" #display>
       <summary>Display</summary>
       @if (display.open) {
-        <display-control
-          [(ngModel)]="style"
-          [currentClassName]="currentClassName"
-        ></display-control>
+        <display-control [(ngModel)]="style" [currentClassName]="currentClassName"></display-control>
       }
     </details>
 
@@ -24,28 +21,19 @@
     <details name="block-properties" (toggle)="openPanel(spacing)" #spacing>
       <summary>Spacing</summary>
       @if (spacing.open) {
-        <spacing-control
-          [(ngModel)]="style"
-          [currentClassName]="currentClassName"
-        ></spacing-control>
+        <spacing-control [(ngModel)]="style" [currentClassName]="currentClassName"></spacing-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(typography)" #typography>
       <summary>Typography</summary>
       @if (typography.open) {
-        <typography-control
-          [(ngModel)]="style"
-          [currentClassName]="currentClassName"
-        ></typography-control>
+        <typography-control [(ngModel)]="style" [currentClassName]="currentClassName"></typography-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(background)" #background>
       <summary>Background</summary>
       @if (background.open) {
-        <background-control
-          [(ngModel)]="style"
-          [currentClassName]="currentClassName"
-        ></background-control>
+        <background-control [(ngModel)]="style" [currentClassName]="currentClassName"></background-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(shadow)" #shadow>
@@ -57,10 +45,7 @@
     <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>
       <summary>Advanced</summary>
       @if (advanced.open) {
-        <textcss-control
-          [(ngModel)]="style"
-          [currentClassName]="currentClassName"
-        ></textcss-control>
+        <textcss-control [(ngModel)]="style" [currentClassName]="currentClassName"></textcss-control>
       }
     </details>
   } @else {

@@ -15,12 +15,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  BoxShadow,
-  formatBoxShadowToCSS,
-  parseBoxShadow,
-  validateColor,
-} from './box-shadow-parser';
+import { BoxShadow, formatBoxShadowToCSS, parseBoxShadow, validateColor } from './box-shadow-parser';
 import { getOffsetPosition } from './get-offset-position';
 import { NgxInputColorModule } from 'ngx-input-color';
 import { BaseControl } from '../base-control';
@@ -182,8 +177,7 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
       this.padRect = this.pad.nativeElement.getBoundingClientRect();
       this.flashlightRect = this.flashlight.nativeElement.getBoundingClientRect();
       this.center = { x: this.padRect.width / 2, y: this.padRect.height / 2 };
-      this.radius =
-        Math.min(this.padRect.width, this.padRect.height) / 2 - this.flashlightRect.width / 2;
+      this.radius = Math.min(this.padRect.width, this.padRect.height) / 2 - this.flashlightRect.width / 2;
       this.x = 0; // Reset to center
       this.y = 0;
       this.cd.detectChanges();

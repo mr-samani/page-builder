@@ -3,17 +3,15 @@ import { PageBuilderService } from '../page-builder.service';
 import { IStorageService } from './IStorageService';
 import { preparePageDataForSave } from './prepare-page-builder-data';
 
-import {
-  IPagebuilderOutput,
-  LOCAL_STORAGE_SAVE_KEY,
-  PageBuilderConfig,
-  PageBuilderDto,
-} from 'ngx-page-builder/core';
+import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig, PageBuilderDto } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
 export class LocalStorageService implements IStorageService {
-  constructor(private pageBuilder: PageBuilderService, private cls: ClassManagerService) {}
+  constructor(
+    private pageBuilder: PageBuilderService,
+    private cls: ClassManagerService,
+  ) {}
   loadData() {
     return new Promise<IPagebuilderOutput>(async (resolve, reject) => {
       try {

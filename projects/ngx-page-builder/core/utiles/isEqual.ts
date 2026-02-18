@@ -33,10 +33,7 @@ export function isEqual<T = any>(a: T, b: T): boolean {
     const key = keysA[i];
 
     // Check if the key exists in B and if the values are deeply equal
-    if (
-      !Object.prototype.hasOwnProperty.call(b, key) ||
-      !isEqual((a as any)[key], (b as any)[key])
-    ) {
+    if (!Object.prototype.hasOwnProperty.call(b, key) || !isEqual((a as any)[key], (b as any)[key])) {
       return false;
     }
   }

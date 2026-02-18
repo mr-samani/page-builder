@@ -15,9 +15,7 @@ export function randomStrnig(extraLength = 4, useNumeric = false) {
     charset += '0123456789';
   }
   const cryptoObj =
-    typeof globalThis !== 'undefined'
-      ? (globalThis as unknown as { crypto?: Crypto }).crypto
-      : undefined;
+    typeof globalThis !== 'undefined' ? (globalThis as unknown as { crypto?: Crypto }).crypto : undefined;
   const out: string[] = new Array(len);
 
   if (cryptoObj?.getRandomValues) {

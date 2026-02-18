@@ -1,11 +1,6 @@
 <div class="container">
   <h1>Test Component</h1>
-  <div
-    class="list"
-    cdkDropList
-    (cdkDropListDropped)="drop($event)"
-    [cdkDropListOrientation]="'mixed'"
-  >
+  <div class="list" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListOrientation]="'mixed'">
     <div class="item" cdkDrag>
       <div class="placeholder" *cdkDragPlaceholder></div>
       Item 1

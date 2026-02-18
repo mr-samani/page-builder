@@ -16,22 +16,13 @@ import {
   PageItem,
   SourceItem,
 } from 'ngx-page-builder/core';
-import {
-  getDefaultBlockClasses,
-  getDefaultBlockDirective,
-} from '../helper/getDefaultBlockDirective';
+import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
 
 export interface PageItemChange {
   item: PageItem | null;
   parent?: PageItem[];
-  type:
-    | 'ChangePageConfig'
-    | 'AddBlock'
-    | 'ChangeBlockContent'
-    | 'ChangeBlockProperties'
-    | 'RemoveBlock'
-    | 'MoveBlock';
+  type: 'ChangePageConfig' | 'AddBlock' | 'ChangeBlockContent' | 'ChangeBlockProperties' | 'RemoveBlock' | 'MoveBlock';
 }
 
 @Injectable({
@@ -45,15 +36,9 @@ export class PageBuilderService implements OnDestroy {
   /** start from 0 */
   currentPageIndex = signal<number>(-1);
   activeEl = signal<PageItem | undefined>(undefined);
-  pageBody: Signal<ElementRef<HTMLElement> | undefined> = signal<
-    ElementRef<HTMLElement> | undefined
-  >(undefined);
-  pageHeader: Signal<ElementRef<HTMLElement> | undefined> = signal<
-    ElementRef<HTMLElement> | undefined
-  >(undefined);
-  pageFooter: Signal<ElementRef<HTMLElement> | undefined> = signal<
-    ElementRef<HTMLElement> | undefined
-  >(undefined);
+  pageBody: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
+  pageHeader: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
+  pageFooter: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
   showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
 
@@ -63,9 +48,7 @@ export class PageBuilderService implements OnDestroy {
 
   /** جابجایی بین صفحات */
   onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
-  onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(
-    undefined
-  );
+  onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(undefined);
 
   blockSelector?: BlockSelectorComponent;
 
@@ -75,7 +58,7 @@ export class PageBuilderService implements OnDestroy {
   constructor(
     private dynamicElementService: DynamicElementService,
     private history: HistoryService,
-    public cls: ClassManagerService
+    public cls: ClassManagerService,
   ) {}
 
   ngOnDestroy(): void {
@@ -147,7 +130,7 @@ export class PageBuilderService implements OnDestroy {
         dragItem,
         `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${
           event.container.data[event.currentIndex]?.parent?.id
-        }'`
+        }'`,
       );
     }
     // this.chdRef.detectChanges();
@@ -308,12 +291,7 @@ export class PageBuilderService implements OnDestroy {
   /**
    *  ایجاد المنت جدید حتما باید با await انجام شود
    */
-  async createBlockElement(
-    editMode: boolean,
-    item: PageItem,
-    container?: HTMLElement,
-    index: number = -1
-  ) {
+  async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement, index: number = -1) {
     if (!container) {
       container = this.pageBody()?.nativeElement;
     }
@@ -331,9 +309,7 @@ export class PageBuilderService implements OnDestroy {
       });
 
       for (let d of directives) {
-        if (
-          item.options.directives.findIndex((x: Directive) => x.directive == d.directive) === -1
-        ) {
+        if (item.options.directives.findIndex((x: Directive) => x.directive == d.directive) === -1) {
           item.options.directives.push(d);
         }
       }
@@ -354,13 +330,7 @@ export class PageBuilderService implements OnDestroy {
       this.cls.addBlockCss(item);
     }
 
-    let el = await this.dynamicElementService.createBlock(
-      LibConsts.SourceItemList,
-      editMode,
-      container,
-      index,
-      item
-    );
+    let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
     if (!item.customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {
         await this.createBlockElement(editMode, child, el, -1);

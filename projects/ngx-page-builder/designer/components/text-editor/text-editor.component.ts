@@ -40,16 +40,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   @Output() touched = new EventEmitter<void>();
 
-  fontFamilies = [
-    'Arial',
-    'Helvetica',
-    'Times New Roman',
-    'Georgia',
-    'Courier New',
-    'Verdana',
-    'Tahoma',
-    'System UI',
-  ];
+  fontFamilies = ['Arial', 'Helvetica', 'Times New Roman', 'Georgia', 'Courier New', 'Verdana', 'Tahoma', 'System UI'];
   fontSizes = [10, 12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36];
 
   fontFamily = 'Arial';
@@ -70,7 +61,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private dialogRef: MatDialogRef<TextEditorComponent>,
     private chdRef: ChangeDetectorRef,
-    public dynamicDataService: DynamicDataService
+    public dynamicDataService: DynamicDataService,
   ) {
     this._value = this.data.content || '';
   }
@@ -79,12 +70,8 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
     this.editableRef.nativeElement.innerHTML = this._value || '';
 
     this.subscriptions = [
-      fromEvent(this.editableRef.nativeElement, 'selectstart').subscribe(() =>
-        this.saveSelection('selectstart')
-      ),
-      fromEvent(this.editableRef.nativeElement, 'selectend').subscribe(() =>
-        this.saveSelection('selectend')
-      ),
+      fromEvent(this.editableRef.nativeElement, 'selectstart').subscribe(() => this.saveSelection('selectstart')),
+      fromEvent(this.editableRef.nativeElement, 'selectend').subscribe(() => this.saveSelection('selectend')),
       // ✅ Listen به تغییرات selection
       fromEvent(this.doc, 'mouseup').subscribe(() => this.saveSelection('mouseup')),
       fromEvent(this.doc, 'keyup').subscribe(() => this.saveSelection('keyup')),
@@ -141,12 +128,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   setAlign(direction: 'left' | 'center' | 'right') {
     this.restoreSelection(); // ✅ بازگردانی selection
 
-    const cmd =
-      direction === 'left'
-        ? 'justifyleft'
-        : direction === 'center'
-        ? 'justifycenter'
-        : 'justifyright';
+    const cmd = direction === 'left' ? 'justifyleft' : direction === 'center' ? 'justifycenter' : 'justifyright';
     this.execCommand(cmd);
 
     this.saveSelection(); // ✅ ذخیره selection جدید
@@ -213,11 +195,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   applyStyleToFragment(fragment: DocumentFragment, styleObj: { [k: string]: string }) {
-    const walker = this.doc.createTreeWalker(
-      fragment,
-      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
-      null
-    );
+    const walker = this.doc.createTreeWalker(fragment, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, null);
 
     const nodesToWrap: Node[] = [];
     let node: Node | null;

@@ -50,7 +50,10 @@ export class NgxPagePreviewComponent implements AfterViewInit {
 
   private paper = viewChild<ElementRef<HTMLElement>>('paper');
 
-  constructor(private renderer: Renderer2, private chdRef: ChangeDetectorRef) {}
+  constructor(
+    private renderer: Renderer2,
+    private chdRef: ChangeDetectorRef,
+  ) {}
 
   ngAfterViewInit() {
     this.renderer.listen(window, 'beforeprint', this.onBeforePrint.bind(this));
@@ -60,8 +63,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       s.href = css;
       s.rel = 'stylesheet';
       s.type = 'text/css';
-      s.id =
-        'S_' + (css.split('/').pop()?.split('.').at(0) ?? 'publicCss-' + Math.random() * 10000);
+      s.id = 'S_' + (css.split('/').pop()?.split('.').at(0) ?? 'publicCss-' + Math.random() * 10000);
       this.doc.head.appendChild(s);
     }
 

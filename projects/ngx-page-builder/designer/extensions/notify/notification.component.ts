@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  ChangeDetectorRef,
-  Inject,
-  DOCUMENT,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject, DOCUMENT, inject } from '@angular/core';
 import { NgxPgNotifyPayload } from './notify.model';
 
 @Component({
@@ -18,13 +9,10 @@ import { NgxPgNotifyPayload } from './notify.model';
       role="status"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
-      [attr.aria-live]="
-        payload.type === 'error' || payload.type === 'warning' ? 'assertive' : 'polite'
-      "
-      [innerHTML]="safeMessage"
-    >
+      [attr.aria-live]="payload.type === 'error' || payload.type === 'warning' ? 'assertive' : 'polite'"
+      [innerHTML]="safeMessage">
       @if (options.dismissible) {
-      <button class="ngx-pg-close" (click)="close($event)" aria-label="close">×</button>
+        <button class="ngx-pg-close" (click)="close($event)" aria-label="close">×</button>
       }
     </div>
   `,
@@ -61,13 +49,9 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
       // we just rely on host element's DOM node
       const host = (this as any)._host || null;
       // simpler: add class via DOM
-      const native: HTMLElement | null = (this as any).elementRef
-        ? (this as any).elementRef.nativeElement
-        : null;
+      const native: HTMLElement | null = (this as any).elementRef ? (this as any).elementRef.nativeElement : null;
       try {
-        (this as any).rootEl = this.doc.querySelector(
-          `.ngx-pg-notify[data-id=\"${this.payload.id}\"]`
-        );
+        (this as any).rootEl = this.doc.querySelector(`.ngx-pg-notify[data-id=\"${this.payload.id}\"]`);
       } catch (e) {}
       this.addShowClass();
     }, 10);

@@ -8,15 +8,13 @@
         [item]="item"
         [parentCollection]="parentCollection"
         [collectionDsList]="collectionDsList"
-        (change)="onChangeProperties()"
-      ></text-binding>
+        (change)="onChangeProperties()"></text-binding>
     }
 
     @if (item.customComponent && settingComponent) {
       <ng-container
         [ngComponentOutlet]="settingComponent"
-        [ngComponentOutletInjector]="item.customComponent.compInjector"
-      ></ng-container>
+        [ngComponentOutletInjector]="item.customComponent.compInjector"></ng-container>
     } @else {
       <p>No settings available.</p>
     }

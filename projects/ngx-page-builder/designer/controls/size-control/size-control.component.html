@@ -11,8 +11,7 @@
                 property: property,
                 label: getLabel(property),
               }
-            "
-          ></ng-container>
+            "></ng-container>
         </ng-container>
       }
     </tbody>
@@ -30,8 +29,7 @@
                 property: property,
                 label: getLabel(property),
               }
-            "
-          ></ng-container>
+            "></ng-container>
         </ng-container>
       }
     </tbody>
@@ -53,14 +51,12 @@
           (ngModelChange)="update()"
           [min]="0"
           [disabled]="sizeValue.unit == 'auto'"
-          [readonly]="sizeValue.unit == 'auto'"
-        />
+          [readonly]="sizeValue.unit == 'auto'" />
         <select
           [(ngModel)]="sizeValue.unit"
           (ngModelChange)="onChangeUnit(property)"
           [attr.name]="'unit-' + property"
-          class="unit"
-        >
+          class="unit">
           <option value="auto">{{ isMaxProperty(property) ? 'None' : 'Auto' }}</option>
           <option value="px">px</option>
           <option value="%">%</option>

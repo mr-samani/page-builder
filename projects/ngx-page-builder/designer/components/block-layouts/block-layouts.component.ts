@@ -3,8 +3,8 @@ import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
-import { PageItem } from "ngx-page-builder/core";
-import { Page } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
+import { Page } from 'ngx-page-builder/core';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',
@@ -30,10 +30,7 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
     this.pagebuiderChangeSubscription = this.pageBuilder.changed$
       .pipe(
         debounceTime(300),
-        filter(
-          (data) =>
-            data.type == 'AddBlock' || data.type == 'RemoveBlock' || data.type == 'MoveBlock',
-        ),
+        filter((data) => data.type == 'AddBlock' || data.type == 'RemoveBlock' || data.type == 'MoveBlock'),
         distinctUntilChanged((prv, cur) => {
           return prv.item?.id == cur.item?.id && prv.type == cur.type;
         }),

@@ -6,8 +6,7 @@
         (click)="onSelectClass(item.name)"
         [class.active]="item.name == activeClass"
         #chips
-        (dblclick)="editClassName(item, chips)"
-      >
+        (dblclick)="editClassName(item, chips)">
         @if (item.editMode) {
           <input
             type="text"
@@ -15,8 +14,7 @@
             maxlength="50"
             (blur)="onBlurEditClassName(item)"
             (keydown.enter)="onBlurEditClassName(item)"
-            (keydown.esc)="cancelEditClassName(item, $event)"
-          />
+            (keydown.esc)="cancelEditClassName(item, $event)" />
         } @else {
           <button type="button" (click)="remove(i)" class="chips-remove">
             <svg Icon="assets/icons/xmark.svg"></svg>
@@ -48,8 +46,7 @@
           (input)="onInputChange()"
           (click)="showSuggestions = true"
           autocomplete="off"
-          (keydown.enter)="onAddClass(searchClassModel)"
-        />
+          (keydown.enter)="onAddClass(searchClassModel)" />
         <!-- Detect input changes for suggestions -->
 
         <!-- Suggestions dropdown (shown when user starts typing) -->

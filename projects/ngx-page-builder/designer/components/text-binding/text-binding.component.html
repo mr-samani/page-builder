@@ -3,27 +3,21 @@
   <data-source-selector
     [selectedItem]="item.dataSource?.binding"
     [list]="collectionDsList"
-    (selectedKey)="onChangeCollectionKey($event)"
-  ></data-source-selector>
+    (selectedKey)="onChangeCollectionKey($event)"></data-source-selector>
   @if (item.dataSource) {
-    <button type="button" (click)="item.dataSource.binding = ''; onChangeCollectionKey([])">
-      X
-    </button>
+    <button type="button" (click)="item.dataSource.binding = ''; onChangeCollectionKey([])">X</button>
   }
 }
 
 <div>
-  <switch [(ngModel)]="useDynamicData" name="useDynamicData" (change)="onChangeUseDs()">
-    Binding to dynamic data
-  </switch>
+  <switch [(ngModel)]="useDynamicData" name="useDynamicData" (change)="onChangeUseDs()">Binding to dynamic data</switch>
 </div>
 
 @if (useDynamicData) {
   <data-source-selector
     [selectedItem]="selectedNamespace"
     [list]="dsList"
-    (selectedKey)="onChangeKey($event)"
-  ></data-source-selector>
+    (selectedKey)="onChangeKey($event)"></data-source-selector>
 } @else if (!item.dataSource?.binding && !item.isImageTag) {
   <div class="text" (click)="openTextEditor()">
     <span [innerHTML]="item.content | safeHtml" class="content"></span>

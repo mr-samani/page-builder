@@ -101,11 +101,7 @@ export class ClassManagerService {
    * Hybrid Approach: فایل رو raw load می‌کنیم + کلاس‌ها رو extract می‌کنیم
    * این روش بهترین performance و compatibility رو داره
    */
-  public async addCssFileHybrid(
-    name: string,
-    content: string,
-    isPublicFile = false
-  ): Promise<ICssFile> {
+  public async addCssFileHybrid(name: string, content: string, isPublicFile = false): Promise<ICssFile> {
     name = this.validateName(name);
 
     // Extract کردن کلاس‌های موجود برای autocomplete
@@ -177,7 +173,7 @@ export class ClassManagerService {
 
     // ساخت style element برای CSS های عمومی (Bootstrap و غیره)
     let existingPublicStyle = this.innerShadowRootDom.querySelector(
-      'style#NgxPageBuilderPublicCSS'
+      'style#NgxPageBuilderPublicCSS',
     ) as HTMLStyleElement;
 
     if (!existingPublicStyle) {
@@ -190,9 +186,7 @@ export class ClassManagerService {
     this.publicStyleElement = existingPublicStyle;
 
     // ساخت style element برای CSS های custom
-    let existingStyle = this.innerShadowRootDom.querySelector(
-      'style#NgxPageBuilderClassUI'
-    ) as HTMLStyleElement;
+    let existingStyle = this.innerShadowRootDom.querySelector('style#NgxPageBuilderClassUI') as HTMLStyleElement;
 
     if (!existingStyle) {
       existingStyle = this.doc.createElement('style');
@@ -219,11 +213,7 @@ export class ClassManagerService {
     let index = 0;
     let finalName = baseName;
 
-    while (
-      this.cssFileData.some(
-        (x) => x.name.toLowerCase() === finalName.toLowerCase() && x.id !== excludeId
-      )
-    ) {
+    while (this.cssFileData.some((x) => x.name.toLowerCase() === finalName.toLowerCase() && x.id !== excludeId)) {
       index++;
       finalName = `${baseName}_${index}`;
     }
@@ -337,14 +327,10 @@ export class ClassManagerService {
     if (!item.classList || !Array.isArray(item.classList)) return;
 
     const oldClassName =
-      oldSelector.startsWith('.') || oldSelector.startsWith('#')
-        ? oldSelector.substring(1)
-        : oldSelector;
+      oldSelector.startsWith('.') || oldSelector.startsWith('#') ? oldSelector.substring(1) : oldSelector;
 
     const newClassName =
-      newSelector.startsWith('.') || newSelector.startsWith('#')
-        ? newSelector.substring(1)
-        : newSelector;
+      newSelector.startsWith('.') || newSelector.startsWith('#') ? newSelector.substring(1) : newSelector;
 
     const index = item.classList.indexOf(oldClassName);
 
@@ -395,11 +381,7 @@ export class ClassManagerService {
     }
   }
 
-  public async updateCssFile(
-    fileId: string,
-    content: string | Record<string, string>,
-    replace = true
-  ): Promise<void> {
+  public async updateCssFile(fileId: string, content: string | Record<string, string>, replace = true): Promise<void> {
     const fileIndex = this.cssFileData.findIndex((f) => f.id === fileId);
     if (fileIndex === -1) {
       throw new Error(`File with id ${fileId} not found`);
@@ -574,11 +556,7 @@ export class ClassManagerService {
     }
   }
 
-  public updateClass(
-    selector: string,
-    styles: Partial<CSSStyleDeclaration> | string,
-    fileId?: string
-  ): void {
+  public updateClass(selector: string, styles: Partial<CSSStyleDeclaration> | string, fileId?: string): void {
     if (!this.styleSheet) {
       console.warn('StyleSheet not initialized. Call initialize() first.');
       return;
@@ -586,8 +564,7 @@ export class ClassManagerService {
 
     const cssText = typeof styles === 'string' ? styles : this.styleObjectToString(styles);
     const normalizedSelector = this.normalizeSelector(selector);
-    const targetFileId =
-      fileId || this.rulesMap.get(normalizedSelector)?.fileId || this.cssFileData[0]?.id;
+    const targetFileId = fileId || this.rulesMap.get(normalizedSelector)?.fileId || this.cssFileData[0]?.id;
 
     if (!targetFileId) {
       console.error('No file available to add class');
@@ -624,7 +601,7 @@ export class ClassManagerService {
     selector: string,
     styles: Partial<CSSStyleDeclaration> | string,
     delay: number = 16,
-    fileId?: string
+    fileId?: string,
   ): void {
     const normalizedSelector = this.normalizeSelector(selector);
 
@@ -641,20 +618,13 @@ export class ClassManagerService {
     this.debounceTimers.set(normalizedSelector, timer);
   }
 
-  public updateClassImmediate(
-    selector: string,
-    styles: Partial<CSSStyleDeclaration> | string,
-    fileId?: string
-  ): void {
+  public updateClassImmediate(selector: string, styles: Partial<CSSStyleDeclaration> | string, fileId?: string): void {
     requestAnimationFrame(() => {
       this.updateClass(selector, styles, fileId);
     });
   }
 
-  public updateClasses(
-    classes: Record<string, Partial<CSSStyleDeclaration> | string>,
-    fileId?: string
-  ): void {
+  public updateClasses(classes: Record<string, Partial<CSSStyleDeclaration> | string>, fileId?: string): void {
     requestAnimationFrame(() => {
       Object.entries(classes).forEach(([selector, styles]) => {
         this.updateClass(selector, styles, fileId);
@@ -837,7 +807,7 @@ export class ClassManagerService {
               s
                 .substring(1)
                 .split(/[\s:>\+~\[]/)[0]
-                .trim()
+                .trim(),
             )
             .filter((s) => s);
 

@@ -5,7 +5,7 @@ import { ImportOptions } from './ImportOptions';
 import { ImportResult } from './ImportResult';
 import { CORS_PROXIES, NOT_ALLOWED_TAGS } from './allowed-consts';
 import { HtmlImporter } from './import-helper';
-import { PageItem } from "ngx-page-builder/core";
+import { PageItem } from 'ngx-page-builder/core';
 
 @Injectable()
 export class ImportHtmlService {
@@ -14,11 +14,7 @@ export class ImportHtmlService {
   /**
    * Import از URL با querySelector
    */
-  async importFromUrl(
-    url: string,
-    querySelector: string,
-    options?: ImportOptions,
-  ): Promise<ImportResult> {
+  async importFromUrl(url: string, querySelector: string, options?: ImportOptions): Promise<ImportResult> {
     try {
       // اعتبارسنجی URL
       if (!this.isValidUrl(url)) {
@@ -58,9 +54,7 @@ export class ImportHtmlService {
       if (!element) {
         const warnings = [];
         if (!options?.useRenderer) {
-          warnings.push(
-            'The page is probably an SPA and needs to be rendered. Enable the useRenderer option.',
-          );
+          warnings.push('The page is probably an SPA and needs to be rendered. Enable the useRenderer option.');
         }
         return {
           success: false,
@@ -70,10 +64,7 @@ export class ImportHtmlService {
       }
 
       // تبدیل به PageItem
-      const pageItems = await HtmlImporter.convertElementToPageItem(
-        element as HTMLElement,
-        options,
-      );
+      const pageItems = await HtmlImporter.convertElementToPageItem(element as HTMLElement, options);
 
       return {
         success: true,
@@ -157,11 +148,7 @@ export class ImportHtmlService {
   /**
    * Import از HTML String
    */
-  async importFromHtml(
-    htmlString: string,
-    querySelector: string,
-    options?: ImportOptions,
-  ): Promise<ImportResult> {
+  async importFromHtml(htmlString: string, querySelector: string, options?: ImportOptions): Promise<ImportResult> {
     try {
       if (!htmlString || htmlString.trim().length === 0) {
         return {
@@ -181,8 +168,7 @@ export class ImportHtmlService {
       }
 
       // گرفتن body یا اولین المنت
-      const rootElement =
-        querySelector != 'html' && doc.body.children.length > 0 ? doc.body : doc.documentElement;
+      const rootElement = querySelector != 'html' && doc.body.children.length > 0 ? doc.body : doc.documentElement;
 
       if (!rootElement || rootElement.children.length === 0) {
         return {
@@ -194,16 +180,12 @@ export class ImportHtmlService {
       // پیدا کردن المنت با querySelector
 
       const elChilds =
-        !querySelector || querySelector == 'html'
-          ? [rootElement]
-          : doc.documentElement.querySelectorAll(querySelector);
+        !querySelector || querySelector == 'html' ? [rootElement] : doc.documentElement.querySelectorAll(querySelector);
 
       if (!elChilds || elChilds.length == 0) {
         const warnings = [];
         if (!options?.useRenderer) {
-          warnings.push(
-            'The page is probably an SPA and needs to be rendered. Enable the useRenderer option.',
-          );
+          warnings.push('The page is probably an SPA and needs to be rendered. Enable the useRenderer option.');
         }
         return {
           success: false,

@@ -77,8 +77,7 @@ export class PageItem implements IPageItem {
    * @readonly
    */
   public get CanBeSetContent(): boolean {
-    const isComponent =
-      this.customComponent && typeof this.customComponent.component === 'function';
+    const isComponent = this.customComponent && typeof this.customComponent.component === 'function';
     return !(this.el?.tagName === 'IMG' || isComponent === true);
   }
 
@@ -109,16 +108,12 @@ export class PageItem implements IPageItem {
 
   public async getComponentInstance(sourceItemList: SourceItem[]) {
     if (this.customComponent && this.customComponent.componentKey) {
-      const finded = sourceItemList.find(
-        (x) => x.customComponent?.componentKey === this.customComponent!.componentKey
-      );
+      const finded = sourceItemList.find((x) => x.customComponent?.componentKey === this.customComponent!.componentKey);
       if (finded) {
         this.customComponent = { ...this.customComponent, ...finded.customComponent! };
         return await this.customComponent.component();
       } else {
-        console.error(
-          `Custom component with key ${this.customComponent.componentKey} not found in CustomSources.`
-        );
+        console.error(`Custom component with key ${this.customComponent.componentKey} not found in CustomSources.`);
       }
     }
     return undefined;
