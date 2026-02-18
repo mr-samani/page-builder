@@ -22,7 +22,7 @@ import { NgxPgNotifyModule, Notify } from '../extensions/notify';
 import { SvgIconDirective } from '../directives/svg-icon.directive';
 import { FocusContext } from '../services/shortcut.service';
 
-import { preparePageDataForSave } from '../services/storage/prepare-page-builder-data';
+import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';

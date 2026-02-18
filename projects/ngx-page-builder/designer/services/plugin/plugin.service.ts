@@ -1,10 +1,10 @@
 import { inject, Inject, Injectable } from '@angular/core';
-import { sanitizeForStorage } from '../storage/sanitizeForStorage';
+import { sanitizeForStorage } from '../../helper/sanitizeForStorage';
 
 import { PageBuilderService } from '../page-builder.service';
 import { NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE } from './plugin.token';
 import { IPluginStore } from './plugin.store';
-import { preparePageItems } from '../storage/prepare-page-builder-data';
+import { preparePageItems } from '../../helper/prepare-page-builder-data';
 
 import { IPageItem, IPaginationPlugin, IPlugin, PageItem, deepCloneInstance } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';

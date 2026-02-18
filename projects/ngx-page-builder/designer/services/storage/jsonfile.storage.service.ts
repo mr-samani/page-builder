@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IStorageService } from './IStorageService';
 import { PageBuilderService } from '../page-builder.service';
-import { preparePageDataForSave } from './prepare-page-builder-data';
+import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import { FileSelectionError, FileSelectionException, FileSelector } from '../../helper/FileSelector';
 import { IPagebuilderOutput, PageBuilderDto, downloadFile } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';

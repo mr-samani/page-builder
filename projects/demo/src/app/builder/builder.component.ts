@@ -26,6 +26,7 @@ import { PluginService } from './plugin.service';
       storageType: StorageType.JSONFile,
       enableExportAsPlugin: false,
       showPlugins: false,
+      enableHistory: true,
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: false,

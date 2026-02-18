@@ -16,7 +16,7 @@ export * from './ngx-page-builder.provider';
 // Storage Services
 export * from './services/storage/token.storage';
 export * from './services/storage/IStorageService';
-export * from './services/storage/prepare-page-builder-data';
+export * from './helper/prepare-page-builder-data';
 
 // Page Builder Services
 export * from './services/page-builder.service';

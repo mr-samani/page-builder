@@ -1,42 +1,73 @@
-export function isEqual<T = any>(a: T, b: T): boolean {
-  // 1. Check for strict equality (handles primitives and same reference)
-  if (a === b) {
+export function isEqual<T = unknown>(a: T, b: T): boolean {
+  if (a === b) return true;
+
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    if ((a as any).constructor !== (b as any).constructor) return false;
+
+    // Array
+    if (Array.isArray(a)) {
+      if (a.length !== (b as unknown[]).length) return false;
+      for (let i = a.length; i-- !== 0; ) {
+        if (!isEqual(a[i], (b as unknown[])[i])) return false;
+      }
+      return true;
+    }
+
+    // Map
+    if (a instanceof Map && b instanceof Map) {
+      if (a.size !== b.size) return false;
+      for (const [key, value] of a) {
+        if (!b.has(key)) return false;
+        if (!isEqual(value, b.get(key))) return false;
+      }
+      return true;
+    }
+
+    // Set
+    if (a instanceof Set && b instanceof Set) {
+      if (a.size !== b.size) return false;
+      for (const value of a) {
+        if (!b.has(value)) return false;
+      }
+      return true;
+    }
+
+    // TypedArray / DataView
+    if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+      if (a.byteLength !== b.byteLength) return false;
+
+      const viewA = new Uint8Array(a.buffer, a.byteOffset, a.byteLength);
+      const viewB = new Uint8Array(b.buffer, b.byteOffset, b.byteLength);
+
+      for (let i = viewA.length; i-- !== 0; ) {
+        if (viewA[i] !== viewB[i]) return false;
+      }
+
+      return true;
+    }
+
+    // RegExp
+    if (a instanceof RegExp && b instanceof RegExp) {
+      return a.source === b.source && a.flags === b.flags;
+    }
+
+    // valueOf override (Date, etc.)
+    if ((a as any).valueOf !== Object.prototype.valueOf) {
+      return (a as any).valueOf() === (b as any).valueOf();
+    }
+
+    // Plain object
+    const keys = Object.keys(a as Record<string, unknown>);
+    if (keys.length !== Object.keys(b as Record<string, unknown>).length) return false;
+
+    for (let i = keys.length; i-- !== 0; ) {
+      const key = keys[i];
+      if (!Object.prototype.hasOwnProperty.call(b, key)) return false;
+      if (!isEqual((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])) return false;
+    }
+
     return true;
   }
 
-  // 2. Check if either is null or not an object (if so, they are not equal because strict equality failed)
-  if (a === null || typeof a !== 'object' || b === null || typeof b !== 'object') {
-    return false;
-  }
-
-  // 3. Check if the constructors are different (e.g., Array vs Object)
-  if (a.constructor !== b.constructor) {
-    return false;
-  }
-
-  // 4. Handle Date objects specifically
-  if (a instanceof Date && b instanceof Date) {
-    return a.getTime() === b.getTime();
-  }
-
-  // 5. Get keys of both objects
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-
-  // 6. Check if the number of keys is different
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  // 7. Recursively check every key
-  for (let i = 0; i < keysA.length; i++) {
-    const key = keysA[i];
-
-    // Check if the key exists in B and if the values are deeply equal
-    if (!Object.prototype.hasOwnProperty.call(b, key) || !isEqual((a as any)[key], (b as any)[key])) {
-      return false;
-    }
-  }
-
-  return true;
+  return a !== a && b !== b; // NaN case
 }

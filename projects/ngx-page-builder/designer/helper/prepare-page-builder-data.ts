@@ -1,5 +1,5 @@
 import { sanitizeForStorage } from './sanitizeForStorage';
-import { PageBuilderService } from '../page-builder.service';
+import { PageBuilderService } from '../services/page-builder.service';
 
 import {
   IPageBuilderDto,
@@ -11,7 +11,7 @@ import {
   PageItem,
   deepCloneInstance,
 } from 'ngx-page-builder/core';
-import { ClassManagerService } from '../class-manager.service';
+import { ClassManagerService } from '../services/class-manager.service';
 
 export function preparePageDataForSave(pageBuilder: PageBuilderService): Promise<IPagebuilderOutput> {
   const pageInfo: PageBuilderDto = pageBuilder.pageInfo;

@@ -10,7 +10,7 @@ import { ExportHtmlService } from '../../services/import-export/export-html.serv
 import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
-import { preparePageDataForSave } from '../../services/storage/prepare-page-builder-data';
+import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import { LibConsts, PageItem, PagePreviewService, CustomToolbarButtons } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 
@@ -55,6 +55,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     return this.history.canRedo();
   }
   undo() {
+    debugger;
     if (!this.pageBuilder.currentPage) {
       return;
     }

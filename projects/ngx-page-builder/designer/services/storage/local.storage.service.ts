@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PageBuilderService } from '../page-builder.service';
 import { IStorageService } from './IStorageService';
-import { preparePageDataForSave } from './prepare-page-builder-data';
+import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 
 import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig, PageBuilderDto } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';

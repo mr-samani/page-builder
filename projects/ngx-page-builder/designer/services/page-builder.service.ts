@@ -106,7 +106,7 @@ export class PageBuilderService implements OnDestroy {
       this.onSelectBlock(source);
       this.updateChangeDetection({ item: source, parent: event.container.data, type: 'AddBlock' });
 
-      this.history.save('add', source, `Add block'${source.id}' to '${parent?.id}'`);
+      this.history.saveAdd(parent?.id, event.currentIndex, source, `Add block'${source.id}' to '${parent?.id}'`);
     } else {
       // بررسی اجازه جابجایی در ایتم های کالکشن (لیست تکرار شونده)
       if (this.canMove(dragItem, event.container) == false) {
@@ -125,9 +125,13 @@ export class PageBuilderService implements OnDestroy {
         type: 'MoveBlock',
       });
 
-      this.history.save(
-        'edit',
-        dragItem,
+      this.history.saveMove(
+        dragItem.id,
+        dragItem.parent?.id,
+        event.previousIndex,
+        event.container.data[event.currentIndex]?.parent?.id,
+        event.currentIndex,
+        event.container.data[event.currentIndex],
         `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${
           event.container.data[event.currentIndex]?.parent?.id
         }'`,
@@ -399,7 +403,7 @@ export class PageBuilderService implements OnDestroy {
     this.activeEl.set(undefined);
     this.updateChangeDetection({ item: item, parent: parentChildren, type: 'RemoveBlock' });
 
-    this.history.save('delete', item, `Delete block '${item.id}' from '${item.parent?.id}'`);
+    this.history.saveDelete(item.parent?.id, index, item, `Delete block '${item.id}' from '${item.parent?.id}'`);
   }
 
   writeItemValue(data: PageItem) {
@@ -413,7 +417,8 @@ export class PageBuilderService implements OnDestroy {
     }
     this.updateChangeDetection({ item: item, type: 'ChangeBlockProperties' });
 
-    this.history.save('edit', item, `Change properties '${item.id}': '${item.el?.style?.cssText}'`);
+    // TODO: required previouws snapshot
+    this.history.saveEdit(item.id, item, item, `Change properties '${item.id}': '${item.el?.style?.cssText}'`);
   }
 
   save() {
