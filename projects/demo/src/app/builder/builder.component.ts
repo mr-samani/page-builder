@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, DOCUMENT, inject, OnInit, viewChild } from '@angular/core';
-import { IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
+import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
   NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
   NGX_PAGE_BUILDER_FILE_PICKER,
@@ -11,7 +11,7 @@ import {
 import { FilePickerService } from './file-picker.service';
 import { DynamicData } from '../dynamic-data/dynamic-data';
 import { HtmlEditorService } from './html-editor.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CustomSources } from '../custom-source/custom-sources';
 import { LocalStoreService } from '../custom-storage/localstore.service';
 import { PluginService } from './plugin.service';
@@ -19,7 +19,7 @@ import { PluginService } from './plugin.service';
   selector: 'app-builder',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.css'],
-  imports: [NgxPageBuilder, RouterLink],
+  imports: [NgxPageBuilder],
   providers: [
     providePageBuilder({
       customSources: CustomSources,
@@ -157,7 +157,19 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     },
   ];
 
+  customButtons: CustomToolbarButtons[] = [
+    {
+      title: 'preview page',
+      icon: '<i class="fa fa-preview">ppp</p>',
+      callback: () => {
+        let newRelativeUrl = this.router.createUrlTree(['/preview']);
+        window.open(newRelativeUrl.toString(), '_blank');
+      },
+    },
+  ];
+
   private readonly doc = inject(DOCUMENT);
+  private readonly router = inject(Router);
   constructor() {}
 
   ngOnInit() {

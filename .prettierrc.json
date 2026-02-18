@@ -1,21 +1,7 @@
 {
-  "tabWidth": 2,
-  "useTabs": false,
-  "singleQuote": true,
-  "semi": true,
-  "bracketSpacing": true,
-  "arrowParens": "avoid",
-  "trailingComma": "es5",
-  "bracketSameLine": true,
   "printWidth": 120,
-
+  "singleQuote": true,
   "htmlWhitespaceSensitivity": "ignore",
-  "overrides": [
-    {
-      "files": ["*.html"],
-      "options": {
-        "parser": "angular"
-      }
-    }
-  ]
+  "bracketSameLine": true,
+  "semi": true
 }

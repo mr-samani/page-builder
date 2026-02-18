@@ -1,8 +1,4 @@
-<button
-  (click)="toggleOutlines()"
-  title="Toggle outlines"
-  [class.active]="pageBuilder.showOutlines()"
->
+<button (click)="toggleOutlines()" title="Toggle outlines" [class.active]="pageBuilder.showOutlines()">
   <svg Icon="assets/icons/outlines.svg"></svg>
 </button>
 <button (click)="deSelectBlock()" title="Deselect block">
@@ -28,8 +24,7 @@
       [max]="pageBuilder.pageInfo.pages.length"
       type="number"
       [(ngModel)]="pageNumber"
-      (change)="changePage()"
-    />
+      (change)="changePage()" />
     <span>/</span>
     <span>{{ pageBuilder.pageInfo.pages.length }}</span>
     <button (click)="nextPage()" title="Next page">
@@ -65,39 +60,40 @@
     <svg Icon="assets/icons/file-export.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showImportHtmlButton) {
   <button (click)="importHtml()" title="Import Html">
     <svg Icon="assets/icons/download.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showConfigButton) {
   <button (click)="openConfigDialog()" title="Configuration">
     <svg Icon="assets/icons/cog.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showPrintButton) {
   <button (click)="print()" title="Print">
     <svg Icon="assets/icons/printer.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showPreviewButton) {
   <button (click)="preview()" title="preview">
     <svg Icon="assets/icons/monitor.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showSaveButton) {
   <button (click)="onSave()" title="Save">
     <svg Icon="assets/icons/save.svg"></svg>
   </button>
 }
-
 @if (toolbarConfig?.showOpenButton) {
   <button (click)="onOpen()" title="Open">
     <svg Icon="assets/icons/folder-open.svg"></svg>
   </button>
+}
+@if (customToolbarButtons && customToolbarButtons.length > 0) {
+  @for (btn of customToolbarButtons; track $index) {
+    <button (click)="btn.callback()" [title]="btn.title">
+      <span [innerHTML]="btn.icon"></span>
+    </button>
+  }
 }

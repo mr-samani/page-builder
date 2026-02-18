@@ -13,18 +13,6 @@
     "build:icons": "node scripts/build-icons.js",
     "ngFixImport": "node scripts/fix-shared-imports.js --apply"
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "packageManager": "npm@11.7.0",
   "dependencies": {
@@ -58,6 +46,7 @@
     "jsdom": "^27.1.0",
     "minimist": "^1.2.8",
     "ng-packagr": "^21.1.0",
+    "prettier": "^3.8.1",
     "recast": "^0.23.11",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"

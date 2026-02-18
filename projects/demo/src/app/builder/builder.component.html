@@ -1,9 +1,8 @@
-<a routerLink="/preview" target="_blank">preview</a>
 <ngx-page-builder
   #pageBuilder
+  [customToolbarButtons]="customButtons"
   [dynamicData]="dynamicData"
   [viewMode]="'PrintPage'"
   [data]="data"
   [config]="config"
-  [styles]="styles"
-></ngx-page-builder>
+  [styles]="styles"></ngx-page-builder>

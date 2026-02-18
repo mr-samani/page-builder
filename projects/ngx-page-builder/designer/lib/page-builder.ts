@@ -40,6 +40,7 @@ import {
   validateViewMode,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
+import { CustomToolbarButtons } from 'ngx-page-builder/core/models/CustomToolbarButtons';
 
 @Component({
   standalone: true,
@@ -92,6 +93,8 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   set SetViewMode(val: ViewMode) {
     super.viewMode = val;
   }
+
+  @Input() customToolbarButtons: CustomToolbarButtons[] = [];
 
   blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
 

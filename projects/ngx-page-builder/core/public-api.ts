@@ -25,6 +25,7 @@ export * from './models/PageItem';
 export * from './models/Page';
 export * from './models/types';
 export * from './models/storage-type';
+export * from './models/CustomToolbarButtons';
 
 // Services (بدون dependency به Material یا libraries دیگر)
 export * from './services/dynamic-data.service';

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, Injector, Input, OnInit } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,8 +11,9 @@ import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../services/storage/prepare-page-builder-data';
-import { DynamicDataService, LibConsts, PageItem, PagePreviewService } from 'ngx-page-builder/core';
+import { LibConsts, PageItem, PagePreviewService } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
+import { CustomToolbarButtons } from 'ngx-page-builder/core/models/CustomToolbarButtons';
 
 @Component({
   selector: 'toolbar',
@@ -24,6 +25,7 @@ import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.compone
   providers: [ExportHtmlService],
 })
 export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit {
+  @Input() customToolbarButtons: CustomToolbarButtons[] = [];
   pageNumber: number = 1;
   enableHistory = LibConsts.enableHistory;
   toolbarConfig = LibConsts.toolbarConfig;
