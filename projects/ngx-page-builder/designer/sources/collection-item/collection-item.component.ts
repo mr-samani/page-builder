@@ -131,7 +131,6 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     this.pageItem.children = [];
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-
       await this.pageBuilder.createBlockElement(true, cloned, this.collectionContainer.nativeElement);
       this.pageItem.children.push(cloned);
     }

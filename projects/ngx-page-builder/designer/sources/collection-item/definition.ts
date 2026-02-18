@@ -5,6 +5,7 @@ export const CollectionItemSource = new SourceItem({
   icon: 'assets/icons/collection.svg',
   title: 'Collection Item',
   classList: ['collection-container'],
+  canHaveChild: true,
   css: `
   .collection-container{
     display: flex;

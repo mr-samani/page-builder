@@ -51,6 +51,7 @@ export class SourceItem {
   /**
    * can have child elements
    * like div, section,...
+   * - هر ایتمی که children دارد باید canhavchild=true باشد چون ngx-drag-drop-kit باید بتواند اندکس ها را درست حساب کند
    * @example true
    */
   canHaveChild?: boolean;

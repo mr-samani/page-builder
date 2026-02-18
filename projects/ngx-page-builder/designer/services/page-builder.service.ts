@@ -302,17 +302,13 @@ export class PageBuilderService implements OnDestroy {
       item.options ??= {};
       item.options.directives ??= [];
       if (item.options.directives.length > 0) {
-        console.log('Directives already present', item.tag, item.options.directives);
+        console.error('Directives already present', item.tag, item.options.directives);
+        throw new Error('TDirectives already present');
       }
-      let directives = await getDefaultBlockDirective(item, (ev: IDropEvent<PageItem[]>) => {
+      item.options.directives = await getDefaultBlockDirective(item, (ev: IDropEvent<PageItem[]>) => {
         this.onDrop(ev, item);
       });
 
-      for (let d of directives) {
-        if (item.options.directives.findIndex((x: Directive) => x.directive == d.directive) === -1) {
-          item.options.directives.push(d);
-        }
-      }
       if (item.options.directives.length >= 3) {
         throw new Error('Too many directives');
       }

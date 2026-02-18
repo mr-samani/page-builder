@@ -4,6 +4,7 @@ export const ColumnSource = new SourceItem({
   tag: 'column',
   icon: 'assets/icons/column.svg',
   title: 'Column',
+  canHaveChild: true,
   options: {
     inputs: {},
   },
