@@ -5,5 +5,5 @@
   "lib": {
     "entryFile": "public-api.ts"
   },
-  "assets": ["collection.json", { "glob": "**/*", "input": "src/assets", "output": "/assets/" }]
+  "assets": ["collection.json", { "glob": "**/*", "input": "designer/assets", "output": "/assets/" }]
 }

@@ -38,9 +38,9 @@ import {
   PageBuilderConfig,
   ViewMode,
   validateViewMode,
+  CustomToolbarButtons,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
-import { CustomToolbarButtons } from 'ngx-page-builder/core/models/CustomToolbarButtons';
 
 @Component({
   standalone: true,
@@ -105,7 +105,11 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
   private doc = inject(DOCUMENT);
 
-  constructor(injector: Injector, private cls: ClassManagerService, private dialog: MatDialog) {
+  constructor(
+    injector: Injector,
+    private cls: ClassManagerService,
+    private dialog: MatDialog,
+  ) {
     super(injector);
     this.pageBuilder.storageService = this.storageService;
     this.pageBuilder.changed$.subscribe((data: PageItemChange) => {
