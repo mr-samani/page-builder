@@ -60,15 +60,18 @@
   .block-item {
     outline: 1px dashed #8d8d8d;
     outline-offset: 0px;
-    padding: 3px 5px;
-    min-width: 50px;
-    min-height: 20px;
     &:hover {
       outline-color: #00b3ff;
     }
-    &:empty {
-      min-width: 50px;
+  }
+}
+
+@layer defaults {
+  .show-outlines {
+    .block-item {
+      padding: 3px 5px;
       min-height: 20px;
+      min-width: 20px;
     }
   }
 }
