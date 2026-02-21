@@ -11,8 +11,8 @@
   </div>
 
   <div class="list-container">
-    @for (item of plugins; track $index) {
-      <div class="plugin-box" (click)="ok(item)" [title]="item.name">
+    @for (item of plugins; track $index; let i = $index) {
+      <div class="plugin-box" [title]="item.name">
         <div class="screenshot-container">
           @if (item.image) {
             <img [src]="item.image" [alt]="item.name" class="screenshot" />
@@ -21,6 +21,17 @@
           }
         </div>
         <div class="name">{{ item.name }}</div>
+
+        <div class="options">
+          <button class="btn" type="button" (click)="ok(item)">
+            <svg Icon="assets/icons/plus.svg"></svg>
+          </button>
+          @if (canDeletePlugin) {
+            <button class="btn" type="button" (click)="deleteItem(item, i)">
+              <svg Icon="assets/icons/trash.svg"></svg>
+            </button>
+          }
+        </div>
       </div>
     }
 

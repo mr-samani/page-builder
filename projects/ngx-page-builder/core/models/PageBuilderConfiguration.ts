@@ -9,6 +9,7 @@ export class PageBuilderConfiguration {
   toolbarConfig?: PageBuilderToolbarConfig;
   enableAddCssFile?: boolean = false;
   enableExportAsPlugin?: boolean = false;
+  canDeletePlugin?: boolean = false;
   showPlugins?: boolean = false;
 
   publicCss?: string[] = [];

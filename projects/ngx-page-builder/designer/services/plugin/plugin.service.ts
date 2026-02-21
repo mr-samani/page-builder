@@ -61,6 +61,11 @@ export class PBPluginService {
   getAllPlugins(take: number, skip: number, filter: string): Promise<IPaginationPlugin> {
     return this.pluginStore.getAllPlugins(take, skip, filter);
   }
+
+  deletePlugin(item: IPlugin, index: number): Promise<boolean> {
+    return this.pluginStore.deletePlugin(item, index);
+  }
+
   addToForm(plugin: IPlugin) {
     return new Promise((resolve, reject) => {
       try {

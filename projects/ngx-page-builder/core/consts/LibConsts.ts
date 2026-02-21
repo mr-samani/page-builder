@@ -22,6 +22,7 @@ export const LibConsts: {
   /** show export button in block setting */
   enableExportAsPlugin: boolean;
   showPlugins: boolean;
+  canDeletePlugin: boolean;
 
   toolbarConfig?: PageBuilderToolbarConfig;
 
@@ -34,6 +35,7 @@ export const LibConsts: {
   enableAddCssFile: false,
   enableExportAsPlugin: false,
   showPlugins: false,
+  canDeletePlugin: false,
   viewMode: 'PrintPage',
   toolbarConfig: new PageBuilderToolbarConfig(),
   publicCss: [],

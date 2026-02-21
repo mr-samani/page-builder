@@ -23,6 +23,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.enableAddCssFile = config.enableAddCssFile === true;
   LibConsts.enableExportAsPlugin = config.enableExportAsPlugin === true;
   LibConsts.showPlugins = config.showPlugins === true;
+  LibConsts.canDeletePlugin = config.canDeletePlugin === true;
 
   if (config.publicCss && Array.isArray(config.publicCss)) {
     LibConsts.publicCss = config.publicCss;

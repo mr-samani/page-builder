@@ -9,7 +9,7 @@ import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
-import { IPlugin } from 'ngx-page-builder/core';
+import { IPlugin, LibConsts } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-plugins-dialog',
@@ -39,6 +39,7 @@ export class PluginsDialogComponent implements OnInit {
   pagination: number[] = [];
   selectedPage = 0;
 
+  canDeletePlugin = LibConsts.canDeletePlugin;
   constructor(
     private dialogRef: MatDialogRef<PluginsDialogComponent>,
     private pluginService: PBPluginService,
@@ -89,5 +90,21 @@ export class PluginsDialogComponent implements OnInit {
     this.selectedPage = p;
     this.skip = p * this.take;
     this.getList();
+  }
+  deleteItem(item: IPlugin, index: number) {
+    item.loading = true;
+    this.pluginService
+      .deletePlugin(item, this.skip + index)
+      .finally(() => (item.loading = false))
+      .then((p) => {
+        if (p) {
+          this.plugins.splice(index, 1);
+        }
+        this.updatePagination();
+        this.chdr.detectChanges();
+      })
+      .catch((error) => {
+        Notify.error(error);
+      });
   }
 }
