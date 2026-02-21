@@ -22,7 +22,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
 
   enableExportAsPlugin = LibConsts.enableExportAsPlugin;
   constructor(
-    injector: Injector,
+    private injector: Injector,
     private dynamicDataService: DynamicDataService,
     private dialog: MatDialog,
   ) {
@@ -72,6 +72,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     this.dialog.open(ExportPluginDialogComponent, {
       data: this.item,
       width: '80%',
+      injector: this.injector,
     });
   }
 }

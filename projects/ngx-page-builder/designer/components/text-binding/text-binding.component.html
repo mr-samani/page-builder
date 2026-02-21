@@ -1,12 +1,16 @@
 @if (parentCollection) {
   <p>Collection Binding:</p>
-  <data-source-selector
-    [selectedItem]="item.dataSource?.binding"
-    [list]="collectionDsList"
-    (selectedKey)="onChangeCollectionKey($event)"></data-source-selector>
-  @if (item.dataSource) {
-    <button type="button" (click)="item.dataSource.binding = ''; onChangeCollectionKey([])">X</button>
-  }
+  <div class="pi-group">
+    <data-source-selector
+      [selectedItem]="item.dataSource?.binding"
+      [list]="collectionDsList"
+      (selectedKey)="onChangeCollectionKey($event)"></data-source-selector>
+    @if (item.dataSource) {
+      <button type="button" class="btn-clear" (click)="item.dataSource.binding = ''; onChangeCollectionKey([])">
+        X
+      </button>
+    }
+  </div>
 }
 
 <div>

@@ -1,10 +1,8 @@
-<div class="data-field">
-  <select [(ngModel)]="selectedItem" id="datasource" name="datasource" (change)="onChange()">
-    @for (item of list; track $index) {
-      <option [value]="item.name">{{ item.displayName }}</option>
-    }
-  </select>
-</div>
+<select [(ngModel)]="selectedItem" id="datasource" name="datasource" (change)="onChange()">
+  @for (item of list; track $index) {
+    <option [value]="item.name">{{ item.displayName }}</option>
+  }
+</select>
 
 @if (childs.length > 0) {
   <data-source-selector

@@ -17,7 +17,7 @@ import {
   imports: [FormsModule],
 })
 export class DataSourceSettingsComponent implements OnInit {
-  settings: DataSourceSetting = {};
+  settings: DataSourceSetting = new DataSourceSetting();
 
   collectionDataSource: DynamicDataStructure[] = [];
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);

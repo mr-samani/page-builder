@@ -1,5 +1,6 @@
 export class DataSourceSetting {
-  id?: string;
+  /** required for search or filter */
+  id!: string;
   skipCount?: number;
   maxResultCount?: number;
   /**

@@ -5,23 +5,29 @@
 @if (settings.useDynamicData) {
   <div class="data-field">
     <label for="datasource">Data Source</label>
-    <select [(ngModel)]="settings.id" id="datasource" name="datasource" (change)="update()">
-      @for (item of collectionDataSource; track item.id) {
-        <option [value]="item.id">{{ item.displayName }}</option>
-      }
-    </select>
+    <div class="pi-group">
+      <select [(ngModel)]="settings.id" id="datasource" name="datasource" (change)="update()">
+        @for (item of collectionDataSource; track item.id) {
+          <option [value]="item.id">{{ item.displayName }}</option>
+        }
+      </select>
+    </div>
   </div>
   <div class="data-field">
     <label for="skipcount">Skip count</label>
-    <input type="number" [(ngModel)]="settings.skipCount" id="skipcount" name="skipCount" (change)="update()" />
+    <div class="pi-group">
+      <input type="number" [(ngModel)]="settings.skipCount" id="skipcount" name="skipCount" (change)="update()" />
+    </div>
   </div>
   <div class="data-field">
     <label for="maxResultCount">Max result count</label>
-    <input
-      type="number"
-      [(ngModel)]="settings.maxResultCount"
-      id="maxResultCount"
-      name="maxResultCount"
-      (change)="update()" />
+    <div class="pi-group">
+      <input
+        type="number"
+        [(ngModel)]="settings.maxResultCount"
+        id="maxResultCount"
+        name="maxResultCount"
+        (change)="update()" />
+    </div>
   </div>
 }

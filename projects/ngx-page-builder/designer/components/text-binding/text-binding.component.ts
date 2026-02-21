@@ -12,7 +12,13 @@ import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
 import { Notify } from '../../extensions/notify';
-import { DEFAULT_IMAGE_URL, DynamicDataService, DynamicDataStructure, PageItem } from 'ngx-page-builder/core';
+import {
+  DataSourceSetting,
+  DEFAULT_IMAGE_URL,
+  DynamicDataService,
+  DynamicDataStructure,
+  PageItem,
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'text-binding',
@@ -53,7 +59,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     if (!this.item.dataSource) {
-      this.item.dataSource = {};
+      this.item.dataSource = new DataSourceSetting();
     }
     let c = (this.item.content ?? '').trim();
     if (c.startsWith('{{') && c.endsWith('}}')) {
@@ -100,7 +106,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
       this.useDynamicData = false;
       this.selectedNamespace = '';
     }
-    this.item.dataSource ??= {};
+    this.item.dataSource ??= new DataSourceSetting();
     this.item.dataSource.binding = `${event.join('.')}`;
     this.change.emit(this.item.dataSource.binding);
   }

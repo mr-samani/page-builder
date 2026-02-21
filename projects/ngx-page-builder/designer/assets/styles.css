@@ -135,7 +135,7 @@ ngx-pg-notification {
   display: contents;
 }
 .web-page-view .page-body {
-  min-height: 95%;
+  min-height: calc(100vh - var(--topbar-height));
 }
 
 .ngx-page-builder .page-break {

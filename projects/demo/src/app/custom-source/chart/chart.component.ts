@@ -1,4 +1,4 @@
-import { Component, signal, NgZone, inject, computed, Inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import { ChartService } from './chart.service';
 import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
@@ -17,7 +17,6 @@ import { IChartConfig } from './chart-config.interface';
   `,
 })
 export class SignalHighChartComponent {
-  ngZone = inject(NgZone);
   updateChart = computed(() => this.chartService.initializeChart());
 
   private readonly context: ComponentDataContext<IChartConfig> = inject(COMPONENT_DATA);

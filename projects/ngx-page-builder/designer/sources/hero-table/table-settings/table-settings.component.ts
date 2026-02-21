@@ -13,7 +13,7 @@ import { COMPONENT_DATA, ComponentDataContext, DynamicDataService, DynamicDataSt
   imports: [FormsModule, SwitchComponent],
 })
 export class HeroTableSettingsComponent implements OnInit {
-  settings: TableSetting = {};
+  settings: TableSetting = new TableSetting();
 
   collectionDataSource: DynamicDataStructure[] = [];
   private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
