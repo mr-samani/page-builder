@@ -106,7 +106,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   private doc = inject(DOCUMENT);
 
   constructor(
-    injector: Injector,
+    private injector: Injector,
     private cls: ClassManagerService,
     private dialog: MatDialog,
   ) {
@@ -157,6 +157,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         width: '80vw',
         minHeight: '80%',
         panelClass: 'ngx-page-builder',
+        injector: this.injector,
       })
       .afterClosed()
       .subscribe((p) => {

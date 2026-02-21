@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +9,7 @@ import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
-import { IPlugin, PageItem } from 'ngx-page-builder/core';
+import { IPlugin } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'app-plugins-dialog',

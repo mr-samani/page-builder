@@ -24,9 +24,8 @@ import { PluginService } from './plugin.service';
     providePageBuilder({
       customSources: CustomSources,
       storageType: StorageType.JSONFile,
-      enableExportAsPlugin: false,
-      showPlugins: false,
-      enableHistory: true,
+      enableExportAsPlugin: true,
+      showPlugins: true,
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: false,

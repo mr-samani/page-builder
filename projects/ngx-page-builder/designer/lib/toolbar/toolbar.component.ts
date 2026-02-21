@@ -55,7 +55,6 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     return this.history.canRedo();
   }
   undo() {
-    debugger;
     if (!this.pageBuilder.currentPage) {
       return;
     }
