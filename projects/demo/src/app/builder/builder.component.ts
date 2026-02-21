@@ -176,7 +176,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     try {
       const savedData = localStorage.getItem('page');
       const parsed = JSON.parse(savedData || '{}');
-      this.data = parsed?.data;
+      this.data = parsed?.data ?? [];
       this.config = parsed?.config;
       this.styles = parsed?.styles;
     } catch (error) {}

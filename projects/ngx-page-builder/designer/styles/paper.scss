@@ -85,7 +85,7 @@
   min-height: 100%;
   display: contents;
   .page-body {
-    min-height: 95%;
+    min-height: calc(100vh - var(--topbar-height));
   }
 }
 
