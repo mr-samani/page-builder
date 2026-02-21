@@ -39,7 +39,6 @@ export class PluginService implements IPluginStore {
 
   deletePlugin(item: IPlugin, index: number): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      debugger;
       this._plugins.splice(index, 1);
       localStorage.setItem('plugins', JSON.stringify(this._plugins));
       resolve(true);

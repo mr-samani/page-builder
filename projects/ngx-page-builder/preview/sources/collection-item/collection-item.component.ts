@@ -59,9 +59,11 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     private dynamicDataService: DynamicDataService,
     private previewService: PagePreviewService,
   ) {
-    this.pageItem.dataSource = this.context.data;
+    if (this.pageItem) {
+      this.pageItem.dataSource = this.context.data;
+      this.chdRef.detectChanges();
+    }
     this.getData();
-    this.chdRef.detectChanges();
   }
 
   ngOnInit() {
@@ -78,7 +80,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
   ngOnDestroy(): void {}
   async getData() {
     this.dataList = [];
-    if (!this.pageItem.dataSource || !this.pageItem.template) {
+    if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
       return;
     }
     const count = this.pageItem.dataSource?.maxResultCount || 10;

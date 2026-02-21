@@ -67,7 +67,9 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
   ) {
-    this.pageItem.dataSource = this.context.data;
+    if (this.pageItem) {
+      this.pageItem.dataSource = this.context.data;
+    }
     this.pageItem.customComponent!.componentData = this.context.data;
     this.settings = this.context.data;
   }

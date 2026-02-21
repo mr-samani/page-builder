@@ -60,7 +60,7 @@
 .show-outlines {
   .block-item {
     outline: 1px dashed #8d8d8d;
-    outline-offset: 0px;
+    outline-offset: -1px;
     &:hover {
       outline-color: #00b3ff;
     }

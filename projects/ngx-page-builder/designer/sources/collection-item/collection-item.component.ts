@@ -64,7 +64,9 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     private dynamicDataService: DynamicDataService,
   ) {
     this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
-      this.pageItem.dataSource = data;
+      if (this.pageItem) {
+        this.pageItem.dataSource = data;
+      }
       this.getData();
       this.chdRef.detectChanges();
     });
@@ -115,7 +117,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   }
   async getData() {
     this.dataList = [];
-    if (!this.pageItem.dataSource || !this.pageItem.template) {
+    if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
       return;
     }
     const count = this.pageItem.dataSource?.maxResultCount || 10;

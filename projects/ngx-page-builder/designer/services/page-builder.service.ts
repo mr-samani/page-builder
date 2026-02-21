@@ -8,6 +8,7 @@ import { IStorageService } from './storage/IStorageService';
 
 import {
   Directive,
+  DynamicDataService,
   DynamicElementService,
   IPageItem,
   LibConsts,
@@ -57,6 +58,7 @@ export class PageBuilderService implements OnDestroy {
   copyStorage?: PageItem;
   constructor(
     private dynamicElementService: DynamicElementService,
+    private dynamicDataService: DynamicDataService,
     private history: HistoryService,
     public cls: ClassManagerService,
   ) {}
@@ -414,6 +416,10 @@ export class PageBuilderService implements OnDestroy {
     if (item.el) {
       // item.style = item.el.style.cssText;
       // item.style = encodeURIComponent(item.el.style.cssText);
+      if (item.content && item.content != item.el.textContent) {
+        item.el.textContent = item.content;
+        // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
+      }
     }
     this.updateChangeDetection({ item: item, type: 'ChangeBlockProperties' });
 

@@ -65,7 +65,7 @@ export class DynamicDataService {
         let isReplaced = false;
         for (const key in this._valueDictionary) {
           const value = this._valueDictionary[key] ?? '';
-          const regEx = new RegExp(`\\[%${key}%\\]`, 'g');
+          const regEx = new RegExp(`\\{{${key}\\}}`, 'g');
           isReplaced = isReplaced || regEx.test(txt);
           txt = txt.replace(regEx, value);
         }
@@ -81,6 +81,19 @@ export class DynamicDataService {
     }, 100);
   }
 
+  public replaceContentValue(content: string): string {
+    if (!content) return '';
+    let txt = content;
+
+    let isReplaced = false;
+    for (const key in this._valueDictionary) {
+      const value = this._valueDictionary[key] ?? '';
+      const regEx = new RegExp(`\\{{${key}\\}}`, 'g');
+      isReplaced = isReplaced || regEx.test(txt);
+      txt = txt.replace(regEx, value);
+    }
+    return txt;
+  }
   /*------------------------------------------------------------------------------------------*/
   register(ds: DynamicDataStructure) {
     this.map.set(ds.id!, ds);
