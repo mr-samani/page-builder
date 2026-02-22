@@ -121,10 +121,12 @@ export class DynamicElementService {
     item.customComponent!.compInjector = componentInjector;
 
     // ساخت component
-    const compRef: ComponentRef<any> = createComponent(component, {
-      elementInjector: componentInjector,
-      environmentInjector: this.envInjector,
-    });
+    const compRef: ComponentRef<any> = runInInjectionContext(componentInjector, () =>
+      createComponent(component, {
+        elementInjector: componentInjector,
+        environmentInjector: this.envInjector,
+      }),
+    );
     this.appRef.attachView(compRef.hostView);
 
     let element = compRef.location.nativeElement as HTMLElement;
