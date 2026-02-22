@@ -15,9 +15,7 @@ ngx-pg-notification {
   text-align: center;
   opacity: 0;
   transform: translateY(-8px);
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s ease;
+  transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
 .ngx-pg-show {
@@ -187,17 +185,16 @@ table.ngx-page-table th.repeatable-header {
   --select-background: #3a434f;
   --input-background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
 }
-
-.pi-group {
+.ngx-page-builder .pi-group {
   display: inline-flex;
   border-radius: 4px;
   height: 22px;
   overflow: hidden;
   gap: 1px;
 }
-.pi-group input,
-.pi-group select,
-.pi-group textarea {
+.ngx-page-builder .pi-group input,
+.ngx-page-builder .pi-group select,
+.ngx-page-builder .pi-group textarea {
   all: unset;
   border: none;
   background-color: var(--select-background);
@@ -208,41 +205,38 @@ table.ngx-page-table th.repeatable-header {
   min-width: 100px;
   min-height: 100%;
 }
-.pi-group input:disabled,
-.pi-group select:disabled,
-.pi-group textarea:disabled {
+.ngx-page-builder .pi-group input:disabled,
+.ngx-page-builder .pi-group select:disabled,
+.ngx-page-builder .pi-group textarea:disabled {
   background-color: #2b3138;
   cursor: not-allowed;
 }
-.pi-group select {
+.ngx-page-builder .pi-group select {
   appearance: auto;
 }
-.pi-group .unit {
+.ngx-page-builder .pi-group .unit {
   width: 45px;
   min-width: 0;
 }
-.pi-group:has(input.color) {
+.ngx-page-builder .pi-group:has(input.color) {
   width: 60px;
 }
-.pi-group input.color {
+.ngx-page-builder .pi-group input.color {
   width: 32px;
   padding: 0;
   min-width: 0;
 }
-.pi-group .btn-clear {
+.ngx-page-builder .pi-group .btn-clear {
   all: unset;
   background: var(--input-background);
   border: none;
   padding: 0px 10px;
   cursor: pointer;
 }
-
-block-properties button,
-.btn {
+.ngx-page-builder block-properties button,
+.ngx-page-builder .btn {
   all: unset;
-  box-shadow:
-    0px 0.5px 1px rgba(0, 0, 0, 0.8),
-    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.8), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
   background-color: rgba(255, 255, 255, 0.13);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
   cursor: pointer;
@@ -250,67 +244,69 @@ block-properties button,
   padding: 5px 15px;
   border-radius: 4px;
 }
-block-properties button:disabled,
-.btn:disabled {
+.ngx-page-builder block-properties button:disabled,
+.ngx-page-builder .btn:disabled {
   cursor: not-allowed;
   background-color: rgba(255, 255, 255, 0.455);
 }
-block-properties button:hover,
-.btn:hover {
+.ngx-page-builder block-properties button:hover,
+.ngx-page-builder .btn:hover {
   background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
 }
-block-properties button svg[Icon],
-.btn svg[Icon] {
+.ngx-page-builder block-properties button svg[Icon],
+.ngx-page-builder .btn svg[Icon] {
   width: 18px;
   max-height: 18px;
 }
-block-properties button:has(svg[Icon]),
-.btn:has(svg[Icon]) {
+.ngx-page-builder block-properties button:has(svg[Icon]),
+.ngx-page-builder .btn:has(svg[Icon]) {
   padding: 2px 5px;
   line-height: 0;
 }
-
-/*--------------group buttons------------------------------*/
-.pi-btn-group {
+.ngx-page-builder {
+  /*--------------group buttons------------------------------*/
+}
+.ngx-page-builder .pi-btn-group {
   background-color: var(--color-bg-secondary, #383838);
   border: 1px solid var(--color-bg-secondary, #383838);
   border-radius: var(--radius-medium, 0.3125rem);
   color: var(--fgColor);
 }
-.pi-btn-group button,
-.pi-btn-group .button {
+.ngx-page-builder .pi-btn-group button,
+.ngx-page-builder .pi-btn-group .button {
   display: inline-block;
   padding: 6px 10px;
   line-height: 1;
   min-width: 40px;
   border-radius: 5px;
 }
-.pi-btn-group button:last-child,
-.pi-btn-group .button:last-child {
+.ngx-page-builder .pi-btn-group button:last-child,
+.ngx-page-builder .pi-btn-group .button:last-child {
   border-right: none;
 }
-.pi-btn-group button.active,
-.pi-btn-group .button.active {
+.ngx-page-builder .pi-btn-group button.active,
+.ngx-page-builder .pi-btn-group .button.active {
   background: #151515;
   border: none;
 }
-.pi-btn-group input {
+.ngx-page-builder .pi-btn-group input {
   display: none;
 }
-.pi-btn-group label {
+.ngx-page-builder .pi-btn-group label {
   color: inherit;
 }
-.pi-btn-group i {
+.ngx-page-builder .pi-btn-group i {
   font-weight: 400;
   color: inherit;
 }
-.pi-btn-group .btn-check:checked + .button {
+.ngx-page-builder .pi-btn-group .btn-check:checked + .button {
   background: #151515;
   border: none;
 }
-
-/*--------------group buttons------------------------------*/
-.loading-container {
+.ngx-page-builder {
+  /*--------------group buttons------------------------------*/
+}
+.ngx-page-builder .loading-container {
   display: grid;
   place-items: center;
   padding: 2rem;

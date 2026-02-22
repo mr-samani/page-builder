@@ -1,125 +1,126 @@
 .ngx-page-builder {
   --select-background: #3a434f;
   --input-background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
-}
-.pi-group {
-  display: inline-flex;
-  border-radius: 4px;
-  height: 22px;
-  overflow: hidden;
-  gap: 1px;
-  input,
-  select,
-  textarea {
-    all: unset;
-    border: none;
-    background-color: var(--select-background);
-    flex: auto;
-    padding: 0 6px 0 6px;
-    line-height: 2;
-    max-width: 100px;
-    min-width: 100px;
-    min-height: 100%;
-    &:disabled {
-      background-color: #2b3138;
-      cursor: not-allowed;
+
+  .pi-group {
+    display: inline-flex;
+    border-radius: 4px;
+    height: 22px;
+    overflow: hidden;
+    gap: 1px;
+    input,
+    select,
+    textarea {
+      all: unset;
+      border: none;
+      background-color: var(--select-background);
+      flex: auto;
+      padding: 0 6px 0 6px;
+      line-height: 2;
+      max-width: 100px;
+      min-width: 100px;
+      min-height: 100%;
+      &:disabled {
+        background-color: #2b3138;
+        cursor: not-allowed;
+      }
+    }
+    select {
+      appearance: auto;
+    }
+    .unit {
+      width: 45px;
+      min-width: 0;
+    }
+
+    &:has(input.color) {
+      width: 60px;
+    }
+    input.color {
+      width: 32px;
+      padding: 0;
+      min-width: 0;
+    }
+    .btn-clear {
+      all: unset;
+      background: var(--input-background);
+      border: none;
+      padding: 0px 10px;
+      cursor: pointer;
     }
   }
-  select {
-    appearance: auto;
-  }
-  .unit {
-    width: 45px;
-    min-width: 0;
-  }
 
-  &:has(input.color) {
-    width: 60px;
-  }
-  input.color {
-    width: 32px;
-    padding: 0;
-    min-width: 0;
-  }
-  .btn-clear {
+  block-properties button,
+  .btn {
     all: unset;
-    background: var(--input-background);
-    border: none;
-    padding: 0px 10px;
+    box-shadow:
+      0px 0.5px 1px rgba(0, 0, 0, 0.8),
+      inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.13);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
     cursor: pointer;
-  }
-}
-
-block-properties button,
-.btn {
-  all: unset;
-  box-shadow:
-    0px 0.5px 1px rgba(0, 0, 0, 0.8),
-    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
-  background-color: rgba(255, 255, 255, 0.13);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
-  cursor: pointer;
-  margin: 4px;
-  padding: 5px 15px;
-  border-radius: 4px;
-  &:disabled {
-    cursor: not-allowed;
-    background-color: rgba(255, 255, 255, 0.455);
-  }
-  &:hover {
-    background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
-  }
-
-  svg[Icon] {
-    width: 18px;
-    max-height: 18px;
-  }
-  &:has(svg[Icon]) {
-    padding: 2px 5px;
-    line-height: 0;
-  }
-}
-
-/*--------------group buttons------------------------------*/
-.pi-btn-group {
-  background-color: var(--color-bg-secondary, #383838);
-  border: 1px solid var(--color-bg-secondary, #383838);
-  border-radius: var(--radius-medium, 0.3125rem);
-  color: var(--fgColor);
-  button,
-  .button {
-    display: inline-block;
-    padding: 6px 10px;
-    line-height: 1;
-    min-width: 40px;
-    border-radius: 5px;
-
-    &:last-child {
-      border-right: none;
+    margin: 4px;
+    padding: 5px 15px;
+    border-radius: 4px;
+    &:disabled {
+      cursor: not-allowed;
+      background-color: rgba(255, 255, 255, 0.455);
     }
-    &.active {
+    &:hover {
+      background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
+    }
+
+    svg[Icon] {
+      width: 18px;
+      max-height: 18px;
+    }
+    &:has(svg[Icon]) {
+      padding: 2px 5px;
+      line-height: 0;
+    }
+  }
+
+  /*--------------group buttons------------------------------*/
+  .pi-btn-group {
+    background-color: var(--color-bg-secondary, #383838);
+    border: 1px solid var(--color-bg-secondary, #383838);
+    border-radius: var(--radius-medium, 0.3125rem);
+    color: var(--fgColor);
+    button,
+    .button {
+      display: inline-block;
+      padding: 6px 10px;
+      line-height: 1;
+      min-width: 40px;
+      border-radius: 5px;
+
+      &:last-child {
+        border-right: none;
+      }
+      &.active {
+        background: #151515;
+        border: none;
+      }
+    }
+    input {
+      display: none;
+    }
+    label {
+      color: inherit;
+    }
+    i {
+      font-weight: 400;
+      color: inherit;
+    }
+    .btn-check:checked + .button {
       background: #151515;
       border: none;
     }
   }
-  input {
-    display: none;
+  /*--------------group buttons------------------------------*/
+  .loading-container {
+    display: grid;
+    place-items: center;
+    padding: 2rem;
   }
-  label {
-    color: inherit;
-  }
-  i {
-    font-weight: 400;
-    color: inherit;
-  }
-  .btn-check:checked + .button {
-    background: #151515;
-    border: none;
-  }
-}
-/*--------------group buttons------------------------------*/
-.loading-container {
-  display: grid;
-  place-items: center;
-  padding: 2rem;
 }
