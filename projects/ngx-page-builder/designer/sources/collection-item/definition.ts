@@ -26,6 +26,6 @@ export const CollectionItemSource = new SourceItem({
     componentKey: 'NgxPgCollectionItem',
     component: () => import('./collection-item.component').then((c) => c.CollectionItemComponent),
     componentSettings: () =>
-      import('./collection-settings/collection-settings.component').then((c) => c.DataSourceSettingsComponent),
+      import('./collection-settings/collection-settings.component').then((c) => c.CollectionSettingsComponent),
   },
 });

@@ -1,33 +1,5 @@
-<p>Collection settings</p>
-
 <switch [(ngModel)]="settings.useDynamicData" name="useDynamicData" (change)="update()">Binding to dynamic data</switch>
 
 @if (settings.useDynamicData) {
-  <div class="data-field">
-    <label for="datasource">Data Source</label>
-    <div class="pi-group">
-      <select [(ngModel)]="settings.id" id="datasource" name="datasource" (change)="update()">
-        @for (item of collectionDataSource; track item.id) {
-          <option [value]="item.id">{{ item.displayName }}</option>
-        }
-      </select>
-    </div>
-  </div>
-  <div class="data-field">
-    <label for="skipcount">Skip count</label>
-    <div class="pi-group">
-      <input type="number" [(ngModel)]="settings.skipCount" id="skipcount" name="skipCount" (change)="update()" />
-    </div>
-  </div>
-  <div class="data-field">
-    <label for="maxResultCount">Max result count</label>
-    <div class="pi-group">
-      <input
-        type="number"
-        [(ngModel)]="settings.maxResultCount"
-        id="maxResultCount"
-        name="maxResultCount"
-        (change)="update()" />
-    </div>
-  </div>
+  <data-source-setting [(ngModel)]="settings" (ngModelChange)="update()"></data-source-setting>
 }

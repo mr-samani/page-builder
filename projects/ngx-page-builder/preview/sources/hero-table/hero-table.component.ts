@@ -106,11 +106,18 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
     if (this.settings.useDynamicData && this.pageItem.dataSource && this.pageItem.dataSource.id) {
       const skip = this.pageItem.dataSource?.skipCount || 0;
       const count = this.pageItem.dataSource?.maxResultCount || 10;
+      const params = this.pageItem.dataSource.params;
+
       const body = this.pageItem.template.children.find((x: PageItem) => x.tag === 'tbody')!;
       const bodyTemplate = body.children[0];
       this.dataList = [];
       if (this.pageItem.dataSource.id) {
-        this.dataList = this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count);
+        this.dataList = await this.dynamicDataService.getCollectionData(
+          this.pageItem.dataSource.id,
+          skip,
+          count,
+          params,
+        );
       }
 
       const childCount = Math.min(count, this.dataList.length);

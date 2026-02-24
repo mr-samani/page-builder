@@ -1,0 +1,13 @@
+.data-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  .pi-group {
+    input,
+    select,
+    textarea {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}

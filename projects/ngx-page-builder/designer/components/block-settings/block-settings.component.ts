@@ -44,11 +44,11 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   onChangeProperties() {
     if (this.item) this.pageBuilder.changedProperties(this.item);
   }
-  checkParentIsCollection() {
+  async checkParentIsCollection() {
     this.parentCollection = this.parentCollectionItem(this.item);
     if (this.parentCollection) {
-      const { id, skipCount, maxResultCount } = this.parentCollection.dataSource!;
-      let dsList = this.dynamicDataService.getCollectionData(id, skipCount, maxResultCount);
+      const { id, skipCount, maxResultCount, params } = this.parentCollection.dataSource!;
+      let dsList = await this.dynamicDataService.getCollectionData(id, skipCount, maxResultCount, params);
       this.collectionDsList = dsList.length > 0 ? dsList[0] : [];
     }
   }

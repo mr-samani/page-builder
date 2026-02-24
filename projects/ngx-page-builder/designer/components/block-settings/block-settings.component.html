@@ -1,8 +1,8 @@
 <div class="inner">
   @if (item) {
-    <p>{{ item.tag }}</p>
-    <p>{{ item.id }}</p>
-    can be set content: {{ item.CanBeSetContent }}
+    <div class="tag">{{ item.tag }}</div>
+    <!-- <div class="id">{{ item.id }}</div> -->
+
     @if (item.CanBeSetContent || item.isImageTag) {
       <text-binding
         [item]="item"

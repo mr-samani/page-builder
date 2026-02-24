@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DynamicDataStructure } from '../models/DynamicData';
+import { DynamicDataInput, DynamicDataStructure } from '../models/DynamicData';
 import { PageItem } from '../models/PageItem';
 import { IPage } from '../contracts/IPage';
+import { Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +17,16 @@ export class DynamicDataService {
 
   public set dynamicData(value: DynamicDataStructure[]) {
     this._dynamicData = value ?? [];
-    this.createValueDictionary();
-    console.log(this._dynamicData, this._valueDictionary);
+    this.createValueDictionary().then(() => {
+      console.log(this._dynamicData, this._valueDictionary);
+    });
   }
+
   public get dynamicData() {
     return this._dynamicData;
   }
 
-  private createValueDictionary() {
+  private async createValueDictionary() {
     this._valueDictionary = {};
     if (!this._dynamicData) {
       return;
@@ -50,7 +53,8 @@ export class DynamicDataService {
       } else if (item.list) {
         for (let i = 0; i < item.list.length; i++) {
           let p = path[path.length - 1] + `[${i}]`;
-          recursiveTraverse(item.list[i], [...path, p]);
+          const list = await resolveList(item);
+          recursiveTraverse(list[i], [...path, p]);
         }
       }
     }
@@ -129,18 +133,73 @@ export class DynamicDataService {
 
   /**
    * get collection data by datasource id
-   * @TODO: must be can call api and cache data
    * @param id datasource id
    */
-  getCollectionData(id: string | undefined, skip = 0, take?: number): DynamicDataStructure[][] {
+  async getCollectionData(
+    id: string | undefined,
+    skip = 0,
+    take?: number,
+    params?: { [key: string]: any },
+  ): Promise<DynamicDataStructure[][]> {
     if (!id) return [];
-    let list = (this.dynamicData.find((x: DynamicDataStructure) => x.id === id)?.list ?? []).slice(
-      skip,
-      take ? skip + take : undefined,
-    );
-    if (list.length === 0) {
+    let result: DynamicDataStructure[][] = [];
+    const finded = this.dynamicData.find((x: DynamicDataStructure) => x.id === id);
+    if (finded) {
+      const list = await resolveList(finded, take, skip, params);
+      result = list.slice(skip, take ? skip + take : undefined);
+    }
+    if (result.length === 0) {
       console.warn(`No collection data found for datasource id: ${id}`);
     }
-    return list;
+    return result;
   }
+}
+
+import { isObservable, firstValueFrom } from 'rxjs';
+
+async function resolveList(
+  item: DynamicDataStructure,
+  take?: number,
+  skip?: number,
+  params?: { [key: string]: any },
+): Promise<DynamicDataStructure[][]> {
+  if (!item?.list) return [];
+  const input: DynamicDataInput = {
+    take,
+    skip,
+    params,
+  };
+  if (item.inputData && !params) {
+    input.params ??= {};
+    for (let k of item.inputData) {
+      input.params[k.name] = k.value;
+    }
+  }
+  const listField = item.list;
+
+  // اگر list یک تابع است -> صدا بزنیم
+  if (typeof listField === 'function') {
+    const result = listField(input);
+
+    // تشخیص Promise با بررسی then
+    if (result && typeof (result as Promise<any>)?.then === 'function') {
+      return (await result) as any;
+    }
+
+    // تشخیص Observable
+    if (isObservable(result)) {
+      // منتظر اولین مقدار شو (یا استفاده از lastValueFrom بنا به نیاز)
+      return await firstValueFrom<DynamicDataStructure[][]>(result as any);
+    }
+
+    // اگر تابع مستقیم آرایه برگشت داده
+    return result as any;
+  }
+
+  // اگر list خودش مستقیم آرایه است
+  if (isObservable(listField)) {
+    return await firstValueFrom<DynamicDataStructure[][]>(listField as any);
+  }
+
+  return listField as DynamicDataStructure[][];
 }

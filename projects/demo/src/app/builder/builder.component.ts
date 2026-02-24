@@ -9,9 +9,9 @@ import {
   providePageBuilder,
 } from 'ngx-page-builder/designer';
 import { FilePickerService } from './file-picker.service';
-import { DynamicData } from '../dynamic-data/dynamic-data';
+import { InitializeDynamicData } from '../dynamic-data/dynamic-data';
 import { HtmlEditorService } from './html-editor.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CustomSources } from '../custom-source/custom-sources';
 import { LocalStoreService } from '../custom-storage/localstore.service';
 import { PluginService } from './plugin.service';
@@ -53,8 +53,12 @@ import { PluginService } from './plugin.service';
   ],
 })
 export class BuilderComponent implements OnInit, AfterViewInit {
+  private readonly doc = inject(DOCUMENT);
+  private readonly router = inject(Router);
+  private readonly dynamicDatainitializer = inject(InitializeDynamicData);
+
   pageBuilder = viewChild<NgxPageBuilder>('pageBuilder');
-  dynamicData = DynamicData;
+  dynamicData = this.dynamicDatainitializer.DynamicData;
 
   styles: IStyleSheetFile[] = [
     {
@@ -169,8 +173,6 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  private readonly doc = inject(DOCUMENT);
-  private readonly router = inject(Router);
   constructor() {}
 
   ngOnInit() {
