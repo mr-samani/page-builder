@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CMSPage, LibConsts, PageItem } from 'ngx-page-builder/core';
-import { InputGroupModule } from 'ngx-page-builder/designer/controls/input-group/input-group.module';
-import { SvgIconDirective } from 'ngx-page-builder/designer/directives/svg-icon.directive';
-import { SwitchComponent } from 'ngx-page-builder/designer/controls/switch/switch.component';
+import { InputGroupModule } from '../../controls/input-group/input-group.module';
+import { SwitchComponent } from '../../controls/switch/switch.component';
+import { SvgIconDirective } from '../../directives/svg-icon.directive';
 
 type LinkType = 'link' | 'page' | 'phone' | 'email';
 
