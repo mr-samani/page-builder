@@ -24,6 +24,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.enableExportAsPlugin = config.enableExportAsPlugin === true;
   LibConsts.showPlugins = config.showPlugins === true;
   LibConsts.canDeletePlugin = config.canDeletePlugin === true;
+  LibConsts.cmsPages = config.cmsPages ?? [];
 
   if (config.publicCss && Array.isArray(config.publicCss)) {
     LibConsts.publicCss = config.publicCss;

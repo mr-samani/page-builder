@@ -4,13 +4,14 @@ import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
+import { EditLinkComponent } from '../edit-link/edit-link.component';
 
 @Component({
   selector: 'block-settings',
   templateUrl: './block-settings.component.html',
   styleUrls: ['./block-settings.component.scss'],
   standalone: true,
-  imports: [CommonModule, TextBindingComponent],
+  imports: [CommonModule, TextBindingComponent, EditLinkComponent],
 })
 export class BlockSettingsComponent extends BaseComponent implements OnInit {
   item?: PageItem;

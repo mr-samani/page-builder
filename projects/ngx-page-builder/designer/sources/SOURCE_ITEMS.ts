@@ -77,6 +77,12 @@ export const SOURCE_ITEMS: SourceItem[] = [
     classList: ['img'],
   },
   {
+    tag: 'a',
+    title: 'Link',
+    icon: 'assets/icons/link.svg',
+    content: 'hyper link',
+  },
+  {
     tag: 'input',
     title: 'Input',
     icon: 'assets/icons/input.svg',

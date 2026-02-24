@@ -204,12 +204,18 @@ table.ngx-page-table th.repeatable-header {
   max-width: 100px;
   min-width: 100px;
   min-height: 100%;
+  box-sizing: border-box;
 }
 .ngx-page-builder .pi-group input:disabled,
 .ngx-page-builder .pi-group select:disabled,
 .ngx-page-builder .pi-group textarea:disabled {
   background-color: #2b3138;
   cursor: not-allowed;
+}
+.ngx-page-builder .pi-group input.invalid,
+.ngx-page-builder .pi-group select.invalid,
+.ngx-page-builder .pi-group textarea.invalid {
+  box-shadow: inset 0px 0px 6px 0px #e60101;
 }
 .ngx-page-builder .pi-group select {
   appearance: auto;
@@ -232,6 +238,16 @@ table.ngx-page-table th.repeatable-header {
   border: none;
   padding: 0px 10px;
   cursor: pointer;
+}
+.ngx-page-builder .pi-group.pi-row {
+  width: 100%;
+}
+.ngx-page-builder .pi-group.pi-row input,
+.ngx-page-builder .pi-group.pi-row select,
+.ngx-page-builder .pi-group.pi-row textarea {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 }
 .ngx-page-builder block-properties button,
 .ngx-page-builder .btn {

@@ -16,11 +16,16 @@
         [ngComponentOutlet]="settingComponent"
         [ngComponentOutletInjector]="item.customComponent.compInjector"></ng-container>
     } @else {
-      <p>No settings available.</p>
+      <!-- <p>No settings available.</p> -->
     }
 
+    @if (item.isLink) {
+      <edit-link [item]="item"></edit-link>
+    }
     @if (enableExportAsPlugin) {
-      <button type="button" class="btn" (click)="exportBlockAsPlugin()">Export as plugin</button>
+      <div>
+        <button type="button" class="btn export-as-plugin" (click)="exportBlockAsPlugin()">Export as plugin</button>
+      </div>
     }
   }
 </div>

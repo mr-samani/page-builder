@@ -1,0 +1,94 @@
+<input-group [(ngModel)]="type" (valueChange)="onTypeChange()">
+  <input-option value="link" title="Link">
+    <svg [Icon]="'assets/icons/link.svg'"></svg>
+  </input-option>
+  @if (pages.length > 0) {
+    <input-option value="page" title="Page">
+      <svg [Icon]="'assets/icons/page.svg'"></svg>
+    </input-option>
+  }
+  <input-option value="email" title="Email">
+    <svg [Icon]="'assets/icons/envelope.svg'"></svg>
+  </input-option>
+  <input-option value="phone" title="Phone">
+    <svg [Icon]="'assets/icons/phone.svg'"></svg>
+  </input-option>
+</input-group>
+
+<div class="pi-label">{{ type | uppercase }}:</div>
+
+@switch (type) {
+  @case ('link') {
+    <div class="pi-group pi-row">
+      <input
+        type="url"
+        name="link"
+        [(ngModel)]="link"
+        placeholder="https://mysite.com/page"
+        (change)="onChange()"
+        (blur)="validate()"
+        [class.invalid]="isInvalid" />
+    </div>
+  }
+
+  @case ('page') {
+    <div class="pi-group pi-row">
+      <select name="link" [(ngModel)]="link" (change)="onChange()" [class.invalid]="isInvalid">
+        <option value="" disabled>Select a page…</option>
+        @for (p of pages; track p.slag) {
+          <option [value]="p.slag">{{ p.title }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  @case ('email') {
+    <div class="pi-group pi-row">
+      <input
+        type="email"
+        name="link"
+        [(ngModel)]="link"
+        placeholder="info@example.com"
+        (change)="onChange()"
+        (blur)="validate()"
+        [class.invalid]="isInvalid" />
+    </div>
+  }
+
+  @case ('phone') {
+    <div class="pi-group pi-row">
+      <input
+        type="tel"
+        name="link"
+        [(ngModel)]="link"
+        placeholder="+98 912 345 6789"
+        (change)="onChange()"
+        (blur)="validate()"
+        [class.invalid]="isInvalid" />
+    </div>
+  }
+}
+
+<!-- open in new window — فقط برای link و page منطقی است -->
+@if (type === 'link' || type === 'page') {
+  <switch [(ngModel)]="openInNewWindow" name="openInNewWindow" (change)="onChange()">Open in new window</switch>
+}
+
+@if (isInvalid) {
+  <div class="pi-error">
+    @switch (type) {
+      @case ('email') {
+        Please enter a valid email address.
+      }
+      @case ('phone') {
+        Please enter a valid phone number.
+      }
+      @case ('link') {
+        Please enter a valid URL (https://…).
+      }
+      @case ('page') {
+        Please select a page.
+      }
+    }
+  </div>
+}

@@ -1,6 +1,7 @@
 import { ViewMode } from './ViewMode';
 import { PageBuilderToolbarConfig } from '../models/PageBuilderConfiguration';
 import { SourceItem } from '../models/SourceItem';
+import { CMSPage } from '../models/CMSPage';
 
 /** loaded from initial provider
  *
@@ -28,6 +29,11 @@ export const LibConsts: {
 
   publicCss: string[];
   publicJs: string[];
+
+  /**
+   * used in link tag
+   */
+  cmsPages: CMSPage[];
 } = {
   SourceItemList: [],
   backendProxyImportUrl: 'http://localhost:3000/api/render',
@@ -40,4 +46,5 @@ export const LibConsts: {
   toolbarConfig: new PageBuilderToolbarConfig(),
   publicCss: [],
   publicJs: [],
+  cmsPages: [],
 };

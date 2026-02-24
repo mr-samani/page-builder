@@ -92,4 +92,7 @@ export class HtmlEditorComponent implements OnInit, AfterViewInit {
   ok() {
     this.dialogRef.close(this.content);
   }
+  cancel() {
+    this.dialogRef.close(undefined);
+  }
 }

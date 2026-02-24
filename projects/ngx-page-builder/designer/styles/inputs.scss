@@ -20,9 +20,13 @@
       max-width: 100px;
       min-width: 100px;
       min-height: 100%;
+      box-sizing: border-box;
       &:disabled {
         background-color: #2b3138;
         cursor: not-allowed;
+      }
+      &.invalid {
+        box-shadow: inset 0px 0px 6px 0px #e60101;
       }
     }
     select {
@@ -47,6 +51,17 @@
       border: none;
       padding: 0px 10px;
       cursor: pointer;
+    }
+
+    &.pi-row {
+      width: 100%;
+      input,
+      select,
+      textarea {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
     }
   }
 

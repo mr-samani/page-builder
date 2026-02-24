@@ -1,8 +1,10 @@
-<select [(ngModel)]="selectedItem" id="datasource" name="datasource" (change)="onChange()">
-  @for (item of list; track $index) {
-    <option [value]="item.name">{{ item.displayName }}</option>
-  }
-</select>
+<div class="pi-group">
+  <select [(ngModel)]="selectedItem" id="datasource" name="datasource" (change)="onChange()">
+    @for (item of list; track $index) {
+      <option [value]="item.name">{{ item.displayName }}</option>
+    }
+  </select>
+</div>
 
 @if (childs.length > 0) {
   <data-source-selector

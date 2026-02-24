@@ -1,3 +1,4 @@
+import { CMSPage } from './CMSPage';
 import { SourceItem } from './SourceItem';
 import { StorageType } from './storage-type';
 export class PageBuilderConfiguration {
@@ -14,6 +15,11 @@ export class PageBuilderConfiguration {
 
   publicCss?: string[] = [];
   publicJs?: string[] = [];
+
+  /**
+   * used in link tag
+   */
+  cmsPages?: CMSPage[] = [];
 }
 
 export class PageBuilderToolbarConfig {

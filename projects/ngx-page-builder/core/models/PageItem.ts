@@ -87,6 +87,11 @@ export class PageItem implements IPageItem {
   public get isImageTag(): boolean {
     return this.el?.tagName === 'IMG';
   }
+
+  public get isLink(): boolean {
+    return this.el?.tagName === 'A';
+  }
+
   public static isImage(item: PageItem): boolean {
     return item.tag.toLowerCase() === 'img';
   }

@@ -7,7 +7,7 @@
     (onInit)="onInitTinyMce($event)"></editor>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close color="cancel">'Cancel'</button>
+  <button mat-raised-button color="cancel" (click)="cancel()">'Cancel'</button>
   <button mat-raised-button color="primary" (click)="ok()">
     <span>{{ 'Ok' }}</span>
   </button>
