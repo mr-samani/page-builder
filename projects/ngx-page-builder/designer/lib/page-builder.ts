@@ -39,6 +39,7 @@ import {
   ViewMode,
   validateViewMode,
   CustomToolbarButtons,
+  CMSPage,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 
@@ -95,6 +96,17 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   }
 
   @Input() customToolbarButtons: CustomToolbarButtons[] = [];
+
+  /**
+   * used in link tag
+   */
+  @Input('cmsPages') setCmsPages(val: CMSPage[] | undefined) {
+    if (val && Array.isArray(val)) {
+      LibConsts.cmsPages = val;
+    } else {
+      LibConsts.cmsPages = [];
+    }
+  }
 
   blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
 

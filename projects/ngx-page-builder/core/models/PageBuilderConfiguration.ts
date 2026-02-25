@@ -15,11 +15,6 @@ export class PageBuilderConfiguration {
 
   publicCss?: string[] = [];
   publicJs?: string[] = [];
-
-  /**
-   * used in link tag
-   */
-  cmsPages?: CMSPage[] = [];
 }
 
 export class PageBuilderToolbarConfig {
