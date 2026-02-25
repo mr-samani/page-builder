@@ -34,7 +34,7 @@ export class PageBuilderShortcutService {
   private readonly doc = inject(DOCUMENT);
   private subscriptions: Subscription[] = [];
   private commands = new Map<string, ShortcutCommand>();
-  private isEnabled = true;
+  private isEnabledShortCut = false;
 
   constructor() {
     this.initShortcutListener();
@@ -58,7 +58,7 @@ export class PageBuilderShortcutService {
    * ✅ Enable/disable all shortcuts
    */
   setEnabled(enabled: boolean): void {
-    this.isEnabled = enabled;
+    this.isEnabledShortCut = enabled;
   }
 
   /**
@@ -132,7 +132,7 @@ export class PageBuilderShortcutService {
 
     this.subscriptions.push(
       keydown$.subscribe((event) => {
-        if (!this.isEnabled) return;
+        if (!this.isEnabledShortCut) return;
 
         this.handleKeyboardEvent(event);
       }),
