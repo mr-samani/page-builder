@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CMSPage, LibConsts, PageItem } from 'ngx-page-builder/core';
+import {
+  CMSPage,
+  CMSPageQueryString,
+  DataSourceSetting,
+  DynamicDataStructure,
+  LibConsts,
+  PageItem,
+} from 'ngx-page-builder/core';
 import { InputGroupModule } from '../../controls/input-group/input-group.module';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { DataSourceSelectorComponent } from '../text-binding/data-source-selector/data-source-selector.component';
 
 type LinkType = 'link' | 'page' | 'phone' | 'email';
 
@@ -22,10 +30,19 @@ const URL_REGEX = /^(https?:\/\/)[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
   selector: 'edit-link',
   templateUrl: './edit-link.component.html',
   styleUrls: ['./edit-link.component.scss'],
-  imports: [CommonModule, FormsModule, InputGroupModule, SvgIconDirective, SwitchComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputGroupModule,
+    SvgIconDirective,
+    SwitchComponent,
+    DataSourceSelectorComponent,
+  ],
 })
 export class EditLinkComponent implements OnInit {
   @Input() item!: PageItem;
+  @Input() parentCollection?: PageItem;
+  @Input() collectionDsList: DynamicDataStructure[] = [];
 
   type: LinkType = 'link';
 
@@ -37,20 +54,45 @@ export class EditLinkComponent implements OnInit {
   openInNewWindow = false;
   isInvalid = false;
 
+  queryString: CMSPageQueryString[] = [];
+
   constructor() {}
 
   ngOnInit(): void {
     // TODO: pages رو از service بگیر
     // this.pages = this.pageService.getAll();
 
-    const href: string = this.item.options?.attributes?.['href'] ?? '';
+    let href: string = this.item.options?.attributes?.['href'] ?? '';
     this.openInNewWindow = this.item.options?.attributes?.['target'] === '_blank';
+
+    if (Array.isArray(this.item?.options?.customData?.queryString)) {
+      this.queryString = this.item.options.customData.queryString;
+    }
+    // check link has query string
+
+    href = this.extractQueryString(href);
 
     this._loadFromHref(href);
   }
 
-  // ─── Type detection ─────────────────────────────────────────────
+  private extractQueryString(href: string): string {
+    let pos = href.indexOf('?');
+    if (pos > 0) {
+      let q = href.substring(pos + 1);
+      let list = q.split('&');
+      for (let l of list) {
+        let p = l.split('=');
+        if (this.queryString.findIndex((x) => x.key == p[0]) == -1) {
+          this.queryString.push({ key: p[0], value: p[1] });
+        }
+      }
 
+      return href.substring(0, pos);
+    } else {
+      return href;
+    }
+  }
+  // ─── Type detection ─────────────────────────────────────────────
   private _loadFromHref(href: string): void {
     if (!href) {
       this.type = 'link';
@@ -88,6 +130,9 @@ export class EditLinkComponent implements OnInit {
     this.item.options.attributes ??= {};
     this.item.options.attributes['href'] = this._buildHref();
     this.item.options.attributes['target'] = this.openInNewWindow ? '_blank' : '';
+
+    this.item.options.customData ??= {};
+    this.item.options.customData['queryString'] = this.queryString.filter((x) => x.key);
   }
 
   private _buildHref(): string {
@@ -127,5 +172,30 @@ export class EditLinkComponent implements OnInit {
     }
 
     return !this.isInvalid;
+  }
+
+  onChangeCollectionKey(event: string[], q: CMSPageQueryString) {
+    q.value = `${event.join('.')}`;
+    this.onChange();
+  }
+
+  addNewRecordQueryString() {
+    this.queryString.push({ key: '', value: '', isDynamic: false });
+  }
+  removeQueryString(index: number) {
+    this.queryString.splice(index, 1);
+    this.onChange();
+  }
+
+  onChangePage() {
+    let p = this.pages.find((x) => x.slag == this.link);
+    if (p?.queryString) {
+      for (let q of p.queryString) {
+        if (this.queryString.findIndex((x) => x.key == q.key) == -1) {
+          this.queryString.push(q);
+        }
+      }
+    }
+    this.onChange();
   }
 }

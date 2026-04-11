@@ -20,7 +20,7 @@
     }
 
     @if (item.isLink) {
-      <edit-link [item]="item"></edit-link>
+      <edit-link [item]="item" [parentCollection]="parentCollection" [collectionDsList]="collectionDsList"></edit-link>
     }
     @if (enableExportAsPlugin) {
       <div>

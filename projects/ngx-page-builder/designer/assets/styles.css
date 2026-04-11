@@ -191,6 +191,7 @@ table.ngx-page-table th.repeatable-header {
   height: 22px;
   overflow: hidden;
   gap: 1px;
+  box-sizing: border-box;
 }
 .ngx-page-builder .pi-group input,
 .ngx-page-builder .pi-group select,
@@ -249,7 +250,7 @@ table.ngx-page-table th.repeatable-header {
   min-width: 100% !important;
   max-width: 100% !important;
 }
-.ngx-page-builder block-properties button,
+.ngx-page-builder side-config button,
 .ngx-page-builder .btn {
   all: unset;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.8), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
@@ -259,23 +260,24 @@ table.ngx-page-table th.repeatable-header {
   margin: 4px;
   padding: 5px 15px;
   border-radius: 4px;
+  box-sizing: border-box;
 }
-.ngx-page-builder block-properties button:disabled,
+.ngx-page-builder side-config button:disabled,
 .ngx-page-builder .btn:disabled {
   cursor: not-allowed;
-  background-color: rgba(255, 255, 255, 0.455);
+  opacity: 0.5;
 }
-.ngx-page-builder block-properties button:hover,
-.ngx-page-builder .btn:hover {
+.ngx-page-builder side-config button:hover:not(:disabled),
+.ngx-page-builder .btn:hover:not(:disabled) {
   background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
 }
-.ngx-page-builder block-properties button svg[Icon],
-.ngx-page-builder .btn svg[Icon] {
+.ngx-page-builder side-config button svg,
+.ngx-page-builder .btn svg {
   width: 18px;
   max-height: 18px;
 }
-.ngx-page-builder block-properties button:has(svg[Icon]),
-.ngx-page-builder .btn:has(svg[Icon]) {
+.ngx-page-builder side-config button:has(svg),
+.ngx-page-builder .btn:has(svg) {
   padding: 2px 5px;
   line-height: 0;
 }

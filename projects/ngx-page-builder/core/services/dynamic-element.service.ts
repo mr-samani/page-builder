@@ -24,6 +24,7 @@ import { COMPONENT_DATA } from '../models/tokens';
 import { DEFAULT_IMAGE_URL } from '../consts/defaults';
 import { Directive, SourceItem } from '../models/SourceItem';
 import { IPageItem } from '../contracts/IPageItem';
+import { CMSPageQueryString } from '../models/CMSPage';
 
 @Injectable({ providedIn: 'root' })
 export class DynamicElementService {
@@ -210,6 +211,24 @@ export class DynamicElementService {
 
     if (element.tagName == 'IMG' && !element.hasAttribute('src')) {
       element.setAttribute('src', DEFAULT_IMAGE_URL);
+    }
+
+    if (element.tagName == 'A' && Array.isArray(item.options?.customData?.queryString)) {
+      let link = element.getAttribute('href')?.trim() || '';
+      if (!link.includes('?')) {
+        link += '?';
+      }
+      for (let q of item.options.customData.queryString as CMSPageQueryString[]) {
+        if (!link.endsWith('?')) {
+          link += '&';
+        }
+        if (q.isDynamic) {
+          link += q.key + '=' + q.dynamicValue;
+        } else {
+          link += q.key + '=' + q.value;
+        }
+      }
+      element.setAttribute('href', link);
     }
     // if (
     //   element.tagName == 'INPUT' ||

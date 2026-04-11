@@ -264,6 +264,7 @@ export abstract class HtmlImporter {
       'source',
       'track',
       'wbr',
+      'a',
     ];
 
     return !noChildTags.includes(tag.toLowerCase());

@@ -315,7 +315,7 @@ export class PageBuilderService implements OnDestroy {
         this.onDrop(ev, item);
       });
 
-      if (item.options.directives.length >= 3) {
+      if (item.options.directives.length >= 4) {
         throw new Error('Too many directives');
       }
       item.options.attributes ??= {};

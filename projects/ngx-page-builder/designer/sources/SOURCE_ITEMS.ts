@@ -81,6 +81,7 @@ export const SOURCE_ITEMS: SourceItem[] = [
     title: 'Link',
     icon: 'assets/icons/link.svg',
     content: 'hyper link',
+    canHaveChild: true,
   },
   {
     tag: 'input',

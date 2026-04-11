@@ -3,7 +3,6 @@ import { CustomComponent } from './CustomComponent';
 import { DataSourceSetting } from './DataSourceSetting';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
-import { LibConsts } from '../consts/LibConsts';
 import { cloneDeep } from '../utiles/clone-deep';
 
 export class PageItem implements IPageItem {

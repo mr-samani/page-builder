@@ -33,7 +33,7 @@
 
   @case ('page') {
     <div class="pi-group pi-row">
-      <select name="link" [(ngModel)]="link" (change)="onChange()" [class.invalid]="isInvalid">
+      <select name="link" [(ngModel)]="link" (change)="onChangePage()" [class.invalid]="isInvalid">
         <option value="" disabled>Select a page…</option>
         @for (p of pages; track p.slag) {
           <option [value]="p.slag">{{ p.title }}</option>
@@ -73,6 +73,63 @@
 @if (type === 'link' || type === 'page') {
   <switch [(ngModel)]="openInNewWindow" name="openInNewWindow" (change)="onChange()">Open in new window</switch>
 }
+
+<!-- query string -->
+<div class="pi-label">Query string:</div>
+<table class="query-string-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Key</th>
+      <th>DS</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    @if (queryString.length == 0) {
+      <tr>
+        <td colspan="4" align="center">
+          <div class="my-3">No any items</div>
+        </td>
+      </tr>
+    }
+    @for (q of queryString; track $index) {
+      <tr>
+        <td>
+          <button type="button" (click)="removeQueryString($index)">
+            <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+          </button>
+        </td>
+        <td>
+          <div class="pi-group">
+            <input type="text" name="queryName" [(ngModel)]="q.key" />
+          </div>
+        </td>
+        <td>
+          <input type="checkbox" name="ds" [(ngModel)]="q.isDynamic" [disabled]="!parentCollection" />
+        </td>
+        <td>
+          @if (parentCollection && q.isDynamic) {
+            <div class="pi-group">
+              <data-source-selector
+                [selectedItem]="q.value"
+                [list]="collectionDsList"
+                (selectedKey)="onChangeCollectionKey($event, q)"></data-source-selector>
+            </div>
+          } @else {
+            <div class="pi-group">
+              <input type="text" name="queryName" [(ngModel)]="q.value" />
+            </div>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+<button type="button" class="btn btn-icon" (click)="addNewRecordQueryString()">
+  <svg [Icon]="'assets/icons/plus.svg'"></svg>
+</button>
+<!-- <pre dir="ltr">{{ queryString | json }}</pre> -->
 
 @if (isInvalid) {
   <div class="pi-error">

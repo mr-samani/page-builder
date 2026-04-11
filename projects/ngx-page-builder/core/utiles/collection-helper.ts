@@ -60,6 +60,15 @@ export function cloneTemplate(dataList: DynamicDataStructure[][], template: Page
         } else {
           item.content = (col?.value ?? '').toString();
         }
+
+        if (Array.isArray(item.options?.customData?.queryString)) {
+          for (let q of item.options.customData.queryString) {
+            if (q.isDynamic) {
+              const col = row.find((x: DynamicDataStructure) => x.name == q.value);
+              q.dynamicValue = col?.value;
+            }
+          }
+        }
       }
       // console.log(index + '=>', item.content);
     }
