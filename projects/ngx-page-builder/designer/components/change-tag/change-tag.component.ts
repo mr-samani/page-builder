@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
+import { PageBuilderService } from 'ngx-page-builder/designer';
 
 @Component({
   selector: 'change-tag',
@@ -18,8 +19,6 @@ export class ChangeTagComponent implements OnInit {
 
   tagList = [
     'a',
-    'abbr',
-    'address',
     'area',
     'article',
     'aside',
@@ -51,10 +50,10 @@ export class ChangeTagComponent implements OnInit {
 
     'p',
 
-    'picture',
     'pre',
 
     's',
+    'u',
 
     'section',
 
@@ -63,16 +62,29 @@ export class ChangeTagComponent implements OnInit {
     'span',
     'strong',
   ];
-
-  constructor(private dynamicElementService: DynamicElementService) {}
+  protected pageBuilder = inject(PageBuilderService);
+  protected dynamicElementService = inject(DynamicElementService);
 
   ngOnInit() {}
 
-  onChangeTag(ev: Event) {
+  async onChangeTag(ev: Event) {
     let tag: string = (ev.currentTarget as HTMLInputElement).value;
     if (!tag) {
       return;
     }
-    const el = this.dynamicElementService.changeElementTagName(this.item, tag);
+    debugger;
+    let parentChildren = this.item.parent?.children;
+    if (!parentChildren) {
+      parentChildren = this.pageBuilder.findRootParentItem(this.item);
+    }
+    if (!this.item || !parentChildren) {
+      throw new Error('Change block TagName failed: invalid parent item in list');
+    }
+
+    const index = parentChildren.findIndex((i: PageItem) => i.id === this.item.id);
+
+    const el = await this.dynamicElementService.changeElementTagName(this.item, tag, index);
+    this.pageBuilder.deSelectBlock();
+    this.pageBuilder.selectBlock(this.item);
   }
 }

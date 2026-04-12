@@ -71,7 +71,7 @@ export class DynamicElementService {
     }
 
     // Bind options و directives
-    element = this.bindOptions(element, item);
+    element = this.bindOptions(element, item, index);
 
     if (item.content) {
       this.renderer.setProperty(element, 'innerHTML', item.content);
@@ -174,7 +174,13 @@ export class DynamicElementService {
   }
 
   //--------------------------------------------------------------------------------------------------------------
-  private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
+  /**
+   * ## Must be call after insert to dom
+   * @param element
+   * @param item
+   * @returns
+   */
+  private bindOptions(element: HTMLElement, item: PageItem, index: number): HTMLElement {
     if (item.options?.attributes) {
       for (const [k, v] of Object.entries(item.options.attributes)) {
         this.renderer.setAttribute(element, k, v);
@@ -196,7 +202,8 @@ export class DynamicElementService {
       });
 
       for (const DirType of item.options.directives) {
-        const dirInstance = this.attachDirective(element, DirType, directiveInjector);
+        const dirInstance = this.attachDirective(element, DirType, directiveInjector, item, index);
+
         if (dirInstance) {
           directiveInstances.push(dirInstance);
         }
@@ -257,7 +264,13 @@ export class DynamicElementService {
     return element;
   }
 
-  private attachDirective<T>(element: HTMLElement, directive: Directive, dirInjector: Injector): any {
+  private attachDirective<T>(
+    element: HTMLElement,
+    directive: Directive,
+    dirInjector: Injector,
+    item: PageItem,
+    index: number,
+  ): any {
     const DirType = directive.directive;
     const { inputs, outputs } = directive;
     if (!DirType) return null;
@@ -336,6 +349,13 @@ export class DynamicElementService {
       }
     }, 0);
 
+    // TODO: data must be handle corretly
+    setTimeout(() => {
+      if (dirInstance.dropList && dirInstance.dropList.data && Array.isArray(dirInstance.dropList.data)) {
+        dirInstance.dropList.data.splice(index, 0, item);
+      }
+    }, 0);
+
     const cleanupFns: (() => void)[] = [];
 
     // wrap ngOnDestroy
@@ -388,11 +408,18 @@ export class DynamicElementService {
           if (d && typeof d.ngOnDestroy === 'function') {
             d.ngOnDestroy?.();
           }
+          // remove data from drop list
+          if (d.dropList && d.dropList.data && Array.isArray(d.dropList.data)) {
+            let findedDataIndex = d.dropList.data.findIndex((x: PageItem) => x.id == item.id);
+            if (findedDataIndex > -1) {
+              d.dropList.data.splice(findedDataIndex, 1);
+            }
+          }
         }
         delete (item.el as any).__ngDirectives__;
-        if (item.options && item.options.directives && item.options.directives.length > 0) {
-          item.options.directives = [];
-        }
+        // // // // // // if (item.options && item.options.directives && item.options.directives.length > 0) {
+        // // // // // //   item.options.directives = [];
+        // // // // // // }
       }
 
       // حذف از DOM
@@ -417,7 +444,7 @@ export class DynamicElementService {
   /**
    * تغییر تگ المنت
    */
-  public changeElementTagName(item: PageItem, newTagName: string): HTMLElement | null {
+  public async changeElementTagName(item: PageItem, newTagName: string, index: number): Promise<HTMLElement | null> {
     if (!item.el || !newTagName) {
       console.warn('Element or new tag name is missing');
       return null;
@@ -432,68 +459,23 @@ export class DynamicElementService {
     }
 
     // ساخت المنت جدید
-    const newElement = this.renderer.createElement(newTagName);
+    let newElement = this.renderer.createElement(newTagName);
 
-    // 1. کپی تمام attributes
-    if (oldElement.attributes) {
-      Array.from(oldElement.attributes).forEach((attr) => {
-        this.renderer.setAttribute(newElement, attr.name, attr.value);
-      });
-    }
-
-    // 2. کپی classList
-    if (oldElement.classList) {
-      Array.from(oldElement.classList).forEach((cls) => {
-        this.renderer.addClass(newElement, cls);
-      });
-    }
-
-    // 3. کپی استایل‌های inline
-    if (oldElement.style) {
-      Array.from(oldElement.style).forEach((prop) => {
-        newElement.style.setProperty(prop, oldElement.style.getPropertyValue(prop));
-      });
-    }
-
-    // 4. کپی dataset
-    if (oldElement.dataset) {
-      Object.keys(oldElement.dataset).forEach((key) => {
-        newElement.dataset[key] = oldElement.dataset[key];
-      });
-    }
-
-    // 5. کپی innerHTML
+    //  کپی innerHTML
     const innerContent = oldElement.innerHTML;
     if (innerContent) {
       this.renderer.setProperty(newElement, 'innerHTML', innerContent);
     }
 
-    // 6. جایگزینی در DOM
+    //  جایگزینی در DOM
     this.renderer.insertBefore(parent, newElement, oldElement);
-    this.renderer.removeChild(parent, oldElement);
 
-    // 7. به‌روزرسانی مرجع در item
+    await this.destroy(item);
+    //  به‌روزرسانی مرجع در item
     item.el = newElement;
     item.tag = newTagName;
-
-    // 8. انتقال componentRef (اگر وجود دارد)
-    const compRef = (oldElement as any).__componentRef__;
-    if (compRef) {
-      // آپدیت location در componentRef
-      (compRef as any).location = new ElementRef(newElement);
-      delete (oldElement as any).__componentRef__;
-      (newElement as any).__componentRef__ = compRef;
-    }
-
-    // 9. انتقال directives
-    const directives = (oldElement as any).__ngDirectives__;
-    if (directives && Array.isArray(directives)) {
-      delete (oldElement as any).__ngDirectives__;
-      (newElement as any).__ngDirectives__ = directives;
-    }
-
-    // 10. به‌روزرسانی event listeners
-    // (باید دوباره attach شوند - در صورت نیاز)
+    // Bind options و directives
+    newElement = this.bindOptions(newElement, item, index);
 
     return newElement;
   }

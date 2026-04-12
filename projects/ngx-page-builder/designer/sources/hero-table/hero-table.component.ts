@@ -458,7 +458,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const newMaster = gridAfter[row1][col1].cell;
         if (newMaster) {
           try {
-            this.pageBuilder.onSelectBlock(newMaster);
+            this.pageBuilder.selectBlock(newMaster);
           } catch (err) {
             // ignore
           }
@@ -497,7 +497,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const gridAfter = buildLogicalGrid(rowsAfter);
         if (gridAfter?.[rowIndex]?.[colIndex]) {
           const newMaster = gridAfter[rowIndex][colIndex].cell;
-          if (newMaster) this.pageBuilder.onSelectBlock(newMaster);
+          if (newMaster) this.pageBuilder.selectBlock(newMaster);
         }
       } catch (err) {
         // ignore

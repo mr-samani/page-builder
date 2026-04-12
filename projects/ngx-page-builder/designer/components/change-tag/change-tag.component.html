@@ -1,5 +1,5 @@
 <div class="tag-container">
-  <div class="tag">Tag: {{ item.tag }}</div>
+  <span>Tag:</span>
   @if (canChangeTag) {
     <div class="pi-group pi-row">
       <select name="select-tag" [(ngModel)]="item.tag" (change)="onChangeTag($event)">
@@ -9,5 +9,7 @@
         }
       </select>
     </div>
+  } @else {
+    <span>{{ item.tag }}</span>
   }
 </div>

@@ -104,8 +104,9 @@ export class PageBuilderService implements OnDestroy {
       const source = new PageItem(this.sources[event.previousIndex], parent);
       source.children = []; // very important to create reference to droplist data
       await this.createBlockElement(true, source, containerEl, event.currentIndex);
+      // TODO: data must be handle corretly
       event.container.data.splice(event.currentIndex, 0, source);
-      this.onSelectBlock(source);
+      this.selectBlock(source);
       this.updateChangeDetection({ item: source, parent: event.container.data, type: 'AddBlock' });
 
       this.history.saveAdd(parent?.id, event.currentIndex, source, `Add block'${source.id}' to '${parent?.id}'`);
@@ -119,6 +120,7 @@ export class PageBuilderService implements OnDestroy {
       await this.removeBlock(dragItem);
       dragItem.parent = parent;
       await this.createBlockElement(true, dragItem, containerEl, event.currentIndex);
+      // TODO: data must be handle corretly
       event.container.data.splice(event.currentIndex, 0, dragItem);
 
       this.updateChangeDetection({
@@ -307,10 +309,6 @@ export class PageBuilderService implements OnDestroy {
     if (editMode) {
       item.options ??= {};
       item.options.directives ??= [];
-      if (item.options.directives.length > 0) {
-        console.error('Directives already present', item.tag, item.options.directives);
-        throw new Error('TDirectives already present');
-      }
       item.options.directives = await getDefaultBlockDirective(item, (ev: IDropEvent<PageItem[]>) => {
         this.onDrop(ev, item);
       });
@@ -325,7 +323,7 @@ export class PageBuilderService implements OnDestroy {
         item.options.attributes['class'] += ` ${classNames}`;
       }
       item.options.events ??= {};
-      item.options.events['click'] = (ev: PointerEvent) => this.onSelectBlock(item, ev);
+      item.options.events['click'] = (ev: PointerEvent) => this.selectBlock(item, ev);
     }
 
     if (item.css) {
@@ -360,7 +358,7 @@ export class PageBuilderService implements OnDestroy {
     }
   }
 
-  onSelectBlock(c: PageItem, ev?: PointerEvent) {
+  selectBlock(c: PageItem, ev?: PointerEvent) {
     // console.log('click on block', c.el);
     ev?.stopPropagation();
     ev?.preventDefault();
@@ -499,7 +497,7 @@ export class PageBuilderService implements OnDestroy {
       this.pageInfo.pages[this.currentPageIndex()].bodyItems.push(item);
     }
     await this.createBlockElement(true, item, activeBlock?.el);
-    this.onSelectBlock(item);
+    this.selectBlock(item);
     Notify.success('Add successfully');
   }
 }

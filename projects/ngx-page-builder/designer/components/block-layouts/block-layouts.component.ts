@@ -62,7 +62,7 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
   }
 
   onSelectBlock(ev: PointerEvent, item: PageItem) {
-    this.pageBuilder.onSelectBlock(item, ev);
+    this.pageBuilder.selectBlock(item, ev);
   }
 
   openToParent(item?: PageItem) {
