@@ -1,6 +1,7 @@
 <div class="inner">
   @if (item) {
-    <p>{{ item.tag }}</p>
+    <!-- <p>{{ item.tag }}</p> -->
+    <change-tag [item]="item"></change-tag>
 
     <class-selector (selectedCss)="onSelectClass($event)"></class-selector>
 

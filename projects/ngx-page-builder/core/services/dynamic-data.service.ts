@@ -63,7 +63,7 @@ export class DynamicDataService {
   public replaceValues(pages: IPage[]) {
     setTimeout(() => {
       // console.log('Replacing values...', pages, this._valueDictionary);
-      let replace = (item?: HTMLElement) => {
+      let replace = (item?: HTMLElement | null) => {
         if (!item) return;
         let txt = item.innerHTML;
         let isReplaced = false;

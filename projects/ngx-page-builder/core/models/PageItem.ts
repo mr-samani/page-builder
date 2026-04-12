@@ -9,7 +9,7 @@ export class PageItem implements IPageItem {
   id: string = '';
   dataSource?: DataSourceSetting;
   parent?: PageItem;
-  el?: HTMLElement;
+  el?: HTMLElement | null;
   children: PageItem[] = [];
   tag!: string;
   canHaveChild: boolean = false;

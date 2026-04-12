@@ -6,7 +6,7 @@ export interface IPageItem {
   id?: string;
   dataSource?: DataSourceSetting;
   parent?: IPageItem;
-  el?: HTMLElement;
+  el?: HTMLElement | null;
   children?: IPageItem[];
   tag: string;
   canHaveChild?: boolean;

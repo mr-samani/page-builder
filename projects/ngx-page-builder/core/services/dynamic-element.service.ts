@@ -413,4 +413,88 @@ export class DynamicElementService {
     const editableTags = ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
     return editableTags.indexOf(tag.toLowerCase()) > 0;
   }
+
+  /**
+   * تغییر تگ المنت
+   */
+  public changeElementTagName(item: PageItem, newTagName: string): HTMLElement | null {
+    if (!item.el || !newTagName) {
+      console.warn('Element or new tag name is missing');
+      return null;
+    }
+
+    const oldElement = item.el;
+    const parent = oldElement.parentNode;
+
+    if (!parent) {
+      console.warn('Parent node not found');
+      return null;
+    }
+
+    // ساخت المنت جدید
+    const newElement = this.renderer.createElement(newTagName);
+
+    // 1. کپی تمام attributes
+    if (oldElement.attributes) {
+      Array.from(oldElement.attributes).forEach((attr) => {
+        this.renderer.setAttribute(newElement, attr.name, attr.value);
+      });
+    }
+
+    // 2. کپی classList
+    if (oldElement.classList) {
+      Array.from(oldElement.classList).forEach((cls) => {
+        this.renderer.addClass(newElement, cls);
+      });
+    }
+
+    // 3. کپی استایل‌های inline
+    if (oldElement.style) {
+      Array.from(oldElement.style).forEach((prop) => {
+        newElement.style.setProperty(prop, oldElement.style.getPropertyValue(prop));
+      });
+    }
+
+    // 4. کپی dataset
+    if (oldElement.dataset) {
+      Object.keys(oldElement.dataset).forEach((key) => {
+        newElement.dataset[key] = oldElement.dataset[key];
+      });
+    }
+
+    // 5. کپی innerHTML
+    const innerContent = oldElement.innerHTML;
+    if (innerContent) {
+      this.renderer.setProperty(newElement, 'innerHTML', innerContent);
+    }
+
+    // 6. جایگزینی در DOM
+    this.renderer.insertBefore(parent, newElement, oldElement);
+    this.renderer.removeChild(parent, oldElement);
+
+    // 7. به‌روزرسانی مرجع در item
+    item.el = newElement;
+    item.tag = newTagName;
+
+    // 8. انتقال componentRef (اگر وجود دارد)
+    const compRef = (oldElement as any).__componentRef__;
+    if (compRef) {
+      // آپدیت location در componentRef
+      (compRef as any).location = new ElementRef(newElement);
+      delete (oldElement as any).__componentRef__;
+      (newElement as any).__componentRef__ = compRef;
+    }
+
+    // 9. انتقال directives
+    const directives = (oldElement as any).__ngDirectives__;
+    if (directives && Array.isArray(directives)) {
+      delete (oldElement as any).__ngDirectives__;
+      (newElement as any).__ngDirectives__ = directives;
+    }
+
+    // 10. به‌روزرسانی event listeners
+    // (باید دوباره attach شوند - در صورت نیاز)
+
+    return newElement;
+  }
 }

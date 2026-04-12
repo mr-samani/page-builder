@@ -11,6 +11,7 @@ import { ShadowControlComponent } from '../../controls/shadow-control/shadow-con
 import { ClassSelectorComponent, IClassOutput } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem } from 'ngx-page-builder/core';
+import { ChangeTagComponent } from '../change-tag/change-tag.component';
 
 @Component({
   selector: 'block-properties',
@@ -27,6 +28,7 @@ import { PageItem } from 'ngx-page-builder/core';
     TextCssControlComponent,
     SizeControlComponent,
     ClassSelectorComponent,
+    ChangeTagComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
