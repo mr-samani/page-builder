@@ -39,7 +39,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   ) {
     super(injector);
     effect(() => {
-      this.pageNumber = this.pageBuilder.currentPageIndex() + 1;
+      this.pageNumber = this.pb.currentPageIndex() + 1;
       this.chdRef.detectChanges();
     });
   }
@@ -55,20 +55,20 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     return this.history.canRedo();
   }
   undo() {
-    if (!this.pageBuilder.currentPage) {
+    if (!this.pb.currentPage) {
       return;
     }
-    let blocks = this.pageBuilder.currentPage.bodyItems;
+    let blocks = this.pb.currentPage.bodyItems;
     blocks = this.history.undo(blocks);
-    this.pageBuilder.updatePage(blocks);
+    this.pb.updatePage(blocks);
   }
   redo() {
-    if (!this.pageBuilder.currentPage) {
+    if (!this.pb.currentPage) {
       return;
     }
-    let blocks = this.pageBuilder.currentPage.bodyItems;
+    let blocks = this.pb.currentPage.bodyItems;
     blocks = this.history.redo(blocks);
-    this.pageBuilder.updatePage(blocks);
+    this.pb.updatePage(blocks);
   }
 
   getHistory() {
@@ -76,18 +76,18 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   changePage() {
-    this.pageBuilder
+    this.pb
       .changePage(this.pageNumber)
       .then((index) => {
         this.pageNumber = index + 1;
       })
       .catch((er) => {
-        this.pageNumber = this.pageBuilder.currentPageIndex() + 1;
+        this.pageNumber = this.pb.currentPageIndex() + 1;
       });
   }
 
   addPage() {
-    this.pageBuilder.addPage().then((index) => {
+    this.pb.addPage().then((index) => {
       this.pageNumber = index + 1;
     });
   }
@@ -95,13 +95,13 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   removePage() {
     const c = confirm('Are you sure you want to remove this page?');
     if (c) {
-      this.pageBuilder.removePage().then((index) => {
+      this.pb.removePage().then((index) => {
         this.pageNumber = index + 1;
       });
     }
   }
   nextPage() {
-    this.pageBuilder
+    this.pb
       .nextPage()
       .then((index) => {
         this.pageNumber = index + 1;
@@ -109,7 +109,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       .catch(() => {});
   }
   previousPage() {
-    this.pageBuilder
+    this.pb
       .previousPage()
       .then((index) => {
         this.pageNumber = index + 1;
@@ -118,28 +118,28 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   onSave() {
-    this.pageBuilder.save();
+    this.pb.save();
   }
 
   async onOpen() {
-    await this.pageBuilder.open();
-    console.log(this.pageBuilder.pageInfo, this.pageBuilder.pageInfo.pages.length);
+    await this.pb.open();
+    console.log(this.pb.pageInfo, this.pb.pageInfo.pages.length);
     this.chdRef.detectChanges();
   }
 
   toggleOutlines() {
-    this.pageBuilder.showOutlines.set(!this.pageBuilder.showOutlines());
+    this.pb.showOutlines.set(!this.pb.showOutlines());
   }
   deSelectBlock() {
-    this.pageBuilder.deSelectBlock();
+    this.pb.deSelectBlock();
   }
 
   async print() {
-    const data = await preparePageDataForSave(this.pageBuilder);
+    const data = await preparePageDataForSave(this.pb);
     await this.previewService.openPreview(data, 'Print');
   }
   async preview() {
-    const data = await preparePageDataForSave(this.pageBuilder);
+    const data = await preparePageDataForSave(this.pb);
     this.matDialog.open(PreviewDialogComponent, {
       data: {
         data,
@@ -161,7 +161,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.pageBuilder.reloadCurrentPage();
+          this.pb.reloadCurrentPage();
         }
       });
   }
@@ -191,11 +191,11 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       });
   }
   async exportHtml() {
-    const data = await preparePageDataForSave(this.pageBuilder);
+    const data = await preparePageDataForSave(this.pb);
     this.exporter.exportHtml(data);
   }
   importHtml() {
-    const pageIndex = this.pageBuilder.currentPageIndex();
+    const pageIndex = this.pb.currentPageIndex();
     if (pageIndex < 0) {
       Notify.error('Create page to import');
       return;
@@ -210,8 +210,8 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       .afterClosed()
       .subscribe(async (r?: PageItem[]) => {
         if (r) {
-          this.pageBuilder.pageInfo.pages[pageIndex].bodyItems.push(...r);
-          r.map(async (item) => await this.pageBuilder.createBlockElement(true, item));
+          this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);
+          r.map(async (item) => await this.pb.createBlockElement(true, item));
           this.chdRef.detectChanges();
         }
       });

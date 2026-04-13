@@ -1,4 +1,4 @@
-<button (click)="toggleOutlines()" title="Toggle outlines" [class.active]="pageBuilder.showOutlines()">
+<button (click)="toggleOutlines()" title="Toggle outlines" [class.active]="pb.showOutlines()">
   <svg Icon="assets/icons/outlines.svg"></svg>
 </button>
 <button (click)="deSelectBlock()" title="Deselect block">
@@ -19,14 +19,9 @@
     <button (click)="previousPage()" title="Previous page">
       <svg Icon="assets/icons/chevron-left.svg"></svg>
     </button>
-    <input
-      [min]="1"
-      [max]="pageBuilder.pageInfo.pages.length"
-      type="number"
-      [(ngModel)]="pageNumber"
-      (change)="changePage()" />
+    <input [min]="1" [max]="pb.pageInfo.pages.length" type="number" [(ngModel)]="pageNumber" (change)="changePage()" />
     <span>/</span>
-    <span>{{ pageBuilder.pageInfo.pages.length }}</span>
+    <span>{{ pb.pageInfo.pages.length }}</span>
     <button (click)="nextPage()" title="Next page">
       <svg Icon="assets/icons/chevron-right.svg"></svg>
     </button>

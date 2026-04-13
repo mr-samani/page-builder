@@ -5,7 +5,7 @@ import { DynamicDataService, DynamicElementService, LibConsts, ViewMode } from '
 
 export abstract class PageBuilderBaseComponent {
   readonly dynamicElementService = inject(DynamicElementService);
-  readonly pageBuilder = inject(PageBuilderService);
+  readonly pb = inject(PageBuilderService);
   readonly chdRef = inject(ChangeDetectorRef);
 
   readonly dynamicDataService = inject(DynamicDataService);

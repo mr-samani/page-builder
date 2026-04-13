@@ -34,16 +34,16 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   ) {
     super(injector);
 
-    this.pageBuilder.pageBody = this._pageBody;
-    this.pageBuilder.pageHeader = this._pageHeader;
-    this.pageBuilder.pageFooter = this._pageFooter;
-    this.pageBuilder.innerShadowRootDom = el.nativeElement.shadowRoot;
-    this.pageBuilder.cls.innerShadowRootDom = el.nativeElement.shadowRoot;
+    this.pb.pageBody = this._pageBody;
+    this.pb.pageHeader = this._pageHeader;
+    this.pb.pageFooter = this._pageFooter;
+    this.pb.innerShadowRootDom = el.nativeElement.shadowRoot;
+    this.pb.cls.innerShadowRootDom = el.nativeElement.shadowRoot;
   }
 
   ngOnInit() {
     if (this.viewMode == 'PrintPage') {
-      this.containerClassName = `ngx-paper ${this.pageBuilder.pageInfo.config.size} ${this.pageBuilder.pageInfo.config.orientation}`;
+      this.containerClassName = `ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
     } else {
       this.containerClassName = `web-page-view`;
     }

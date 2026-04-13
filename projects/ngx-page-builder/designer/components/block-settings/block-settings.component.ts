@@ -29,7 +29,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   ) {
     super(injector);
     effect(async () => {
-      this.item = this.pageBuilder.activeEl();
+      this.item = this.pb.activeEl();
       this.checkParentIsCollection();
 
       if (this.item && this.item.customComponent && typeof this.item.customComponent.componentSettings === 'function') {
@@ -43,7 +43,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {}
   onChangeProperties() {
-    if (this.item) this.pageBuilder.changedProperties(this.item);
+    if (this.item) this.pb.changedProperties(this.item);
   }
   async checkParentIsCollection() {
     this.parentCollection = this.parentCollectionItem(this.item);

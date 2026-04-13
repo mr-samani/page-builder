@@ -5,7 +5,7 @@ import { encode, decode } from 'msgpack-lite';
 
 @Injectable()
 export class MessagePackStorageService implements IStorageService {
-  constructor(private pageBuilder: PageBuilderService) {}
+  constructor(private pb: PageBuilderService) {}
 
   async loadData(): Promise<IPagebuilderOutput> {
     try {
@@ -25,7 +25,7 @@ export class MessagePackStorageService implements IStorageService {
 
   async saveData(): Promise<boolean> {
     try {
-      const sanitized = await preparePageDataForSave(this.pageBuilder);
+      const sanitized = await preparePageDataForSave(this.pb);
       const encoded = encode(sanitized);
       this.downloadFile(encoded, 'page-data.msgpack', 'application/octet-stream');
       return true;

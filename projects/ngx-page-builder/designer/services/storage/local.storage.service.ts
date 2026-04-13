@@ -9,7 +9,7 @@ import { ClassManagerService } from '../class-manager.service';
 @Injectable()
 export class LocalStorageService implements IStorageService {
   constructor(
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
     private cls: ClassManagerService,
   ) {}
   loadData() {
@@ -40,7 +40,7 @@ export class LocalStorageService implements IStorageService {
 
   saveData() {
     return new Promise<boolean>(async (resolve, reject) => {
-      const sanitized = await preparePageDataForSave(this.pageBuilder);
+      const sanitized = await preparePageDataForSave(this.pb);
       localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, JSON.stringify(sanitized));
       resolve(true);
     });

@@ -1,20 +1,17 @@
 <div class="page-builder-container ngx-page-builder">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
-  <div class="components" id="blockSourceList" ngxDropList [data]="pageBuilder.sources" [disableSort]="true">
+  <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="true">
     @if (showPlugins) {
     <div class="tool" (click)="viewPlugins()" title="Plugins">
       <svg Icon="assets/icons/layer-plus.svg"></svg>
     </div>
-    } @for (item of pageBuilder.sources; track $index) {
+    } @for (item of pb.sources; track $index) {
     <div class="tool" ngxDraggable [title]="item.title">
       <svg [Icon]="item.icon"></svg>
     </div>
     }
   </div>
-  <div
-    class="page-container full-height"
-    (click)="pageBuilder.deSelectBlock()"
-    (scroll)="blockSelector.updatePosition()">
+  <div class="page-container full-height" (click)="pb.deSelectBlock()" (scroll)="blockSelector.updatePosition()">
     <inner-content></inner-content>
     <block-selector #blockSelector />
   </div>

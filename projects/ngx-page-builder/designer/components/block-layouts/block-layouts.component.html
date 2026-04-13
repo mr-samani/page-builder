@@ -15,7 +15,7 @@
 <ng-template #treeLayout let-list let-isOpen="isOpen">
   <ul class="tree-list" [class.is-open]="isOpen">
     @for (item of list; track $index) {
-      <li (click)="onSelectBlock($event, item)" [class.active]="pageBuilder.activeEl() == item">
+      <li (click)="onSelectBlock($event, item)" [class.active]="pb.activeEl() == item">
         <div>
           @if (item.children && item.children.length > 0) {
             <button type="button" (click)="item.isOpen = !item.isOpen">

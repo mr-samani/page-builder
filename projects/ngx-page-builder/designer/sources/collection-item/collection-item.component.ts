@@ -59,7 +59,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
     private chdRef: ChangeDetectorRef,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
   ) {
@@ -76,7 +76,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
      * - move block -> not rebuild all: only move same contents
      * - addd block only add new block
      */
-    this.pagebuiderChangeSubscription = this.pageBuilder.changed$.pipe(debounceTime(300)).subscribe((data) => {
+    this.pagebuiderChangeSubscription = this.pb.changed$.pipe(debounceTime(300)).subscribe((data) => {
       if (
         data.type == 'AddBlock' ||
         data.type == 'RemoveBlock' ||
@@ -134,7 +134,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     this.pageItem.children = [];
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pageBuilder.createBlockElement(true, cloned, this.collectionContainer.nativeElement);
+      await this.pb.createBlockElement(true, cloned, this.collectionContainer.nativeElement);
       this.pageItem.children.push(cloned);
     }
     // console.log('data-collection', this.pageItem.id, this.pageItem);
@@ -152,7 +152,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     const childCount = count;
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pageBuilder.createBlockElement(this.editMode, cloned, this.collectionContainer.nativeElement);
+      await this.pb.createBlockElement(this.editMode, cloned, this.collectionContainer.nativeElement);
       this.pageItem.children.push(cloned);
     }
     this.chdRef.detectChanges();

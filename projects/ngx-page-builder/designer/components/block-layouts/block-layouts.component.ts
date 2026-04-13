@@ -20,14 +20,14 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
   constructor(injector: Injector) {
     super(injector);
     effect(() => {
-      const activeItem = this.pageBuilder.activeEl();
+      const activeItem = this.pb.activeEl();
       this.openToParent(activeItem);
     });
-    this.pageBuilder.onPageChange$.subscribe((page) => {
+    this.pb.onPageChange$.subscribe((page) => {
       this.reloadLayout(page);
     });
 
-    this.pagebuiderChangeSubscription = this.pageBuilder.changed$
+    this.pagebuiderChangeSubscription = this.pb.changed$
       .pipe(
         debounceTime(300),
         filter((data) => data.type == 'AddBlock' || data.type == 'RemoveBlock' || data.type == 'MoveBlock'),
@@ -36,7 +36,7 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
         }),
       )
       .subscribe((data) => {
-        const page = this.pageBuilder.currentPage;
+        const page = this.pb.currentPage;
         this.reloadLayout(page, true);
       });
   }
@@ -62,7 +62,7 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
   }
 
   onSelectBlock(ev: PointerEvent, item: PageItem) {
-    this.pageBuilder.selectBlock(item, ev);
+    this.pb.selectBlock(item, ev);
   }
 
   openToParent(item?: PageItem) {

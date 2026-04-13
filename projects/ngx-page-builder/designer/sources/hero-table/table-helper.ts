@@ -8,13 +8,7 @@ export abstract class TableHelper {
   /**
    * add new \<TR>
    */
-  static async addRow(
-    pageBuilder: PageBuilderService,
-    table: PageItem,
-    section: TableSection,
-    after = false,
-    rowIndex: number,
-  ) {
+  static async addRow(pb: PageBuilderService, table: PageItem, section: TableSection, after = false, rowIndex: number) {
     const theadOrTbody = table.children?.find((x: PageItem) => x.tag === section);
     if (!theadOrTbody) return;
     // ensure rowIndex valid
@@ -26,14 +20,14 @@ export abstract class TableHelper {
     }
     theadOrTbody.children?.splice(after ? safeRowIndex + 1 : safeRowIndex, 0, row);
 
-    await pageBuilder.createBlockElement(true, row, theadOrTbody.el!, after ? safeRowIndex + 1 : safeRowIndex);
+    await pb.createBlockElement(true, row, theadOrTbody.el!, after ? safeRowIndex + 1 : safeRowIndex);
   }
 
   /**
    * delete selected \<TR>
    */
   static async deleteRow(
-    pageBuilder: PageBuilderService,
+    pb: PageBuilderService,
     dynamicElementService: DynamicElementService,
     table: PageItem,
     section: TableSection,
@@ -47,7 +41,7 @@ export abstract class TableHelper {
     const row = theadOrTbody.children[rowIndex];
     await dynamicElementService.destroy(row);
     theadOrTbody.children.splice(rowIndex, 1);
-    pageBuilder.deSelectBlock();
+    pb.deSelectBlock();
   }
 
   /**

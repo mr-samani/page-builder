@@ -44,7 +44,7 @@ export class BlockPropertiesComponent extends BaseComponent implements OnInit {
   constructor(injector: Injector) {
     super(injector);
     effect(() => {
-      this.item = this.pageBuilder.activeEl();
+      this.item = this.pb.activeEl();
       // console.log('updated properties', this.item);
 
       this.chdRef.detectChanges();

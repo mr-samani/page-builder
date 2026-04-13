@@ -50,10 +50,10 @@ export class ClassSelectorComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     public cls: ClassManagerService,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
   ) {
     effect(() => {
-      this.item = this.pageBuilder.activeEl();
+      this.item = this.pb.activeEl();
       if (this.item) {
         this.classes = [];
         for (let c of this.item.classList) {

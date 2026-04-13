@@ -28,7 +28,7 @@ export class ExportPluginDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<ExportPluginDialogComponent>,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
   ) {
     this.loading = true;
   }
@@ -38,8 +38,8 @@ export class ExportPluginDialogComponent implements OnInit {
   }
 
   getData() {
-    const tmpShowOutlines = this.pageBuilder.showOutlines();
-    this.pageBuilder.showOutlines.set(false);
+    const tmpShowOutlines = this.pb.showOutlines();
+    this.pb.showOutlines.set(false);
     this.pluginService
       .getPlugin(this._data)
       .then((p) => {
@@ -47,12 +47,12 @@ export class ExportPluginDialogComponent implements OnInit {
         this.img = p.image;
         this.name = p.name;
         this.loading = false;
-        this.pageBuilder.showOutlines.set(tmpShowOutlines);
+        this.pb.showOutlines.set(tmpShowOutlines);
         this.chdr.detectChanges();
       })
       .catch((error) => {
         Notify.error(error);
-        this.pageBuilder.showOutlines.set(tmpShowOutlines);
+        this.pb.showOutlines.set(tmpShowOutlines);
         this.dialogRef.close();
       });
   }

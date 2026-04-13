@@ -16,16 +16,16 @@ export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
   constructor(
     private dialogRef: MatDialogRef<SortPageListComponent>,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
   ) {
-    this.pageList = [...(pageBuilder.pageInfo.pages ?? [])];
+    this.pageList = [...(pb.pageInfo.pages ?? [])];
     this.pageList.map((m: Page, index: number) => (m.order = index));
   }
 
   ngOnInit() {}
 
   ok() {
-    this.pageBuilder.pageInfo.pages = this.pageList;
+    this.pb.pageInfo.pages = this.pageList;
     this.dialogRef.close(true);
   }
   onDrop(event: IDropEvent) {

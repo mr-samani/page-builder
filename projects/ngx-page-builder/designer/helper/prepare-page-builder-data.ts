@@ -13,9 +13,9 @@ import {
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 
-export function preparePageDataForSave(pageBuilder: PageBuilderService): Promise<IPagebuilderOutput> {
-  const pageInfo: PageBuilderDto = pageBuilder.pageInfo;
-  const cls: ClassManagerService = pageBuilder.cls;
+export function preparePageDataForSave(pb: PageBuilderService): Promise<IPagebuilderOutput> {
+  const pageInfo: PageBuilderDto = pb.pageInfo;
+  const cls: ClassManagerService = pb.cls;
   return new Promise(async (resolve, reject) => {
     try {
       if (!pageInfo) {

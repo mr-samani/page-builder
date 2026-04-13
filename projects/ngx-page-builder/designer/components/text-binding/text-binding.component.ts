@@ -78,7 +78,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
     if (this.htmlEditor) {
       this.htmlEditor.openEditor(this.item.content ?? '').then((content) => {
         this.item.content = content;
-        this.pageBuilder.writeItemValue(this.item);
+        this.pb.writeItemValue(this.item);
       });
     } else {
       this.matDialog
@@ -92,7 +92,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
         .subscribe((result) => {
           if (result && this.item) {
             this.item.content = result;
-            this.pageBuilder.writeItemValue(this.item);
+            this.pb.writeItemValue(this.item);
           }
         });
     }

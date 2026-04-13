@@ -9,7 +9,7 @@ import { ClassManagerService } from '../class-manager.service';
 @Injectable()
 export class JsonFileStorageService implements IStorageService {
   constructor(
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
     private cls: ClassManagerService,
   ) {}
 
@@ -49,7 +49,7 @@ export class JsonFileStorageService implements IStorageService {
 
   async saveData(): Promise<boolean> {
     try {
-      const sanitized = await preparePageDataForSave(this.pageBuilder);
+      const sanitized = await preparePageDataForSave(this.pb);
       const json = JSON.stringify(sanitized, null, 2);
       downloadFile(json, 'page-data.json', 'application/json');
       return true;

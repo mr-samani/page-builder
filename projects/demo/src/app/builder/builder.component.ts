@@ -57,7 +57,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
   private readonly dynamicDatainitializer = inject(InitializeDynamicData);
 
-  pageBuilder = viewChild<NgxPageBuilder>('pageBuilder');
+  pb = viewChild<NgxPageBuilder>('pageBuilder');
   dynamicData = this.dynamicDatainitializer.DynamicData;
 
   styles: IStyleSheetFile[] = [
@@ -188,7 +188,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     this.doc.querySelector('ngx-page-builder')?.scrollIntoView();
   }
   getData() {
-    this.pageBuilder()
+    this.pb()
       ?.getData()
       .then((result) => {
         localStorage.setItem('page', JSON.stringify(result));

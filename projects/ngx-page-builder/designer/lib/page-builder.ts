@@ -73,7 +73,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
     if (val) {
-      this.pageBuilder.pageInfo.config = new PageBuilderConfig(val);
+      this.pb.pageInfo.config = new PageBuilderConfig(val);
     }
   }
 
@@ -123,8 +123,8 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     private dialog: MatDialog,
   ) {
     super(injector);
-    this.pageBuilder.storageService = this.storageService;
-    this.pageBuilder.changed$.subscribe((data: PageItemChange) => {
+    this.pb.storageService = this.storageService;
+    this.pb.changed$.subscribe((data: PageItemChange) => {
       if (data.type == 'ChangePageConfig') {
         this.chdRef.detectChanges();
       }
@@ -132,7 +132,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   }
 
   ngOnInit(): void {
-    this.pageBuilder.blockSelector = this.blockSelector();
+    this.pb.blockSelector = this.blockSelector();
     this.cls.initialize();
     this.registerShortcuts();
   }
@@ -145,18 +145,18 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   private async loadPageData(data: Page[]) {
     try {
       // let data = await this.storageService.loadData();
-      //this.pageBuilder.pageInfo = PageBuilderDto.fromJSON(data);
-      this.pageBuilder.pageInfo.pages = data;
-      //console.log('load data:', data, 'converted class:', this.pageBuilder.pageInfo);
-      if (this.pageBuilder.pageInfo.pages.length == 0) {
-        await this.pageBuilder.addPage();
+      //this.pb.pageInfo = PageBuilderDto.fromJSON(data);
+      this.pb.pageInfo.pages = data;
+      //console.log('load data:', data, 'converted class:', this.pb.pageInfo);
+      if (this.pb.pageInfo.pages.length == 0) {
+        await this.pb.addPage();
         return;
       } else {
-        await this.pageBuilder.changePage(1);
-        // console.log('after load:', this.pageBuilder.pageInfo);
+        await this.pb.changePage(1);
+        // console.log('after load:', this.pb.pageInfo);
       }
     } catch (error) {
-      await this.pageBuilder.addPage();
+      await this.pb.addPage();
       console.error('Error loading page data:', error);
       Notify.error('Error loading page data: ' + error);
     }
@@ -190,9 +190,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS], // 👈 فقط وقتی focus روی canvas است
       description: 'Delete selected block',
       action: async () => {
-        const currentBlock = this.pageBuilder.activeEl();
+        const currentBlock = this.pb.activeEl();
         if (currentBlock) {
-          await this.pageBuilder.removeBlock(currentBlock);
+          await this.pb.removeBlock(currentBlock);
         }
       },
     });
@@ -203,9 +203,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS],
       description: 'Delete selected block',
       action: async () => {
-        const currentBlock = this.pageBuilder.activeEl();
+        const currentBlock = this.pb.activeEl();
         if (currentBlock) {
-          await this.pageBuilder.removeBlock(currentBlock);
+          await this.pb.removeBlock(currentBlock);
         }
       },
     });
@@ -219,9 +219,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS],
       description: 'Copy selected block',
       action: () => {
-        const currentBlock = this.pageBuilder.activeEl();
+        const currentBlock = this.pb.activeEl();
         if (currentBlock) {
-          this.pageBuilder.copyBlock(currentBlock);
+          this.pb.copyBlock(currentBlock);
         }
       },
     });
@@ -235,7 +235,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS],
       description: 'Paste copied block',
       action: () => {
-        this.pageBuilder.pasteBlock();
+        this.pb.pasteBlock();
       },
     });
 
@@ -248,9 +248,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS],
       description: 'Duplicate selected block',
       action: () => {
-        const currentBlock = this.pageBuilder.activeEl();
+        const currentBlock = this.pb.activeEl();
         if (currentBlock) {
-          this.pageBuilder.duplicateBlock(currentBlock);
+          this.pb.duplicateBlock(currentBlock);
         }
       },
     });
@@ -264,7 +264,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS, FocusContext.SIDEBAR], // در canvas و sidebar
       description: 'Undo last action',
       action: () => {
-        this.pageBuilder.undo();
+        this.pb.undo();
       },
     });
 
@@ -275,7 +275,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS, FocusContext.SIDEBAR],
       description: 'Redo last action',
       action: () => {
-        this.pageBuilder.redo();
+        this.pb.redo();
       },
     });
 
@@ -293,7 +293,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
           (this.doc.activeElement as HTMLElement)?.blur();
         } else {
           // لغو انتخاب بلاک
-          this.pageBuilder.deSelectBlock();
+          this.pb.deSelectBlock();
         }
       },
     });
@@ -307,7 +307,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS, FocusContext.TEXT_EDITING, FocusContext.SIDEBAR],
       description: 'Save page',
       action: () => {
-        this.pageBuilder.save();
+        this.pb.save();
       },
     });
 
@@ -323,7 +323,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     //   description: 'Move block up',
     //   action: (event) => {
     //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
-    //     this.pageBuilder.moveActiveBlock(0, -distance);
+    //     this.pb.moveActiveBlock(0, -distance);
     //   },
     // });
 
@@ -333,7 +333,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     //   description: 'Move block down',
     //   action: (event) => {
     //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
-    //     this.pageBuilder.moveActiveBlock(0, distance);
+    //     this.pb.moveActiveBlock(0, distance);
     //   },
     // });
 
@@ -343,7 +343,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     //   description: 'Move block left',
     //   action: (event) => {
     //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
-    //     this.pageBuilder.moveActiveBlock(-distance, 0);
+    //     this.pb.moveActiveBlock(-distance, 0);
     //   },
     // });
 
@@ -353,7 +353,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     //   description: 'Move block right',
     //   action: (event) => {
     //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
-    //     this.pageBuilder.moveActiveBlock(distance, 0);
+    //     this.pb.moveActiveBlock(distance, 0);
     //   },
     // });
 
@@ -368,7 +368,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       contexts: [FocusContext.CANVAS, FocusContext.TEXT_EDITING, FocusContext.SIDEBAR],
       description: 'log console',
       action: () => {
-        console.log(this.pageBuilder.pageInfo);
+        console.log(this.pb.pageInfo);
       },
     });
   }
@@ -404,7 +404,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   public getData(): Promise<IPagebuilderOutput> {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await preparePageDataForSave(this.pageBuilder);
+        const data = await preparePageDataForSave(this.pb);
         resolve(data);
       } catch (error) {
         reject(error);

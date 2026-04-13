@@ -36,12 +36,12 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
     super(injector);
 
     effect(() => {
-      const newItem = this.pageBuilder.activeEl();
+      const newItem = this.pb.activeEl();
       this.item = newItem;
       this.observeActiveElement();
     });
 
-    this.pageBuilder.changed$.subscribe((data) => {
+    this.pb.changed$.subscribe((data) => {
       this.item = data.item;
       this.observeActiveElement();
       this.scheduleUpdate();
@@ -146,13 +146,13 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
 
   async deleteBlock() {
     if (this.item && !this.item.disableDelete) {
-      await this.pageBuilder.removeBlock(this.item);
+      await this.pb.removeBlock(this.item);
     }
   }
 
   selectParent(ev: PointerEvent) {
     if (this.item?.parent) {
-      this.pageBuilder.selectBlock(this.item.parent, ev);
+      this.pb.selectBlock(this.item.parent, ev);
     }
   }
 }

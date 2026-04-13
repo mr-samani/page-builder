@@ -1,34 +1,31 @@
-<div
-  [hidden]="pageBuilder.currentPageIndex() < 0"
-  [class]="containerClassName"
-  [attr.dir]="pageBuilder.pageInfo.config.direction">
+<div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName" [attr.dir]="pb.pageInfo.config.direction">
   @if (viewMode == 'PrintPage') {
     <div
       class="page-header"
       #PageHeader
-      [class.show-outlines]="pageBuilder.showOutlines()"
+      [class.show-outlines]="pb.showOutlines()"
       ngxDropList
-      [data]="pageBuilder.currentPage?.headerItems"
-      [class.is-empty]="pageBuilder.currentPage?.headerItems?.length == 0"
-      (drop)="pageBuilder.onDrop($event)"></div>
+      [data]="pb.currentPage?.headerItems"
+      [class.is-empty]="pb.currentPage?.headerItems?.length == 0"
+      (drop)="pb.onDrop($event)"></div>
   }
 
   <div
     class="page-body"
     #PageBody
-    [class.show-outlines]="pageBuilder.showOutlines()"
+    [class.show-outlines]="pb.showOutlines()"
     ngxDropList
-    [data]="pageBuilder.currentPage?.bodyItems"
-    (drop)="pageBuilder.onDrop($event)"></div>
+    [data]="pb.currentPage?.bodyItems"
+    (drop)="pb.onDrop($event)"></div>
 
   @if (viewMode == 'PrintPage') {
     <div
       class="page-footer"
       #PageFooter
-      [class.show-outlines]="pageBuilder.showOutlines()"
+      [class.show-outlines]="pb.showOutlines()"
       ngxDropList
-      [class.is-empty]="pageBuilder.currentPage?.footerItems?.length == 0"
-      [data]="pageBuilder.currentPage?.footerItems"
-      (drop)="pageBuilder.onDrop($event)"></div>
+      [class.is-empty]="pb.currentPage?.footerItems?.length == 0"
+      [data]="pb.currentPage?.footerItems"
+      (drop)="pb.onDrop($event)"></div>
   }
 </div>

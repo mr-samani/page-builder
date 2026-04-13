@@ -5,7 +5,7 @@ import { Notify } from 'ngx-page-builder/designer/extensions/notify';
 
 @Injectable()
 export class LocalStoreService implements IStorageService {
-  constructor(private pageBuilder: PageBuilderService) {}
+  constructor(private pb: PageBuilderService) {}
 
   async loadData(): Promise<IPagebuilderOutput> {
     try {
@@ -26,7 +26,7 @@ export class LocalStoreService implements IStorageService {
 
   async saveData(): Promise<boolean> {
     try {
-      const sanitized = await preparePageDataForSave(this.pageBuilder);
+      const sanitized = await preparePageDataForSave(this.pb);
       const result = JSON.stringify(sanitized);
       localStorage.setItem('page', result);
       return true;

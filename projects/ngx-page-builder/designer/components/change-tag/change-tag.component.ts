@@ -62,7 +62,7 @@ export class ChangeTagComponent implements OnInit {
     'span',
     'strong',
   ];
-  protected pageBuilder = inject(PageBuilderService);
+  protected pb = inject(PageBuilderService);
   protected dynamicElementService = inject(DynamicElementService);
 
   ngOnInit() {}
@@ -75,7 +75,7 @@ export class ChangeTagComponent implements OnInit {
     debugger;
     let parentChildren = this.item.parent?.children;
     if (!parentChildren) {
-      parentChildren = this.pageBuilder.findRootParentItem(this.item);
+      parentChildren = this.pb.findRootParentItem(this.item);
     }
     if (!this.item || !parentChildren) {
       throw new Error('Change block TagName failed: invalid parent item in list');
@@ -84,7 +84,7 @@ export class ChangeTagComponent implements OnInit {
     const index = parentChildren.findIndex((i: PageItem) => i.id === this.item.id);
 
     const el = await this.dynamicElementService.changeElementTagName(this.item, tag, index);
-    this.pageBuilder.deSelectBlock();
-    this.pageBuilder.selectBlock(this.item);
+    this.pb.deSelectBlock();
+    this.pb.selectBlock(this.item);
   }
 }

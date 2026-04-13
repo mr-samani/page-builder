@@ -78,7 +78,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   constructor(
     private chdRef: ChangeDetectorRef,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
     private renderer: Renderer2,
@@ -106,7 +106,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       this.generate();
       this.chdRef.detectChanges();
     });
-    this.selectBlockSubscription = this.pageBuilder.onSelectBlock$.subscribe((result) => {
+    this.selectBlockSubscription = this.pb.onSelectBlock$.subscribe((result) => {
       this.onSelectCell(result?.item, result?.ev);
       this.checkCanChangeRows();
     });
@@ -120,7 +120,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
      * - move block -> not rebuild all: only move same contents
      * - addd block only add new block
      */
-    this.pagebuiderChangeSubscription = this.pageBuilder.changed$.pipe(debounceTime(300)).subscribe((data) => {
+    this.pagebuiderChangeSubscription = this.pb.changed$.pipe(debounceTime(300)).subscribe((data) => {
       if (
         data.type == 'AddBlock' ||
         data.type == 'RemoveBlock' ||
@@ -193,11 +193,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       this.pageItem.children = [new PageItem(_template, this.pageItem)];
     }
 
-    await this.pageBuilder.createBlockElement(
-      this.editMode,
-      this.pageItem.children[0],
-      this.tableContainer.nativeElement,
-    );
+    await this.pb.createBlockElement(this.editMode, this.pageItem.children[0], this.tableContainer.nativeElement);
     this.chdRef.detectChanges();
   }
   private async clearContainer() {
@@ -329,7 +325,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     const { rowIndex, colIndex } = this.getRowColIndex();
     const section = this.firstSelectedCell?.section ?? 'tbody';
     const table = this.pageItem.children[0];
-    await TableHelper.addRow(this.pageBuilder, table, section, after, rowIndex);
+    await TableHelper.addRow(this.pb, table, section, after, rowIndex);
     this.update();
   }
 
@@ -338,7 +334,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     const { rowIndex, colIndex } = this.getRowColIndex();
     const section = this.firstSelectedCell?.section ?? 'tbody';
     const table = this.pageItem.children[0];
-    await TableHelper.deleteRow(this.pageBuilder, this.dynamicElementService, table, section, rowIndex);
+    await TableHelper.deleteRow(this.pb, this.dynamicElementService, table, section, rowIndex);
 
     this.update();
   }
@@ -367,7 +363,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     if (!sectionBlock) return;
     await TableHelper.deleteColumn(table, sectionName, childRowIdx, childColIdx, this.firstSelectedCell);
 
-    this.pageBuilder.deSelectBlock();
+    this.pb.deSelectBlock();
     this.generate();
     this.update();
   }
@@ -380,7 +376,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       this.onSelectCell(this.firstSelectedCell?.block);
       this.checkCanChangeRows();
 
-      this.pageBuilder.blockSelector?.updatePosition();
+      this.pb.blockSelector?.updatePosition();
       this.updateToolbarPosition();
     });
   }
@@ -444,7 +440,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
     await this.generate();
 
     // selection: سعی کن master جدید را انتخاب کنی
-    this.pageBuilder.deSelectBlock();
+    this.pb.deSelectBlock();
     setTimeout(() => {
       // بعد از generate دوباره grid و master را پیدا می‌کنیم تا selection بزنیم
       const tableAfter = this.pageItem.children?.[0];
@@ -458,7 +454,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const newMaster = gridAfter[row1][col1].cell;
         if (newMaster) {
           try {
-            this.pageBuilder.selectBlock(newMaster);
+            this.pb.selectBlock(newMaster);
           } catch (err) {
             // ignore
           }
@@ -497,7 +493,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const gridAfter = buildLogicalGrid(rowsAfter);
         if (gridAfter?.[rowIndex]?.[colIndex]) {
           const newMaster = gridAfter[rowIndex][colIndex].cell;
-          if (newMaster) this.pageBuilder.selectBlock(newMaster);
+          if (newMaster) this.pb.selectBlock(newMaster);
         }
       } catch (err) {
         // ignore

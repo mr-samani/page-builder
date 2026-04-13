@@ -14,7 +14,7 @@ export class PBPluginService {
   private pluginStore = inject<IPluginStore>(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE);
   constructor(
     private cls: ClassManagerService,
-    private pageBuilder: PageBuilderService,
+    private pb: PageBuilderService,
   ) {}
   async getPlugin(item: PageItem): Promise<IPlugin> {
     return new Promise<IPlugin>(async (resolve, reject) => {
@@ -71,7 +71,7 @@ export class PBPluginService {
       try {
         const parsed: { sanitized: IPageItem; style: string } = JSON.parse(plugin.plugin);
 
-        this.pageBuilder.addBlockToCurrentPage(parsed.sanitized);
+        this.pb.addBlockToCurrentPage(parsed.sanitized);
         if (parsed.style) {
           this.cls.addToDefaultStyles(parsed.style);
         }
