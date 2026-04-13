@@ -5,8 +5,8 @@
       #PageHeader
       [class.show-outlines]="pb.showOutlines()"
       ngxDropList
-      [data]="pb.currentPage?.headerItems"
-      [class.is-empty]="pb.currentPage?.headerItems?.length == 0"
+      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems"
+      [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems?.length == 0"
       (drop)="pb.onDrop($event)"></div>
   }
 
@@ -15,7 +15,7 @@
     #PageBody
     [class.show-outlines]="pb.showOutlines()"
     ngxDropList
-    [data]="pb.currentPage?.bodyItems"
+    [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems"
     (drop)="pb.onDrop($event)"></div>
 
   @if (viewMode == 'PrintPage') {
@@ -24,8 +24,8 @@
       #PageFooter
       [class.show-outlines]="pb.showOutlines()"
       ngxDropList
-      [class.is-empty]="pb.currentPage?.footerItems?.length == 0"
-      [data]="pb.currentPage?.footerItems"
+      [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems?.length == 0"
+      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems"
       (drop)="pb.onDrop($event)"></div>
   }
 </div>

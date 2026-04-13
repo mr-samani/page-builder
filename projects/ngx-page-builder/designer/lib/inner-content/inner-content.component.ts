@@ -54,5 +54,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
 
       this.el.nativeElement.shadowRoot?.insertBefore(j, this.el.nativeElement.shadowRoot?.firstChild);
     }
+
+    console.log('pageinfo:', this.pb.pageInfo);
   }
 }

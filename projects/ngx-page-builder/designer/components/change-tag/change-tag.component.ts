@@ -72,18 +72,7 @@ export class ChangeTagComponent implements OnInit {
     if (!tag) {
       return;
     }
-    debugger;
-    let parentChildren = this.item.parent?.children;
-    if (!parentChildren) {
-      parentChildren = this.pb.findRootParentItem(this.item);
-    }
-    if (!this.item || !parentChildren) {
-      throw new Error('Change block TagName failed: invalid parent item in list');
-    }
-
-    const index = parentChildren.findIndex((i: PageItem) => i.id === this.item.id);
-
-    const el = await this.dynamicElementService.changeElementTagName(this.item, tag, index);
+    const el = await this.dynamicElementService.changeElementTagName(this.item, tag);
     this.pb.deSelectBlock();
     this.pb.selectBlock(this.item);
   }

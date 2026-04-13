@@ -71,7 +71,7 @@ export class DynamicElementService {
     }
 
     // Bind options و directives
-    element = this.bindOptions(element, item, index);
+    element = this.bindOptions(element, item);
 
     if (item.content) {
       this.renderer.setProperty(element, 'innerHTML', item.content);
@@ -180,7 +180,7 @@ export class DynamicElementService {
    * @param item
    * @returns
    */
-  private bindOptions(element: HTMLElement, item: PageItem, index: number): HTMLElement {
+  private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
     if (item.options?.attributes) {
       for (const [k, v] of Object.entries(item.options.attributes)) {
         this.renderer.setAttribute(element, k, v);
@@ -202,7 +202,7 @@ export class DynamicElementService {
       });
 
       for (const DirType of item.options.directives) {
-        const dirInstance = this.attachDirective(element, DirType, directiveInjector, item, index);
+        const dirInstance = this.attachDirective(element, DirType, directiveInjector);
 
         if (dirInstance) {
           directiveInstances.push(dirInstance);
@@ -264,13 +264,7 @@ export class DynamicElementService {
     return element;
   }
 
-  private attachDirective<T>(
-    element: HTMLElement,
-    directive: Directive,
-    dirInjector: Injector,
-    item: PageItem,
-    index: number,
-  ): any {
+  private attachDirective<T>(element: HTMLElement, directive: Directive, dirInjector: Injector): any {
     const DirType = directive.directive;
     const { inputs, outputs } = directive;
     if (!DirType) return null;
@@ -349,13 +343,6 @@ export class DynamicElementService {
       }
     }, 0);
 
-    // TODO: data must be handle corretly
-    setTimeout(() => {
-      if (dirInstance.dropList && dirInstance.dropList.data && Array.isArray(dirInstance.dropList.data)) {
-        dirInstance.dropList.data.splice(index, 0, item);
-      }
-    }, 0);
-
     const cleanupFns: (() => void)[] = [];
 
     // wrap ngOnDestroy
@@ -408,18 +395,8 @@ export class DynamicElementService {
           if (d && typeof d.ngOnDestroy === 'function') {
             d.ngOnDestroy?.();
           }
-          // remove data from drop list
-          if (d.dropList && d.dropList.data && Array.isArray(d.dropList.data)) {
-            let findedDataIndex = d.dropList.data.findIndex((x: PageItem) => x.id == item.id);
-            if (findedDataIndex > -1) {
-              d.dropList.data.splice(findedDataIndex, 1);
-            }
-          }
         }
         delete (item.el as any).__ngDirectives__;
-        // // // // // // if (item.options && item.options.directives && item.options.directives.length > 0) {
-        // // // // // //   item.options.directives = [];
-        // // // // // // }
       }
 
       // حذف از DOM
@@ -444,7 +421,7 @@ export class DynamicElementService {
   /**
    * تغییر تگ المنت
    */
-  public async changeElementTagName(item: PageItem, newTagName: string, index: number): Promise<HTMLElement | null> {
+  public async changeElementTagName(item: PageItem, newTagName: string): Promise<HTMLElement | null> {
     if (!item.el || !newTagName) {
       console.warn('Element or new tag name is missing');
       return null;
@@ -475,7 +452,7 @@ export class DynamicElementService {
     item.el = newElement;
     item.tag = newTagName;
     // Bind options و directives
-    newElement = this.bindOptions(newElement, item, index);
+    newElement = this.bindOptions(newElement, item);
 
     return newElement;
   }

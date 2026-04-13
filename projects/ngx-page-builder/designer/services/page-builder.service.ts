@@ -104,7 +104,7 @@ export class PageBuilderService implements OnDestroy {
       const source = new PageItem(this.sources[event.previousIndex], parent);
       source.children = []; // very important to create reference to droplist data
       await this.createBlockElement(true, source, containerEl, event.currentIndex);
-      // TODO: data must be handle corretly
+
       event.container.data.splice(event.currentIndex, 0, source);
       this.selectBlock(source);
       this.updateChangeDetection({ item: source, parent: event.container.data, type: 'AddBlock' });
@@ -120,7 +120,7 @@ export class PageBuilderService implements OnDestroy {
       await this.removeBlock(dragItem);
       dragItem.parent = parent;
       await this.createBlockElement(true, dragItem, containerEl, event.currentIndex);
-      // TODO: data must be handle corretly
+
       event.container.data.splice(event.currentIndex, 0, dragItem);
 
       this.updateChangeDetection({
