@@ -7,13 +7,13 @@
     [style.height.px]="height">
     <div class="actions" [class.bottom]="showInBottom">
       @if (item.parent) {
-        <button type="button" (click)="selectParent($event)">
+        <button type="button" (click)="selectParent($event)" title="Parent">
           <svg Icon="assets/icons/arrow-turn-up.svg"></svg>
         </button>
       }
 
       @if (!item.disableDelete) {
-        <button type="button" (click)="deleteBlock()">
+        <button type="button" (click)="deleteBlock()" title="Delete">
           <svg Icon="assets/icons/trash.svg"></svg>
         </button>
       }

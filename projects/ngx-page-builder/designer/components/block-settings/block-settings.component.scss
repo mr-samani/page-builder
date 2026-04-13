@@ -15,10 +15,11 @@
 }
 
 .export-as-plugin {
-  width: 100%;
-  position: sticky;
-  bottom: 0px;
-  margin: 20px 0;
-  box-sizing: border-box;
-  text-align: center;
+  display: block !important;
+  width: 100% !important;
+  position: sticky !important;
+  bottom: 0px !important;
+  margin: 20px 0 !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
 }

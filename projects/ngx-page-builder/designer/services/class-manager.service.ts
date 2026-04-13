@@ -59,7 +59,7 @@ export class ClassManagerService {
       name: 'default',
       data: {
         '*': 'box-sizing:border-box',
-        '.img,img': `max-width:100%`,
+        img: `max-width:100%`,
         pre: 'white-space: pre-wrap;font-family:inherit;',
       },
       isImportedPublicCss: false,
@@ -757,7 +757,9 @@ export class ClassManagerService {
       } else {
         const rules: string[] = [];
         Object.entries(file.data).forEach(([selector, cssText]) => {
-          rules.push(`${selector} { ${cssText} }`);
+          if (cssText.trim()) {
+            rules.push(`${selector} { ${cssText} }`);
+          }
         });
         data = rules.join('\n\n');
       }
