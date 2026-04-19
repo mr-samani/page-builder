@@ -372,7 +372,10 @@ export class DynamicElementService {
    */
   public destroy(item: IPageItem): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
-      if (!item.el) return;
+      if (!item.el) {
+        resolve(false);
+        return;
+      }
 
       if (item.children && item.children.length > 0) {
         for (let child of item.children) {
