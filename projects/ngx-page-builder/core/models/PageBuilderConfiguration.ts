@@ -6,6 +6,7 @@ export class PageBuilderConfiguration {
   customSources?: SourceItem[];
 
   enableHistory?: boolean = false;
+  enableShotcuts?: boolean = false;
 
   toolbarConfig?: PageBuilderToolbarConfig;
   enableAddCssFile?: boolean = false;

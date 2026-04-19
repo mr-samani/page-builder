@@ -25,6 +25,7 @@ import { PluginService } from './plugin.service';
       customSources: CustomSources,
       storageType: StorageType.JSONFile,
       enableExportAsPlugin: true,
+      enableShotcuts: true,
       showPlugins: true,
       canDeletePlugin: true,
       toolbarConfig: {

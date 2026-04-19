@@ -1,4 +1,5 @@
 import { Injectable, inject, DOCUMENT } from '@angular/core';
+import { LibConsts } from 'ngx-page-builder/core';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -34,10 +35,11 @@ export class PageBuilderShortcutService {
   private readonly doc = inject(DOCUMENT);
   private subscriptions: Subscription[] = [];
   private commands = new Map<string, ShortcutCommand>();
-  private isEnabledShortCut = false;
+  private isEnabledShortCut = LibConsts.enableShotcuts;
 
   constructor() {
     this.initShortcutListener();
+    // console.log('isEnabledShortCut', this.isEnabledShortCut);
   }
 
   /**

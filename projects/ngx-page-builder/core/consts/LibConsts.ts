@@ -20,6 +20,10 @@ export const LibConsts: {
 
   /** enable history (undo , redo) */
   enableHistory: boolean;
+  /** enable key shortcuts
+   * - like delete block with press [del] key in keyboard
+   */
+  enableShotcuts: boolean;
   /** show export button in block setting */
   enableExportAsPlugin: boolean;
   showPlugins: boolean;
@@ -38,6 +42,7 @@ export const LibConsts: {
   SourceItemList: [],
   backendProxyImportUrl: 'http://localhost:3000/api/render',
   enableHistory: false,
+  enableShotcuts: false,
   enableAddCssFile: false,
   enableExportAsPlugin: false,
   showPlugins: false,

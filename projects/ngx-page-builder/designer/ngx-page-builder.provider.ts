@@ -20,6 +20,7 @@ import {
 
 export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.enableHistory = config.enableHistory === true;
+  LibConsts.enableShotcuts = config.enableShotcuts === true;
   LibConsts.enableAddCssFile = config.enableAddCssFile === true;
   LibConsts.enableExportAsPlugin = config.enableExportAsPlugin === true;
   LibConsts.showPlugins = config.showPlugins === true;
