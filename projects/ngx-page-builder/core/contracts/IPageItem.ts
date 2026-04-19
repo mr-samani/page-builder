@@ -16,7 +16,15 @@ export interface IPageItem {
   componentKey?: string;
   options?: ISourceOptions;
   template?: IPageItem;
+  /**
+   * Disable movement of the source item
+   * @example pagebreak cannot move to child items
+   */
   disableMovement?: boolean;
+  /**
+   * disable move inner child item to outside of self list
+   * @example prevent dragging child item of Item-Collection to another list
+   */
   lockMoveInnerChild?: boolean;
   disableDelete?: boolean;
   isTemplateContainer?: boolean;

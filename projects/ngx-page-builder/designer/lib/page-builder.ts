@@ -150,10 +150,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       //console.log('load data:', data, 'converted class:', this.pb.pageInfo);
       if (this.pb.pageInfo.pages.length == 0) {
         await this.pb.addPage();
-        return;
       } else {
         await this.pb.changePage(1);
-        // console.log('after load:', this.pb.pageInfo);
+        //console.log('after load:', this.pb.pageInfo);
       }
     } catch (error) {
       await this.pb.addPage();
