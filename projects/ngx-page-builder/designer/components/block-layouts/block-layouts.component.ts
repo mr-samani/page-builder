@@ -3,8 +3,7 @@ import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
-import { PageItem } from 'ngx-page-builder/core';
-import { Page } from 'ngx-page-builder/core';
+import { LibConsts, PageItem, Page } from 'ngx-page-builder/core';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',
@@ -45,6 +44,10 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
 
   ngOnDestroy(): void {
     this.pagebuiderChangeSubscription.unsubscribe();
+  }
+
+  get viewMode() {
+    return LibConsts.viewMode;
   }
 
   reloadLayout(page?: Page, update = false) {

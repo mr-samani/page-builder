@@ -1,15 +1,20 @@
 <div class="inner">
-  <div class="title">Header</div>
-  <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageHeaderItems, isOpen: true }"></ng-container>
+  @if (viewMode == 'PrintPage') {
+    <div class="title">Header</div>
+    <ng-container
+      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageHeaderItems, isOpen: true }"></ng-container>
 
-  <div class="title">Body</div>
-  <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
+    <div class="title">Body</div>
+    <ng-container
+      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
 
-  <div class="title">Footer</div>
-  <ng-container
-    *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageFooterItems, isOpen: true }"></ng-container>
+    <div class="title">Footer</div>
+    <ng-container
+      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageFooterItems, isOpen: true }"></ng-container>
+  } @else {
+    <ng-container
+      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
+  }
 </div>
 
 <ng-template #treeLayout let-list let-isOpen="isOpen">
