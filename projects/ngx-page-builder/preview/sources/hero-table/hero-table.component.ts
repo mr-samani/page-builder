@@ -69,9 +69,9 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
   ) {
     if (this.pageItem) {
       this.pageItem.dataSource = this.context.data;
+      this.pageItem.customComponent!.componentData = this.context.data;
+      this.settings = this.context.data;
     }
-    this.pageItem.customComponent!.componentData = this.context.data;
-    this.settings = this.context.data;
   }
 
   ngOnInit() {

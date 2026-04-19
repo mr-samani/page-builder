@@ -1,3 +1,6 @@
+hero-table {
+  display: block;
+}
 .hero-table-wrapper {
   position: relative;
 }
@@ -10,6 +13,7 @@
   border-radius: 5px;
   display: flex;
   min-width: max-content;
+  z-index: 2;
   &.hide {
     display: none;
   }
