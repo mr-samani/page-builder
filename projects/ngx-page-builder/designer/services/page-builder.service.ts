@@ -166,105 +166,97 @@ export class PageBuilderService implements OnDestroy {
     return this.getParentTemplate(item.parent);
   }
 
-  addPage(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      let index = this.currentPageIndex() + 1;
-      this.pageInfo.pages.splice(index, 0, new Page());
-      const c = await this.changePage(index + 1);
-      resolve(c);
-    });
+  async addPage(): Promise<number> {
+    let index = this.currentPageIndex() + 1;
+    this.pageInfo.pages.splice(index, 0, new Page());
+    const c = await this.changePage(index + 1);
+    return c;
   }
-  removePage(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      let index = this.currentPageIndex();
-      if (index > -1) {
-        this.cleanCanvas(index);
-        this.pageInfo.pages.splice(index, 1);
-        if (this.pageInfo.pages.length == 0) {
-          return this.addPage();
-        } else {
-          if (index == 0) {
-            index++;
-          }
-          return await this.changePage(index);
+
+  async removePage(): Promise<number> {
+    let index = this.currentPageIndex();
+    if (index > -1) {
+      this.cleanCanvas(index);
+      this.pageInfo.pages.splice(index, 1);
+      if (this.pageInfo.pages.length == 0) {
+        return this.addPage();
+      } else {
+        if (index == 0) {
+          index++;
         }
+        return await this.changePage(index);
       }
-      return reject('Invalid page index');
-    });
+    }
+    throw Error('Invalid page index');
   }
 
   /**
    * clean all pages
    * @returns
    */
-  removeAllPages(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.deSelectBlock();
-        for (let i = 0; i < this.pageInfo.pages.length; i++) {
-          const sections = [
-            ...this.pageInfo.pages[i].headerItems,
-            ...this.pageInfo.pages[i].bodyItems,
-            ...this.pageInfo.pages[i].footerItems,
-          ];
-          for (let index = 0; index < sections.length; index++) {
-            await this.cleanCanvas(index);
-          }
+  async removeAllPages(): Promise<void> {
+    try {
+      this.deSelectBlock();
+      for (let i = 0; i < this.pageInfo.pages.length; i++) {
+        const sections = [
+          ...this.pageInfo.pages[i].headerItems,
+          ...this.pageInfo.pages[i].bodyItems,
+          ...this.pageInfo.pages[i].footerItems,
+        ];
+        for (let index = 0; index < sections.length; index++) {
+          await this.cleanCanvas(index);
         }
-        this.pageInfo.pages = [];
-        resolve(0);
-      } catch (error) {
-        reject(error);
       }
-    });
+      this.pageInfo.pages = [];
+      return;
+    } catch (error) {
+      // console.error( error);
+    }
   }
 
-  nextPage(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      let index = this.currentPageIndex();
-      if (index < this.pageInfo.pages.length - 1) {
-        return await this.changePage(index + 2);
-      }
-      return reject('No next page');
-    });
+  async nextPage(): Promise<number> {
+    let index = this.currentPageIndex();
+    if (index < this.pageInfo.pages.length - 1) {
+      return await this.changePage(index + 2);
+    }
+    throw Error('No next page');
   }
-  previousPage(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      let index = this.currentPageIndex();
-      if (index > 0) {
-        return await this.changePage(index);
-      }
-      return reject('No previous page');
-    });
+  async previousPage(): Promise<number> {
+    let index = this.currentPageIndex();
+    if (index > 0) {
+      return await this.changePage(index);
+    }
+    throw Error('No previous page');
   }
 
   /**
    * Change the current page
    * @param pageNumber start from 1
    */
-  changePage(pageNumber: number): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.deSelectBlock();
-        if (pageNumber == undefined || pageNumber == null) reject('Required page number');
-        if (pageNumber < 1 || pageNumber > this.pageInfo.pages.length) {
-          reject('Invalid page number');
-        } else {
-          this.cleanCanvas(this.currentPageIndex());
-          const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
-          await this.genElms(bodyItems, this.pageBody()!.nativeElement);
-          if (LibConsts.viewMode == 'PrintPage') {
-            await this.genElms(headerItems, this.pageHeader()!.nativeElement);
-            await this.genElms(footerItems, this.pageFooter()!.nativeElement);
-          }
-          this.currentPageIndex.set(pageNumber - 1);
-          resolve(this.currentPageIndex());
-          this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
-        }
-      } catch (error) {
-        console.error('Error changing page:', error);
+  async changePage(pageNumber: number): Promise<number> {
+    try {
+      this.deSelectBlock();
+      if (pageNumber == undefined || pageNumber == null) {
+        throw Error('Required page number');
       }
-    });
+      if (pageNumber < 1 || pageNumber > this.pageInfo.pages.length) {
+        throw Error('Invalid page number');
+      } else {
+        this.cleanCanvas(this.currentPageIndex());
+        const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
+        await this.genElms(bodyItems, this.pageBody()!.nativeElement);
+        if (LibConsts.viewMode == 'PrintPage') {
+          await this.genElms(headerItems, this.pageHeader()!.nativeElement);
+          await this.genElms(footerItems, this.pageFooter()!.nativeElement);
+        }
+        this.currentPageIndex.set(pageNumber - 1);
+        this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
+        return this.currentPageIndex();
+      }
+    } catch (error) {
+      console.error('Error changing page:', error);
+      throw Error('Error changing page');
+    }
   }
 
   /**
@@ -272,19 +264,18 @@ export class PageBuilderService implements OnDestroy {
    * @param blocks body blocks
    * @returns
    */
-  updatePage(blocks: PageItem[]): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (!this.currentPage) {
-          Notify.error('Page Not Exist!');
-          return;
-        }
-        this.currentPage.bodyItems = blocks;
-        await this.changePage(this.currentPageIndex() + 1);
-      } catch (error) {
-        console.error('Error updating page:', error);
+  async updatePage(blocks: PageItem[]): Promise<void> {
+    try {
+      if (!this.currentPage) {
+        Notify.error('Page Not Exist!');
+        throw Error('Page Not Exist!');
       }
-    });
+      this.currentPage.bodyItems = blocks;
+      await this.changePage(this.currentPageIndex() + 1);
+    } catch (error) {
+      console.error('Error updating page:', error);
+      throw Error('Error updating page');
+    }
   }
 
   private async genElms(list: PageItem[], container: HTMLElement, index = -1) {
