@@ -250,7 +250,8 @@ table.ngx-page-table th.repeatable-header {
   min-width: 100% !important;
   max-width: 100% !important;
 }
-.ngx-page-builder side-config .btn {
+.ngx-page-builder side-config .btn,
+.ngx-page-builder .pb-btn {
   all: unset;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.8), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
   background-color: rgba(255, 255, 255, 0.13);
@@ -261,18 +262,22 @@ table.ngx-page-table th.repeatable-header {
   border-radius: 4px;
   box-sizing: border-box;
 }
-.ngx-page-builder side-config .btn:disabled {
+.ngx-page-builder side-config .btn:disabled,
+.ngx-page-builder .pb-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
-.ngx-page-builder side-config .btn:hover:not(:disabled) {
+.ngx-page-builder side-config .btn:hover:not(:disabled),
+.ngx-page-builder .pb-btn:hover:not(:disabled) {
   background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
 }
-.ngx-page-builder side-config .btn svg {
+.ngx-page-builder side-config .btn svg,
+.ngx-page-builder .pb-btn svg {
   width: 18px;
   max-height: 18px;
 }
-.ngx-page-builder side-config .btn:has(svg) {
+.ngx-page-builder side-config .btn:has(svg),
+.ngx-page-builder .pb-btn:has(svg) {
   padding: 2px 5px;
   line-height: 0;
 }

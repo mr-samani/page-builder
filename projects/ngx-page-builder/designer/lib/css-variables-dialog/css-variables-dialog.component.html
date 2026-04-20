@@ -1,0 +1,57 @@
+<div class="ngx-mat-dialog-header" mat-dialog-title>
+  <span>CSS Variables</span>
+  <button mat-dialog-close>X</button>
+</div>
+<mat-dialog-content style="height: 80vh">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of variables; track $index) {
+        <tr>
+          <td>
+            <button class="pb-btn" (click)="remove($index)">
+              <svg Icon="assets/icons/trash.svg"></svg>
+            </button>
+          </td>
+          <td>
+            <div class="pi-group">
+              <select name="type" [(ngModel)]="item.type">
+                <option value="Color">Color</option>
+                <option value="String">String</option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <div class="pi-group">
+              <input type="text" name="name" [(ngModel)]="item.name" />
+            </div>
+          </td>
+          <td>
+            @switch (item.type) {
+              @case ('Color') {
+                <div class="pi-group">
+                  <input type="text" ngxInputColor name="value" [(ngModel)]="item.value" />
+                </div>
+              }
+              @default {
+                <div class="pi-group">
+                  <input type="text" name="value" [(ngModel)]="item.value" />
+                </div>
+              }
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <button class="pb-btn" (click)="add()">
+    <svg Icon="assets/icons/plus.svg"></svg>
+  </button>
+</mat-dialog-content>

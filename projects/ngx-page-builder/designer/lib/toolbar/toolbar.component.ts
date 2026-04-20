@@ -13,6 +13,7 @@ import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.compo
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import { LibConsts, PageItem, PagePreviewService, CustomToolbarButtons } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
+import { CssVariablesDialogComponent } from '../css-variables-dialog/css-variables-dialog.component';
 
 @Component({
   selector: 'toolbar',
@@ -189,6 +190,16 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       .subscribe((r) => {
         this.chdRef.detectChanges();
       });
+  }
+  openCssVariablesDialog() {
+    this.matDialog.open(CssVariablesDialogComponent, {
+      panelClass: 'ngx-page-builder',
+      data: {
+        classes: {},
+      },
+      width: '80vw',
+      maxWidth: '100%',
+    });
   }
   async exportHtml() {
     const data = await preparePageDataForSave(this.pb);
