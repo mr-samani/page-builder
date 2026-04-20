@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
-import { PageBuilderService } from 'ngx-page-builder/designer';
+import { PageBuilderService } from '../../services/page-builder.service';
 
 @Component({
   selector: 'change-tag',

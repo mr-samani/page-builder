@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColorModule } from 'ngx-input-color';
-import { SvgIconDirective } from 'ngx-page-builder/designer/directives/svg-icon.directive';
+import { SvgIconDirective } from '../../directives/svg-icon.directive';
 
 @Component({
   selector: 'app-css-variables-dialog',
