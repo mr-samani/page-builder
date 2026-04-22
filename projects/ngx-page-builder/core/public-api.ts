@@ -28,7 +28,6 @@ export * from './models/storage-type';
 export * from './models/CustomToolbarButtons';
 export * from './models/CMSPage';
 
-// Services (بدون dependency به Material یا libraries دیگر)
 export * from './services/dynamic-data.service';
 export * from './services/preview.service';
 export * from './services/dynamic-element.service';

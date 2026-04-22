@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { CssClassesEditorComponent } from '../../components/css-classes-editor/css-classes-editor.component';
 import { FileSelector } from '../../helper/FileSelector';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
@@ -8,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Notify } from '../../extensions/notify';
 import { LibConsts, cloneDeep } from 'ngx-page-builder/core';
 import { ICssFile, ClassManagerService } from '../../services/class-manager.service';
-import { DIALOG_DATA, NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-css-file-dialog',
@@ -16,15 +15,7 @@ import { DIALOG_DATA, NgxDialogModule, NgxDialogRef } from '../../extensions/dia
   styleUrls: ['./css-file-dialog.component.scss'],
 
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    NgxDialogModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    CssClassesEditorComponent,
-    TabGroupModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, NgxDialogModule, ReactiveFormsModule, CssClassesEditorComponent, TabGroupModule, FormsModule],
 })
 export class CssFileDialogComponent {
   loading = false;
@@ -34,9 +25,9 @@ export class CssFileDialogComponent {
   files: ICssFile[] = [];
 
   private data = inject<{ classes?: Record<string, string> }>(DIALOG_DATA);
+  private dialogRef = inject(DIALOG_REF);
 
   constructor(
-    public dialogRef: NgxDialogRef,
     private cls: ClassManagerService,
     private chdRef: ChangeDetectorRef,
   ) {

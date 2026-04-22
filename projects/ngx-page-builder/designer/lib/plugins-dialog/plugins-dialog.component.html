@@ -20,11 +20,11 @@
         <div class="name">{{ item.name }}</div>
 
         <div class="options">
-          <button class="btn" type="button" (click)="ok(item)">
+          <button class="pb-btn" type="button" (click)="ok(item)">
             <svg Icon="assets/icons/plus.svg"></svg>
           </button>
           @if (canDeletePlugin) {
-            <button class="btn" type="button" (click)="deleteItem(item, i)">
+            <button class="pb-btn" type="button" (click)="deleteItem(item, i)">
               <svg Icon="assets/icons/trash.svg"></svg>
             </button>
           }
@@ -54,5 +54,5 @@
   </div>
 </div>
 <div ngx-dialog-footer>
-  <button matButton mat-dialog-close>Cancel</button>
+  <button type="button" class="pb-btn" (click)="cancel()">Cancel</button>
 </div>

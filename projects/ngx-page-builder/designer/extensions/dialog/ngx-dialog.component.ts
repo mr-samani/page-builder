@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { NgxDialogConfig } from './ngx-dialog-config';
-import { NgxDialogRef } from './ngx-dialog-ref';
 import { DIALOG_REF } from './dialog.tokens';
 
 @Component({

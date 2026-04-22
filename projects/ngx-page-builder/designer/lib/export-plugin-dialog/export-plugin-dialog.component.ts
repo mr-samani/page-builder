@@ -1,20 +1,17 @@
-import { ChangeDetectorRef, Component, inject, Inject, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
 import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { IPlugin, PageItem } from 'ngx-page-builder/core';
-import { DIALOG_DATA, NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-export-plugin-dialog',
   templateUrl: './export-plugin-dialog.component.html',
   styleUrls: ['./export-plugin-dialog.component.scss'],
-  imports: [FormsModule, NgxDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, LoadingComponent],
+  imports: [FormsModule, NgxDialogModule, LoadingComponent],
   providers: [PBPluginService],
 })
 export class ExportPluginDialogComponent implements OnInit {
@@ -24,8 +21,9 @@ export class ExportPluginDialogComponent implements OnInit {
   plugin?: IPlugin;
   loading = true;
   private _data = inject<PageItem>(DIALOG_DATA);
+  private dialogRef = inject(DIALOG_REF);
+
   constructor(
-    private dialogRef: NgxDialogRef,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
     private pb: PageBuilderService,

@@ -9,21 +9,14 @@
     <loading [loading]="loading"></loading>
   </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input
-      matInput
-      id="name"
-      name="name"
-      [(ngModel)]="name"
-      #nameInput="ngModel"
-      required
-      (keydown.enter)="ok($event)" />
-    @if (nameInput.hasError('required')) {
-      <mat-error class="text-danger">Name is required for plugin</mat-error>
-    }
-  </mat-form-field>
+  <div>Name</div>
+  <div class="p-group">
+    <input id="name" name="name" [(ngModel)]="name" #nameInput="ngModel" required (keydown.enter)="ok($event)" />
+  </div>
+  @if (nameInput.hasError('required')) {
+    <p class="text-danger">Name is required for plugin</p>
+  }
 </div>
 <div ngx-dialog-footer>
-  <button matButton (click)="ok()" color="primary">Ok</button>
+  <button type="button" class="pb-btn" (click)="ok()">Ok</button>
 </div>

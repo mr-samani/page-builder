@@ -33,7 +33,7 @@
             </label>
           </div>
         }
-        <button mat-raised-button (click)="importFromUrl(resultSection)" [disabled]="loading">
+        <button type="button" class="pb-btn" (click)="importFromUrl(resultSection)" [disabled]="loading">
           <span>Import from URL</span>
           <loading [loading]="loading"></loading>
         </button>
@@ -58,7 +58,7 @@
             Use renderer
           </label>
         </div>
-        <button mat-raised-button (click)="importFromHtml(resultSection)" [disabled]="loading">
+        <button type="button" class="pb-btn" (click)="importFromHtml(resultSection)" [disabled]="loading">
           <span>Import from HTML</span>
           <loading [loading]="loading"></loading>
         </button>
@@ -111,5 +111,5 @@
   </div>
 </div>
 <div ngx-dialog-footer>
-  <button matButton (click)="ok()" [disabled]="!result || !result.data || loading">Ok</button>
+  <button type="button" class="pb-btn" (click)="ok()" [disabled]="!result || !result.data || loading">Ok</button>
 </div>

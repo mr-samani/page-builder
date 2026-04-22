@@ -53,7 +53,7 @@ export class NgxDialogService {
         { provide: DIALOG_DATA, useValue: config.data },
         { provide: DIALOG_REF, useValue: dialogRef, multi: false },
       ],
-      parent: this.envInjector,
+      parent: config?.injector ? config.injector : this.envInjector,
     });
 
     const componentRef: ComponentRef<NgxDialogComponent> = runInInjectionContext(componentInjector, () =>

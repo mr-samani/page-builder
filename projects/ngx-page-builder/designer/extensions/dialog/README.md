@@ -1,34 +1,34 @@
-
 # NgxDialog
-
-  
 
 🎉 Open angular component as a dialog(popup) in Angular Framework without Cdk Material
 
-  
-
 ## 📦Demo
+
 [🚀demo](https://mr-samani.web.app/demo/dialog)
 
-
 ## Install
+
 - NPM: npm i @mr-samani/ngx-dialog
 - YARN: yarn add @mr-samani/ngx-dialog
 
 ## Usage
-Import  `NgxDialogModule`  to your working module
+
+Import `NgxDialogModule` to your working module
+
 ```
 import { NgxDialogModule } from  'ngx-dialog';
 
 @NgModule({
   imports: [
-    NgxDialogModule 
+    NgxDialogModule
   ]
 })
 export class AppModule { }
 
 ```
+
 ## For open dialog
+
 ```
 import { Component, OnInit } from '@angular/core';
 import { NgxDialogService } from 'ngx-dialog';
@@ -67,10 +67,11 @@ export class DemoComponent implements OnInit {
 ```
 
 ## Modal component
+
 ```
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NgxDialogConfig, NgxDialogRef, NgxDialogService } from 'ngx-dialog';
+import { NgxDialogConfig, DIALOG_REF, NgxDialogService } from 'ngx-dialog';
 
 @Component({
   selector: 'app-modal',
@@ -79,9 +80,10 @@ import { NgxDialogConfig, NgxDialogRef, NgxDialogService } from 'ngx-dialog';
 })
 export class ModalComponent implements OnInit {
   data: any;
+  private dialogRef = inject(DIALOG_REF);
+
   constructor(
-    public config: NgxDialogConfig, 
-    public dialogRef: NgxDialogRef,
+    public config: NgxDialogConfig,
     private ngxDialog: NgxDialogService
   ) {
     this.data = config.data;
@@ -113,6 +115,7 @@ export class ModalComponent implements OnInit {
 ```
 
 ## Modal html
+
 ```
 <div ngx-dialog-header [showCloseButton]="true">
     header
@@ -133,36 +136,34 @@ export class ModalComponent implements OnInit {
 
 ## For create draggable dialog:
 
-you can use NgxDragableResizable library 
-    [🚀npm](https://www.npmjs.com/package/ngx-dragable-resizable)
-    and change dialog header to:
- ```
-  <div ngx-dialog-header [showCloseButton]="true" NgxDragableResizable [dragRootElement]="'.ngx-dialog'">
-        header
-  </div> 
+you can use NgxDragableResizable library
+[🚀npm](https://www.npmjs.com/package/ngx-dragable-resizable)
+and change dialog header to:
+
+```
+ <div ngx-dialog-header [showCloseButton]="true" NgxDragableResizable [dragRootElement]="'.ngx-dialog'">
+       header
+ </div>
 ```
 
-
 ## Dialog config
-| Name |Type|Default| Description |
-|--|--|--|--|
-|[data]|any|{}| Pass data to modal component |
-|[allowCloseOnOutsideClick]|boolean|false|The user can close the modal by clicking outside the modal|
-|[containerClass]|string|null|Css class name|
-|[header]|string|null|Header config|
-|[footer]|string|null|Footer config|
-|[width]|string|""|Width of dialog|
-|[minWidth]|string|""|Minimum width of dialog|
-|[maxWidth]|string|""|Maximum width of dialog|
-|[height]|string|""|Height of dialog|
-|[minHeight]|string|""|Minimum height of dialog|
-|[maxHeight]|string|""|Maximum height of dialog| 
 
-
+| Name                       | Type    | Default | Description                                                |
+| -------------------------- | ------- | ------- | ---------------------------------------------------------- |
+| [data]                     | any     | {}      | Pass data to modal component                               |
+| [allowCloseOnOutsideClick] | boolean | false   | The user can close the modal by clicking outside the modal |
+| [containerClass]           | string  | null    | Css class name                                             |
+| [header]                   | string  | null    | Header config                                              |
+| [footer]                   | string  | null    | Footer config                                              |
+| [width]                    | string  | ""      | Width of dialog                                            |
+| [minWidth]                 | string  | ""      | Minimum width of dialog                                    |
+| [maxWidth]                 | string  | ""      | Maximum width of dialog                                    |
+| [height]                   | string  | ""      | Height of dialog                                           |
+| [minHeight]                | string  | ""      | Minimum height of dialog                                   |
+| [maxHeight]                | string  | ""      | Maximum height of dialog                                   |
 
 ## Author
+
 💻Mohammadreza samani | FrontEnd Developer
 
 [❤️Buy me a coffee 😉](https://www.buymeacoffee.com/mrsamani/ngxdragableresizable)
-
- 

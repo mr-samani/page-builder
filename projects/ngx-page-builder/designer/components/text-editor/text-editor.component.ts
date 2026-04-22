@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicAutocompleteDirective } from '../../directives/ngx-dynamic-data-autocomplete.directive';
 import { fromEvent, Subscription } from 'rxjs';
 import { DynamicDataService, PageItem } from 'ngx-page-builder/core';
-import { DIALOG_DATA, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-text-editor',
@@ -56,9 +56,10 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = [];
   data = inject<PageItem>(DIALOG_DATA);
   private doc = inject(DOCUMENT);
+  private dialogRef = inject(DIALOG_REF);
+
   constructor(
     private sanitizer: DomSanitizer,
-    private dialogRef: NgxDialogRef,
     private chdRef: ChangeDetectorRef,
     public dynamicDataService: DynamicDataService,
   ) {
@@ -308,5 +309,8 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   ok() {
     this.dialogRef.close(this.getValue());
+  }
+  cancel() {
+    this.dialogRef.close();
   }
 }

@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Directive, ElementRef, HostListener, inject, Inject, OnInit } from '@angular/core';
-import { NgxDialogRef } from '../ngx-dialog-ref';
+import { AfterViewInit, Directive, ElementRef, HostListener, inject, Inject, OnInit, Renderer2 } from '@angular/core';
 import { DIALOG_REF } from '../dialog.tokens';
 
 @Directive({
@@ -8,32 +7,31 @@ import { DIALOG_REF } from '../dialog.tokens';
   selector: '[ngx-dialog-body],[ngxDialogBody]',
   host: {
     class: 'dialog-body',
-    '[style.height.px]': 'height',
   },
   exportAs: 'ngxDialogBody',
 })
-export class NgxDialogBodyDirective implements OnInit {
+export class NgxDialogBodyDirective implements AfterViewInit {
   height?: number;
 
   private _dialogRef = inject(DIALOG_REF);
   constructor(
     public _el: ElementRef<HTMLElement>,
     @Inject(DOCUMENT) private _document: Document,
-  ) {}
-
-  ngOnInit(): void {
+    private _renderer: Renderer2,
+  ) {
     this._dialogRef.body = this._el;
-    setTimeout(() => {
-      this.onWindowResize();
-      if (this._dialogRef.dialog && this._dialogRef.dialog.nativeElement) {
-        new ResizeObserver(() => {
-          this.onWindowResize();
-        }).observe(this._dialogRef.dialog.nativeElement);
-      }
-    }, 100);
   }
 
-  @HostListener('window:resize', ['$event'])
+  ngAfterViewInit(): void {
+    this.onWindowResize();
+    if (this._dialogRef.dialog && this._dialogRef.dialog.nativeElement) {
+      new ResizeObserver(() => {
+        this.onWindowResize();
+      }).observe(this._dialogRef.dialog.nativeElement);
+    }
+  }
+
+  // @HostListener('window:resize', ['$event'])
   onWindowResize(ev?: Event) {
     let headerH = 0;
     let footerH = 0;
@@ -48,5 +46,7 @@ export class NgxDialogBodyDirective implements OnInit {
       dialogH = this._dialogRef.dialog.nativeElement.offsetHeight;
     }
     this.height = dialogH - headerH - footerH;
+    this._renderer.setStyle(this._el.nativeElement, 'max-height', this.height + 'px');
+    // console.log(this.height, ':', 'windowHeight', dialogH, 'h', headerH, 'f', footerH);
   }
 }

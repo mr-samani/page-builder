@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { IDropEvent, moveItemInArray, NgxDragDropKitModule } from 'ngx-drag-drop-kit';
-import { MatButtonModule } from '@angular/material/button';
 import { Page } from 'ngx-page-builder/core';
-import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-sort-page-list',
   templateUrl: './sort-page-list.component.html',
   styleUrls: ['./sort-page-list.component.scss'],
   standalone: true,
-  imports: [NgxDialogModule, NgxDragDropKitModule, MatButtonModule],
+  imports: [NgxDialogModule, NgxDragDropKitModule],
 })
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
-  constructor(
-    private dialogRef: NgxDialogRef,
-    private pb: PageBuilderService,
-  ) {
+  private dialogRef = inject(DIALOG_REF);
+
+  constructor(private pb: PageBuilderService) {
     this.pageList = [...(pb.pageInfo.pages ?? [])];
     this.pageList.map((m: Page, index: number) => (m.order = index));
   }
@@ -33,5 +31,9 @@ export class SortPageListComponent implements OnInit {
       return;
     }
     moveItemInArray(this.pageList, event.previousIndex, event.currentIndex);
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 }

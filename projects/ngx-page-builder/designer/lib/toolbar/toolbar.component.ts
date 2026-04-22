@@ -162,7 +162,9 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     });
   }
   openConfigDialog() {
-    Dialog.open(ConfigDialogComponent).afterClosed.subscribe((r) => {
+    Dialog.open(ConfigDialogComponent, {
+      width: '768px',
+    }).afterClosed.subscribe((r) => {
       this.chdRef.detectChanges();
     });
   }

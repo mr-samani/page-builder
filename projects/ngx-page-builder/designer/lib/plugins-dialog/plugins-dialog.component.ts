@@ -1,7 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
 import { Notify } from '../../extensions/notify';
@@ -9,22 +6,13 @@ import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
 import { IPlugin, LibConsts } from 'ngx-page-builder/core';
-import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-plugins-dialog',
   templateUrl: './plugins-dialog.component.html',
   styleUrls: ['./plugins-dialog.component.scss'],
-  imports: [
-    FormsModule,
-    NgxDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    LoadingComponent,
-    SvgIconDirective,
-    CommonModule,
-  ],
+  imports: [FormsModule, NgxDialogModule, LoadingComponent, SvgIconDirective, CommonModule],
   providers: [PBPluginService],
 })
 export class PluginsDialogComponent implements OnInit {
@@ -40,8 +28,9 @@ export class PluginsDialogComponent implements OnInit {
   selectedPage = 0;
 
   canDeletePlugin = LibConsts.canDeletePlugin;
+  private dialogRef = inject(DIALOG_REF);
+
   constructor(
-    private dialogRef: NgxDialogRef,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
   ) {}
@@ -106,5 +95,9 @@ export class PluginsDialogComponent implements OnInit {
       .catch((error) => {
         Notify.error(error);
       });
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 }

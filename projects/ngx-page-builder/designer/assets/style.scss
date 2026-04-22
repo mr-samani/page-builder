@@ -8,25 +8,3 @@ FOR UPDATE
 npm run build:sass 
 
 */
-
-.ngx-mat-dialog-header {
-  display: flex !important;
-  align-items: center;
-  span {
-    flex: auto;
-  }
-  button {
-    all: unset;
-    font-size: 16px;
-    font-family: cursive;
-    cursor: pointer;
-    color: inherit;
-    background-color: transparent;
-    border: none;
-    svg {
-      width: 24px;
-      height: 24px;
-      fill: inherit;
-    }
-  }
-}

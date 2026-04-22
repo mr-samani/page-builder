@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, inject, Inject, Input, OnInit } from '@angular/core';
-import { NgxDialogRef } from '../ngx-dialog-ref';
 import { DIALOG_REF } from '../dialog.tokens';
 
 @Directive({

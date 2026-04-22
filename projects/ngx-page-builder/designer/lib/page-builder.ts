@@ -164,8 +164,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     Dialog.open(PluginsDialogComponent, {
       width: '80vw',
       minHeight: '80%',
-      // TODO: check pass injector
-      // injector: this.injector,
+      injector: this.injector,
     }).afterClosed.subscribe((p) => {
       if (p) {
       }

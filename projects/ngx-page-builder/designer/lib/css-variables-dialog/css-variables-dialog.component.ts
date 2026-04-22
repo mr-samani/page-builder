@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
 import { LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-css-variables-dialog',
@@ -18,7 +17,6 @@ import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
   imports: [
     CommonModule,
     NgxDialogModule,
-    MatButtonModule,
     ReactiveFormsModule,
     TabGroupModule,
     FormsModule,
@@ -31,9 +29,9 @@ export class CssVariablesDialogComponent {
   enableAddCssFile = LibConsts.enableAddCssFile;
 
   variables: CssVariable[] = [];
+  private dialogRef = inject(DIALOG_REF);
 
   constructor(
-    public dialogRef: NgxDialogRef,
     private cls: ClassManagerService,
     private chdRef: ChangeDetectorRef,
   ) {}

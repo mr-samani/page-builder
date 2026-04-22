@@ -1,14 +1,3 @@
-/*
- * Public API Surface of ngx-page-builder (Main/Builder Entry Point)
- * Dependencies: همه چیز (Material, DragDrop, etc.)
- */
-
-// Re-export shared
-//export * from "ngx-page-builder/core";
-
-// Re-export preview (اختیاری - برای راحتی)
-//export * from 'ngx-page-builder/preview';
-
 // Builder Component
 export * from './lib/page-builder';
 export * from './ngx-page-builder.provider';

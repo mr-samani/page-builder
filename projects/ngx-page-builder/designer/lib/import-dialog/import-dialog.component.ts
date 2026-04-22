@@ -6,25 +6,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PreviewImportTreeComponent } from './preview-import-tree/preview-import-tree.component';
 import { Notify } from '../../extensions/notify';
-import { MatAnchor } from '@angular/material/button';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { LibConsts } from 'ngx-page-builder/core';
-import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
+import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-import-dialog',
   templateUrl: './import-dialog.component.html',
   styleUrls: ['./import-dialog.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgxDialogModule,
-    PreviewImportTreeComponent,
-    MatAnchor,
-    TabGroupModule,
-    LoadingComponent,
-  ],
+  imports: [CommonModule, FormsModule, NgxDialogModule, PreviewImportTreeComponent, TabGroupModule, LoadingComponent],
   providers: [ImportHtmlService],
 })
 export class ImportDialogComponent implements OnInit {
@@ -45,9 +36,9 @@ export class ImportDialogComponent implements OnInit {
 
   loading: boolean = false;
   private doc = inject(DOCUMENT);
+  private dialogRef = inject(DIALOG_REF);
 
   constructor(
-    private dialogRef: NgxDialogRef,
     private importer: ImportHtmlService,
     private chdr: ChangeDetectorRef,
   ) {}

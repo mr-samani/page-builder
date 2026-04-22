@@ -72,8 +72,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     Dialog.open(ExportPluginDialogComponent, {
       data: this.item,
       width: '80%',
-      // TODO:check pass injector
-      // injector: this.injector,
+      injector: this.injector,
     });
   }
 }

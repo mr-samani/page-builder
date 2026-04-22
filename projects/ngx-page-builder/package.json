@@ -14,9 +14,6 @@
     },
     "ngx-drag-drop-kit": {
       "optional": true
-    },
-    "@angular/material": {
-      "optional": true
     }
   },
   "sideEffects": false
