@@ -10,7 +10,7 @@ export class NgxPgNotifyModule {
   constructor(@Optional() @SkipSelf() parentModule: NgxPgNotifyModule | null, service: NgxPgNotifyService) {
     if (parentModule) return;
     // connect static facade
-    NotifyFacade._setService(service as any);
+    NotifyFacade._setService(service);
   }
 
   static forRoot(): ModuleWithProviders<NgxPgNotifyModule> {

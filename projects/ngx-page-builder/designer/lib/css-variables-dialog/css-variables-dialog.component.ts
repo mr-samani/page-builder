@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
@@ -8,6 +7,7 @@ import { LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-css-variables-dialog',
@@ -17,7 +17,7 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    MatDialogModule,
+    NgxDialogModule,
     MatButtonModule,
     ReactiveFormsModule,
     TabGroupModule,
@@ -33,7 +33,7 @@ export class CssVariablesDialogComponent {
   variables: CssVariable[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<CssVariablesDialogComponent>,
+    public dialogRef: NgxDialogRef,
     private cls: ClassManagerService,
     private chdRef: ChangeDetectorRef,
   ) {}

@@ -1,8 +1,5 @@
-<div class="ngx-mat-dialog-header" mat-dialog-title>
-  <span>CSS Variables</span>
-  <button mat-dialog-close>X</button>
-</div>
-<mat-dialog-content style="height: 80vh">
+<div ngx-dialog-header [showCloseButton]="true">CSS Variables</div>
+<div ngx-dialog-body>
   <table>
     <thead>
       <tr>
@@ -51,7 +48,10 @@
       }
     </tbody>
   </table>
+</div>
+<div ngx-dialog-footer [align]="'space-between'">
   <button class="pb-btn" (click)="add()">
     <svg Icon="assets/icons/plus.svg"></svg>
+    <span>Add New Variable</span>
   </button>
-</mat-dialog-content>
+</div>

@@ -14,7 +14,7 @@ import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import { LibConsts, PageItem, PagePreviewService, CustomToolbarButtons } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { CssVariablesDialogComponent } from '../css-variables-dialog/css-variables-dialog.component';
-
+import { Dialog } from '../../extensions/dialog';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
@@ -192,11 +192,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       });
   }
   openCssVariablesDialog() {
-    this.matDialog.open(CssVariablesDialogComponent, {
-      panelClass: 'ngx-page-builder',
-      data: {
-        classes: {},
-      },
+    Dialog.open(CssVariablesDialogComponent, {
       width: '80vw',
       maxWidth: '100%',
     });

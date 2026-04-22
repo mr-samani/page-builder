@@ -42,6 +42,7 @@ import {
   CMSPage,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
+import { NgxDialogModule } from '../extensions/dialog';
 
 @Component({
   standalone: true,
@@ -56,6 +57,7 @@ import { ClassManagerService } from '../services/class-manager.service';
     SideConfigComponent,
     NgxPgNotifyModule,
     SvgIconDirective,
+    NgxDialogModule,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
