@@ -17,16 +17,16 @@ import {
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BoxShadow, formatBoxShadowToCSS, parseBoxShadow, validateColor } from './box-shadow-parser';
 import { getOffsetPosition } from './get-offset-position';
-import { NgxInputColorModule } from 'ngx-input-color';
 import { BaseControl } from '../base-control';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxInputColor } from 'ngx-input-color/color-picker';
 
 @Component({
   selector: 'shadow-control',
   templateUrl: './shadow-control.component.html',
   styleUrls: ['./shadow-control.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxInputColorModule, SvgIconDirective],
+  imports: [CommonModule, FormsModule, NgxInputColor, SvgIconDirective],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

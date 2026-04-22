@@ -13,12 +13,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { NgxInputColorModule, NgxInputGradientModule } from 'ngx-input-color';
 import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.filepicker';
 import { BaseControl } from '../base-control';
 import { Notify } from '../../extensions/notify';
 import { parseBackground } from 'ngx-page-builder/core';
+import { NgxInputColor } from 'ngx-input-color/color-picker';
+import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
 
 @Component({
   selector: 'background-control',
@@ -31,7 +32,7 @@ import { parseBackground } from 'ngx-page-builder/core';
     },
   ],
   standalone: true,
-  imports: [FormsModule, NgxInputColorModule, NgxInputGradientModule],
+  imports: [FormsModule, NgxInputColor, NgxInputGradient],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackgroundControlComponent extends BaseControl implements OnInit, ControlValueAccessor {

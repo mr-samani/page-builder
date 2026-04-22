@@ -6,7 +6,7 @@ import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
 import { LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
-import { NgxInputColorModule } from 'ngx-input-color';
+import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 
 @Component({
@@ -22,7 +22,7 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
     ReactiveFormsModule,
     TabGroupModule,
     FormsModule,
-    NgxInputColorModule,
+    NgxInputColor,
     SvgIconDirective,
   ],
 })
