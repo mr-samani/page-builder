@@ -1,8 +1,5 @@
-<div class="ngx-mat-dialog-header" mat-dialog-title>
-  <span>Import Html</span>
-  <button mat-dialog-close>X</button>
-</div>
-<mat-dialog-content>
+<div ngx-dialog-header [showCloseButton]="true">Import Html</div>
+<div ngx-dialog-body>
   <tab-group>
     <tab-item title="Import from URL" [active]="true">
       <!-- Import from URL -->
@@ -112,7 +109,7 @@
       </section>
     }
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
+</div>
+<div ngx-dialog-footer>
   <button matButton (click)="ok()" [disabled]="!result || !result.data || loading">Ok</button>
-</mat-dialog-actions>
+</div>

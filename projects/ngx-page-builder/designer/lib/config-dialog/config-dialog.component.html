@@ -1,9 +1,5 @@
-<div class="ngx-mat-dialog-header" mat-dialog-title>
-  <span>Configuration</span>
-  <button mat-dialog-close>X</button>
-</div>
-
-<mat-dialog-content>
+<div ngx-dialog-header [showCloseButton]="true">Configuration</div>
+<div ngx-dialog-body>
   <p>Configure your settings below:</p>
 
   <p>Direction:</p>
@@ -38,7 +34,7 @@
       </div>
     }
   </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
+</div>
+<div ngx-dialog-footer>
   <button matButton (click)="ok()">Ok</button>
-</mat-dialog-actions>
+</div>

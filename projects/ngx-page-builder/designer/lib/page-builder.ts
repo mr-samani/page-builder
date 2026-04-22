@@ -3,7 +3,6 @@ import {
   Component,
   DOCUMENT,
   inject,
-  Inject,
   Injector,
   Input,
   OnDestroy,
@@ -21,10 +20,8 @@ import { SideConfigComponent } from '../components/side-config/side-config.compo
 import { NgxPgNotifyModule, Notify } from '../extensions/notify';
 import { SvgIconDirective } from '../directives/svg-icon.directive';
 import { FocusContext } from '../services/shortcut.service';
-
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
-import { MatDialog } from '@angular/material/dialog';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';
 import { PageItemChange } from '../services/page-builder.service';
 
@@ -42,7 +39,7 @@ import {
   CMSPage,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
-import { NgxDialogModule } from '../extensions/dialog';
+import { Dialog, NgxDialogModule } from '../extensions/dialog';
 
 @Component({
   standalone: true,
@@ -122,7 +119,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   constructor(
     private injector: Injector,
     private cls: ClassManagerService,
-    private dialog: MatDialog,
   ) {
     super(injector);
     this.pb.storageService = this.storageService;
@@ -165,18 +161,15 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   async viewPlugins() {
     const { PluginsDialogComponent } = await import('./plugins-dialog/plugins-dialog.component');
-    this.dialog
-      .open(PluginsDialogComponent, {
-        width: '80vw',
-        minHeight: '80%',
-        panelClass: 'ngx-page-builder',
-        injector: this.injector,
-      })
-      .afterClosed()
-      .subscribe((p) => {
-        if (p) {
-        }
-      });
+    Dialog.open(PluginsDialogComponent, {
+      width: '80vw',
+      minHeight: '80%',
+      // TODO: check pass injector
+      // injector: this.injector,
+    }).afterClosed.subscribe((p) => {
+      if (p) {
+      }
+    });
   }
 
   /**

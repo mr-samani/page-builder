@@ -10,19 +10,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { DynamicDataStructure, IPagebuilderOutput, LibConsts, ViewMode } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
+import { DIALOG_DATA, NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-preview-dialog',
   templateUrl: './preview-dialog.component.html',
   styleUrls: ['./preview-dialog.component.scss'],
-  imports: [FormsModule, MatDialogModule, MatButtonModule],
+  imports: [FormsModule, NgxDialogModule, MatButtonModule],
   providers: [],
 })
 export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
@@ -34,8 +34,8 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
     data: IPagebuilderOutput;
     dynamicData: DynamicDataStructure[];
     viewMode: ViewMode;
-  }>(MAT_DIALOG_DATA);
-  constructor(private dialogRef: MatDialogRef<PreviewDialogComponent>) {
+  }>(DIALOG_DATA);
+  constructor(private dialogRef: NgxDialogRef) {
     providePagePreview({
       customSources: LibConsts.SourceItemList.filter((x) => x.isUserDefined),
       publicCss: LibConsts.publicCss,

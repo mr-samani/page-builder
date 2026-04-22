@@ -1,6 +1,5 @@
 import { Component, EventEmitter, inject, Inject, Injector, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
-import { MatDialog } from '@angular/material/dialog';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
 import { FormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
@@ -19,6 +18,7 @@ import {
   DynamicDataStructure,
   PageItem,
 } from 'ngx-page-builder/core';
+import { Dialog } from '../../extensions/dialog';
 
 @Component({
   selector: 'text-binding',
@@ -48,7 +48,6 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
   private htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
   constructor(
     injector: Injector,
-    private matDialog: MatDialog,
     public dynamicDataService: DynamicDataService,
     private renderer: Renderer2,
   ) {
@@ -81,20 +80,17 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
         this.pb.writeItemValue(this.item);
       });
     } else {
-      this.matDialog
-        .open(TextEditorComponent, {
-          data: this.item,
-          width: '80vw',
-          maxWidth: '100%',
-          height: '90vh',
-        })
-        .afterClosed()
-        .subscribe((result) => {
-          if (result && this.item) {
-            this.item.content = result;
-            this.pb.writeItemValue(this.item);
-          }
-        });
+      Dialog.open(TextEditorComponent, {
+        data: this.item,
+        width: '80vw',
+        maxWidth: '100%',
+        height: '90vh',
+      }).afterClosed.subscribe((result) => {
+        if (result && this.item) {
+          this.item.content = result;
+          this.pb.writeItemValue(this.item);
+        }
+      });
     }
   }
   onChangeKey(event: string[]) {

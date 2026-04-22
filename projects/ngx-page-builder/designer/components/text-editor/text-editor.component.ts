@@ -6,25 +6,24 @@ import {
   ElementRef,
   EventEmitter,
   inject,
-  Inject,
   Input,
   OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogClose } from '@angular/material/dialog';
 
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicAutocompleteDirective } from '../../directives/ngx-dynamic-data-autocomplete.directive';
 import { fromEvent, Subscription } from 'rxjs';
 import { DynamicDataService, PageItem } from 'ngx-page-builder/core';
+import { DIALOG_DATA, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
-  imports: [FormsModule, MatDialogClose, DynamicAutocompleteDirective],
+  imports: [FormsModule, DynamicAutocompleteDirective],
 })
 export class TextEditorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('editable', { static: true }) editableRef!: ElementRef<HTMLElement>;
@@ -55,11 +54,11 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   selectedCharCount = 0;
 
   subscriptions: Subscription[] = [];
-  data = inject<PageItem>(MAT_DIALOG_DATA);
+  data = inject<PageItem>(DIALOG_DATA);
   private doc = inject(DOCUMENT);
   constructor(
     private sanitizer: DomSanitizer,
-    private dialogRef: MatDialogRef<TextEditorComponent>,
+    private dialogRef: NgxDialogRef,
     private chdRef: ChangeDetectorRef,
     public dynamicDataService: DynamicDataService,
   ) {

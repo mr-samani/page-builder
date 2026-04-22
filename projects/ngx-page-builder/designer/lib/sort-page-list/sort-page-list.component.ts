@@ -1,21 +1,21 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { IDropEvent, moveItemInArray, NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { MatButtonModule } from '@angular/material/button';
 import { Page } from 'ngx-page-builder/core';
+import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-sort-page-list',
   templateUrl: './sort-page-list.component.html',
   styleUrls: ['./sort-page-list.component.scss'],
   standalone: true,
-  imports: [MatDialogModule, NgxDragDropKitModule, MatButtonModule],
+  imports: [NgxDialogModule, NgxDragDropKitModule, MatButtonModule],
 })
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
   constructor(
-    private dialogRef: MatDialogRef<SortPageListComponent>,
+    private dialogRef: NgxDialogRef,
     private pb: PageBuilderService,
   ) {
     this.pageList = [...(pb.pageInfo.pages ?? [])];

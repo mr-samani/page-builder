@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, Injector, Input, OnInit } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfigDialogComponent } from '../config-dialog/config-dialog.component';
 import { SortPageListComponent } from '../sort-page-list/sort-page-list.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
@@ -32,7 +31,6 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
 
   constructor(
     injector: Injector,
-    private matDialog: MatDialog,
     private exporter: ExportHtmlService,
 
     public history: HistoryService,
@@ -141,7 +139,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
   async preview() {
     const data = await preparePageDataForSave(this.pb);
-    this.matDialog.open(PreviewDialogComponent, {
+    Dialog.open(PreviewDialogComponent, {
       data: {
         data,
         dynamicData: this.dynamicDataService.dynamicData,
@@ -157,39 +155,27 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     window.open('/preview');
   }
   sortPages() {
-    this.matDialog
-      .open(SortPageListComponent)
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.pb.reloadCurrentPage();
-        }
-      });
+    Dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {
+      if (result) {
+        this.pb.reloadCurrentPage();
+      }
+    });
   }
   openConfigDialog() {
-    this.matDialog
-      .open(ConfigDialogComponent, {
-        panelClass: 'ngx-page-builder',
-      })
-      .afterClosed()
-      .subscribe((r) => {
-        this.chdRef.detectChanges();
-      });
+    Dialog.open(ConfigDialogComponent).afterClosed.subscribe((r) => {
+      this.chdRef.detectChanges();
+    });
   }
   openCssFileDialog() {
-    this.matDialog
-      .open(CssFileDialogComponent, {
-        panelClass: 'ngx-page-builder',
-        data: {
-          classes: {},
-        },
-        width: '80vw',
-        maxWidth: '100%',
-      })
-      .afterClosed()
-      .subscribe((r) => {
-        this.chdRef.detectChanges();
-      });
+    Dialog.open(CssFileDialogComponent, {
+      data: {
+        classes: {},
+      },
+      width: '80vw',
+      maxWidth: '100%',
+    }).afterClosed.subscribe((r) => {
+      this.chdRef.detectChanges();
+    });
   }
   openCssVariablesDialog() {
     Dialog.open(CssVariablesDialogComponent, {
@@ -207,20 +193,16 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       Notify.error('Create page to import');
       return;
     }
-    this.matDialog
-      .open(ImportDialogComponent, {
-        panelClass: 'ngx-page-builder',
-        width: '80%',
-        minWidth: '80%',
-        maxWidth: '100%',
-      })
-      .afterClosed()
-      .subscribe(async (r?: PageItem[]) => {
-        if (r) {
-          this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);
-          r.map(async (item) => await this.pb.createBlockElement(true, item));
-          this.chdRef.detectChanges();
-        }
-      });
+    Dialog.open(ImportDialogComponent, {
+      width: '80%',
+      minWidth: '80%',
+      maxWidth: '100%',
+    }).afterClosed.subscribe(async (r?: PageItem[]) => {
+      if (r) {
+        this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);
+        r.map(async (item) => await this.pb.createBlockElement(true, item));
+        this.chdRef.detectChanges();
+      }
+    });
   }
 }

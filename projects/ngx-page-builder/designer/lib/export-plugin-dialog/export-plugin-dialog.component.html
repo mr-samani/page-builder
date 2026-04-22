@@ -1,8 +1,5 @@
-<div class="ngx-mat-dialog-header" mat-dialog-title>
-  <span>Export Plugin</span>
-  <button mat-dialog-close>X</button>
-</div>
-<mat-dialog-content>
+<div ngx-dialog-header [showCloseButton]="true">Export Plugin</div>
+<div ngx-dialog-body>
   <div class="screenshot-container">
     @if (img) {
       <img [src]="img" alt="" class="screenshot" />
@@ -26,7 +23,7 @@
       <mat-error class="text-danger">Name is required for plugin</mat-error>
     }
   </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
+</div>
+<div ngx-dialog-footer>
   <button matButton (click)="ok()" color="primary">Ok</button>
-</mat-dialog-actions>
+</div>

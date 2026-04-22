@@ -15,7 +15,6 @@ import { Dialog as DialogFacade } from './dialog.facade';
 })
 export class NgxDialogModule {
   constructor(@Optional() @SkipSelf() parentModule: NgxDialogModule | null, service: NgxDialogService) {
-    debugger;
     if (parentModule) {
       return;
     }

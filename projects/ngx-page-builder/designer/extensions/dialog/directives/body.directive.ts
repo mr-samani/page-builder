@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, HostListener, inject, Inject, OnInit } from '@angular/core';
 import { NgxDialogRef } from '../ngx-dialog-ref';
+import { DIALOG_REF } from '../dialog.tokens';
 
 @Directive({
   standalone: false,
@@ -14,7 +15,7 @@ import { NgxDialogRef } from '../ngx-dialog-ref';
 export class NgxDialogBodyDirective implements OnInit {
   height?: number;
 
-  private _dialogRef = inject(NgxDialogRef);
+  private _dialogRef = inject(DIALOG_REF);
   constructor(
     public _el: ElementRef<HTMLElement>,
     @Inject(DOCUMENT) private _document: Document,

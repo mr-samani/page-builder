@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, DOCUMENT, inject, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ImportHtmlService } from '../../services/import-export/import-html.service';
 import { ImportResult } from '../../services/import-export/ImportResult';
 import { ImportOptions } from '../../services/import-export/ImportOptions';
@@ -11,6 +10,7 @@ import { MatAnchor } from '@angular/material/button';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { LibConsts } from 'ngx-page-builder/core';
+import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-import-dialog',
@@ -19,7 +19,7 @@ import { LibConsts } from 'ngx-page-builder/core';
   imports: [
     CommonModule,
     FormsModule,
-    MatDialogModule,
+    NgxDialogModule,
     PreviewImportTreeComponent,
     MatAnchor,
     TabGroupModule,
@@ -47,7 +47,7 @@ export class ImportDialogComponent implements OnInit {
   private doc = inject(DOCUMENT);
 
   constructor(
-    private dialogRef: MatDialogRef<ImportDialogComponent>,
+    private dialogRef: NgxDialogRef,
     private importer: ImportHtmlService,
     private chdr: ChangeDetectorRef,
   ) {}

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { NgxDialogConfig } from './ngx-dialog-config';
 import { NgxDialogService } from './ngx-dialog.service';
+import { NgxDialogRef } from './ngx-dialog-ref';
 
 export class Dialog {
   private static serviceInstance: NgxDialogService | null = null;
@@ -8,11 +9,10 @@ export class Dialog {
     this.serviceInstance = svc;
   }
 
-  static open<DataType>(component: Type<any>, config: NgxDialogConfig<DataType>) {
+  static open<DataType>(component: Type<any>, config?: NgxDialogConfig<DataType>): NgxDialogRef {
     if (!this.serviceInstance) {
-      console.warn('ngx-dialog: service not initialized. Ensure NgxDialogModule is imported.');
-      return;
+      throw Error('ngx-dialog: service not initialized. Ensure NgxDialogModule is imported.');
     }
-    this.serviceInstance.open(component, config);
+    return this.serviceInstance.open(component, config);
   }
 }

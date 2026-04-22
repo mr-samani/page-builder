@@ -6,18 +6,20 @@ import {
   EnvironmentInjector,
   Injectable,
   Injector,
+  Provider,
   runInInjectionContext,
   Type,
 } from '@angular/core';
 import { NgxDialogConfig } from './ngx-dialog-config';
 import { NgxDialogRef } from './ngx-dialog-ref';
 import { NgxDialogComponent } from './ngx-dialog.component';
+import { DIALOG_DATA, DIALOG_REF } from './dialog.tokens';
+import { randomStrnig } from 'ngx-page-builder/core';
 
 @Injectable()
 export class NgxDialogService {
   dialogComponentRefs: ComponentRef<NgxDialogComponent>[] = [];
   _defaultOptions: NgxDialogConfig | undefined;
-  insertedId = 0;
   constructor(
     private appRef: ApplicationRef,
     private injector: Injector,
@@ -35,7 +37,7 @@ export class NgxDialogService {
     map.set(NgxDialogConfig, config);
 
     const dialogRef = new NgxDialogRef();
-    dialogRef.id = this.insertedId;
+    dialogRef.id = this.getDialogId;
     map.set(NgxDialogRef, dialogRef);
 
     const sub = dialogRef.afterClosed.subscribe(() => {
@@ -46,11 +48,15 @@ export class NgxDialogService {
 
     // ✅ ساخت Injector اختصاصی با DestroyRef
     const componentInjector = Injector.create({
-      providers: [NgxDialogRef],
+      providers: [
+        NgxDialogRef,
+        { provide: DIALOG_DATA, useValue: config.data },
+        { provide: DIALOG_REF, useValue: dialogRef, multi: false },
+      ],
       parent: this.envInjector,
     });
 
-    const componentRef: ComponentRef<any> = runInInjectionContext(componentInjector, () =>
+    const componentRef: ComponentRef<NgxDialogComponent> = runInInjectionContext(componentInjector, () =>
       createComponent(NgxDialogComponent, {
         elementInjector: componentInjector,
         environmentInjector: this.envInjector,
@@ -58,22 +64,23 @@ export class NgxDialogService {
     );
 
     this.appRef.attachView(componentRef.hostView);
-
     this.appendDialogComponentToBody(componentRef, config);
     componentRef.instance.config = config;
     componentRef.instance.component = component;
-    componentRef.instance.onClose.subscribe(() => {
-      this.removeDialogComponentFromBody(dialogRef.id);
-    });
+    //componentRef.instance._dialogRef = dialogRef;
     this.dialogComponentRefs.push(componentRef);
-    this.insertedId++;
     return dialogRef;
   }
 
-  private removeDialogComponentFromBody(index: number): void {
-    if (this.dialogComponentRefs[index]) {
+  private removeDialogComponentFromBody(id?: string): void {
+    if (!id) {
+      return;
+    }
+    const index = this.dialogComponentRefs.findIndex((x) => x.instance._dialogRef.id == id);
+    if (index > -1 && this.dialogComponentRefs[index]) {
       this.appRef.detachView(this.dialogComponentRefs[index].hostView);
       this.dialogComponentRefs[index].destroy();
+      this.dialogComponentRefs.splice(index, 1);
     }
   }
 
@@ -88,8 +95,16 @@ export class NgxDialogService {
   }
 
   closeAll() {
-    for (let i = 0; i < this.dialogComponentRefs.length; i++) {
-      this.removeDialogComponentFromBody(i);
+    for (let index = 0; index < this.dialogComponentRefs.length; index++) {
+      if (this.dialogComponentRefs[index]) {
+        this.appRef.detachView(this.dialogComponentRefs[index].hostView);
+        this.dialogComponentRefs[index].destroy();
+      }
     }
+    this.dialogComponentRefs = [];
+  }
+
+  private get getDialogId() {
+    return randomStrnig(10, true);
   }
 }

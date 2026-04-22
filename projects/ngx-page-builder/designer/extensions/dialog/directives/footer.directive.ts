@@ -1,5 +1,6 @@
 import { Directive, ElementRef, inject, Input, OnInit } from '@angular/core';
 import { NgxDialogRef } from '../ngx-dialog-ref';
+import { DIALOG_REF } from '../dialog.tokens';
 
 @Directive({
   standalone: false,
@@ -17,7 +18,7 @@ import { NgxDialogRef } from '../ngx-dialog-ref';
 export class NgxDialogFooterDirective implements OnInit {
   @Input() align: 'start' | 'end' | 'space-between' | 'center' | 'space-around' = 'end';
 
-  private _dialogRef = inject(NgxDialogRef);
+  private _dialogRef = inject(DIALOG_REF);
   constructor(public _el: ElementRef<HTMLElement>) {}
 
   ngOnInit(): void {

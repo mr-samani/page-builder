@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +9,7 @@ import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
 import { IPlugin, LibConsts } from 'ngx-page-builder/core';
+import { NgxDialogModule, NgxDialogRef } from '../../extensions/dialog';
 
 @Component({
   selector: 'app-plugins-dialog',
@@ -17,7 +17,7 @@ import { IPlugin, LibConsts } from 'ngx-page-builder/core';
   styleUrls: ['./plugins-dialog.component.scss'],
   imports: [
     FormsModule,
-    MatDialogModule,
+    NgxDialogModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -41,7 +41,7 @@ export class PluginsDialogComponent implements OnInit {
 
   canDeletePlugin = LibConsts.canDeletePlugin;
   constructor(
-    private dialogRef: MatDialogRef<PluginsDialogComponent>,
+    private dialogRef: NgxDialogRef,
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
   ) {}

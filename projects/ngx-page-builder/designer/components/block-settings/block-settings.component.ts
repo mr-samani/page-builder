@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, Injector, OnInit, Type, ViewChild } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
-import { MatDialog } from '@angular/material/dialog';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
 import { EditLinkComponent } from '../edit-link/edit-link.component';
+import { Dialog } from '../../extensions/dialog';
 
 @Component({
   selector: 'block-settings',
@@ -25,7 +25,6 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   constructor(
     private injector: Injector,
     private dynamicDataService: DynamicDataService,
-    private dialog: MatDialog,
   ) {
     super(injector);
     effect(async () => {
@@ -70,10 +69,11 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     if (!this.item) return;
     const { ExportPluginDialogComponent } =
       await import('../../lib/export-plugin-dialog/export-plugin-dialog.component');
-    this.dialog.open(ExportPluginDialogComponent, {
+    Dialog.open(ExportPluginDialogComponent, {
       data: this.item,
       width: '80%',
-      injector: this.injector,
+      // TODO:check pass injector
+      // injector: this.injector,
     });
   }
 }

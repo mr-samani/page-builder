@@ -13,6 +13,7 @@ import {
 import { Subject } from 'rxjs';
 import { NgxDialogConfig } from './ngx-dialog-config';
 import { NgxDialogRef } from './ngx-dialog-ref';
+import { DIALOG_REF } from './dialog.tokens';
 
 @Component({
   standalone: false,
@@ -24,11 +25,11 @@ import { NgxDialogRef } from './ngx-dialog-ref';
 export class NgxDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   config?: NgxDialogConfig;
   component!: Type<any>;
-  private readonly _onClose = new Subject<any>();
+  private readonly _onClose = new Subject<void>();
   public onClose = this._onClose.asObservable();
   @ViewChild('ngxDialog') ngxDialog?: ElementRef<HTMLElement>;
 
-  private _dialogRef = inject(NgxDialogRef);
+  _dialogRef = inject(DIALOG_REF);
   private cd = inject(ChangeDetectorRef);
   constructor() {}
 
@@ -53,7 +54,7 @@ export class NgxDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   close(): void {
-    this._onClose.next(null);
+    this._onClose.next();
   }
 
   setStyle() {
