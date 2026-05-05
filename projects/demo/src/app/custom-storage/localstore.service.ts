@@ -20,6 +20,7 @@ export class LocalStoreService implements IStorageService {
         config: new PageBuilderConfig(),
         data: [],
         styles: [],
+        cssVariables: [],
       };
     }
   }

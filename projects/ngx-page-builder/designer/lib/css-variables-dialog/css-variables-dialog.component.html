@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (item of variables; track $index) {
+      @for (item of pb.cssVariables; track $index) {
         <tr>
           <td>
             <button class="pb-btn" (click)="remove($index)">
@@ -34,7 +34,7 @@
             @switch (item.type) {
               @case ('Color') {
                 <div class="pi-group">
-                  <input type="text" ngxInputColor name="value" [(ngModel)]="item.value" />
+                  <input ngxInputColor name="value" [(ngModel)]="item.value" readonly />
                 </div>
               }
               @default {

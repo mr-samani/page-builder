@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { CustomSources } from '../custom-source/custom-sources';
 import { LocalStoreService } from '../custom-storage/localstore.service';
 import { PluginService } from './plugin.service';
+import { ICssVariable } from 'ngx-page-builder/core';
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
@@ -163,6 +164,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     },
   ];
 
+  cssVariables: ICssVariable[] = [];
   customButtons: CustomToolbarButtons[] = [
     {
       title: 'preview page',
@@ -183,6 +185,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       this.data = parsed?.data ?? [];
       this.config = parsed?.config;
       this.styles = parsed?.styles;
+      this.cssVariables = parsed.cssVariables;
     } catch (error) {}
   }
   ngAfterViewInit(): void {

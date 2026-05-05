@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,7 @@ import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
-
+import { PageBuilderService } from '../../services/page-builder.service';
 @Component({
   selector: 'app-css-variables-dialog',
   templateUrl: './css-variables-dialog.component.html',
@@ -24,29 +24,32 @@ import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
     SvgIconDirective,
   ],
 })
-export class CssVariablesDialogComponent {
+export class CssVariablesDialogComponent implements OnInit {
   loading = false;
   enableAddCssFile = LibConsts.enableAddCssFile;
 
-  variables: CssVariable[] = [];
   private dialogRef = inject(DIALOG_REF);
 
   constructor(
     private cls: ClassManagerService,
+    public pb: PageBuilderService,
     private chdRef: ChangeDetectorRef,
   ) {}
 
+  ngOnInit(): void {
+    if (!this.pb.cssVariables.length) {
+      this.add();
+    }
+  }
   remove(index: number) {
-    this.variables.splice(index, 1);
+    this.pb.cssVariables.splice(index, 1);
   }
 
   add() {
-    this.variables.push(new CssVariable());
+    this.pb.cssVariables.push({
+      type: 'String',
+      name: '',
+      value: '',
+    });
   }
-}
-
-export class CssVariable {
-  type: 'Color' | 'String' = 'String';
-  name!: string;
-  value!: string;
 }

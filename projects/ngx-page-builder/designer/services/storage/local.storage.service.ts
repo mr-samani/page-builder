@@ -21,6 +21,7 @@ export class LocalStorageService implements IStorageService {
             config: new PageBuilderConfig(),
             data: [],
             styles: [],
+            cssVariables: [],
           });
           return;
         }
@@ -30,6 +31,7 @@ export class LocalStorageService implements IStorageService {
           config: parsed.config,
           data: parsed.pages,
           styles,
+          cssVariables: this.pb.cssVariables,
         });
       } catch (error) {
         console.error('Error loading page data:', error);

@@ -25,6 +25,7 @@ export function preparePageDataForSave(pb: PageBuilderService): Promise<IPagebui
           styles: [],
           html: '',
           script: '',
+          cssVariables: [],
         });
         return;
       }
@@ -46,6 +47,7 @@ export function preparePageDataForSave(pb: PageBuilderService): Promise<IPagebui
         config: sanitized.config,
         data: sanitized.pages,
         styles,
+        cssVariables: pb.cssVariables,
       });
     } catch (error) {
       reject(error);

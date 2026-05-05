@@ -37,6 +37,7 @@ import {
   validateViewMode,
   CustomToolbarButtons,
   CMSPage,
+  ICssVariable,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 import { Dialog, NgxDialogModule } from '../extensions/dialog';
@@ -79,6 +80,11 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   @Input('styles') set setStyles(val: IStyleSheetFile[]) {
     if (val && Array.isArray(val)) {
       for (let f of val) this.cls.addToDefaultStyles(f.data);
+    }
+  }
+  @Input('cssVariables') set setCssVariables(val: ICssVariable[]) {
+    if (val && Array.isArray(val)) {
+      this.pb.cssVariables = val;
     }
   }
 

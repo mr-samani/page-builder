@@ -11,7 +11,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   .pi-group {
     display: inline-flex;
     border-radius: 4px;
-    height: 22px;
+    height: 28px;
     overflow: hidden;
     gap: 1px;
     box-sizing: border-box;
@@ -28,6 +28,9 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       min-width: 100px;
       min-height: 100%;
       box-sizing: border-box;
+      font-size: 12px;
+      font-family: cursive, tahoma;
+      height: 24px;
       &:disabled {
         background-color: #2b3138;
         cursor: not-allowed;
@@ -89,6 +92,9 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
     align-items: flex-end;
     fill: #fff;
     gap: 5px;
+    font-size: 12px;
+    font-family: cursive, tahoma;
+    height: 24px;
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
@@ -96,10 +102,12 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
     &:hover:not(:disabled) {
       background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
     }
-
+    &:has(svg) {
+      padding: 5px 10px;
+    }
     svg {
       width: 18px;
-      max-height: 18px;
+      max-height: 15px;
       fill: inherit;
     }
     // &:has(svg) {
