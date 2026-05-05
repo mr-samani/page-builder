@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, forwardRef, inject, input, OnInit, output } from '@angular/core';
+import { Component, forwardRef, inject, input, OnInit, output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
 import { CssValueType, ICssVariable } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { PageBuilderService } from '../../services/page-builder.service';
 import { Dialog } from '../../extensions/dialog';
+import { ClassManagerService } from '../../services/class-manager.service';
 
 @Component({
   selector: 'input-css',
@@ -37,7 +37,11 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
 
   filterCssVar = '';
   filteredCssVars: ICssVariable[] = [];
-  pb = inject(PageBuilderService);
+
+  thisIsVariable = false;
+  variableName = '';
+
+  cls = inject(ClassManagerService);
   constructor() {}
 
   ngOnInit() {
@@ -45,6 +49,7 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   }
   writeValue(val?: string): void {
     this.value = val;
+    this.getVariableName();
   }
   registerOnChange(fn: any): void {
     this._onChange = fn;
@@ -60,9 +65,12 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
 
   clear() {
     this.value = undefined;
+    this.getVariableName();
+
     this.onChange();
   }
   onChange() {
+    this.getVariableName();
     this._onChange(this.value);
     this.valueChange.emit(this.value);
   }
@@ -72,8 +80,26 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   }
 
   /*---------------------CSS Variables----------------------------------*/
+  private getVariableName() {
+    if (!this.value) {
+      this.thisIsVariable = false;
+      this.variableName = '';
+      return;
+    }
+    this.thisIsVariable = this.value.trim().startsWith('var(--') == true;
+    if (this.thisIsVariable) {
+      this.variableName = this.value
+        .trim()
+        .replace('var(--', '')
+        .substring(0, this.value.length - 7);
+    } else {
+      this.variableName = '';
+    }
+
+    console.log(this.value, this.thisIsVariable, this.variableName);
+  }
   searchCssVariable() {
-    this.filteredCssVars = this.pb.cssVariables.filter(
+    this.filteredCssVars = this.cls.cssVariables.filter(
       (x) => x.type == this.type() && x.name.toLowerCase().includes(this.filterCssVar.toLowerCase()),
     );
   }
@@ -82,7 +108,8 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
     this.onChange();
     menuDialog.closeModal();
   }
-  async openCssVariablesDialog() {
+  async openCssVariablesDialog(menuDialog: MenuDialog) {
+    menuDialog.closeModal();
     const { CssVariablesDialogComponent } =
       await import('../../lib/css-variables-dialog/css-variables-dialog.component');
     Dialog.open(CssVariablesDialogComponent).afterClosed.subscribe(() => this.searchCssVariable());

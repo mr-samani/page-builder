@@ -31,7 +31,7 @@ export class LocalStorageService implements IStorageService {
           config: parsed.config,
           data: parsed.pages,
           styles,
-          cssVariables: this.pb.cssVariables,
+          cssVariables: this.cls.cssVariables,
         });
       } catch (error) {
         console.error('Error loading page data:', error);

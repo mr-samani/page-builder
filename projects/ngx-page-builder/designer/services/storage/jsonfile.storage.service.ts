@@ -26,7 +26,7 @@ export class JsonFileStorageService implements IStorageService {
           config: parsed.config,
           data: parsed.pages,
           styles,
-          cssVariables: this.pb.cssVariables,
+          cssVariables: this.cls.cssVariables,
         });
       } catch (error) {
         if (error instanceof FileSelectionException) {

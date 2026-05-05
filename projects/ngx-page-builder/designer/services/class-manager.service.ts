@@ -1,7 +1,7 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { IStyleSheetFile, LibConsts, PageItem, parseCssBlockToRecord } from 'ngx-page-builder/core';
+import { ICssVariable, IStyleSheetFile, LibConsts, PageItem, parseCssBlockToRecord } from 'ngx-page-builder/core';
 
 export interface ICssFile {
   id: string;
@@ -41,13 +41,27 @@ export class ClassManagerService {
   private publicStyleElement: HTMLStyleElement | null = null;
 
   private rulesMap = new Map<string, { index: number; fileId: string }>();
-  private debounceTimers = new Map<string, any>();
   private isInitialized = false;
 
   doc = inject(DOCUMENT);
   http = inject(HttpClient);
   innerShadowRootDom?: ShadowRoot | null;
 
+  private _cssVariables: ICssVariable[] = [];
+  public get cssVariables(): ICssVariable[] {
+    return this._cssVariables;
+  }
+  public async setCssVariables(val: ICssVariable[]) {
+    this._cssVariables = val;
+    let content = '';
+    for (let c of val) {
+      content += '--' + c.name + ':' + c.value + ';';
+    }
+    content = `.web-page-view{
+    ${content}
+  }`;
+    await this.addToDefaultStyles(content);
+  }
   constructor() {
     this.initializeDefaultFile();
     this.importPublicCss();
@@ -136,12 +150,14 @@ export class ClassManagerService {
   private extractClassNames(cssContent: string): Record<string, string> {
     const classes: Record<string, string> = {};
 
-    // RegEx برای پیدا کردن class selectors
-    // این regex کلاس‌های ساده رو پیدا می‌کنه (مثل .btn, .carousel-item)
-    const classRegex = /\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g;
+    // حذف comments
+    const cleanContent = cssContent.replace(/\/\*[\s\S]*?\*\//g, '');
+
+    // RegEx بهتر برای پیدا کردن کلاس‌ها
+    const classRegex = /\.(-?[_a-zA-Z]+[_a-zA-Z0-9-]*)(?![^\(]*\))(?::[a-zA-Z]+)?/g;
 
     let match;
-    while ((match = classRegex.exec(cssContent)) !== null) {
+    while ((match = classRegex.exec(cleanContent)) !== null) {
       const className = match[1];
       // ذخیره کلاس با value خالی (چون فقط برای لیست لازمه)
       if (!classes[`.${className}`]) {
@@ -206,6 +222,9 @@ export class ClassManagerService {
     return `css_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
+  /**
+   * add number to name if name is exist
+   */
   private validateName(name: string, excludeId?: string): string {
     const match = name.match(/^(.*?)(?:_(\d+))?$/);
     const baseName = match?.[1] ?? name;
@@ -538,7 +557,6 @@ export class ClassManagerService {
 
   private deleteRule(selector: string): void {
     if (!this.styleSheet) return;
-
     const ruleInfo = this.rulesMap.get(selector);
     if (!ruleInfo) return;
 
@@ -546,11 +564,15 @@ export class ClassManagerService {
       this.styleSheet.deleteRule(ruleInfo.index);
       this.rulesMap.delete(selector);
 
+      // بازسازی کامل map چون indices تغییر کرده
+      const newMap = new Map<string, { index: number; fileId: string }>();
       this.rulesMap.forEach((value, key) => {
-        if (value.index > ruleInfo.index) {
-          value.index--;
-        }
+        newMap.set(key, {
+          index: value.index > ruleInfo.index ? value.index - 1 : value.index,
+          fileId: value.fileId,
+        });
       });
+      this.rulesMap = newMap;
     } catch (e) {
       console.error(`Error deleting rule ${selector}:`, e);
     }
@@ -595,27 +617,6 @@ export class ClassManagerService {
     } catch (e) {
       console.error('Error updating CSS rule:', e);
     }
-  }
-
-  public updateClassDebounced(
-    selector: string,
-    styles: Partial<CSSStyleDeclaration> | string,
-    delay: number = 16,
-    fileId?: string,
-  ): void {
-    const normalizedSelector = this.normalizeSelector(selector);
-
-    const existingTimer = this.debounceTimers.get(normalizedSelector);
-    if (existingTimer) {
-      clearTimeout(existingTimer);
-    }
-
-    const timer = setTimeout(() => {
-      this.updateClass(normalizedSelector, styles, fileId);
-      this.debounceTimers.delete(normalizedSelector);
-    }, delay);
-
-    this.debounceTimers.set(normalizedSelector, timer);
   }
 
   public updateClassImmediate(selector: string, styles: Partial<CSSStyleDeclaration> | string, fileId?: string): void {
@@ -795,6 +796,9 @@ export class ClassManagerService {
     }
   }
 
+  /**
+   * جدا کردن فقط کلاس ها برای انتخاب کلاس در بلاک
+   */
   private updateAvailableClasses(): void {
     const classes = new Set<string>();
 
@@ -817,7 +821,6 @@ export class ClassManagerService {
         }
       });
     });
-
     const availableClasses = Array.from(classes).sort();
     this.availableClassesSubject.next(availableClasses);
   }
@@ -849,9 +852,6 @@ export class ClassManagerService {
   }
 
   public destroy(): void {
-    this.debounceTimers.forEach((timer) => clearTimeout(timer));
-    this.debounceTimers.clear();
-
     if (this.styleElement && this.styleElement.parentNode) {
       this.styleElement.parentNode.removeChild(this.styleElement);
     }

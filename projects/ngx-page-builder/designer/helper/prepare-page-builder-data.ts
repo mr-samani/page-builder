@@ -47,7 +47,7 @@ export function preparePageDataForSave(pb: PageBuilderService): Promise<IPagebui
         config: sanitized.config,
         data: sanitized.pages,
         styles,
-        cssVariables: pb.cssVariables,
+        cssVariables: cls.cssVariables,
       });
     } catch (error) {
       reject(error);

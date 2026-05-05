@@ -43,7 +43,6 @@ export class PageBuilderService implements OnDestroy {
   pageFooter: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
   showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
-  cssVariables: ICssVariable[] = [];
 
   private _changed$ = new Subject<PageItemChange>();
   /** تغییر کردن pageitem ها */

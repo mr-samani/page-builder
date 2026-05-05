@@ -57,11 +57,19 @@ export class BackgroundControlComponent extends BaseControl implements OnInit, C
     }
     this.style = style;
     const backgroundFull = style.background || style.backgroundImage || '';
-    const parsed = parseBackground(backgroundFull);
 
-    this.backgroundGradient = parsed.gradient ?? '';
-    this.backgroundImage = parsed.image ?? '';
-    this.style.backgroundColor = style.backgroundColor || parsed.color;
+    let parsed = parseBackground(backgroundFull);
+    var isVariable = false;
+    if (backgroundFull.startsWith('var(--')) {
+      const valueOfVariable = this.cls.cssVariables.find((x) => `var(--${x.name})` == backgroundFull)?.value || '';
+      parsed = parseBackground(valueOfVariable);
+
+      isVariable = true;
+    }
+
+    this.backgroundGradient = parsed.gradient ? (isVariable ? backgroundFull : parsed.gradient) : '';
+    this.backgroundImage = parsed.image ? (isVariable ? backgroundFull : parsed.image) : '';
+    this.style.backgroundColor = isVariable ? backgroundFull : style.backgroundColor || parsed.color;
     if (this.style.backgroundColor == style.background) {
       style.background = '';
     }

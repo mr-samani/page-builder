@@ -31,3 +31,13 @@
     }
   }
 }
+
+.variable-name {
+  background-color: var(--select-background);
+  padding: 5px 5px;
+  min-width: 36px;
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

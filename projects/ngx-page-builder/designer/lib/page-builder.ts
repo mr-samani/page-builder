@@ -84,7 +84,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   }
   @Input('cssVariables') set setCssVariables(val: ICssVariable[]) {
     if (val && Array.isArray(val)) {
-      this.pb.cssVariables = val;
+      this.cls.setCssVariables(val);
     }
   }
 

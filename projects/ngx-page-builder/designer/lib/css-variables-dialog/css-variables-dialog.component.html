@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (item of pb.cssVariables; track $index) {
+      @for (item of cssVars; track $index) {
         <tr>
           <td>
             <button class="pb-btn" (click)="remove($index)">
@@ -25,7 +25,6 @@
                 }
               </select>
             </div>
-            {{ item.type }}
           </td>
           <td>
             <div class="pb-input-group">
@@ -66,6 +65,10 @@
   </table>
 </div>
 <div ngx-dialog-footer [align]="'space-between'">
+  <button class="pb-btn" (click)="save()">
+    <svg Icon="assets/icons/save.svg"></svg>
+    Save
+  </button>
   <button class="pb-btn" (click)="add()">
     <svg Icon="assets/icons/plus.svg"></svg>
     Add New Variable
