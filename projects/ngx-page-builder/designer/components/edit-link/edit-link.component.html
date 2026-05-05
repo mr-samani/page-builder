@@ -19,7 +19,7 @@
 
 @switch (type) {
   @case ('link') {
-    <div class="pi-group pi-row">
+    <div class="pb-input-group pi-row">
       <input
         type="url"
         name="link"
@@ -32,7 +32,7 @@
   }
 
   @case ('page') {
-    <div class="pi-group pi-row">
+    <div class="pb-input-group pi-row">
       <select name="link" [(ngModel)]="link" (change)="onChangePage()" [class.invalid]="isInvalid">
         <option value="" disabled>Select a page…</option>
         @for (p of pages; track p.slag) {
@@ -43,7 +43,7 @@
   }
 
   @case ('email') {
-    <div class="pi-group pi-row">
+    <div class="pb-input-group pi-row">
       <input
         type="email"
         name="link"
@@ -56,7 +56,7 @@
   }
 
   @case ('phone') {
-    <div class="pi-group pi-row">
+    <div class="pb-input-group pi-row">
       <input
         type="tel"
         name="link"
@@ -101,7 +101,7 @@
           </button>
         </td>
         <td>
-          <div class="pi-group">
+          <div class="pb-input-group">
             <input type="text" name="queryName" [(ngModel)]="q.key" />
           </div>
         </td>
@@ -110,14 +110,14 @@
         </td>
         <td>
           @if (parentCollection && q.isDynamic) {
-            <div class="pi-group">
+            <div class="pb-input-group">
               <data-source-selector
                 [selectedItem]="q.value"
                 [list]="collectionDsList"
                 (selectedKey)="onChangeCollectionKey($event, q)"></data-source-selector>
             </div>
           } @else {
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input type="text" name="queryName" [(ngModel)]="q.value" />
             </div>
           }

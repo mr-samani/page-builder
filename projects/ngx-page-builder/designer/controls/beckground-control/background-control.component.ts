@@ -18,8 +18,7 @@ import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.f
 import { BaseControl } from '../base-control';
 import { Notify } from '../../extensions/notify';
 import { parseBackground } from 'ngx-page-builder/core';
-import { NgxInputColor } from 'ngx-input-color/color-picker';
-import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
+import { InputCssComponent } from '../input-css/input-css.component';
 
 @Component({
   selector: 'background-control',
@@ -32,7 +31,7 @@ import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
     },
   ],
   standalone: true,
-  imports: [FormsModule, NgxInputColor, NgxInputGradient],
+  imports: [FormsModule, InputCssComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackgroundControlComponent extends BaseControl implements OnInit, ControlValueAccessor {

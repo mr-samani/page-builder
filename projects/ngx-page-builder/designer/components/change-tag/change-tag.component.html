@@ -1,7 +1,7 @@
 <div class="tag-container">
   <span>Tag:</span>
   @if (canChangeTag) {
-    <div class="pi-group pi-row">
+    <div class="pb-input-group pi-row">
       <select name="select-tag" [(ngModel)]="item.tag" (change)="onChangeTag($event)">
         <option value="" disabled>Select a page…</option>
         @for (t of tagList; track $index) {

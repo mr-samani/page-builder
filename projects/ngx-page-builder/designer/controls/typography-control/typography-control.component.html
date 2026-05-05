@@ -8,7 +8,7 @@
         <label for="font-family">Font Family:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <select id="font-family" [(ngModel)]="fontFamily" (ngModelChange)="update()">
             <option value="inherit">Inherit</option>
             <option value="Arial">Arial</option>
@@ -17,7 +17,7 @@
             <option value="Times New Roman">Times New Roman</option>
             <option value="Verdana">Verdana</option>
           </select>
-          <button class="btn-clear" type="button" (click)="clear('fontFamily')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('fontFamily')">x</button>
         </div>
       </td>
     </tr>
@@ -26,9 +26,9 @@
         <label for="font-size">Font Size:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <input id="font-size" type="number" [(ngModel)]="fontSize" (ngModelChange)="update()" />
-          <button class="btn-clear" type="button" (click)="clear('fontSize')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('fontSize')">x</button>
         </div>
       </td>
     </tr>
@@ -38,9 +38,9 @@
         <label for="line-height">Line Height:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <input id="line-height" type="number" [(ngModel)]="lineHeight" (ngModelChange)="update()" />
-          <button class="btn-clear" type="button" (click)="clear('lineHeight')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('lineHeight')">x</button>
         </div>
       </td>
     </tr>
@@ -50,13 +50,13 @@
         <label for="text-decoration">Text Decoration:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <select id="text-decoration" [(ngModel)]="textDecoration" (ngModelChange)="update()">
             <option value="none">None</option>
             <option value="underline">Underline</option>
             <option value="line-through">Line Through</option>
           </select>
-          <button class="btn-clear" type="button" (click)="clear('textDecoration')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('textDecoration')">x</button>
         </div>
       </td>
     </tr>
@@ -66,14 +66,14 @@
         <label for="text-transform">Text Transform:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <select id="text-transform" [(ngModel)]="textTransform" (ngModelChange)="update()">
             <option value="none">None</option>
             <option value="uppercase">Uppercase</option>
             <option value="lowercase">Lowercase</option>
             <option value="capitalize">Capitalize</option>
           </select>
-          <button class="btn-clear" type="button" (click)="clear('textTransform')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('textTransform')">x</button>
         </div>
       </td>
     </tr>
@@ -83,14 +83,14 @@
         <label for="text-alignment">Text Alignment:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <select id="text-alignment" [(ngModel)]="textAlign" (ngModelChange)="update()">
             <option value="left">Left</option>
             <option value="center">Center</option>
             <option value="right">Right</option>
             <option value="justify">Justify</option>
           </select>
-          <button class="btn-clear" type="button" (click)="clear('textAlign')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('textAlign')">x</button>
         </div>
       </td>
     </tr>

@@ -1,0 +1,74 @@
+<div class="pb-input-group">
+  <button class="pb-btn css-v-btn" type="button" (click)="openCssVariableDialog(menuDialog)" #cssVBtn>📐</button>
+
+  @switch (type()) {
+    @case ('color') {
+      <input
+        class="color"
+        readonly
+        ngxInputColor
+        [simpleMode]="true"
+        [(ngModel)]="value"
+        (ngModelChange)="onChange()" />
+    }
+    @case ('gradient') {
+      <input class="color" ngxInputGradient [(ngModel)]="value" (ngModelChange)="onChange()" />
+    }
+    @case ('text') {
+      <input type="text" [(ngModel)]="value" (ngModelChange)="onChange()" />
+    }
+    @case ('number') {
+      <input type="number" [(ngModel)]="value" (ngModelChange)="onChange()" />
+    }
+  }
+
+  <button class="pb-btn" type="button" (click)="clear()">x</button>
+</div>
+
+<menu-dialog #menuDialog [target]="cssVBtn">
+  <div role="header">{{ title() }}</div>
+
+  <div class="pb-input-group pi-row">
+    <input
+      type="text"
+      name="filter"
+      id="filter"
+      [(ngModel)]="filterCssVar"
+      placeholder="Search..."
+      (keydown.enter)="searchCssVariable()" />
+    <button type="button" class="pb-btn" (click)="searchCssVariable()">
+      <svg Icon="assets/icons/search.svg"></svg>
+    </button>
+  </div>
+
+  <div class="list-container">
+    @for (item of filteredCssVars; track $index) {
+      <div class="list-item" (click)="selectCssVar(item, menuDialog)">
+        <div>{{ item.name }} - {{ item.type }}</div>
+        <div [title]="item.value">
+          @switch (item.type) {
+            @case ('color') {
+              <span class="value" [style.backgroundColor]="item.value">{{ item.value }}</span>
+            }
+            @case ('gradient') {
+              <span class="value" [style.background]="item.value">{{ item.value }}</span>
+            }
+            @case ('number') {
+              <span class="value">{{ item.value | number }}</span>
+            }
+            @default {
+              <span class="value">{{ item.value }}</span>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div role="footer">
+    <button (click)="openCssVariablesDialog()" class="pb-btn">
+      <svg Icon="assets/icons/pen-ruler.svg"></svg>
+      Css Variables
+    </button>
+  </div>
+</menu-dialog>

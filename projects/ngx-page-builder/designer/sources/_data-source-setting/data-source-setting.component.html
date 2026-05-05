@@ -1,6 +1,6 @@
 <div class="data-field">
   <label for="datasource">Data Source</label>
-  <div class="pi-group pi-row">
+  <div class="pb-input-group pi-row">
     <select [(ngModel)]="settings.id" id="datasource" name="datasource" (change)="onChangeDataSource()">
       @for (item of collectionDataSource; track item.id) {
         <option [value]="item.id">{{ item.displayName }}</option>
@@ -10,13 +10,13 @@
 </div>
 <div class="data-field">
   <label for="skipcount">Skip count</label>
-  <div class="pi-group pi-row">
+  <div class="pb-input-group pi-row">
     <input type="number" [(ngModel)]="settings.skipCount" id="skipcount" name="skipCount" (change)="update()" />
   </div>
 </div>
 <div class="data-field">
   <label for="maxResultCount">Max result count</label>
-  <div class="pi-group pi-row">
+  <div class="pb-input-group pi-row">
     <input
       type="number"
       [(ngModel)]="settings.maxResultCount"
@@ -32,17 +32,17 @@
 
     @switch (field.type) {
       @case (DynamicDataInputType.Number) {
-        <div class="pi-group pi-row">
+        <div class="pb-input-group pi-row">
           <input type="number" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)" />
         </div>
       }
       @case (DynamicDataInputType.Textarea) {
-        <div class="pi-group pi-row">
+        <div class="pb-input-group pi-row">
           <textarea rows="5" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)"></textarea>
         </div>
       }
       @case (DynamicDataInputType.Select || DynamicDataInputType.AutoComplete) {
-        <div class="pi-group pi-row">
+        <div class="pb-input-group pi-row">
           <select [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)">
             @for (opt of field.options; track $index) {
               <option [value]="opt.id">{{ opt.title }}</option>
@@ -52,7 +52,7 @@
       }
 
       @default {
-        <div class="pi-group pi-row">
+        <div class="pb-input-group pi-row">
           <input type="text" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)" />
         </div>
       }

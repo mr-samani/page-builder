@@ -9,17 +9,13 @@
       <tr>
         <td><label for="color">Color:</label></td>
         <td>
-          <div class="pi-group">
-            <input
-              id="color"
-              class="color"
-              readonly
-              ngxInputColor
-              [simpleMode]="true"
-              [(ngModel)]="style.color"
-              (ngModelChange)="update()" />
-            <button class="btn-clear" type="button" (click)="clear('color')">x</button>
-          </div>
+          <input-css
+            id="color"
+            class="color"
+            type="color"
+            title="color"
+            [(ngModel)]="style.color"
+            (ngModelChange)="update()" />
         </td>
       </tr>
 
@@ -27,16 +23,13 @@
       <tr>
         <td><label for="background-color">Background Color:</label></td>
         <td>
-          <div class="pi-group">
-            <input
-              id="background-color"
-              class="color"
-              ngxInputColor
-              [simpleMode]="true"
-              [(ngModel)]="style.backgroundColor"
-              (ngModelChange)="update()" />
-            <button class="btn-clear" type="button" (click)="clear('backgroundColor')">x</button>
-          </div>
+          <input-css
+            id="background-color"
+            type="color"
+            title="Background color"
+            [(ngModel)]="style.backgroundColor"
+            (ngModelChange)="update()" />
+          <pre>{{ style.backgroundColor }}</pre>
         </td>
       </tr>
 
@@ -44,15 +37,12 @@
       <tr>
         <td><label for="background-gradient">Gradient:</label></td>
         <td>
-          <div class="pi-group">
-            <input
-              id="background-gradient"
-              class="color"
-              ngxInputGradient
-              [(ngModel)]="backgroundGradient"
-              (ngModelChange)="update()" />
-            <button class="btn-clear" type="button" (click)="clear('backgroundGradient')">x</button>
-          </div>
+          <input-css
+            id="background-gradien"
+            type="gradient"
+            title="Gradient color"
+            [(ngModel)]="backgroundGradient"
+            (ngModelChange)="update()" />
         </td>
       </tr>
 
@@ -61,14 +51,14 @@
         <td><label for="background-image">Image URL:</label></td>
         <td>
           <button type="button" (click)="openImagePicker()">Choose Image</button>
-          <div class="pi-group">
+          <div class="pb-input-group">
             <input
               id="background-image"
               type="text"
               placeholder="e.g. url('/assets/bg.jpg')"
               [(ngModel)]="backgroundImage"
               (ngModelChange)="update()" />
-            <button class="btn-clear" type="button" (click)="clear('backgroundImage')">x</button>
+            <button class="pb-btn" type="button" (click)="clear('backgroundImage')">x</button>
           </div>
         </td>
       </tr>
@@ -78,40 +68,40 @@
         <tr>
           <td><label for="background-size">Size:</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select id="background-size" [(ngModel)]="style.backgroundSize" (ngModelChange)="update()">
                 <option value="auto">Auto</option>
                 <option value="cover">Cover</option>
                 <option value="contain">Contain</option>
               </select>
-              <button class="btn-clear" type="button" (click)="clear('backgroundSize')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('backgroundSize')">x</button>
             </div>
           </td>
         </tr>
         <tr>
           <td><label for="background-position">Position:</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select id="background-position" [(ngModel)]="style.backgroundPosition" (ngModelChange)="update()">
                 <option value="left top">Left Top</option>
                 <option value="center center">Center</option>
                 <option value="right bottom">Right Bottom</option>
               </select>
-              <button class="btn-clear" type="button" (click)="clear('backgroundPosition')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('backgroundPosition')">x</button>
             </div>
           </td>
         </tr>
         <tr>
           <td><label for="background-repeat">Repeat:</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select id="background-repeat" [(ngModel)]="style.backgroundRepeat" (ngModelChange)="update()">
                 <option value="no-repeat">No Repeat</option>
                 <option value="repeat">Repeat</option>
                 <option value="repeat-x">Repeat X</option>
                 <option value="repeat-y">Repeat Y</option>
               </select>
-              <button class="btn-clear" type="button" (click)="clear('backgroundRepeat')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('backgroundRepeat')">x</button>
             </div>
           </td>
         </tr>

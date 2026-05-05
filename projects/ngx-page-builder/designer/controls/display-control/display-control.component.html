@@ -3,13 +3,13 @@
     <tr>
       <td><label for="display">Display Type</label></td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <select [(ngModel)]="style.display" id="display" (ngModelChange)="update()">
             @for (option of displayOptions; track option) {
               <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
             }
           </select>
-          <button class="btn-clear" type="button" (click)="clear('style.display')">x</button>
+          <button class="pb-btn" type="button" (click)="clear('style.display')">x</button>
         </div>
       </td>
     </tr>
@@ -31,14 +31,14 @@
         <tr>
           <td><label for="flex-direction">Flex Direction</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.flexDirection" (ngModelChange)="update()" id="flex-direction">
                 <option value="row">Row →</option>
                 <option value="row-reverse">Row Reverse ←</option>
                 <option value="column">Column ↓</option>
                 <option value="column-reverse">Column Reverse ↑</option>
               </select>
-              <button class="btn-clear" type="button" (click)="clear('display')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('display')">x</button>
             </div>
           </td>
         </tr>
@@ -46,7 +46,7 @@
         <tr>
           <td><label for="flex-direction">Flex Wrap</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.flexWrap" (ngModelChange)="update()">
                 <option value="nowrap">No Wrap</option>
                 <option value="wrap">Wrap</option>
@@ -59,13 +59,13 @@
         <tr>
           <td><label for="justifyContent">Justify Content (Main Axis)</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.justifyContent" id="justifyContent" (ngModelChange)="update()">
                 @for (option of justifyOptions; track option) {
                   <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
-              <button class="btn-clear" type="button" (click)="clear('justifyContent')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('justifyContent')">x</button>
             </div>
           </td>
         </tr>
@@ -73,13 +73,13 @@
         <tr>
           <td><label for="alignItems">Align Items (Cross Axis)</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.alignItems" id="alignItems" (ngModelChange)="update()">
                 @for (option of alignOptions; track option) {
                   <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
-              <button class="btn-clear" type="button" (click)="clear('alignItems')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('alignItems')">x</button>
             </div>
           </td>
         </tr>
@@ -87,13 +87,13 @@
         <tr>
           <td><label for="alignContent">Align Content (Multi-line)</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.alignContent" id="alignContent" (ngModelChange)="update()">
                 @for (option of alignContentOptions; track option) {
                   <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
-              <button class="btn-clear" type="button" (click)="clear('alignContent')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('alignContent')">x</button>
             </div>
           </td>
         </tr>
@@ -101,37 +101,37 @@
         <tr>
           <td><label for="gap">Gap</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input id="gap" type="text" [(ngModel)]="style.gap" (ngModelChange)="update()" placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('gap')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gap')">x</button>
             </div>
           </td>
         </tr>
         <tr>
           <td><label for="rowGap">Row Gap</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="rowGap"
                 type="text"
                 [(ngModel)]="style.rowGap"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('rowGap')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('rowGap')">x</button>
             </div>
           </td>
         </tr>
         <tr>
           <td><label for="columnGap">Column Gap</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="columnGap"
                 type="text"
                 [(ngModel)]="style.columnGap"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('columnGap')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('columnGap')">x</button>
             </div>
           </td>
         </tr>
@@ -139,14 +139,14 @@
         <tr>
           <td><label for="flexGrow">Flex Grow</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="flexGrow"
                 type="text"
                 [(ngModel)]="style.flexGrow"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('flexGrow')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('flexGrow')">x</button>
             </div>
           </td>
         </tr>
@@ -154,14 +154,14 @@
         <tr>
           <td><label for="flexShrink">Flex Shrink</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="flexShrink"
                 type="text"
                 [(ngModel)]="style.flexShrink"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('flexShrink')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('flexShrink')">x</button>
             </div>
           </td>
         </tr>
@@ -169,14 +169,14 @@
         <tr>
           <td><label for="flexBasis">Flex Basis</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="flexBasis"
                 type="text"
                 [(ngModel)]="style.flexBasis"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('flexBasis')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('flexBasis')">x</button>
             </div>
           </td>
         </tr>
@@ -184,14 +184,14 @@
         <tr>
           <td><label for="order">Order</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="order"
                 type="text"
                 [(ngModel)]="style.order"
                 (ngModelChange)="update()"
                 placeholder="e.g., 10px" />
-              <button class="btn-clear" type="button" (click)="clear('order')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('order')">x</button>
             </div>
           </td>
         </tr>
@@ -199,13 +199,13 @@
         <tr>
           <td><label for="alignSelf">Align Self</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select [(ngModel)]="style.alignSelf" id="alignSelf" (ngModelChange)="update()">
                 @for (option of alignSelfOptions; track option) {
                   <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
                 }
               </select>
-              <button class="btn-clear" type="button" (click)="clear('alignSelf')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('alignSelf')">x</button>
             </div>
           </td>
         </tr>
@@ -226,7 +226,7 @@
         <tr>
           <td><label for="alignContent">Quick Presets</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select #gridQuikPresent (change)="setGridPreset(gridQuikPresent.value)">
                 <option value="2-col">2 Columns</option>
                 <option value="3-col">3 Columns</option>
@@ -241,14 +241,14 @@
         <tr>
           <td><label for="gridTemplateColumns">Template Columns</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="gridTemplateColumns"
                 type="text"
                 [(ngModel)]="style.gridTemplateColumns"
                 (ngModelChange)="update()"
                 placeholder="e.g., repeat(3, 1fr)" />
-              <button class="btn-clear" type="button" (click)="clear('gridTemplateColumns')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gridTemplateColumns')">x</button>
             </div>
           </td>
         </tr>
@@ -261,14 +261,14 @@
         <tr>
           <td><label for="gridTemplateRows">Template Rows</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="gridTemplateRows"
                 type="text"
                 [(ngModel)]="style.gridTemplateRows"
                 (ngModelChange)="update()"
                 placeholder="e.g., auto 1fr auto" />
-              <button class="btn-clear" type="button" (click)="clear('gridTemplateRows')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gridTemplateRows')">x</button>
             </div>
           </td>
         </tr>
@@ -276,7 +276,7 @@
         <tr>
           <td><label for="gridTemplateAreas">Template Areas</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <textarea
                 rows="3"
                 id="gridTemplateAreas"
@@ -284,7 +284,7 @@
                 [(ngModel)]="style.gridTemplateAreas"
                 (ngModelChange)="update()"
                 placeholder="e.g., 'header header' 'sidebar main' 'footer footer'"></textarea>
-              <button class="btn-clear" type="button" (click)="clear('gridTemplateAreas')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gridTemplateAreas')">x</button>
             </div>
           </td>
         </tr>
@@ -292,14 +292,14 @@
         <tr>
           <td><label for="gridAutoColumns">Auto Columns</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="gridAutoColumns"
                 type="text"
                 [(ngModel)]="style.gridAutoColumns"
                 (ngModelChange)="update()"
                 placeholder="e.g., 1fr" />
-              <button class="btn-clear" type="button" (click)="clear('gridAutoColumns')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gridAutoColumns')">x</button>
             </div>
           </td>
         </tr>
@@ -307,14 +307,14 @@
         <tr>
           <td><label for="gridAutoRows">Auto Rows</label></td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <input
                 id="gridAutoRows"
                 type="text"
                 [(ngModel)]="style.gridAutoRows"
                 (ngModelChange)="update()"
                 placeholder="e.g., 1fr" />
-              <button class="btn-clear" type="button" (click)="clear('gridAutoRows')">x</button>
+              <button class="pb-btn" type="button" (click)="clear('gridAutoRows')">x</button>
             </div>
           </td>
         </tr>

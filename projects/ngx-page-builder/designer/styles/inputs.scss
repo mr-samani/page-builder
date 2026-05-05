@@ -8,10 +8,9 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   --select-background: #3a434f;
   --input-background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
 
-  .pi-group {
+  .pb-input-group {
     display: inline-flex;
     border-radius: 4px;
-    height: 28px;
     overflow: hidden;
     gap: 1px;
     box-sizing: border-box;
@@ -47,20 +46,23 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       min-width: 0;
     }
 
-    &:has(input.color) {
-      width: 60px;
+    &:has(input.color) input {
+      width: 36px;
     }
     input.color {
       width: 32px;
       padding: 0;
       min-width: 0;
     }
-    .btn-clear {
-      all: unset;
+    .pb-btn {
       background: var(--input-background);
       border: none;
       padding: 0px 10px;
       cursor: pointer;
+      margin: 0;
+      border-radius: 0;
+      line-height: 0;
+      display: inline-block;
     }
 
     &.pi-row {

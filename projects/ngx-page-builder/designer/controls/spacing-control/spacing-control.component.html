@@ -54,7 +54,7 @@
         <label for="{{ key }}-{{ direction }}">{{ direction | titlecase }}:</label>
       </td>
       <td>
-        <div class="pi-group">
+        <div class="pb-input-group">
           <input
             id="{{ key }}-{{ direction }}"
             name="{{ key }}-{{ direction }}"
@@ -75,7 +75,7 @@
             <option value="rem">rem</option>
             <option value="%">%</option>
           </select>
-          <button class="btn-clear" type="button" (click)="clear(spacing)">x</button>
+          <button class="pb-btn" type="button" (click)="clear(spacing)">x</button>
         </div>
       </td>
     </tr>

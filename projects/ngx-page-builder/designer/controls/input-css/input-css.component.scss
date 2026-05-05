@@ -1,0 +1,33 @@
+.css-v-btn {
+  padding: 2px !important;
+}
+.list-container {
+  .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px;
+    border-bottom: 1px #7d7d7d4a solid;
+    div {
+      width: 50%;
+    }
+    &:hover {
+      background-color: #009dff13;
+    }
+
+    span.value {
+      background: #4f4f4f;
+      padding: 5px 10px;
+      border-radius: 5px;
+      max-width: 150px;
+
+      line-height: 1.8;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: auto-phrase;
+      display: -webkit-box !important;
+    }
+  }
+}

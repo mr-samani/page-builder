@@ -189,17 +189,16 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   --select-background: #3a434f;
   --input-background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
 }
-.ngx-page-builder .pi-group {
+.ngx-page-builder .pb-input-group {
   display: inline-flex;
   border-radius: 4px;
-  height: 28px;
   overflow: hidden;
   gap: 1px;
   box-sizing: border-box;
 }
-.ngx-page-builder .pi-group input,
-.ngx-page-builder .pi-group select,
-.ngx-page-builder .pi-group textarea {
+.ngx-page-builder .pb-input-group input,
+.ngx-page-builder .pb-input-group select,
+.ngx-page-builder .pb-input-group textarea {
   all: unset;
   border: none;
   background-color: var(--select-background);
@@ -214,45 +213,48 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   font-family: cursive, tahoma;
   height: 24px;
 }
-.ngx-page-builder .pi-group input:disabled,
-.ngx-page-builder .pi-group select:disabled,
-.ngx-page-builder .pi-group textarea:disabled {
+.ngx-page-builder .pb-input-group input:disabled,
+.ngx-page-builder .pb-input-group select:disabled,
+.ngx-page-builder .pb-input-group textarea:disabled {
   background-color: #2b3138;
   cursor: not-allowed;
 }
-.ngx-page-builder .pi-group input.invalid,
-.ngx-page-builder .pi-group select.invalid,
-.ngx-page-builder .pi-group textarea.invalid {
+.ngx-page-builder .pb-input-group input.invalid,
+.ngx-page-builder .pb-input-group select.invalid,
+.ngx-page-builder .pb-input-group textarea.invalid {
   box-shadow: inset 0px 0px 6px 0px #e60101;
 }
-.ngx-page-builder .pi-group select {
+.ngx-page-builder .pb-input-group select {
   appearance: auto;
 }
-.ngx-page-builder .pi-group .unit {
+.ngx-page-builder .pb-input-group .unit {
   width: 45px;
   min-width: 0;
 }
-.ngx-page-builder .pi-group:has(input.color) {
-  width: 60px;
+.ngx-page-builder .pb-input-group:has(input.color) input {
+  width: 36px;
 }
-.ngx-page-builder .pi-group input.color {
+.ngx-page-builder .pb-input-group input.color {
   width: 32px;
   padding: 0;
   min-width: 0;
 }
-.ngx-page-builder .pi-group .btn-clear {
-  all: unset;
+.ngx-page-builder .pb-input-group .pb-btn {
   background: var(--input-background);
   border: none;
   padding: 0px 10px;
   cursor: pointer;
+  margin: 0;
+  border-radius: 0;
+  line-height: 0;
+  display: inline-block;
 }
-.ngx-page-builder .pi-group.pi-row {
+.ngx-page-builder .pb-input-group.pi-row {
   width: 100%;
 }
-.ngx-page-builder .pi-group.pi-row input,
-.ngx-page-builder .pi-group.pi-row select,
-.ngx-page-builder .pi-group.pi-row textarea {
+.ngx-page-builder .pb-input-group.pi-row input,
+.ngx-page-builder .pb-input-group.pi-row select,
+.ngx-page-builder .pb-input-group.pi-row textarea {
   width: 100% !important;
   min-width: 100% !important;
   max-width: 100% !important;

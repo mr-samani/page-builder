@@ -18,33 +18,49 @@
             </button>
           </td>
           <td>
-            <div class="pi-group">
+            <div class="pb-input-group">
               <select name="type" [(ngModel)]="item.type">
-                <option value="Color">Color</option>
-                <option value="String">String</option>
+                @for (t of typeList; track $index) {
+                  <option [value]="t">{{ t | titlecase }}</option>
+                }
               </select>
             </div>
+            {{ item.type }}
           </td>
           <td>
-            <div class="pi-group">
-              <input type="text" name="name" [(ngModel)]="item.name" />
+            <div class="pb-input-group">
+              <input type="text" name="name" [(ngModel)]="item.name" [pattern]="nameRegEx" #name="ngModel" />
             </div>
           </td>
           <td>
             @switch (item.type) {
-              @case ('Color') {
-                <div class="pi-group">
+              @case ('color') {
+                <div class="pb-input-group">
                   <input ngxInputColor name="value" [(ngModel)]="item.value" readonly />
                 </div>
               }
+              @case ('gradient') {
+                <div class="pb-input-group">
+                  <input ngxInputGradient name="value" [(ngModel)]="item.value" readonly />
+                </div>
+              }
+
               @default {
-                <div class="pi-group">
+                <div class="pb-input-group">
                   <input type="text" name="value" [(ngModel)]="item.value" />
                 </div>
               }
             }
           </td>
         </tr>
+        @if (name.hasError('pattern')) {
+          <tr>
+            <td></td>
+            <td colspan="3">
+              <small style="color: red">Invalid variable name! only a-Z not start with number</small>
+            </td>
+          </tr>
+        }
       }
     </tbody>
   </table>
