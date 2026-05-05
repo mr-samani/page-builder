@@ -1,7 +1,14 @@
 <div class="pb-input-group">
-  <button class="pb-btn css-v-btn" type="button" (click)="openCssVariableDialog(menuDialog)" #cssVBtn>📐</button>
+  <button
+    class="pb-btn css-v-btn"
+    [hidden]="!enableCssVariable"
+    type="button"
+    (click)="openCssVariableDialog(menuDialog)"
+    #cssVBtn>
+    📐
+  </button>
 
-  @if (thisIsVariable) {
+  @if (thisIsVariable && enableCssVariable) {
     <span (click)="openCssVariableDialog(menuDialog)" class="variable-name">
       {{ variableName }}
     </span>

@@ -7,10 +7,11 @@ export class PageBuilderConfiguration {
 
   enableHistory?: boolean = false;
   enableShotcuts?: boolean = false;
-
-  toolbarConfig?: PageBuilderToolbarConfig;
   enableAddCssFile?: boolean = false;
   enableExportAsPlugin?: boolean = false;
+  enableCssVariable?: boolean = false;
+  toolbarConfig?: PageBuilderToolbarConfig;
+
   canDeletePlugin?: boolean = false;
   showPlugins?: boolean = false;
 

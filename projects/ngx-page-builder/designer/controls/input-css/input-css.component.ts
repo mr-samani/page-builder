@@ -3,7 +3,7 @@ import { Component, forwardRef, inject, input, OnInit, output } from '@angular/c
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
-import { CssValueType, ICssVariable } from 'ngx-page-builder/core';
+import { CssValueType, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { Dialog } from '../../extensions/dialog';
@@ -35,6 +35,7 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   private _onTouched = () => {};
   disabled = false;
 
+  enableCssVariable = LibConsts.enableCssVariable;
   filterCssVar = '';
   filteredCssVars: ICssVariable[] = [];
 
@@ -76,6 +77,7 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   }
 
   openCssVariableDialog(menuDialog: MenuDialog) {
+    if (!this.enableCssVariable) return;
     menuDialog.showModal();
   }
 

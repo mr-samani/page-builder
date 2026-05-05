@@ -26,6 +26,9 @@ export const LibConsts: {
   enableShotcuts: boolean;
   /** show export button in block setting */
   enableExportAsPlugin: boolean;
+
+  enableCssVariable: boolean;
+
   showPlugins: boolean;
   canDeletePlugin: boolean;
 
@@ -45,6 +48,7 @@ export const LibConsts: {
   enableShotcuts: false,
   enableAddCssFile: false,
   enableExportAsPlugin: false,
+  enableCssVariable: false,
   showPlugins: false,
   canDeletePlugin: false,
   viewMode: 'PrintPage',
