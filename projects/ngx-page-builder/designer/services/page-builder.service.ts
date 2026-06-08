@@ -7,7 +7,6 @@ import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {
-  Directive,
   DynamicDataService,
   DynamicElementService,
   IPageItem,
@@ -19,7 +18,6 @@ import {
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
-import { ICssVariable } from 'ngx-page-builder/core/contracts/ICssVariable';
 
 export interface PageItemChange {
   item: PageItem | null;
