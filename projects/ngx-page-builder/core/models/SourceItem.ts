@@ -86,7 +86,7 @@ export class SourceItem {
   isUserDefined?: boolean = false;
   constructor(data: SourceItem, isUserDefined?: boolean) {
     for (var property in data) {
-      if (this.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+      if (Object.hasOwn(this, property)) (<any>this)[property] = (<any>data)[property];
     }
     this.isUserDefined = isUserDefined == true;
   }

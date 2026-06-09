@@ -28,7 +28,7 @@ export class PageBuilderConfig {
   constructor(data?: PageBuilderConfig | any) {
     if (data) {
       for (var property in data) {
-        if (this.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+        if (Object.hasOwn(this, property)) (<any>this)[property] = (<any>data)[property];
       }
     }
   }

@@ -25,7 +25,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
-    /* very important when using false then optional field in class not set in this.hasOwnProperty(property) */
+    /* very important when using false then optional field in class not set in Object.hasOwn(this, property) */
     "useDefineForClassFields": true
   },
   "angularCompilerOptions": {

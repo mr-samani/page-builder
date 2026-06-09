@@ -50,7 +50,7 @@ export class PageItem implements IPageItem {
     if (data) {
       for (var property in data) {
         if (property == 'children' || property == 'template') continue;
-        if (this.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
+        if (Object.hasOwn(this, property)) (<any>this)[property] = (<any>data)[property];
       }
       if (data.children) {
         this.children = data.children.map((child) => new PageItem(child, this));
