@@ -11,6 +11,7 @@ import {
   DynamicElementService,
   IPageItem,
   LibConsts,
+  LOCAL_STORAGE_SHOW_OUTLINE_KEY,
   Page,
   PageBuilderDto,
   PageItem,
@@ -60,7 +61,12 @@ export class PageBuilderService implements OnDestroy {
     private dynamicDataService: DynamicDataService,
     private history: HistoryService,
     public cls: ClassManagerService,
-  ) {}
+  ) {
+    const so = localStorage.getItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY) || '';
+    if (so != '') {
+      this.showOutlines.set(so == 'true');
+    }
+  }
 
   ngOnDestroy(): void {
     this._changed$.complete();

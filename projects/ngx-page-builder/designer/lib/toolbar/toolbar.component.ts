@@ -10,7 +10,13 @@ import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
-import { LibConsts, PageItem, PagePreviewService, CustomToolbarButtons } from 'ngx-page-builder/core';
+import {
+  LibConsts,
+  PageItem,
+  PagePreviewService,
+  CustomToolbarButtons,
+  LOCAL_STORAGE_SHOW_OUTLINE_KEY,
+} from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from '../../extensions/dialog';
 @Component({
@@ -126,6 +132,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
 
   toggleOutlines() {
     this.pb.showOutlines.set(!this.pb.showOutlines());
+    localStorage.setItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY, this.pb.showOutlines() + '');
   }
   deSelectBlock() {
     this.pb.deSelectBlock();
