@@ -9,7 +9,6 @@ import {
   Output,
   ViewChild,
   AfterViewInit,
-  Injector,
   OnDestroy,
   ViewEncapsulation,
   Input,
@@ -48,11 +47,8 @@ export class TextCssControlComponent
   textCss = '';
   private updateTimeout?: any;
 
-  constructor(
-    injector: Injector,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {}

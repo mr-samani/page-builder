@@ -1,4 +1,6 @@
 export function getInsetPosition(target: HTMLElement, dialog: HTMLDialogElement, options: { margin?: number } = {}) {
+  if (!window) return '';
+
   const {
     margin = 8, // فاصله‌ی امن از دکمه و لبه‌ی صفحه
   } = options;

@@ -88,13 +88,13 @@ export class NgxPgNotificationComponent implements OnInit, OnDestroy {
   finish() {
     // dispatch custom event for service to remove
     const ev = new CustomEvent('ngx-pg-notify:finish', { detail: { id: this.payload.id } });
-    window.dispatchEvent(ev);
+    window?.dispatchEvent(ev);
   }
 
   close(ev?: Event) {
     if (ev) ev.stopPropagation();
     const evn = new CustomEvent('ngx-pg-notify:close', { detail: { id: this.payload.id } });
-    window.dispatchEvent(evn);
+    window?.dispatchEvent(evn);
   }
 
   onMouseEnter() {

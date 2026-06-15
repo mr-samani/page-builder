@@ -1,19 +1,18 @@
-import { Renderer2, Injector, inject } from '@angular/core';
+import { Renderer2, inject, DOCUMENT } from '@angular/core';
 import { ClassManagerService } from '../services/class-manager.service';
+import { WINDOW } from 'ngx-page-builder/core';
 
 export abstract class BaseControl {
+  protected readonly doc = inject(DOCUMENT);
+  protected readonly win = inject(WINDOW);
+
+  protected readonly renderer = inject(Renderer2);
   style!: Partial<CSSStyleDeclaration>;
   isDisabled: boolean = false;
   onChange = (_: Partial<CSSStyleDeclaration>) => {};
   onTouched = () => {};
 
-  readonly renderer: Renderer2;
-
   cls = inject(ClassManagerService);
-  constructor(injector: Injector) {
-    this.renderer = injector.get(Renderer2);
-  }
-
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }

@@ -29,13 +29,12 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   toolbarConfig = LibConsts.toolbarConfig;
 
   constructor(
-    injector: Injector,
     private exporter: ExportHtmlService,
 
     public history: HistoryService,
     private previewService: PagePreviewService,
   ) {
-    super(injector);
+    super();
     effect(() => {
       this.pageNumber = this.pb.currentPageIndex() + 1;
       this.chdRef.detectChanges();
@@ -151,7 +150,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   previewPage() {
-    window.open('/preview');
+    this.win?.open('/preview');
   }
   sortPages() {
     Dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {

@@ -4,7 +4,6 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -66,11 +65,8 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
     maxHeight: { value: undefined, unit: 'px' },
   };
 
-  constructor(
-    injector: Injector,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {}

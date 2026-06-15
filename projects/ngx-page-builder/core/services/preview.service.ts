@@ -8,6 +8,7 @@ import { IPagebuilderOutput } from '../contracts/IPageBuilderOutput';
 import { IPageItem } from '../contracts/IPageItem';
 import { LibPreviewConsts } from '../consts/LibPreviewConsts';
 import { waitForFontsToLoad, waitForRenderComplete } from '../utiles/rendering';
+import { WINDOW } from '../utiles/window';
 
 @Injectable({ providedIn: 'root' })
 export class PagePreviewService {
@@ -26,6 +27,8 @@ export class PagePreviewService {
   private previewWindow?: Window | null;
   private renderer!: Renderer2;
   private doc = inject(DOCUMENT);
+  private win = inject(WINDOW);
+
   constructor(
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
@@ -35,7 +38,7 @@ export class PagePreviewService {
   }
 
   /**
-   * open preview window from page builder
+   * open preview from page builder
    */
   async openPreview(data: IPagebuilderOutput, type: 'Print' | 'Preview' | 'ExportHml' = 'Preview'): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
@@ -51,7 +54,7 @@ export class PagePreviewService {
 
       await this.loadPageData();
 
-      this.previewWindow = window.open(
+      this.previewWindow = this.win?.open(
         '',
         '_blank',
         type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes',
@@ -64,7 +67,7 @@ export class PagePreviewService {
         return;
       }
 
-      // انتقال محتوا به window جدید
+      // انتقال محتوا به پنجره جدید
       await this.transferContentToNewWindow(this.previewWindow);
 
       setTimeout(() => {

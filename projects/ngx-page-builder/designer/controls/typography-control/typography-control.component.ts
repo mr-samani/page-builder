@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseControl } from '../base-control';
@@ -36,8 +27,8 @@ export class TypographyControlComponent extends BaseControl implements OnInit, C
   textDecoration: string = 'none';
   textTransform: string = 'none';
   textAlign: string = '';
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
   }
 
   ngOnInit() {}

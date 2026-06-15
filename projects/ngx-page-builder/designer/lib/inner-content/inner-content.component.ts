@@ -1,14 +1,4 @@
-import {
-  Component,
-  DOCUMENT,
-  ElementRef,
-  inject,
-  Inject,
-  Injector,
-  OnInit,
-  viewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, DOCUMENT, ElementRef, inject, Injector, OnInit, viewChild, ViewEncapsulation } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { LibConsts } from 'ngx-page-builder/core';
@@ -26,13 +16,9 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private _pageBody = viewChild<ElementRef<HTMLElement>>('PageBody');
   private _pageHeader = viewChild<ElementRef<HTMLElement>>('PageHeader');
   private _pageFooter = viewChild<ElementRef<HTMLElement>>('PageFooter');
-  private doc = inject(DOCUMENT);
 
-  constructor(
-    injector: Injector,
-    private el: ElementRef<HTMLElement>,
-  ) {
-    super(injector);
+  constructor(private el: ElementRef<HTMLElement>) {
+    super();
 
     this.pb.pageBody = this._pageBody;
     this.pb.pageHeader = this._pageHeader;

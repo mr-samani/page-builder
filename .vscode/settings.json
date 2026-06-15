@@ -21,5 +21,6 @@
     "**/.claude/**": true,
     "**/.windsurf/**": true,
     "**/.angular/**": true
-  }
+  },
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

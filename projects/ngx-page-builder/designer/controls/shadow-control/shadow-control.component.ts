@@ -8,7 +8,6 @@ import {
   EventEmitter,
   forwardRef,
   HostListener,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -62,11 +61,8 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
   center: { x: number; y: number } = { x: 0, y: 0 };
   result = '';
 
-  constructor(
-    injector: Injector,
-    private cd: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cd: ChangeDetectorRef) {
+    super();
   }
   ngOnInit() {}
   ngAfterViewInit() {}
@@ -220,8 +216,8 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
     this.popupPosition = el.getBoundingClientRect();
     const popupWidth = 320;
     const popupHeight = 420;
-    let ww = window.innerWidth - 10;
-    let wh = window.innerHeight - 10;
+    let ww = (this.win?.innerWidth ?? 0) - 10;
+    let wh = (this.win?.innerHeight ?? 0) - 10;
     if (this.popupPosition.x + popupWidth > ww) {
       this.popupPosition.x += ww - (this.popupPosition.x + popupWidth);
     }

@@ -5,8 +5,6 @@ import {
   EventEmitter,
   forwardRef,
   inject,
-  Inject,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -42,11 +40,8 @@ export class BackgroundControlComponent extends BaseControl implements OnInit, C
   /** css bacground-image  */
   backgroundImage = '';
   private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
-  constructor(
-    injector: Injector,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {}

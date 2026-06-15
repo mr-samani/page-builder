@@ -4,7 +4,6 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -38,11 +37,8 @@ export class SpacingControlComponent extends BaseControl implements OnInit, Cont
   padding = new Spacing();
   margin = new Spacing();
 
-  constructor(
-    injector: Injector,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {}

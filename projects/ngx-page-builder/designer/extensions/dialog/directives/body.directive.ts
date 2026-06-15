@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Directive, ElementRef, HostListener, inject, Inject, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, Renderer2 } from '@angular/core';
 import { DIALOG_REF } from '../dialog.tokens';
 
 @Directive({
@@ -16,7 +15,6 @@ export class NgxDialogBodyDirective implements AfterViewInit {
   private _dialogRef = inject(DIALOG_REF);
   constructor(
     public _el: ElementRef<HTMLElement>,
-    @Inject(DOCUMENT) private _document: Document,
     private _renderer: Renderer2,
   ) {
     this._dialogRef.body = this._el;
@@ -33,6 +31,7 @@ export class NgxDialogBodyDirective implements AfterViewInit {
 
   // @HostListener('window:resize', ['$event'])
   onWindowResize(ev?: Event) {
+    if (!window) return;
     let headerH = 0;
     let footerH = 0;
     let dialogH = window.innerHeight;

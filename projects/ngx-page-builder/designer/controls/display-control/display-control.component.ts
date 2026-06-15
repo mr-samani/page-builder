@@ -4,7 +4,6 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -103,11 +102,8 @@ export class DisplayControlComponent extends BaseControl implements OnInit, Cont
     { value: 'stretch', label: 'Stretch', icon: '' },
   ];
 
-  constructor(
-    injector: Injector,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(injector);
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {}

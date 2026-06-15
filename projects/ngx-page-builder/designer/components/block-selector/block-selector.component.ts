@@ -135,8 +135,8 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
     // اگه element هنوز در DOM نیست
     if (rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0) return;
 
-    this.x = window.scrollX + rect.x;
-    this.y = window.scrollY + rect.y;
+    this.x = (this.win?.scrollX ?? 0) + rect.x;
+    this.y = (this.win?.scrollY ?? 0) + rect.y;
     this.width = rect.width;
     this.height = rect.height;
     this.showInBottom = rect.y < 0 || rect.y - 24 < this.headerOffset;

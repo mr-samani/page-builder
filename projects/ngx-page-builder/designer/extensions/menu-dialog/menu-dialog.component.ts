@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DOCUMENT,
   ElementRef,
   inject,
   input,
@@ -24,6 +25,7 @@ export class MenuDialog {
   isOpen = false;
 
   private chdr = inject(ChangeDetectorRef);
+  private doc = inject(DOCUMENT);
   constructor() {}
 
   showModal() {
@@ -40,7 +42,7 @@ export class MenuDialog {
       dialog.style.inset = getInsetPosition(target, dialog);
     }
 
-    document.addEventListener('click', this.handleDocEvent.bind(this));
+    this.doc.addEventListener('click', this.handleDocEvent.bind(this));
   }
 
   closeModal() {
@@ -50,7 +52,7 @@ export class MenuDialog {
     dialog.close();
     this.isOpen = false;
     this.chdr.detectChanges();
-    document.removeEventListener('click', this.handleDocEvent.bind(this));
+    this.doc.removeEventListener('click', this.handleDocEvent.bind(this));
   }
 
   private handleDocEvent(event: PointerEvent) {

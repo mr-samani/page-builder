@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DOCUMENT,
   inject,
   Injector,
   Input,
@@ -120,13 +119,12 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   showPlugins = LibConsts.showPlugins;
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
-  private doc = inject(DOCUMENT);
 
   constructor(
     private injector: Injector,
     private cls: ClassManagerService,
   ) {
-    super(injector);
+    super();
     this.pb.storageService = this.storageService;
     this.pb.changed$.subscribe((data: PageItemChange) => {
       if (data.type == 'ChangePageConfig') {

@@ -18,6 +18,7 @@ import {
   DynamicDataService,
   DynamicDataStructure,
   IPagebuilderOutput,
+  WINDOW,
 } from 'ngx-page-builder/core';
 
 @Component({
@@ -28,6 +29,8 @@ import {
 })
 export class NgxPagePreviewComponent implements AfterViewInit {
   @Input() doc = inject(DOCUMENT);
+
+  private win = inject(WINDOW);
   public readonly previewService = inject(PagePreviewService);
   private readonly dynamicDataService = inject(DynamicDataService);
   isPrintPage = false;
@@ -56,7 +59,9 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    this.renderer.listen(window, 'beforeprint', this.onBeforePrint.bind(this));
+    if (this.win) {
+      this.renderer.listen(this.win, 'beforeprint', this.onBeforePrint.bind(this));
+    }
     // ۴. اضافه کردن CSS های عمومی (Bootstrap و غیره)
     for (let css of LibPreviewConsts.publicCss) {
       const s = this.doc.createElement('link');
@@ -105,7 +110,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     this.isPrintPage = true;
     this.chdRef.detectChanges();
     setTimeout(() => {
-      window.print();
+      this.win?.print();
     });
   }
 }

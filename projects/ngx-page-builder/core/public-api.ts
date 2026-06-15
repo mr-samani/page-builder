@@ -34,6 +34,7 @@ export * from './services/preview.service';
 export * from './services/dynamic-element.service';
 
 // Utils
+export * from './utiles/window';
 export * from './utiles/clone-deep';
 export * from './utiles/collection-helper';
 export * from './utiles/css-parser';

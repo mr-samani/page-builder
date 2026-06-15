@@ -2,6 +2,7 @@ import { Injectable, ComponentRef, ApplicationRef, Injector, Inject, DOCUMENT, i
 import { NGX_PG_NOTIFY_DEFAULTS } from './notify-config';
 import { NgxPgNotifyOptions } from './notify-options';
 import { NgxPgNotifyPayload, NgxPgNotifyType } from './notify.model';
+import { WINDOW } from 'ngx-page-builder/core';
 
 // We'll include a tiny inline uuid fallback if uuid package is not available
 function makeId() {
@@ -16,13 +17,13 @@ export class NgxPgNotifyService {
   private container: HTMLElement | null = null;
 
   private doc = inject(DOCUMENT);
-  constructor(
-    private appRef: ApplicationRef,
-    private injector: Injector,
-  ) {
-    // global event listeners for notifications finishing or close
-    window.addEventListener('ngx-pg-notify:finish', (e: any) => this.onNotificationFinish(e.detail.id));
-    window.addEventListener('ngx-pg-notify:close', (e: any) => this.onNotificationClose(e.detail.id));
+  private win = inject(WINDOW);
+  constructor() {
+    if (this.win) {
+      // global event listeners for notifications finishing or close
+      this.win.addEventListener('ngx-pg-notify:finish', (e: any) => this.onNotificationFinish(e.detail.id));
+      this.win.addEventListener('ngx-pg-notify:close', (e: any) => this.onNotificationClose(e.detail.id));
+    }
   }
 
   configureContainer(position: NgxPgNotifyOptions['position'], containerClass: string) {
@@ -65,7 +66,7 @@ export class NgxPgNotifyService {
   show(message: string, type: NgxPgNotifyType = 'info', options?: NgxPgNotifyOptions) {
     const opts: NgxPgNotifyOptions = { ...(NGX_PG_NOTIFY_DEFAULTS as any), ...(options || {}) };
     const id =
-      typeof (window as any).crypto?.randomUUID === 'function' ? (window as any).crypto.randomUUID() : makeId();
+      typeof (this.win as any).crypto?.randomUUID === 'function' ? (this.win as any).crypto.randomUUID() : makeId();
 
     const payload: NgxPgNotifyPayload = { id, message, type, options: opts };
 
