@@ -17,6 +17,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 
 import { BaseControl } from '../base-control';
 import { parseStyleString } from 'ngx-page-builder/core';
+import { CSSStyleHelper } from '../../helper/CSSStyle';
 
 @Component({
   selector: 'textcss-control',
@@ -66,11 +67,13 @@ export class TextCssControlComponent
   }
 
   writeValue(style: Partial<CSSStyleDeclaration>): void {
+    debugger;
     if (!style) {
       style = {};
     }
     this.style = style;
-    this.textCss = style.cssText?.replace(/;\s*/g, ';\n') ?? '';
+    const css = new CSSStyleHelper(undefined, this.style).toCSSText() || '';
+    this.textCss = css.replace(/;\s*/g, ';\n');
     this.updateHighlight();
     this.cdr.detectChanges();
   }
@@ -197,12 +200,12 @@ export class TextCssControlComponent
 
     // Color values (hex)
     if (/^#[0-9a-fA-F]{3,8}$/.test(value)) {
-      return `<span class="css-color">${value}</span>`;
+      return `<span class="css-color-value" style="background-color:${value}"></span> <span class="css-color">${value}</span>`;
     }
 
     // Color functions
     if (/^(rgb|rgba|hsl|hsla)\(.+\)$/.test(value)) {
-      return `<span class="css-color">${value}</span>`;
+      return `<span class="css-color-value" style="background-color:${value}"></span><span class="css-color">${value}</span>`;
     }
 
     // Numbers with units
