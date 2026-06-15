@@ -104,7 +104,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   /**
    * used in link tag
    */
-  @Input('cmsPages') setCmsPages(val: CMSPage[] | undefined) {
+  @Input('cmsPages') set setCmsPages(val: CMSPage[]) {
     if (val && Array.isArray(val)) {
       LibConsts.cmsPages = val;
     } else {
