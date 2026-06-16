@@ -80,9 +80,9 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
     }
     this.shadows = parseBoxShadow(val);
     this.result = formatBoxShadowToCSS(this.shadows);
-    if (val !== this.result) {
-      this.update();
-    }
+    // if (val !== this.result) {
+    //   this.update();
+    // }
   }
 
   onPadClick(ev: MouseEvent | TouchEvent) {

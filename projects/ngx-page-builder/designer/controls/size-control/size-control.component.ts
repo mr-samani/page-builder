@@ -120,7 +120,7 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
       } else {
         sizeValue.value = 'auto';
       }
-    } else if (typeof sizeValue.value === 'string') {
+    } else if (Number.isNaN(Number.parseInt(sizeValue.value?.toString() ?? ''))) {
       sizeValue.value = 0;
     }
     this.update();

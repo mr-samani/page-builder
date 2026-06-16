@@ -22,11 +22,7 @@ export class TypographyControlComponent extends BaseControl implements OnInit, C
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
   fontSize?: number;
-  fontFamily: string = '';
   lineHeight?: number;
-  textDecoration: string = 'none';
-  textTransform: string = 'none';
-  textAlign: string = '';
   constructor() {
     super();
   }
@@ -38,38 +34,20 @@ export class TypographyControlComponent extends BaseControl implements OnInit, C
     }
     this.style = style;
     this.fontSize = parseFloat(style.fontSize || '');
-    this.fontFamily = style.fontFamily || '';
     this.lineHeight = parseFloat(style.lineHeight || '');
-    this.textDecoration = style.textDecoration || '';
-    this.textTransform = style.textTransform || '';
-    this.textAlign = style.textAlign || '';
-
-    this.style = {
-      fontSize: this.fontSize + 'px',
-      fontFamily: this.fontFamily,
-      lineHeight: this.lineHeight + 'px',
-      textDecoration: this.textDecoration,
-      textTransform: this.textTransform,
-      textAlign: this.textAlign,
-    };
   }
 
   update() {
-    this.style = {
-      fontSize: this.fontSize + 'px',
-      fontFamily: this.fontFamily,
-      lineHeight: this.lineHeight + 'px',
-      textDecoration: this.textDecoration,
-      textTransform: this.textTransform,
-      textAlign: this.textAlign,
-    };
+    this.style.fontSize = Number.isNaN(this.fontSize) ? '' : this.fontSize + 'px';
+    this.style.lineHeight = Number.isNaN(this.lineHeight) ? '' : this.lineHeight + 'px';
+
     this.onChange(this.style);
     this.change.emit(this.style);
     this.cls.updateClass(this.currentClassName, this.style);
   }
 
   clear(property: string) {
-    (this as any)[property] = undefined;
+    (this.style as any)[property] = undefined;
     this.update();
   }
 }

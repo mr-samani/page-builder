@@ -9,7 +9,7 @@
       </td>
       <td>
         <div class="pb-input-group">
-          <select id="font-family" [(ngModel)]="fontFamily" (ngModelChange)="update()">
+          <select id="font-family" [(ngModel)]="style.fontFamily" (ngModelChange)="update()">
             <option value="inherit">Inherit</option>
             <option value="Arial">Arial</option>
             <option value="Courier New">Courier New</option>
@@ -32,6 +32,48 @@
         </div>
       </td>
     </tr>
+    <tr>
+      <td>
+        <label for="font-weigth">Font Weigth:</label>
+      </td>
+      <td>
+        <div class="pb-input-group">
+          <select id="font-weigth" [(ngModel)]="style.fontWeight" (ngModelChange)="update()">
+            <option value="inherit">Inherit</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+            <option value="700">700</option>
+            <option value="800">800</option>
+            <option value="900">900</option>
+            <option value="bold">bold</option>
+            <option value="bolder">bolder</option>
+            <option value="lighter">lighter</option>
+            <option value="normal">normal</option>
+          </select>
+          <button class="pb-btn" type="button" (click)="clear('fontWeigth')">x</button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="font-style">Font Style:</label>
+      </td>
+      <td>
+        <div class="pb-input-group">
+          <select id="font-style" [(ngModel)]="style.fontStyle" (ngModelChange)="update()">
+            <option value="inherit">Inherit</option>
+            <option value="normal">normal</option>
+            <option value="italic">italic</option>
+            <option value="oblique">oblique</option>
+          </select>
+          <button class="pb-btn" type="button" (click)="clear('fontStyle')">x</button>
+        </div>
+      </td>
+    </tr>
 
     <tr>
       <td>
@@ -51,7 +93,7 @@
       </td>
       <td>
         <div class="pb-input-group">
-          <select id="text-decoration" [(ngModel)]="textDecoration" (ngModelChange)="update()">
+          <select id="text-decoration" [(ngModel)]="style.textDecoration" (ngModelChange)="update()">
             <option value="none">None</option>
             <option value="underline">Underline</option>
             <option value="line-through">Line Through</option>
@@ -67,7 +109,7 @@
       </td>
       <td>
         <div class="pb-input-group">
-          <select id="text-transform" [(ngModel)]="textTransform" (ngModelChange)="update()">
+          <select id="text-transform" [(ngModel)]="style.textTransform" (ngModelChange)="update()">
             <option value="none">None</option>
             <option value="uppercase">Uppercase</option>
             <option value="lowercase">Lowercase</option>
@@ -84,7 +126,7 @@
       </td>
       <td>
         <div class="pb-input-group">
-          <select id="text-alignment" [(ngModel)]="textAlign" (ngModelChange)="update()">
+          <select id="text-alignment" [(ngModel)]="style.textAlign" (ngModelChange)="update()">
             <option value="left">Left</option>
             <option value="center">Center</option>
             <option value="right">Right</option>
