@@ -107,6 +107,7 @@ export class PageBuilderService implements OnDestroy {
     }
     const dragItem: PageItem = event.previousContainer.data[event.previousIndex];
     if (!dragItem) {
+      console.warn('Block not found in previus container!');
       return;
     }
 

@@ -96,14 +96,19 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   }
 
   load() {
-    // if (this.data.styles && Array.isArray(this.data.styles)) {
-    //   for (let f of this.data.styles) {
-    //     const s = this.doc.createElement('style');
-    //     s.id = f.name;
-    //     s.innerHTML = f.data;
-    //     this.doc.head.appendChild(s);
-    //   }
-    // }
+    if (this.data.styles && Array.isArray(this.data.styles)) {
+      for (let f of this.data.styles) {
+        let finded = this.doc.head.querySelector('style#' + f.name);
+        if (finded) {
+          finded.remove();
+        }
+
+        const s = this.doc.createElement('style');
+        s.id = f.name;
+        s.innerHTML = f.data;
+        this.doc.head.appendChild(s);
+      }
+    }
     // console.log(this.data);
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
