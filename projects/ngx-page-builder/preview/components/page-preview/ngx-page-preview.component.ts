@@ -19,6 +19,7 @@ import {
   DynamicDataStructure,
   IPagebuilderOutput,
   WINDOW,
+  PageBuilderConfig,
 } from 'ngx-page-builder/core';
 
 @Component({
@@ -37,8 +38,21 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   @Input('dynamicData') set setDynamicData(val: DynamicDataStructure[]) {
     this.dynamicDataService.dynamicData = val;
   }
-
-  @Input() data!: IPagebuilderOutput;
+  data: IPagebuilderOutput = {
+    config: new PageBuilderConfig(),
+    cssVariables: [],
+    data: [],
+    styles: [],
+  };
+  @Input('data') set setData(data: IPagebuilderOutput | undefined) {
+    this.data = data || {
+      config: new PageBuilderConfig(),
+      cssVariables: [],
+      data: [],
+      styles: [],
+    };
+    this.load();
+  }
 
   @Input({
     alias: 'viewMode',
@@ -79,20 +93,18 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
       this.doc.head.appendChild(j);
     }
-
-    this.load();
   }
 
   load() {
-    if (this.data.styles && Array.isArray(this.data.styles)) {
-      for (let f of this.data.styles) {
-        const s = this.doc.createElement('style');
-        s.id = f.name;
-        s.innerHTML = f.data;
-        this.doc.head.appendChild(s);
-      }
-    }
-    console.log(this.data);
+    // if (this.data.styles && Array.isArray(this.data.styles)) {
+    //   for (let f of this.data.styles) {
+    //     const s = this.doc.createElement('style');
+    //     s.id = f.name;
+    //     s.innerHTML = f.data;
+    //     this.doc.head.appendChild(s);
+    //   }
+    // }
+    // console.log(this.data);
     setTimeout(async () => {
       const pageContainer = this.paper()?.nativeElement;
       if (pageContainer) {

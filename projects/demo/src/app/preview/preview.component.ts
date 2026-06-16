@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
 import { IPagebuilderOutput } from 'ngx-page-builder/core';
 import { InitializeDynamicData } from '../dynamic-data/dynamic-data';
@@ -23,13 +23,25 @@ export class PreviewComponent implements OnInit {
 
   dynamicData = this.dynamicDatainitializer.DynamicData;
 
-  data: IPagebuilderOutput;
-  constructor() {
+  data?: IPagebuilderOutput;
+  chdr = inject(ChangeDetectorRef);
+  constructor() {}
+
+  ngOnInit() {
     const savedData = localStorage.getItem('page') || '{}';
 
     const parsed = JSON.parse(savedData);
     this.data = parsed;
   }
 
-  ngOnInit() {}
+  reload() {
+    const d = Object.assign({}, this.data);
+
+    this.data = undefined;
+
+    setTimeout(() => {
+      this.data = d;
+      this.chdr.detectChanges();
+    }, 1000);
+  }
 }

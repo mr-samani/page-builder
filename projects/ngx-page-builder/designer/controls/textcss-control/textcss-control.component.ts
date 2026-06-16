@@ -67,7 +67,6 @@ export class TextCssControlComponent
   }
 
   writeValue(style: Partial<CSSStyleDeclaration>): void {
-    debugger;
     if (!style) {
       style = {};
     }
