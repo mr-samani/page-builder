@@ -4,6 +4,8 @@ import { DataSourceSetting } from './DataSourceSetting';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
 import { cloneDeep } from '../utiles/clone-deep';
+import { inject } from '@angular/core';
+import { ClassManagerService } from 'ngx-page-builder/designer/services/class-manager.service';
 
 export class PageItem implements IPageItem {
   id: string = '';
@@ -43,7 +45,7 @@ export class PageItem implements IPageItem {
 
   classList: string[] = [];
 
-  /** like .class{color:white;} */
+  /** like color:white; */
   css?: string;
 
   constructor(data?: IPageItem, parent?: PageItem) {
@@ -59,7 +61,11 @@ export class PageItem implements IPageItem {
         this.template = new PageItem(data.template, this);
       }
     }
-    if (!this.id) this.id = randomStrnig(5);
+
+    if (!this.id) {
+      this.id = randomStrnig(5);
+      console.log(this.tag, this.id);
+    }
     if (parent) this.parent = parent;
     this.classList ??= [];
 

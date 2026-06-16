@@ -78,11 +78,6 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
     if (this.pageItem.customComponent?.componentData) {
       this.settings = this.pageItem.customComponent?.componentData as TableSetting;
     }
-    if (!this.pageItem.template) {
-      this.pageItem.template = new PageItem(_template, this.pageItem);
-    } else {
-      this.pageItem.template.isTemplateContainer = true;
-    }
   }
 
   ngAfterViewInit(): void {
@@ -97,10 +92,10 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
 
   async generate() {
     if (!this.pageItem.template) {
-      this.pageItem.template = new PageItem(_template, this.pageItem);
-    } else {
-      this.pageItem.template.isTemplateContainer = true;
+      console.error('Hero table can not load!', 'Template is empty!', this.pageItem.id);
+      return;
     }
+
     await this.clearContainer();
     // dynamic rows
     if (this.settings.useDynamicData && this.pageItem.dataSource && this.pageItem.dataSource.id) {
@@ -129,11 +124,9 @@ export class PreviewHeroTableComponent implements OnInit, AfterViewInit {
       this.pageItem.children = [new PageItem(this.pageItem.template, this.pageItem)];
     }
     // static rows
-    else {
-      this.pageItem.template = undefined;
-    }
+
     if (!this.pageItem.children || this.pageItem.children.length === 0) {
-      this.pageItem.children = [new PageItem(_template, this.pageItem)];
+      this.pageItem.children = [this.pageItem.template!];
     }
 
     await this.pagePreviewService.createBlockElement(this.pageItem.children[0], this.tableContainer.nativeElement);

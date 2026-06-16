@@ -30,7 +30,8 @@ export interface PageItemChange {
     | 'ChangeBlockProperties'
     | 'RemoveBlock'
     | 'MoveBlock'
-    | 'ChangeTagName';
+    | 'ChangeTagName'
+    | 'ChangeClassName';
 }
 
 @Injectable({
@@ -491,6 +492,7 @@ export class PageBuilderService implements OnDestroy {
       await this.addPage();
     }
     if (activeBlock) {
+      item.parent = activeBlock;
       activeBlock.children.push(item);
     } else {
       if (!this.pageInfo.pages[this.currentPageIndex()]) {

@@ -49,8 +49,17 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     disableMovement: true,
     lockMoveInnerChild: true,
     disableDelete: true,
-    classList: ['card-collection'],
+    classList: [],
     children: [],
+    css: `
+    position: relative;
+    flex: auto;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    min-height: 220px;
+    min-width: 150px;`,
   };
 
   dataList: DynamicDataStructure[][] = [];
@@ -83,7 +92,8 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
         data.type == 'MoveBlock' ||
         data.type == 'ChangeBlockContent' ||
         data.type == 'ChangeBlockProperties' ||
-        data.type == 'ChangeTagName'
+        data.type == 'ChangeTagName' ||
+        data.type == 'ChangeClassName'
       ) {
         // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
         const found = itemInThisTemplate(data.item, this.pageItem.children);

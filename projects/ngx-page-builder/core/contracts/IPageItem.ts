@@ -30,4 +30,7 @@ export interface IPageItem {
   isTemplateContainer?: boolean;
 
   classList?: string[];
+
+  /** like color:white; */
+  css?: string;
 }

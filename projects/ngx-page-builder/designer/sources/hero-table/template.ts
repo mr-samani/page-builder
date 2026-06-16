@@ -6,7 +6,6 @@ export const _th: IPageItem = {
   disableMovement: true,
   lockMoveInnerChild: true,
   canHaveChild: true,
-  classList: ['ngx-hero-table-cell'],
 };
 
 export const _td: IPageItem = {
@@ -15,7 +14,6 @@ export const _td: IPageItem = {
   disableMovement: true,
   lockMoveInnerChild: true,
   canHaveChild: true,
-  classList: ['ngx-hero-table-cell'],
 };
 
 export const _headRow: IPageItem = {
@@ -34,7 +32,6 @@ export const _bodyRow: IPageItem = {
   lockMoveInnerChild: true,
   disableMovement: true,
   children: [cloneDeep(_td), cloneDeep(_td), cloneDeep(_td)],
-  classList: ['ngx-hero-table-cell'],
 };
 
 export const _template: IPageItem = {
@@ -44,7 +41,12 @@ export const _template: IPageItem = {
   disableMovement: true,
   lockMoveInnerChild: true,
   disableDelete: true,
-  classList: ['ngx-hero-table'],
+  classList: [],
+  css: ` 
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px #2196f3 solid;
+    `,
   children: [
     {
       tag: 'thead',
@@ -53,7 +55,9 @@ export const _template: IPageItem = {
       lockMoveInnerChild: true,
       disableMovement: true,
       children: [cloneDeep(_headRow)],
-      classList: ['ngx-hero-table-thead'],
+      css: `
+        background-color: beige;
+        `,
     },
     {
       tag: 'tbody',

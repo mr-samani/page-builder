@@ -4,6 +4,8 @@
   flex-direction: column;
   gap: 12px;
 
+  direction: ltr !important;
+  text-align: left;
   .css-editor-wrapper {
     position: relative;
     width: 100%;

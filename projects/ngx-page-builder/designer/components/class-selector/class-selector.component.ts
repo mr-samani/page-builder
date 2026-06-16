@@ -138,21 +138,22 @@ export class ClassSelectorComponent implements OnInit {
       chips.querySelector('input')?.focus();
     });
   }
-  onBlurEditClassName(item: IClassList) {
-    if (!item.editMode || !this.item) return;
-    if (item.newName) {
+  onBlurEditClassName(c: IClassList) {
+    if (!c.editMode || !this.item) return;
+    if (c.newName) {
       // if (this.cls.hasClass(item.newName.trim())) {
       //   Notify.error(item.newName + ' is duplicated!');
       //   return;
       // }
 
-      this.cls.renameClass(item.name, item.newName);
-      let i = this.item.classList.findIndex((x: string) => x == item.name);
-      this.item.classList[i] = item.newName;
-      item.name = item.newName;
-      this.onSelectClass(item.name);
+      this.cls.renameClass(c.name, c.newName);
+      let i = this.item.classList.findIndex((x: string) => x == c.name);
+      this.item.classList[i] = c.newName;
+      c.name = c.newName;
+      this.onSelectClass(c.name);
+      this.pb.updateChangeDetection({ item: this.item, type: 'ChangeClassName' });
     }
-    item.editMode = false;
+    c.editMode = false;
   }
   cancelEditClassName(item: IClassList, ev: Event) {
     ev.stopPropagation();

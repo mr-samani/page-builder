@@ -81,6 +81,7 @@ export class SourceItem {
 
   customComponent?: CustomComponent;
 
+  /** like color:white; */
   css?: string;
   classList?: string[];
   isUserDefined?: boolean = false;

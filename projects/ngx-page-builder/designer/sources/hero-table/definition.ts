@@ -11,20 +11,4 @@ export const HeroTableSource = new SourceItem({
     componentSettings: () =>
       import('./table-settings/table-settings.component').then((c) => c.HeroTableSettingsComponent),
   },
-  css: `
-  .ngx-hero-table{
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px #2196f3 solid;
-  }
-  .ngx-hero-table-thead {
-    background-color: beige;
-  }
-  .ngx-hero-table-cell{
-    min-width: 32px;
-    min-height: 32px;
-    padding: 8px 5px;
-  }
-
-  `,
 });

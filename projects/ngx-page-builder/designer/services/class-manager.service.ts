@@ -1,7 +1,14 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ICssVariable, IStyleSheetFile, LibConsts, PageItem, parseCssBlockToRecord } from 'ngx-page-builder/core';
+import {
+  ICssVariable,
+  IStyleSheetFile,
+  LibConsts,
+  PageItem,
+  parseCssBlockToRecord,
+  parseCssToRecord,
+} from 'ngx-page-builder/core';
 
 export interface ICssFile {
   id: string;
@@ -242,9 +249,8 @@ export class ClassManagerService {
 
   public async addBlockCss(item: PageItem): Promise<void> {
     if (!item || !item.css) return;
-
     try {
-      const parsedCss = await parseCssBlockToRecord(item.css);
+      const parsedCss = await parseCssToRecord(item.css);
       if (Object.keys(parsedCss).length === 0) return;
 
       const defaultFileId = this.cssFileData[0]?.id;
@@ -252,35 +258,46 @@ export class ClassManagerService {
         console.error('No CSS file available');
         return;
       }
+      const selector = `.${item.tag}-${item.id}`;
+      const cssText = item.css;
 
-      for (const [selector, cssText] of Object.entries(parsedCss)) {
-        const normalizedSelector = this.normalizeSelector(selector);
-        const existingCssText = this.getClassStyles(normalizedSelector);
+      const normalizedSelector = this.normalizeSelector(selector);
+      const existingCssText = this.getClassStyles(normalizedSelector);
 
-        if (existingCssText) {
-          if ((await this.isEqualCss(existingCssText, cssText)) == true) {
-            continue;
-          } else {
-            const newSelector = this.generateUniqueSelector(normalizedSelector);
-            this.updateClass(newSelector, cssText, defaultFileId);
-            this.updateItemClassList(item, normalizedSelector, newSelector);
-
-            const replaceAll = (item: PageItem, previousName: string, newName: string) => {
-              let i = item.classList.findIndex((x: string) => '.' + x == previousName);
-              if (i > -1) {
-                item.classList[i] = newName;
-              }
-              if (item.children) for (let c of item.children) replaceAll(c, previousName, newName);
-              if (item.template) replaceAll(item.template, previousName, newName);
-            };
-            replaceAll(item, selector, newSelector);
-          }
+      if (existingCssText) {
+        if ((await this.isEqualCss(existingCssText, cssText)) == true) {
+          return;
         } else {
-          this.updateClass(normalizedSelector, cssText, defaultFileId);
+          const newSelector = this.generateUniqueSelector(normalizedSelector);
+          this.updateClass(newSelector, cssText, defaultFileId);
+          this.updateItemClassList(item, normalizedSelector, newSelector);
+
+          const replaceAll = (item: PageItem, previousName: string, newName: string) => {
+            let i = item.classList.findIndex((x: string) => '.' + x == previousName);
+            if (i > -1) {
+              item.classList[i] = newName;
+            }
+            if (item.children) for (let c of item.children) replaceAll(c, previousName, newName);
+            if (item.template) replaceAll(item.template, previousName, newName);
+          };
+          replaceAll(item, selector, newSelector);
         }
+      } else {
+        this.updateClass(normalizedSelector, cssText, defaultFileId);
       }
     } catch (error) {
       console.error('Error adding block CSS:', error);
+    }
+
+    if (item.children) {
+      item.children.map((child) => {
+        if (child.css) {
+          this.addBlockCss(child);
+        }
+      });
+    }
+    if (item.template) {
+      this.addBlockCss(item.template);
     }
   }
 
