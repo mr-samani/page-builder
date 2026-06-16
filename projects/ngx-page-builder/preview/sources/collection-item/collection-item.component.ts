@@ -50,7 +50,6 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
   };
 
   dataList: DynamicDataStructure[][] = [];
-  @ViewChild('collectionContainer') collectionContainer!: ElementRef<HTMLDivElement>;
 
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
@@ -58,6 +57,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
     private previewService: PagePreviewService,
+    private elRef: ElementRef<HTMLElement>,
   ) {
     if (this.pageItem) {
       this.pageItem.dataSource = this.context.data;
@@ -99,7 +99,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
 
-      await this.previewService.createBlockElement(cloned, this.collectionContainer.nativeElement);
+      await this.previewService.createBlockElement(cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
     // console.log('data-collection', this.pageItem.id, this.pageItem);

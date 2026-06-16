@@ -54,7 +54,6 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   };
 
   dataList: DynamicDataStructure[][] = [];
-  @ViewChild('collectionContainer') collectionContainer!: ElementRef<HTMLDivElement>;
 
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
@@ -62,6 +61,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     private pb: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
+    private elRef: ElementRef<HTMLElement>,
   ) {
     this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
       if (this.pageItem) {
@@ -135,7 +135,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     this.pageItem.children = [];
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pb.createBlockElement(true, cloned, this.collectionContainer.nativeElement);
+      await this.pb.createBlockElement(true, cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
     // console.log('data-collection', this.pageItem.id, this.pageItem);
@@ -153,7 +153,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     const childCount = count;
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pb.createBlockElement(this.editMode, cloned, this.collectionContainer.nativeElement);
+      await this.pb.createBlockElement(this.editMode, cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
     this.chdRef.detectChanges();
