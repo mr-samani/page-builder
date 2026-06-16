@@ -59,6 +59,7 @@ export class BlockPropertiesComponent extends BaseComponent implements OnInit {
   onSelectClass(cls: IClassOutput) {
     this.currentCss = cls.value;
     this.currentClassName = cls.name;
-    this.style = new CSSStyleHelper(this.currentCss).toStyleObject() || {};
+    debugger;
+    this.style = CSSStyleHelper.cssTextToStyleObject(this.currentCss);
   }
 }

@@ -71,8 +71,7 @@ export class TextCssControlComponent
       style = {};
     }
     this.style = style;
-    const css = new CSSStyleHelper(undefined, this.style).toCSSText() || '';
-    this.textCss = css.replace(/;\s*/g, ';\n');
+    this.textCss = CSSStyleHelper.styleObjectToCssText(this.style, false);
     this.updateHighlight();
     this.cdr.detectChanges();
   }

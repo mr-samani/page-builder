@@ -1,6 +1,6 @@
 <div class="flex-space-between">
   <span>Box Shadow</span>
-  <button (click)="addShadow(list)">
+  <button (click)="addShadow(list)" type="button" class="pb-btn">
     <svg Icon="assets/icons/plus.svg"></svg>
   </button>
 </div>
@@ -13,7 +13,7 @@
       #el
       (click)="setShadow(el, item, i)">
       <span>{{ item.cssValue }}</span>
-      <button (click)="removeShadow($event, i)">
+      <button (click)="removeShadow($event, i)" type="button" class="pb-btn">
         <svg Icon="assets/icons/xmark.svg"></svg>
       </button>
     </button>

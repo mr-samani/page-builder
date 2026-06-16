@@ -271,7 +271,7 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
     this.shadows.forEach((m) => (m.cssValue = formatBoxShadowToCSS([m])));
 
     this.style.boxShadow = this.result;
-
+    debugger;
     this.onChange(this.style);
     this.change.emit(this.style);
     this.cls.updateClass(this.currentClassName, this.style);
