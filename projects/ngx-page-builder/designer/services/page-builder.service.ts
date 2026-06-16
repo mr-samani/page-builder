@@ -23,7 +23,14 @@ import { ClassManagerService } from '../services/class-manager.service';
 export interface PageItemChange {
   item: PageItem | null;
   parent?: PageItem[];
-  type: 'ChangePageConfig' | 'AddBlock' | 'ChangeBlockContent' | 'ChangeBlockProperties' | 'RemoveBlock' | 'MoveBlock';
+  type:
+    | 'ChangePageConfig'
+    | 'AddBlock'
+    | 'ChangeBlockContent'
+    | 'ChangeBlockProperties'
+    | 'RemoveBlock'
+    | 'MoveBlock'
+    | 'ChangeTagName';
 }
 
 @Injectable({

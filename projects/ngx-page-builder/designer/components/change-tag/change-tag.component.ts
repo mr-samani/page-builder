@@ -75,5 +75,6 @@ export class ChangeTagComponent implements OnInit {
     const el = await this.dynamicElementService.changeElementTagName(this.item, tag);
     this.pb.deSelectBlock();
     this.pb.selectBlock(this.item);
+    this.pb.updateChangeDetection({ item: this.item, type: 'ChangeTagName' });
   }
 }

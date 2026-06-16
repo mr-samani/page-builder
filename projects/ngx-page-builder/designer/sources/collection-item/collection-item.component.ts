@@ -82,7 +82,8 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
         data.type == 'RemoveBlock' ||
         data.type == 'MoveBlock' ||
         data.type == 'ChangeBlockContent' ||
-        data.type == 'ChangeBlockProperties'
+        data.type == 'ChangeBlockProperties' ||
+        data.type == 'ChangeTagName'
       ) {
         // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
         const found = itemInThisTemplate(data.item, this.pageItem.children);

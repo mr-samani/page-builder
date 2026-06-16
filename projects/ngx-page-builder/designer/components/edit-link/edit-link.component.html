@@ -35,7 +35,7 @@
     <div class="pb-input-group pi-row">
       <select name="link" [(ngModel)]="link" (change)="onChangePage()" [class.invalid]="isInvalid">
         <option value="" disabled>Select a page…</option>
-        @for (p of pages; track p.slag) {
+        @for (p of pages; track $index) {
           <option [value]="p.slag">{{ p.title }}</option>
         }
       </select>
