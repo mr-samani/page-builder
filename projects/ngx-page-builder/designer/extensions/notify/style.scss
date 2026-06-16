@@ -24,21 +24,22 @@ ngx-pg-notification {
   transform: translateY(0);
 }
 .ngx-pg-notify-info {
-  background: #0b63a8;
+  background: #0a78cc;
   color: #e8f3ff;
 }
 .ngx-pg-notify-success {
-  background: #0b7a3a;
-  color: #e9f9f0;
+  background: #03bc50;
+  color: #ebeceb;
 }
 .ngx-pg-notify-warning {
-  background: #a36a00;
+  background: #e28408;
   color: #fff4e5;
 }
 .ngx-pg-notify-error {
-  background: #b00020;
+  background: #e7012b;
   color: #ffecec;
 }
+
 .ngx-pg-close {
   position: absolute;
   right: 8px;

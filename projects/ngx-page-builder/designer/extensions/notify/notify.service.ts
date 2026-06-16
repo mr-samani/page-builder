@@ -128,24 +128,24 @@ export class NgxPgNotifyService {
     wrapper.style.transform = 'translateY(-8px)';
 
     // color styles for types
-    switch (payload.type) {
-      case 'info':
-        wrapper.style.background = '#e8f3ff';
-        wrapper.style.color = '#0b63a8';
-        break;
-      case 'success':
-        wrapper.style.background = '#e9f9f0';
-        wrapper.style.color = '#0b7a3a';
-        break;
-      case 'warning':
-        wrapper.style.background = '#fff4e5';
-        wrapper.style.color = '#a36a00';
-        break;
-      case 'error':
-        wrapper.style.background = '#ffecec';
-        wrapper.style.color = '#b00020';
-        break;
-    }
+    // switch (payload.type) {
+    //   case 'info':
+    //     wrapper.style.background = '#e8f3ff';
+    //     wrapper.style.color = '#0b63a8';
+    //     break;
+    //   case 'success':
+    //     wrapper.style.background = '#e9f9f0';
+    //     wrapper.style.color = '#0b7a3a';
+    //     break;
+    //   case 'warning':
+    //     wrapper.style.background = '#fff4e5';
+    //     wrapper.style.color = '#a36a00';
+    //     break;
+    //   case 'error':
+    //     wrapper.style.background = '#ffecec';
+    //     wrapper.style.color = '#b00020';
+    //     break;
+    // }
 
     this.container!.appendChild(wrapper);
 
