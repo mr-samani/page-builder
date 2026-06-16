@@ -5,7 +5,6 @@ export class CSSStyleHelper {
     if (!cssText || !cssText.trim()) {
       return result;
     }
-
     const declarations = this.splitDeclarations(cssText);
 
     for (const declaration of declarations) {
@@ -17,7 +16,7 @@ export class CSSStyleHelper {
 
       if (!property || !value) continue;
 
-      result[property] = value;
+      result[this.toCamelCase(property)] = value;
     }
 
     return result as Partial<CSSStyleDeclaration>;
@@ -44,8 +43,20 @@ export class CSSStyleHelper {
     return minify ? parts.join(' ') : parts.join('\n');
   }
 
+  /**
+   * تبدیل property name از kebab-case به camelCase
+   * مثال: background-color -> backgroundColor
+   */
+  private static toCamelCase(property: string): string {
+    return property.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+  }
+
+  /**
+   * تبدیل property name از camelCase به kebab-case
+   * مثال: backgroundColor -> background-color
+   */
   private static toKebabCase(property: string): string {
-    return property.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+    return property.replace(/([A-Z])/g, '-$1').toLowerCase();
   }
 
   private static splitDeclarations(cssText: string): string[] {
