@@ -9,6 +9,7 @@ export enum FileSelectionError {
   NO_FILE_SELECTED = 'NO_FILE_SELECTED',
   CLICK_FAILED = 'CLICK_FAILED',
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
+  SSR_UNSUPPORTED = 'SSR_UNSUPPORTED',
 }
 
 export class FileSelectionException extends Error {
@@ -21,6 +22,7 @@ export class FileSelectionException extends Error {
     this.name = 'FileSelectionException';
   }
 }
+
 export interface FileSelectOptions {
   /** Accepted file types (e.g., ['image/*', '.pdf']) */
   accept?: string[];
@@ -36,103 +38,54 @@ export interface FileSelectOptions {
   onDialogClose?: () => void;
 }
 
-/**
- * ✅ Professional file selector with comprehensive error handling
- *
- * Features:
- * - User activation detection (navigator.userActivation API)
- * - Trusted event validation
- * - Browser block detection with timeout
- * - Cancel detection using focus events
- * - Memory leak prevention
- * - Type-safe error handling
- * - Support for multiple file selection
- *
- * @example
- * ```typescript
- * try {
- *   const file = await selectFile({
- *     accept: ['image/*'],
- *     event: clickEvent,
- *     timeoutMs: 1500
- *   });
- *   console.log('Selected:', file.name);
- * } catch (error) {
- *   if (error instanceof FileSelectionException) {
- *     switch (error.code) {
- *       case FileSelectionError.USER_CANCELLED:
- *         console.log('User cancelled');
- *         break;
- *       case FileSelectionError.BROWSER_BLOCKED:
- *         console.error('Browser blocked file dialog');
- *         break;
- *     }
- *   }
- * }
- * ```
- */
 export abstract class FileSelector {
   public static async selectFile(options: FileSelectOptions = {}): Promise<File> {
     const files = await this.selectFiles({ ...options, multiple: false });
+    if (!files.length) {
+      throw new FileSelectionException(FileSelectionError.NO_FILE_SELECTED, 'No file was selected.');
+    }
     return files[0];
   }
 
-  /**
-   * Select multiple files
-   */
-  private static async selectFiles(options: FileSelectOptions = {}): Promise<File[]> {
-    const { accept = [], multiple = false, event, onDialogOpen, onDialogClose } = options;
+  public static async selectFiles(options: FileSelectOptions = {}): Promise<File[]> {
+    if (typeof window === 'undefined' || typeof document === 'undefined' || typeof navigator === 'undefined') {
+      throw new FileSelectionException(
+        FileSelectionError.SSR_UNSUPPORTED,
+        'File selection is only available in the browser.',
+      );
+    }
+
+    const { accept = [], multiple = false, timeoutMs = 1200, event, onDialogOpen, onDialogClose } = options;
 
     return new Promise<File[]>((resolve, reject) => {
       let settled = false;
-      let input: HTMLInputElement | null = null;
       let dialogOpened = false;
-      let focusListenerAdded = false;
-      let blurListenerAdded = false;
+      let input: HTMLInputElement | null = null;
+      let openTimer: number | undefined;
+      let cancelTimer: number | undefined;
 
-      // When dialog opens, window loses focus
-      const onWindowBlur = () => {
-        if (settled) return;
-
-        // Dialog opened successfully
-        dialogOpened = true;
-        onDialogOpen?.();
-      };
-
-      // When dialog closes, window regains focus
-      const onWindowFocus = () => {
-        if (settled) return;
-
-        // Give change event time to fire if file was selected
-        setTimeout(() => {
-          if (settled) return;
-
-          // If we got focus back but no file was selected → user cancelled
-          safeReject(new FileSelectionException(FileSelectionError.USER_CANCELLED, 'User cancelled file selection.'));
-        }, 300); // Delay to ensure onchange fires first
-      };
-
-      // ============================================================
-      // Cleanup function - removes all listeners and DOM elements
-      // ============================================================
       const cleanup = () => {
+        if (openTimer !== undefined) {
+          window.clearTimeout(openTimer);
+          openTimer = undefined;
+        }
+
+        if (cancelTimer !== undefined) {
+          window.clearTimeout(cancelTimer);
+          cancelTimer = undefined;
+        }
+
+        window.removeEventListener('blur', onWindowBlur);
+        window.removeEventListener('focus', onWindowFocus);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+
         if (input) {
+          input.removeEventListener('change', onChange);
+          input.removeEventListener('error', onError);
           if (input.parentNode) {
             input.parentNode.removeChild(input);
           }
-          input.onchange = null;
-          input.onerror = null;
           input = null;
-        }
-
-        if (focusListenerAdded) {
-          window.removeEventListener('focus', onWindowFocus);
-          focusListenerAdded = false;
-        }
-
-        if (blurListenerAdded) {
-          window.removeEventListener('blur', onWindowBlur);
-          blurListenerAdded = false;
         }
 
         if (dialogOpened) {
@@ -141,118 +94,134 @@ export abstract class FileSelector {
         }
       };
 
-      // ============================================================
-      // Resolve/Reject wrappers to ensure cleanup and prevent double-settle
-      // ============================================================
-      const safeResolve = (files: File[]) => {
+      const finishResolve = (files: File[]) => {
         if (settled) return;
         settled = true;
         cleanup();
         resolve(files);
       };
 
-      const safeReject = (error: FileSelectionException) => {
+      const finishReject = (error: FileSelectionException) => {
         if (settled) return;
         settled = true;
         cleanup();
         reject(error);
       };
 
-      // ============================================================
-      // Step 1: Validate user activation
-      // ============================================================
-      try {
-        // Check modern User Activation API
-        const ua = (navigator as any).userActivation;
-        if (ua && typeof ua.isActive === 'boolean') {
-          if (!ua.isActive && !ua.hasBeenActive) {
-            return safeReject(
-              new FileSelectionException(
-                FileSelectionError.NO_USER_ACTIVATION,
-                'No user activation detected. File picker requires a user gesture (click, touch, key press).',
-              ),
-            );
+      const markDialogOpened = () => {
+        if (dialogOpened || settled) return;
+        dialogOpened = true;
+        onDialogOpen?.();
+      };
+
+      const onWindowBlur = () => {
+        markDialogOpened();
+      };
+
+      const onVisibilityChange = () => {
+        if (document.visibilityState === 'hidden') {
+          markDialogOpened();
+        }
+      };
+
+      const onWindowFocus = () => {
+        if (settled || !dialogOpened) return;
+
+        // Give the browser a moment to emit change after focus returns.
+        cancelTimer = window.setTimeout(() => {
+          if (settled) return;
+
+          if (input?.files && input.files.length > 0) {
+            return;
           }
+
+          finishReject(new FileSelectionException(FileSelectionError.USER_CANCELLED, 'User cancelled file selection.'));
+        }, 150);
+      };
+
+      const onChange = () => {
+        if (settled) return;
+
+        const files = input?.files ? Array.from(input.files) : [];
+        if (files.length > 0) {
+          finishResolve(files);
+          return;
         }
 
-        // Fallback: Check if event is trusted
-        if (event && !(event as Event).isTrusted) {
-          return safeReject(
+        finishReject(new FileSelectionException(FileSelectionError.NO_FILE_SELECTED, 'No file was selected.'));
+      };
+
+      const onError = (errorEvent: Event) => {
+        if (settled) return;
+        finishReject(
+          new FileSelectionException(FileSelectionError.UNKNOWN_ERROR, 'File input error occurred.', errorEvent),
+        );
+      };
+
+      try {
+        const ua = navigator.userActivation;
+        if (ua && typeof ua.isActive === 'boolean' && !ua.isActive && !ua.hasBeenActive) {
+          finishReject(
+            new FileSelectionException(
+              FileSelectionError.NO_USER_ACTIVATION,
+              'No user activation detected. File picker requires a real user gesture.',
+            ),
+          );
+          return;
+        }
+
+        if (event && !event.isTrusted) {
+          finishReject(
             new FileSelectionException(
               FileSelectionError.NOT_TRUSTED_EVENT,
               'Event is not trusted. File picker requires a real user gesture.',
             ),
           );
+          return;
         }
 
-        // ============================================================
-        // Step 2: Create file input element
-        // ============================================================
         input = document.createElement('input');
         input.type = 'file';
         input.accept = accept.join(',');
         input.multiple = multiple;
-        input.style.cssText = 'position:fixed;top:-100px;left:-100px;opacity:0;pointer-events:none;';
+        input.style.position = 'fixed';
+        input.style.left = '-9999px';
+        input.style.top = '-9999px';
+        input.style.opacity = '0';
+        input.style.pointerEvents = 'none';
+
+        input.addEventListener('change', onChange);
+        input.addEventListener('error', onError);
+
         document.body.appendChild(input);
 
-        // ============================================================
-        // Step 3: Setup change handler (file selected)
-        // ============================================================
-        input.onchange = () => {
+        window.addEventListener('blur', onWindowBlur, { passive: true });
+        window.addEventListener('focus', onWindowFocus, { passive: true });
+        document.addEventListener('visibilitychange', onVisibilityChange, { passive: true });
+
+        openTimer = window.setTimeout(() => {
           if (settled) return;
 
-          if (input?.files && input.files.length > 0) {
-            const filesArray = Array.from(input.files);
-            safeResolve(filesArray);
-          } else {
-            safeReject(new FileSelectionException(FileSelectionError.NO_FILE_SELECTED, 'No file was selected.'));
+          // If the dialog never caused blur/visibility change, it was likely blocked.
+          if (!dialogOpened) {
+            finishReject(
+              new FileSelectionException(
+                FileSelectionError.BROWSER_BLOCKED,
+                'File dialog was likely blocked or could not be opened.',
+              ),
+            );
           }
-        };
+        }, timeoutMs);
 
-        // ============================================================
-        // Step 4: Setup error handler
-        // ============================================================
-        input.onerror = (errorEvent: Event | string) => {
-          if (settled) return;
-          safeReject(
-            new FileSelectionException(FileSelectionError.UNKNOWN_ERROR, 'File input error occurred.', errorEvent),
-          );
-        };
-
-        // ============================================================
-        // Step 5: Setup dialog open/close detection
-        // ============================================================
-
-        window.addEventListener('blur', onWindowBlur, { once: true });
-        blurListenerAdded = true;
-
-        window.addEventListener('focus', onWindowFocus, { once: true });
-        focusListenerAdded = true;
-
-        // ============================================================
-        // Step 6: Trigger file dialog
-        // ============================================================
         try {
           input.click();
-
-          // ✅ Check if dialog actually opened (best effort)
-          // If blur event doesn't fire within 100ms, dialog might be blocked
-          // But we don't reject - we let the focus event handle cancel detection
-          setTimeout(() => {
-            if (!dialogOpened && !settled) {
-              // Dialog might not have opened, but we can't be sure
-              // User might have popup blocker or browser denied it
-              // We rely on focus event to detect if user comes back without selecting
-              console.warn('File dialog might be blocked - blur event did not fire');
-            }
-          }, 100);
         } catch (clickError) {
-          safeReject(
+          finishReject(
             new FileSelectionException(FileSelectionError.CLICK_FAILED, 'Failed to trigger file dialog.', clickError),
           );
         }
       } catch (unexpectedError) {
-        safeReject(
+        finishReject(
           new FileSelectionException(
             FileSelectionError.UNKNOWN_ERROR,
             'Unexpected error during file selection.',
@@ -263,22 +232,7 @@ export abstract class FileSelector {
     });
   }
 
-  /**
-   * ✅ Utility: Check if user activation is available
-   */
-  private hasUserActivation(): boolean {
-    const ua = (navigator as any).userActivation;
-    if (ua && typeof ua.isActive === 'boolean') {
-      return ua.isActive || ua.hasBeenActive;
-    }
-    // Fallback: assume true if API not available
-    return true;
-  }
-
-  /**
-   * ✅ Utility: Create a button that ensures user gesture
-   */
-  private createFileSelectButton(
+  public static createFileSelectButton(
     options: FileSelectOptions & { buttonText?: string },
     onSuccess: (files: File[]) => void,
     onError?: (error: FileSelectionException) => void,
@@ -286,35 +240,24 @@ export abstract class FileSelector {
     const { buttonText = 'Select File', ...selectOptions } = options;
 
     const button = document.createElement('button');
+    button.type = 'button';
     button.textContent = buttonText;
 
-    button.onclick = async (event) => {
+    button.addEventListener('click', async (event) => {
       try {
         const files = await FileSelector.selectFiles({ ...selectOptions, event });
         onSuccess(files);
       } catch (error) {
         if (error instanceof FileSelectionException) {
           onError?.(error);
+        } else {
+          onError?.(
+            new FileSelectionException(FileSelectionError.UNKNOWN_ERROR, 'Unknown error while selecting files.', error),
+          );
         }
       }
-    };
+    });
 
-    return button;
-  }
-
-  /**
-   * ✅ Utility: Request user gesture with helpful message
-   */
-  private createUserGestureButton(onActivated: () => void, buttonText = 'Select File'): HTMLButtonElement {
-    const button = document.createElement('button');
-    button.textContent = buttonText;
-    button.onclick = () => {
-      if (this.hasUserActivation()) {
-        onActivated();
-      } else {
-        alert('Please click the button to select a file.');
-      }
-    };
     return button;
   }
 }

@@ -4,6 +4,7 @@ import { IPagebuilderOutput } from 'ngx-page-builder/core';
 import { InitializeDynamicData } from '../dynamic-data/dynamic-data';
 import { FormsModule } from '@angular/forms';
 import { CustomSources } from '../custom-source/custom-sources';
+import { FilePickerService } from '../builder/file-picker.service';
 
 @Component({
   selector: 'app-preview',
@@ -16,6 +17,7 @@ import { CustomSources } from '../custom-source/custom-sources';
       publicCss: ['/bootstrap.min.css'],
       publicJs: ['/bootstrap.min.js'],
     }),
+    FilePickerService,
   ],
 })
 export class PreviewComponent implements OnInit {
@@ -25,23 +27,24 @@ export class PreviewComponent implements OnInit {
 
   data?: IPagebuilderOutput;
   chdr = inject(ChangeDetectorRef);
+  filePicker = inject(FilePickerService);
   constructor() {}
 
   ngOnInit() {
-    const savedData = localStorage.getItem('page') || '{}';
-
-    const parsed = JSON.parse(savedData);
-    this.data = parsed;
+    // const savedData = localStorage.getItem('page') || '{}';
+    // const parsed = JSON.parse(savedData);
+    // this.data = parsed;
   }
 
-  reload() {
-    const d = Object.assign({}, this.data);
-
-    this.data = undefined;
-
-    setTimeout(() => {
-      this.data = d;
+  openFile() {
+    this.filePicker.openFilePicker('file').then((result) => {
+      performance.mark('before-parse');
+      const obj = JSON.parse(result);
+      this.data = obj;
+      performance.mark('after-parse');
+      performance.measure('parse', 'before-parse', 'after-parse');
       this.chdr.detectChanges();
-    }, 1000);
+      console.log(performance.getEntriesByName('parse'));
+    });
   }
 }

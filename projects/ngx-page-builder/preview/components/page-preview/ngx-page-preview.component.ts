@@ -95,7 +95,9 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     }
   }
 
-  load() {
+  async load() {
+    console.time('LoadPreview');
+
     if (this.data.styles && Array.isArray(this.data.styles)) {
       for (let f of this.data.styles) {
         let finded = this.doc.head.querySelector('style#' + f.name);
@@ -110,14 +112,15 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       }
     }
     // console.log(this.data);
-    setTimeout(async () => {
-      const pageContainer = this.paper()?.nativeElement;
-      if (pageContainer) {
-        pageContainer.setAttribute('dir', this.data.config.direction);
-        await this.previewService.initializePreview(pageContainer, this.data);
-        pageContainer.classList.add(...this.previewService.containerClassName.split(' '));
-      }
-    });
+    //setTimeout(async () => {
+    const pageContainer = this.paper()?.nativeElement;
+    if (pageContainer) {
+      pageContainer.setAttribute('dir', this.data.config.direction);
+      await this.previewService.initializePreview(pageContainer, this.data);
+      pageContainer.classList.add(...this.previewService.containerClassName.split(' '));
+    }
+    // });
+    console.timeEnd('LoadPreview');
   }
 
   onBeforePrint(event: Event): void {

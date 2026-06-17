@@ -66,7 +66,6 @@ export class PageBuilderService implements OnDestroy {
   copyStorage?: PageItem;
   constructor(
     private dynamicElementService: DynamicElementService,
-    private dynamicDataService: DynamicDataService,
     private history: HistoryService,
     public cls: ClassManagerService,
   ) {
@@ -80,6 +79,12 @@ export class PageBuilderService implements OnDestroy {
     this._changed$.complete();
     this.onPageChange$.unsubscribe();
     this.onSelectBlock$.unsubscribe();
+    this.history.clear();
+  }
+
+  async reset() {
+    await this.removeAllPages();
+    this.pageInfo = new PageBuilderDto();
     this.history.clear();
   }
   updateChangeDetection(data: PageItemChange) {
@@ -190,7 +195,7 @@ export class PageBuilderService implements OnDestroy {
   async removePage(): Promise<number> {
     let index = this.currentPageIndex();
     if (index > -1) {
-      this.cleanCanvas(index);
+      await this.cleanCanvas(index);
       this.pageInfo.pages.splice(index, 1);
       if (this.pageInfo.pages.length == 0) {
         return this.addPage();
@@ -222,6 +227,7 @@ export class PageBuilderService implements OnDestroy {
         }
       }
       this.pageInfo.pages = [];
+      this.currentPageIndex.set(-1);
       return;
     } catch (error) {
       // console.error( error);
@@ -256,7 +262,7 @@ export class PageBuilderService implements OnDestroy {
       if (pageNumber < 1 || pageNumber > this.pageInfo.pages.length) {
         throw Error('Invalid page number');
       } else {
-        this.cleanCanvas(this.currentPageIndex());
+        await this.cleanCanvas(this.currentPageIndex());
         const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
         await this.genElms(bodyItems, this.pageBody()!.nativeElement);
         if (LibConsts.viewMode == 'PrintPage') {
@@ -442,14 +448,14 @@ export class PageBuilderService implements OnDestroy {
   }
 
   async open() {
-    return new Promise((resolve, reject) => {
-      this.deSelectBlock();
+    return new Promise(async (resolve, reject) => {
+      await this.reset();
       this.storageService
         .loadData()
         .then(async (data) => {
-          await this.removeAllPages();
           this.pageInfo = PageBuilderDto.fromJSON({ config: data.config, pages: data.data });
-          console.log(this.pageInfo.pages.length);
+
+          // console.log(this.pageInfo.pages.length);
           if (this.pageInfo.pages.length == 0) {
             this.addPage();
           } else {

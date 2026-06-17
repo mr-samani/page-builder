@@ -20,11 +20,11 @@ export class JsonFileStorageService implements IStorageService {
           accept: ['application/json', '.json'],
         });
         const text = await file.text();
-        const parsed: PageBuilderDto = new PageBuilderDto(JSON.parse(text));
+        const json = JSON.parse(text);
         const styles = await this.cls.exportAllFileCSS();
         resolve({
-          config: parsed.config,
-          data: parsed.pages,
+          config: json.config,
+          data: json.data,
           styles,
           cssVariables: this.cls.cssVariables,
         });

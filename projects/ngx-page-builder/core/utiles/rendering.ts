@@ -50,7 +50,7 @@ export function waitForRenderComplete(): Promise<void> {
         // در برخی مرورگرها (مخصوصاً Safari)، paint ممکنه با delay بیاد
         // برای اطمینان بیشتر از setTimeout کوتاه استفاده می‌کنیم
         setTimeout(() => {
-          console.log('✅ Render complete');
+          console.timeEnd('✅ Render complete');
           resolve();
         }, 0);
       });

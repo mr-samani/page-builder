@@ -25,11 +25,11 @@ export class LocalStorageService implements IStorageService {
           });
           return;
         }
-        const parsed: PageBuilderDto = new PageBuilderDto(JSON.parse(pageDto));
+        const parsed = JSON.parse(pageDto);
         const styles = await this.cls.exportAllFileCSS();
         resolve({
           config: parsed.config,
-          data: parsed.pages,
+          data: parsed.data,
           styles,
           cssVariables: this.cls.cssVariables,
         });

@@ -146,6 +146,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   private async loadPageData(data: Page[]) {
     try {
+      await this.pb.reset();
       // let data = await this.storageService.loadData();
       //this.pb.pageInfo = PageBuilderDto.fromJSON(data);
       this.pb.pageInfo.pages = data;

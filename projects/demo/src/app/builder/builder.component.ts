@@ -31,7 +31,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
       canDeletePlugin: true,
       toolbarConfig: {
         showSaveButton: true,
-        showOpenButton: false,
+        showOpenButton: true,
         showPreviewButton: true,
       },
       publicCss: ['/bootstrap.min.css'],
@@ -44,10 +44,10 @@ import { ICssVariable } from 'ngx-page-builder/core';
       provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
       useExisting: PluginService,
     },
-    {
-      provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
-      useClass: LocalStoreService,
-    },
+    // {
+    //   provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
+    //   useClass: LocalStoreService,
+    // },
     // {
     //   provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,
     //   useClass: MessagePackStorageService,

@@ -43,7 +43,7 @@ export class PagePreviewService {
   async openPreview(data: IPagebuilderOutput, type: 'Print' | 'Preview' | 'ExportHml' = 'Preview'): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
       this.data = data;
-      this.cleanCanvas();
+      await this.cleanCanvas();
       this.pageContainer = this.doc.createElement('div');
       this.pageContainer.id = 'prvMRS';
       this.pageContainer.classList.add('ngx-page-builder');
@@ -62,7 +62,7 @@ export class PagePreviewService {
 
       if (!this.previewWindow) {
         Notify.error('Popup blocked! Please allow popups for this site.');
-        this.cleanCanvas();
+        await this.cleanCanvas();
         reject('Popup blocked');
         return;
       }
@@ -287,8 +287,10 @@ export class PagePreviewService {
    * initialize preview in preview component
    */
   async initializePreview(pageContainer: HTMLElement, data: IPagebuilderOutput) {
+    console.time('✅ Render complete');
+
     this.pageContainer = pageContainer;
-    this.cleanCanvas();
+    await this.cleanCanvas();
     this.data = data;
     await this.loadPageData();
     this.setStyle();
