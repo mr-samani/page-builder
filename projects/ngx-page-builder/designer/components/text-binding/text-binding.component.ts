@@ -120,7 +120,7 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
       return;
     }
     this.filePicker.openFilePicker('image').then((result) => {
-      // TODO base address must be set with pipe
+      // TODO: base address must be set with pipe
       this.imageUrl = result ? this.filePicker?.baseUrlAddress + result : DEFAULT_IMAGE_URL;
       this.item.options ??= {};
       this.item.options.attributes ??= {};

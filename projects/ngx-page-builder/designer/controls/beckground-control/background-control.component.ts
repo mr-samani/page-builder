@@ -90,7 +90,7 @@ export class BackgroundControlComponent extends BaseControl implements OnInit, C
       return;
     }
     this.filePicker.openFilePicker('image').then((result) => {
-      // TODO base address must be set with pipe
+      // TODO: base address must be set with pipe
       this.backgroundImage = `url(${this.filePicker?.baseUrlAddress + result})`;
       this.update();
     });

@@ -3,15 +3,13 @@
   "version": "3.1.0",
   "peerDependencies": {
     "@angular/common": ">=21.0.0",
-    "@angular/core": ">=21.0.0"
+    "@angular/core": ">=21.0.0",
+    "ngx-input-color": ">=7.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "peerDependenciesMeta": {
-    "ngx-input-color": {
-      "optional": true
-    },
     "ngx-drag-drop-kit": {
       "optional": true
     }
