@@ -46,10 +46,6 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
     this.pagebuiderChangeSubscription.unsubscribe();
   }
 
-  get viewMode() {
-    return LibConsts.viewMode;
-  }
-
   reloadLayout(page?: Page, update = false) {
     this.currentPageBodyItems = page ? [...page.bodyItems] : [];
     this.currentPageHeaderItems = page ? [...page.headerItems] : [];

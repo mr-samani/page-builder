@@ -11,8 +11,6 @@ import {
 } from '@angular/core';
 
 import {
-  validateViewMode,
-  ViewMode,
   LibPreviewConsts,
   PagePreviewService,
   DynamicDataService,
@@ -52,17 +50,6 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       styles: [],
     };
     this.load();
-  }
-
-  @Input({
-    alias: 'viewMode',
-    transform: validateViewMode,
-  })
-  set viewMode(val: ViewMode) {
-    LibPreviewConsts.viewMode = val;
-  }
-  get viewMode() {
-    return LibPreviewConsts.viewMode;
   }
 
   private paper = viewChild<ElementRef<HTMLElement>>('paper');

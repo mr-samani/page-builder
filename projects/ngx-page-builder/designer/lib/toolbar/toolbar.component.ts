@@ -148,7 +148,6 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       data: {
         data,
         dynamicData: this.dynamicDataService.dynamicData,
-        viewMode: this.viewMode,
       },
       width: '95%',
       maxWidth: '100%',

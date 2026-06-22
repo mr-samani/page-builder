@@ -265,10 +265,10 @@ export class PageBuilderService implements OnDestroy {
         await this.cleanCanvas(this.currentPageIndex());
         const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
         await this.genElms(bodyItems, this.pageBody()!.nativeElement);
-        if (LibConsts.viewMode == 'PrintPage') {
-          await this.genElms(headerItems, this.pageHeader()!.nativeElement);
-          await this.genElms(footerItems, this.pageFooter()!.nativeElement);
-        }
+
+        await this.genElms(headerItems, this.pageHeader()!.nativeElement);
+        await this.genElms(footerItems, this.pageFooter()!.nativeElement);
+
         this.currentPageIndex.set(pageNumber - 1);
         this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
         return this.currentPageIndex();
@@ -363,10 +363,8 @@ export class PageBuilderService implements OnDestroy {
     this.dynamicElementService.destroyBatch(page.headerItems);
     this.dynamicElementService.destroyBatch(page.footerItems);
     this.pageBody()!.nativeElement.innerHTML = '';
-    if (LibConsts.viewMode == 'PrintPage') {
-      this.pageHeader()!.nativeElement.innerHTML = '';
-      this.pageFooter()!.nativeElement.innerHTML = '';
-    }
+    this.pageHeader()!.nativeElement.innerHTML = '';
+    this.pageFooter()!.nativeElement.innerHTML = '';
   }
 
   selectBlock(c: PageItem, ev?: PointerEvent) {

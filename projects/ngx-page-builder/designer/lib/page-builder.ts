@@ -32,8 +32,6 @@ import {
   LibConsts,
   Page,
   PageBuilderConfig,
-  ViewMode,
-  validateViewMode,
   CustomToolbarButtons,
   CMSPage,
   ICssVariable,
@@ -89,14 +87,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   @Input('dynamicData') set setDynamicData(val: DynamicDataStructure[]) {
     this.dynamicDataService.dynamicData = val ?? [];
-  }
-
-  @Input({
-    alias: 'viewMode',
-    transform: validateViewMode,
-  })
-  set SetViewMode(val: ViewMode) {
-    super.viewMode = val;
   }
 
   @Input() customToolbarButtons: CustomToolbarButtons[] = [];

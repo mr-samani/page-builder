@@ -1,4 +1,3 @@
-import { ViewMode } from './ViewMode';
 import { PageBuilderToolbarConfig } from '../models/PageBuilderConfiguration';
 import { SourceItem } from '../models/SourceItem';
 import { CMSPage } from '../models/CMSPage';
@@ -9,7 +8,6 @@ import { CMSPage } from '../models/CMSPage';
  */
 export const LibConsts: {
   enableAddCssFile: boolean;
-  viewMode: ViewMode;
   SourceItemList: SourceItem[];
 
   /**
@@ -51,7 +49,6 @@ export const LibConsts: {
   enableCssVariable: false,
   showPlugins: false,
   canDeletePlugin: false,
-  viewMode: 'PrintPage',
   toolbarConfig: new PageBuilderToolbarConfig(),
   publicCss: [],
   publicJs: [],

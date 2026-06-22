@@ -7,29 +7,28 @@
 <!-- --------------------------------------------------------------------------------- -->
 <div class="spacer"></div>
 <!-- --------------------------------------------------------------------------------- -->
-@if (viewMode == 'PrintPage') {
-  <div class="page-handler">
-    <button (click)="addPage()" title="Add page">
-      <svg Icon="assets/icons/file-plus.svg"></svg>
-    </button>
-    <button (click)="removePage()" title="Remove page">
-      <svg Icon="assets/icons/trash2.svg"></svg>
-    </button>
 
-    <button (click)="previousPage()" title="Previous page">
-      <svg Icon="assets/icons/chevron-left.svg"></svg>
-    </button>
-    <input [min]="1" [max]="pb.pageInfo.pages.length" type="number" [(ngModel)]="pageNumber" (change)="changePage()" />
-    <span>/</span>
-    <span>{{ pb.pageInfo.pages.length }}</span>
-    <button (click)="nextPage()" title="Next page">
-      <svg Icon="assets/icons/chevron-right.svg"></svg>
-    </button>
-    <button (click)="sortPages()" title="Sort pages">
-      <svg Icon="assets/icons/files.svg"></svg>
-    </button>
-  </div>
-}
+<div class="page-handler">
+  <button (click)="addPage()" title="Add page">
+    <svg Icon="assets/icons/file-plus.svg"></svg>
+  </button>
+  <button (click)="removePage()" title="Remove page">
+    <svg Icon="assets/icons/trash2.svg"></svg>
+  </button>
+
+  <button (click)="previousPage()" title="Previous page">
+    <svg Icon="assets/icons/chevron-left.svg"></svg>
+  </button>
+  <input [min]="1" [max]="pb.pageInfo.pages.length" type="number" [(ngModel)]="pageNumber" (change)="changePage()" />
+  <span>/</span>
+  <span>{{ pb.pageInfo.pages.length }}</span>
+  <button (click)="nextPage()" title="Next page">
+    <svg Icon="assets/icons/chevron-right.svg"></svg>
+  </button>
+  <button (click)="sortPages()" title="Sort pages">
+    <svg Icon="assets/icons/files.svg"></svg>
+  </button>
+</div>
 
 <!-- --------------------------------------------------------------------------------- -->
 <div class="spacer"></div>

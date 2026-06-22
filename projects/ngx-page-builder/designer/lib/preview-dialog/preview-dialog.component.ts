@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DynamicDataStructure, IPagebuilderOutput, LibConsts, ViewMode } from 'ngx-page-builder/core';
+import { DynamicDataStructure, IPagebuilderOutput, LibConsts } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
@@ -32,7 +32,6 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
   daialogData = inject<{
     data: IPagebuilderOutput;
     dynamicData: DynamicDataStructure[];
-    viewMode: ViewMode;
   }>(DIALOG_DATA);
   constructor() {
     providePagePreview({
@@ -99,7 +98,6 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
     // ۵. تنظیم Input ها
     componentRef.setInput('data', this.daialogData.data);
     componentRef.setInput('dynamicData', this.daialogData.dynamicData);
-    componentRef.setInput('viewMode', this.daialogData.viewMode);
     componentRef.setInput('doc', iframeDoc);
 
     // ۶. اتصال به Angular

@@ -1,14 +1,12 @@
 <div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName" [attr.dir]="pb.pageInfo.config.direction">
-  @if (viewMode == 'PrintPage') {
-    <div
-      class="page-header"
-      #PageHeader
-      [class.show-outlines]="pb.showOutlines()"
-      ngxDropList
-      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems"
-      [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems?.length == 0"
-      (drop)="pb.onDrop($event)"></div>
-  }
+  <div
+    class="page-header"
+    #PageHeader
+    [class.show-outlines]="pb.showOutlines()"
+    ngxDropList
+    [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems"
+    [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems?.length == 0"
+    (drop)="pb.onDrop($event)"></div>
 
   <div
     class="page-body"
@@ -18,14 +16,12 @@
     [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems"
     (drop)="pb.onDrop($event)"></div>
 
-  @if (viewMode == 'PrintPage') {
-    <div
-      class="page-footer"
-      #PageFooter
-      [class.show-outlines]="pb.showOutlines()"
-      ngxDropList
-      [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems?.length == 0"
-      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems"
-      (drop)="pb.onDrop($event)"></div>
-  }
+  <div
+    class="page-footer"
+    #PageFooter
+    [class.show-outlines]="pb.showOutlines()"
+    ngxDropList
+    [class.is-empty]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems?.length == 0"
+    [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems"
+    (drop)="pb.onDrop($event)"></div>
 </div>

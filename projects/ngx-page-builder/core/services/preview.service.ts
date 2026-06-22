@@ -246,13 +246,9 @@ export class PagePreviewService {
     this.copyDynamicStyles(targetDoc);
 
     // اعمال کلاس‌های مربوط به کاغذ
-    if (LibPreviewConsts.viewMode == 'PrintPage') {
-      this.pageContainer.classList.add('ngx-paper');
-      this.pageContainer.classList.add(this.data.config.size);
-      this.pageContainer.classList.add(this.data.config.orientation);
-    } else {
-      this.pageContainer.classList.add('web-page-view');
-    }
+    this.pageContainer.classList.add('ngx-paper');
+    this.pageContainer.classList.add(this.data.config.size);
+    this.pageContainer.classList.add(this.data.config.orientation);
   }
   /**
    * کپی کردن همه استایل‌ها از document اصلی
@@ -294,11 +290,7 @@ export class PagePreviewService {
     this.data = data;
     await this.loadPageData();
     this.setStyle();
-    if (LibPreviewConsts.viewMode == 'PrintPage') {
-      this.containerClassName = `ngx-paper ${this.data.config.size} ${this.data.config.orientation}`;
-    } else {
-      this.containerClassName = `web-page-view`;
-    }
+    this.containerClassName = `ngx-paper ${this.data.config.size} ${this.data.config.orientation}`;
 
     await waitForFontsToLoad();
     await waitForRenderComplete();
@@ -365,45 +357,42 @@ export class PagePreviewService {
     let footer: HTMLElement | null = null;
     let body: HTMLElement | null = null;
     const inner = this.doc.createElement('div');
-    if (LibPreviewConsts.viewMode == 'PrintPage') {
-      inner.classList.add('paper-inner');
-      const mainTable = this.doc.createElement('table');
-      mainTable.classList.add('ngx-page-table');
-      mainTable.setAttribute('cellspacing', '0');
-      mainTable.setAttribute('cellpadding', '0');
-      const thead = this.doc.createElement('thead');
-      const tr = this.doc.createElement('tr');
-      thead.appendChild(tr);
-      const Hth = this.doc.createElement('th');
-      Hth.className = 'repeatable-header';
-      tr.appendChild(Hth);
-      const tbody = this.doc.createElement('tbody');
-      const Ctr = this.doc.createElement('tr');
-      tbody.appendChild(Ctr);
-      const Ctd = this.doc.createElement('td');
-      Ctr.appendChild(Ctd);
-      const tfoot = this.doc.createElement('tfoot');
-      const Ftr = this.doc.createElement('tr');
-      tfoot.appendChild(Ftr);
-      const Ftd = this.doc.createElement('td');
-      Ftr.appendChild(Ftd);
-      mainTable.appendChild(thead);
-      mainTable.appendChild(tbody);
-      mainTable.appendChild(tfoot);
-      inner.appendChild(mainTable);
+    inner.classList.add('paper-inner');
+    const mainTable = this.doc.createElement('table');
+    mainTable.classList.add('ngx-page-table');
+    mainTable.setAttribute('cellspacing', '0');
+    mainTable.setAttribute('cellpadding', '0');
+    const thead = this.doc.createElement('thead');
+    const tr = this.doc.createElement('tr');
+    thead.appendChild(tr);
+    const Hth = this.doc.createElement('th');
+    Hth.className = 'repeatable-header';
+    tr.appendChild(Hth);
+    const tbody = this.doc.createElement('tbody');
+    const Ctr = this.doc.createElement('tr');
+    tbody.appendChild(Ctr);
+    const Ctd = this.doc.createElement('td');
+    Ctr.appendChild(Ctd);
+    const tfoot = this.doc.createElement('tfoot');
+    const Ftr = this.doc.createElement('tr');
+    tfoot.appendChild(Ftr);
+    const Ftd = this.doc.createElement('td');
+    Ftr.appendChild(Ftd);
+    mainTable.appendChild(thead);
+    mainTable.appendChild(tbody);
+    mainTable.appendChild(tfoot);
+    inner.appendChild(mainTable);
 
-      if (!isLastPage) {
-        const pageBreak = this.doc.createElement('div');
-        pageBreak.classList.add('page-break');
-        this.pageContainer.appendChild(pageBreak);
-      }
-
-      header = Hth;
-      footer = Ftd;
-      body = Ctd;
-    } else {
-      body = inner;
+    if (!isLastPage) {
+      const pageBreak = this.doc.createElement('div');
+      pageBreak.classList.add('page-break');
+      this.pageContainer.appendChild(pageBreak);
     }
+
+    header = Hth;
+    footer = Ftd;
+    body = Ctd;
+
     this.pageContainer.appendChild(inner);
     return { header, body, footer };
   }

@@ -48,9 +48,7 @@ export * from './utiles/rendering';
 export * from './utiles/sequentialGUID';
 
 // Consts
-export * from './consts/ViewMode';
 export * from './consts/LibConsts';
 export * from './consts/LibPreviewConsts';
-export * from './consts/validateViewMode';
 export * from './consts/defaults';
 export * from './consts/regex';
