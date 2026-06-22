@@ -52,7 +52,7 @@ export class NgxPgNotifyService {
       if (position?.includes('top')) container.style.top = '20px';
       else container.style.bottom = '20px';
       if (position?.includes('left')) container.style.left = '20px';
-      else container.style.right = '20px';
+      //  else container.style.right = '20px';
       container.style.display = 'flex';
       container.style.flexDirection = 'column';
       if (position?.includes('bottom')) container.style.flexDirection = 'column-reverse';

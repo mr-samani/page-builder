@@ -20,9 +20,9 @@
     "**/.cursor/**": true,
     "**/.claude/**": true,
     "**/.windsurf/**": true,
-    "**/.angular/**": true,
-    "**/projects/ngx-page-builder/designer/assets/styles.css": true,
-    "**/projects/ngx-page-builder/designer/assets/styles.css.map": true
+    "**/.angular/**": true
+    //"**/projects/ngx-page-builder/designer/assets/styles.css": true,
+    //"**/projects/ngx-page-builder/designer/assets/styles.css.map": true
   },
   "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

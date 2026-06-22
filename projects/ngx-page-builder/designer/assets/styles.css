@@ -61,13 +61,12 @@ ngx-pg-notification {
   --a5-height: 210mm;
   --letter-width: 216mm;
   --letter-height: 279mm;
-  --active-button: #31383f;
+  --active-button: #222935;
   --active-button-fg: #ffffff;
   --toolbar-bg: #353535;
   --toolbar-fg: #ffffff;
   --side-config-width: 300px;
   --side-config-fg: #fff;
-  --side-config-bg: #1f2937;
   --tools-border: 1px solid #eeeeee76;
   --page-padding: 0px;
   --toolbar-width: 60px;
@@ -265,7 +264,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   all: unset;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.8), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
   background-color: rgba(255, 255, 255, 0.13);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
+  background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
   cursor: pointer;
   margin: 4px;
   padding: 5px 15px;
@@ -284,7 +283,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   opacity: 0.5;
 }
 .ngx-page-builder .pb-btn:hover:not(:disabled) {
-  background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
 }
 .ngx-page-builder .pb-btn:has(svg) {
   padding: 5px 10px;

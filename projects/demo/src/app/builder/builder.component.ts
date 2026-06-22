@@ -24,7 +24,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
   providers: [
     providePageBuilder({
       customSources: CustomSources,
-      storageType: StorageType.JSONFile,
+      storageType: StorageType.LocalStorage,
       enableExportAsPlugin: true,
       enableShotcuts: true,
       showPlugins: true,
