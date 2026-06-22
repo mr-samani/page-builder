@@ -1,6 +1,10 @@
-<div class="page-builder-container ngx-page-builder">
+<div class="page-builder-container ngx-page-builder" dir="ltr">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
   <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="true">
+    <div class="tool" (click)="toggleLayoutPanel()" title="Layouts" [class.active]="openLayout()">
+      <svg Icon="assets/icons/layout.svg"></svg>
+    </div>
+
     @if (showPlugins) {
     <div class="tool" (click)="viewPlugins()" title="Plugins">
       <svg Icon="assets/icons/layer-plus.svg"></svg>
@@ -17,4 +21,16 @@
   </div>
 
   <side-config class="side-config"></side-config>
+
+  @if(openLayout()){
+  <div class="pb-panel">
+    <div class="pb-panel-header">
+      <span>Navigator</span>
+      <button type="button" (click)="toggleLayoutPanel()" class="pb-btn">
+        <svg Icon="assets/icons/xmark.svg"></svg>
+      </button>
+    </div>
+    <block-layouts></block-layouts>
+  </div>
+  }
 </div>

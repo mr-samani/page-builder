@@ -31,39 +31,9 @@ export const SOURCE_ITEMS: SourceItem[] = [
   },
   {
     tag: 'h1',
-    title: 'Heading 1',
-    icon: 'assets/icons/h1.svg',
-    content: 'Heading 1',
-  },
-  {
-    tag: 'h2',
-    title: 'Heading 2',
-    icon: 'assets/icons/h2.svg',
-    content: 'Heading 2',
-  },
-  {
-    tag: 'h3',
-    title: 'Heading 3',
-    icon: 'assets/icons/h3.svg',
-    content: 'Heading 3',
-  },
-  {
-    tag: 'h4',
-    title: 'Heading 4',
-    icon: 'assets/icons/h4.svg',
-    content: 'Heading 4',
-  },
-  {
-    tag: 'h5',
-    title: 'Heading 5',
-    icon: 'assets/icons/h5.svg',
-    content: 'Heading 5',
-  },
-  {
-    tag: 'h6',
-    title: 'Heading 6',
-    icon: 'assets/icons/h6.svg',
-    content: 'Heading 6',
+    title: 'Heading',
+    icon: 'assets/icons/h.svg',
+    content: 'Heading',
   },
   {
     tag: 'img',

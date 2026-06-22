@@ -11,15 +11,6 @@
   <button
     type="button"
     class="tab-item"
-    [class.active]="selectedTab == 'layouts'"
-    (click)="selectedTab = 'layouts'"
-    title="Layouts">
-    <svg Icon="assets/icons/layout.svg"></svg>
-    Layouts
-  </button>
-  <button
-    type="button"
-    class="tab-item"
     [class.active]="selectedTab == 'settings'"
     (click)="selectedTab = 'settings'"
     title="Settings">
@@ -30,8 +21,6 @@
 <div class="page-builder-tab-content">
   @if (selectedTab === 'properties') {
     <block-properties></block-properties>
-  } @else if (selectedTab === 'layouts') {
-    <block-layouts></block-layouts>
   } @else if (selectedTab === 'settings') {
     <block-settings></block-settings>
   }

@@ -7,24 +7,23 @@
   --letter-width: 216mm;
   --letter-height: 279mm;
 
-  --active-button: #0040ff;
+  --active-button: #222935;
   --active-button-fg: #ffffff;
 
-  --tools-bg: #282828;
   --toolbar-bg: #353535;
   --toolbar-fg: #ffffff;
-  --tools-fg: #fff;
 
   --side-config-width: 300px;
   --side-config-fg: #fff;
-  --side-config-bg: #1f2937;
 
   --tools-border: 1px solid #eeeeee76;
   --page-padding: 0px;
 
   --toolbar-width: 60px;
   --toolbar-sticky-offset: 0;
-  --topbar-height: 28px;
+  --topbar-height: 50px;
+
+  --panel-bg: #14181e;
 }
 .ngx-paper {
   display: flex;

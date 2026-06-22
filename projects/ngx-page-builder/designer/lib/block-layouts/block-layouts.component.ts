@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
-import { BaseComponent } from '../BaseComponent';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { LibConsts, PageItem, Page } from 'ngx-page-builder/core';
+import { PageBuilderBaseComponent } from '../page-builder-base-component';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',
@@ -11,13 +11,13 @@ import { LibConsts, PageItem, Page } from 'ngx-page-builder/core';
   standalone: true,
   imports: [CommonModule, SvgIconDirective],
 })
-export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDestroy {
+export class BlockLayoutsComponent extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   currentPageHeaderItems: PageItem[] = [];
   currentPageFooterItems: PageItem[] = [];
   currentPageBodyItems: PageItem[] = [];
   pagebuiderChangeSubscription: Subscription;
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     effect(() => {
       const activeItem = this.pb.activeEl();
       this.openToParent(activeItem);
@@ -45,11 +45,6 @@ export class BlockLayoutsComponent extends BaseComponent implements OnInit, OnDe
   ngOnDestroy(): void {
     this.pagebuiderChangeSubscription.unsubscribe();
   }
-
-  get viewMode() {
-    return LibConsts.viewMode;
-  }
-
   reloadLayout(page?: Page, update = false) {
     this.currentPageBodyItems = page ? [...page.bodyItems] : [];
     this.currentPageHeaderItems = page ? [...page.headerItems] : [];

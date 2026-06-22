@@ -3,7 +3,7 @@
   gap: 10px;
   flex-wrap: wrap;
   padding: 10px;
-  background: color-mix(in srgb, var(--side-config-bg), #000 18%);
+  background: color-mix(in srgb, var(--panel-bg), #000 18%);
   border-radius: 5px;
   margin-bottom: 15px;
   .chips {
@@ -78,7 +78,7 @@
 }
 .dropdown-menu {
   position: absolute;
-  background: var(--side-config-bg);
+  background: var(--panel-bg);
   box-shadow: 0 0 20px 15px #00000069;
   color: var(--side-config-fg);
   max-height: 500px;

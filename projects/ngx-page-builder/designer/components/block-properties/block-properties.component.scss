@@ -16,20 +16,19 @@
 }
 
 summary {
-  padding: 5px;
-  background: #374151;
-  margin: 5px 0;
+  padding: 6px;
+  background: #1e2227;
+  margin: 2px 0;
   border-radius: 5px;
   border: 1px transparent solid;
   transition: all 300ms;
   &:hover {
-    background: #1e3a8a;
+    background: #0e1012;
   }
 }
 details[open] {
   summary {
-    background: #1e3a8a;
-    border-color: #3b82f6;
+    background: #3e4b5b;
   }
 }
 /*-------------------------------------------------------------------------------*/

@@ -3,7 +3,7 @@
   padding: 10px 10px 0 10px;
   display: flex;
   height: 36px;
-  --tab-item-bg: var(--side-config-bg, white);
+  --tab-item-bg: var(--panel-bg, white);
   --active-tab-item-color: #1180f3;
   --active-tab-item-hover: #1180f329;
   z-index: 104;

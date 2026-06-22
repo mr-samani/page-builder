@@ -81,14 +81,13 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
     }
   }
 
-  side-config .btn,
   .pb-btn {
     all: unset;
     box-shadow:
       0px 0.5px 1px rgba(0, 0, 0, 0.8),
       inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.12);
     background-color: rgba(255, 255, 255, 0.13);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
+    background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
     cursor: pointer;
     margin: 4px;
     padding: 5px 15px;
@@ -106,7 +105,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       opacity: 0.5;
     }
     &:hover:not(:disabled) {
-      background: linear-gradient(180deg, rgba(69, 69, 69, 0.13) 0%, rgba(34, 34, 34, 0.11) 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.11) 100%);
     }
     &:has(svg) {
       padding: 5px 10px;

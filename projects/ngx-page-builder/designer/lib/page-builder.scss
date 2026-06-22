@@ -4,16 +4,19 @@
   grid-template-rows: var(--topbar-height) auto;
   gap: 0px 5px;
   min-height: 100vh;
-  background: #f6f6f6;
-  color: #000;
+  background: #0b0e13;
+  color: #fff;
 
   * {
     box-sizing: border-box;
   }
+  svg {
+    fill: #a2a4ab;
+  }
 }
 .side-config {
   border: none var(--tools-border);
-  background-color: var(--side-config-bg);
+  background-color: var(--panel-bg);
   color: var(--side-config-fg);
   font-family: sans-serif;
   font-size: 12px;
@@ -24,11 +27,10 @@
 .components {
   border: none var(--tools-border);
   flex-shrink: 0;
-  background-color: var(--tools-bg);
-  color: var(--tools-fg);
   max-height: calc(100vh - var(--topbar-height));
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  text-align: center;
   .tool {
     padding: 6px;
     border-bottom: var(--tools-border);
@@ -36,7 +38,7 @@
     height: 40px;
     width: 40px;
     margin: 1px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     z-index: 1;
@@ -47,14 +49,12 @@
       cursor: pointer;
       transform: scale(1.1);
     }
-    svg,
-    img {
-      fill: var(--tools-fg);
-    }
   }
 }
 .page-container {
   padding: 0px;
+  background: #fff;
+  border-radius: 5px;
 }
 
 .show-outlines {
@@ -151,4 +151,25 @@
 .ngx-page-text-info {
   color: #0073ff;
   padding: 10px;
+}
+
+///--------------------
+/// Panel
+///--------------------
+.pb-panel {
+  position: fixed;
+  top: var(--topbar-height);
+  left: var(--toolbar-width);
+  background-color: var(--panel-bg);
+  width: 340px;
+  border-radius: 5px;
+  border: 1px solid #2b2f34;
+  height: calc(100% - var(--topbar-height));
+  .pb-panel-header {
+    border-bottom: 1px #2b2f34 solid;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

@@ -1,14 +1,12 @@
 :host {
   display: flex;
-
   grid-row-start: 1;
   grid-column: span 3 / span 3;
-  background-color: var(--toolbar-bg);
-  color: var(--toolbar-fg);
   position: sticky;
   top: var(--toolbar-sticky-offset);
   z-index: 100;
   user-select: none;
+  padding: 10px;
   button {
     outline: none;
     border: none;

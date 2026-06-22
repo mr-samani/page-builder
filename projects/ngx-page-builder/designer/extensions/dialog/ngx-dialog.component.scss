@@ -21,7 +21,7 @@
     border-radius: 5px;
     overflow: hidden;
     /* TODO: must set from theme dark-light*/
-    background-color: var(--side-config-bg, white);
+    background-color: var(--panel-bg, white);
     color: var(--side-config-fg, #000000);
     box-sizing: border-box;
     animation: ShowDialog 200ms cubic-bezier(0.25, 0.8, 0.25, 1);

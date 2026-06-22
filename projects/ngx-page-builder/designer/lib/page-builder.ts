@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -40,12 +41,13 @@ import {
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 import { Dialog, NgxDialogModule } from '../extensions/dialog';
+import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
 
 @Component({
   standalone: true,
   selector: 'ngx-page-builder',
   templateUrl: './page-builder.html',
-  styleUrls: ['./page-builder.scss', '../styles/paper.scss'],
+  styleUrls: ['./page-builder.scss', '../styles/paper.scss', '../styles/inputs.scss'],
   imports: [
     InnerContentComponent,
     NgxDragDropKitModule,
@@ -55,11 +57,13 @@ import { Dialog, NgxDialogModule } from '../extensions/dialog';
     NgxPgNotifyModule,
     SvgIconDirective,
     NgxDialogModule,
+    BlockLayoutsComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
+  openLayout = signal(false);
   @Input() set data(val: IPage[] | undefined) {
     if (!val || Array.isArray(val) == false) {
       console.warn('NgxPageBuilder', 'Input data not valid!');
@@ -142,6 +146,10 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
     this.unregisterShortcuts();
+  }
+
+  toggleLayoutPanel() {
+    this.openLayout.set(!this.openLayout());
   }
 
   private async loadPageData(data: Page[]) {

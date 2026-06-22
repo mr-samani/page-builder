@@ -4,7 +4,7 @@
   overflow: auto;
 }
 .title {
-  background-color: color-mix(in srgb, var(--side-config-bg), #000 15%);
+  background-color: color-mix(in srgb, var(--panel-bg), #000 15%);
   color: var(--toolbar-fg);
   margin: 0 -10px;
   padding: 4px 10px;
