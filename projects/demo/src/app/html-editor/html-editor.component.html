@@ -1,14 +1,15 @@
-<mat-dialog-content>
+<div ngx-dialog-header [showCloseButton]="true">HtmlEditor</div>
+<div ngx-dialog-body>
   <editor
     [init]="tinymceInit"
     [(ngModel)]="content"
     [disabled]="disabled"
     [licenseKey]="'gpl'"
     (onInit)="onInitTinyMce($event)"></editor>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-raised-button color="cancel" (click)="cancel()">'Cancel'</button>
-  <button mat-raised-button color="primary" (click)="ok()">
-    <span>{{ 'Ok' }}</span>
-  </button>
-</mat-dialog-actions>
+</div>
+<div ngx-dialog-footer [align]="'space-between'">
+  <div>
+    <button (click)="ok()" type="button" class="btn btn-primary mx-1">ok</button>
+    <button (click)="cancel()" type="button" class="btn btn-warning mx-1">cancel</button>
+  </div>
+</div>

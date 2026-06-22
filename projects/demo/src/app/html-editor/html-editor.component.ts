@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, inject, Inject, Injector, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Editor, TinyMCE } from 'tinymce';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { MatButtonModule } from '@angular/material/button';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-page-builder/designer/extensions/dialog';
 
 type EditorOptions = Parameters<TinyMCE['init']>[0];
 export interface CustomButton {
@@ -18,7 +17,7 @@ export interface CustomButton {
   templateUrl: './html-editor.component.html',
   styleUrls: ['./html-editor.component.scss'],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'assets/tinymce/tinymce.min.js' }],
-  imports: [FormsModule, EditorComponent, MatDialogModule, MatButtonModule],
+  imports: [FormsModule, EditorComponent, NgxDialogModule],
 })
 export class HtmlEditorComponent implements OnInit, AfterViewInit {
   tinyMceEditor: any;
@@ -70,11 +69,9 @@ export class HtmlEditorComponent implements OnInit, AfterViewInit {
   };
   content = '';
   disabled = false;
-  data = inject<string>(MAT_DIALOG_DATA);
-  constructor(
-    private dialogRef: MatDialogRef<HtmlEditorComponent>,
-    injector: Injector,
-  ) {
+  data = inject<string>(DIALOG_DATA);
+  private dialogRef = inject(DIALOG_REF);
+  constructor(injector: Injector) {
     this.content = this.data;
   }
 
