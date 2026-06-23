@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy, Signal, signal } from '@angular/core';
+import { DOCUMENT, ElementRef, inject, Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IDropEvent } from 'ngx-drag-drop-kit';
 import { Notify } from '../extensions/notify';
@@ -19,6 +19,7 @@ import {
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
+import { WEB_BODY_BLOCK } from '../sources/WEB_BODY_BLOCK';
 
 export interface PageItemChange {
   item: PageItem | null;
@@ -45,9 +46,6 @@ export class PageBuilderService implements OnDestroy {
   /** start from 0 */
   currentPageIndex = signal<number>(-1);
   activeEl = signal<PageItem | undefined>(undefined);
-  pageBody: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
-  pageHeader: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
-  pageFooter: Signal<ElementRef<HTMLElement> | undefined> = signal<ElementRef<HTMLElement> | undefined>(undefined);
   showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
 
@@ -64,6 +62,7 @@ export class PageBuilderService implements OnDestroy {
   storageService!: IStorageService;
 
   copyStorage?: PageItem;
+  private readonly doc = inject(DOCUMENT);
   constructor(
     private dynamicElementService: DynamicElementService,
     private history: HistoryService,
@@ -99,6 +98,22 @@ export class PageBuilderService implements OnDestroy {
       throw new Error('Current page does not exist');
     }
     this.pageInfo.pages[this.currentPageIndex()] = page;
+  }
+
+  getInnerItemContainer(): HTMLElement {
+    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderBody');
+    if (el) return el;
+    throw 'BodyNotFound';
+  }
+  getHeaderItemContainer(): HTMLElement {
+    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderHeader');
+    if (el) return el;
+    throw 'HeaderNotFound';
+  }
+  getFooterItemContainer(): HTMLElement {
+    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderFooter');
+    if (el) return el;
+    throw 'FooterNotFound';
   }
 
   async onDrop(event: IDropEvent<PageItem[]>, parent?: PageItem) {
@@ -264,10 +279,10 @@ export class PageBuilderService implements OnDestroy {
       } else {
         await this.cleanCanvas(this.currentPageIndex());
         const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
-        await this.genElms(bodyItems, this.pageBody()!.nativeElement);
+        await this.genElms(bodyItems, this.getInnerItemContainer());
         if (LibConsts.viewMode == 'PrintPage') {
-          await this.genElms(headerItems, this.pageHeader()!.nativeElement);
-          await this.genElms(footerItems, this.pageFooter()!.nativeElement);
+          await this.genElms(headerItems, this.getHeaderItemContainer());
+          await this.genElms(footerItems, this.getFooterItemContainer());
         }
         this.currentPageIndex.set(pageNumber - 1);
         this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
@@ -275,7 +290,7 @@ export class PageBuilderService implements OnDestroy {
       }
     } catch (error) {
       console.error('Error changing page:', error);
-      throw Error('Error changing page');
+      throw error;
     }
   }
 
@@ -298,7 +313,10 @@ export class PageBuilderService implements OnDestroy {
     }
   }
 
-  private async genElms(list: PageItem[], container: HTMLElement, index = -1) {
+  private async genElms(list: PageItem[], container?: HTMLElement, index = -1) {
+    if (!container) {
+      throw new Error('ContainerNotFound');
+    }
     for (let i = 0; i < list.length; i++) {
       list[i].el = await this.createBlockElement(true, list[i], container, index);
     }
@@ -312,7 +330,7 @@ export class PageBuilderService implements OnDestroy {
    */
   async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement | null, index: number = -1) {
     if (!container) {
-      container = this.pageBody()?.nativeElement;
+      container = this.getInnerItemContainer();
     }
     if (!container) {
       throw new Error('Required container to create element');
@@ -362,10 +380,13 @@ export class PageBuilderService implements OnDestroy {
     this.dynamicElementService.destroyBatch(page.bodyItems);
     this.dynamicElementService.destroyBatch(page.headerItems);
     this.dynamicElementService.destroyBatch(page.footerItems);
-    this.pageBody()!.nativeElement.innerHTML = '';
+    const body = this.getInnerItemContainer();
+    if (body) {
+      body.innerHTML = '';
+    }
     if (LibConsts.viewMode == 'PrintPage') {
-      this.pageHeader()!.nativeElement.innerHTML = '';
-      this.pageFooter()!.nativeElement.innerHTML = '';
+      this.getHeaderItemContainer().innerHTML = '';
+      this.getFooterItemContainer().innerHTML = '';
     }
   }
 
@@ -491,25 +512,50 @@ export class PageBuilderService implements OnDestroy {
   }
 
   async addBlockToCurrentPage(p: IPageItem) {
-    let item = PageItem.fromJSON(p);
-    let activeBlock = this.activeEl();
+    try {
+      debugger;
+      let item = PageItem.fromJSON(p);
+      let activeBlock = this.activeEl();
 
-    if (!this.currentPage) {
-      await this.addPage();
-    }
-    if (activeBlock) {
-      item.parent = activeBlock;
-      activeBlock.children.push(item);
-    } else {
-      if (!this.pageInfo.pages[this.currentPageIndex()]) {
-        Notify.error('Page Not Exist!');
-        return;
+      if (!this.currentPage) {
+        await this.addPage();
       }
+      if (activeBlock && activeBlock.canHaveChild) {
+        item.parent = activeBlock;
+        activeBlock.children.push(item);
+        await this.createBlockElement(true, item, activeBlock?.el);
+      } else {
+        if (!this.pageInfo.pages[this.currentPageIndex()]) {
+          Notify.error('Page Not Exist!');
+          return;
+        }
+        const body = this.getCurrentPageBody();
+        item.parent = body;
+        body.children.push(item);
+        await this.createBlockElement(true, item, body.el);
+      }
+      this.selectBlock(item);
+      Notify.success('Added successfully');
+    } catch (error) {}
+  }
 
-      this.pageInfo.pages[this.currentPageIndex()].bodyItems.push(item);
+  getCurrentPageBody(): PageItem {
+    if (!this.pageInfo.pages[this.currentPageIndex()]) {
+      Notify.error('Page Not Exist!');
+      throw 'PageNotFound';
     }
-    await this.createBlockElement(true, item, activeBlock?.el);
-    this.selectBlock(item);
-    Notify.success('Add successfully');
+
+    if (!this.pageInfo.pages[this.currentPageIndex()].bodyItems.length) {
+      Notify.error('Body Not Exist!');
+      throw 'BodyNotFound';
+    }
+
+    const body = this.pageInfo.pages[this.currentPageIndex()].bodyItems.at(0);
+    if (body) {
+      return body;
+    } else {
+      Notify.error('Body Not Exist!');
+      throw 'BodyNotFound';
+    }
   }
 }

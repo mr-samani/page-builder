@@ -1,4 +1,14 @@
-import { Component, DOCUMENT, ElementRef, inject, Injector, OnInit, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DOCUMENT,
+  ElementRef,
+  inject,
+  Injector,
+  OnInit,
+  viewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { LibConsts } from 'ngx-page-builder/core';
@@ -12,19 +22,10 @@ import { LibConsts } from 'ngx-page-builder/core';
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
   containerClassName = '';
-
-  private _pageBody = viewChild<ElementRef<HTMLElement>>('PageBody');
-  private _pageHeader = viewChild<ElementRef<HTMLElement>>('PageHeader');
-  private _pageFooter = viewChild<ElementRef<HTMLElement>>('PageFooter');
-
   constructor(private el: ElementRef<HTMLElement>) {
     super();
-
-    this.pb.pageBody = this._pageBody;
-    this.pb.pageHeader = this._pageHeader;
-    this.pb.pageFooter = this._pageFooter;
-    this.pb.innerShadowRootDom = el.nativeElement.shadowRoot;
-    this.pb.cls.innerShadowRootDom = el.nativeElement.shadowRoot;
+    this.pb.innerShadowRootDom = this.el.nativeElement.shadowRoot;
+    this.pb.cls.innerShadowRootDom = this.el.nativeElement.shadowRoot;
   }
 
   ngOnInit() {

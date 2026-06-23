@@ -54,6 +54,7 @@
 .page-container {
   padding: 0px;
   background: #fff;
+  color: #000;
   border-radius: 5px;
 }
 
@@ -165,6 +166,7 @@
   border-radius: 5px;
   border: 1px solid #2b2f34;
   height: calc(100% - var(--topbar-height));
+  z-index: 1;
   .pb-panel-header {
     border-bottom: 1px #2b2f34 solid;
     padding: 5px 10px;
@@ -172,4 +174,15 @@
     align-items: center;
     justify-content: space-between;
   }
+}
+
+.ngx-page-builder-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  background: #00000098;
+  z-index: 200;
+  backdrop-filter: blur(2px);
 }

@@ -123,7 +123,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   showPlugins = LibConsts.showPlugins;
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
-
+  isLoading = signal(false);
   constructor(
     private injector: Injector,
     private cls: ClassManagerService,
@@ -154,21 +154,30 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   private async loadPageData(data: Page[]) {
     try {
+      this.isLoading.set(true);
       await this.pb.reset();
       // let data = await this.storageService.loadData();
       //this.pb.pageInfo = PageBuilderDto.fromJSON(data);
-      this.pb.pageInfo.pages = data;
+      this.pb.pageInfo.setPages(data);
+      // check has body block
       //console.log('load data:', data, 'converted class:', this.pb.pageInfo);
       if (this.pb.pageInfo.pages.length == 0) {
         await this.pb.addPage();
+        this.isLoading.set(false);
       } else {
-        await this.pb.changePage(1);
+        setTimeout(async () => {
+          await this.pb.changePage(1);
+          const body = this.pb.pageInfo.pages[0].bodyItems[0];
+          this.pb.selectBlock(body);
+          this.isLoading.set(false);
+        }, 100);
         //console.log('after load:', this.pb.pageInfo);
       }
     } catch (error) {
       await this.pb.addPage();
       console.error('Error loading page data:', error);
       Notify.error('Error loading page data: ' + error);
+      this.isLoading.set(false);
     }
   }
 

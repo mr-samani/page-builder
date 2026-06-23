@@ -7,7 +7,7 @@
 
     @if (showPlugins) {
     <div class="tool" (click)="viewPlugins()" title="Plugins">
-      <svg Icon="assets/icons/layer-plus.svg"></svg>
+      <svg Icon="assets/icons/hexagon-plus.svg"></svg>
     </div>
     } @for (item of pb.sources; track $index) {
     <div class="tool" ngxDraggable [title]="item.title">
@@ -32,5 +32,7 @@
     </div>
     <block-layouts></block-layouts>
   </div>
+  } @if(isLoading()){
+  <div class="ngx-page-builder-loading">loading...</div>
   }
 </div>
