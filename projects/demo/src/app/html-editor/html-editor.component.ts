@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, Inject, Injector, OnInit, ChangeDetec
 import { FormsModule } from '@angular/forms';
 import { Editor, TinyMCE } from 'tinymce';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-page-builder/designer/extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 
 type EditorOptions = Parameters<TinyMCE['init']>[0];
 export interface CustomButton {

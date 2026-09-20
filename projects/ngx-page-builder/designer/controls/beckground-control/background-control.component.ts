@@ -14,9 +14,9 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.filepicker';
 import { BaseControl } from '../base-control';
-import { Notify } from '../../extensions/notify';
 import { parseBackground } from 'ngx-page-builder/core';
 import { InputCssComponent } from '../input-css/input-css.component';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   selector: 'background-control',

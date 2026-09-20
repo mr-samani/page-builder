@@ -16,7 +16,7 @@ import { DynamicDataStructure, IPagebuilderOutput, LibConsts, ViewMode } from 'n
 import { createApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
-import { DIALOG_DATA, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_DATA } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'app-preview-dialog',

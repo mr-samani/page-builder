@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">Plugins</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">Plugins</div>
+<div ngxDialogBody>
   <div class="search-bar">
     <input type="text" name="search" [(ngModel)]="search" (keydown.enter)="filterList()" placeholder="Search ..." />
     <button type="button" (click)="filterList()">
@@ -53,6 +53,6 @@
     </ul>
   </div>
 </div>
-<div ngx-dialog-footer>
+<div ngxDialogFooter>
   <button type="button" class="pb-btn" (click)="cancel()">Cancel</button>
 </div>

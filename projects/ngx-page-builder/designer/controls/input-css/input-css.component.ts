@@ -6,8 +6,8 @@ import { NgxInputGradient } from 'ngx-kit/gradient-picker';
 import { CssValueType, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { Dialog } from '../../extensions/dialog';
 import { ClassManagerService } from '../../services/class-manager.service';
+import { Dialog } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'input-css',

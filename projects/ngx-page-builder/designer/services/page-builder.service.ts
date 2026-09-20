@@ -1,7 +1,6 @@
 import { DOCUMENT, ElementRef, inject, Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IDropEvent } from 'ngx-drag-drop-kit';
-import { Notify } from '../extensions/notify';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
@@ -19,7 +18,7 @@ import {
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
-import { WEB_BODY_BLOCK } from '../sources/WEB_BODY_BLOCK';
+import { Notify } from 'ngx-kit/notify';
 
 export interface PageItemChange {
   item: PageItem | null;

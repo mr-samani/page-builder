@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">Export Plugin</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">Export Plugin</div>
+<div ngxDialogBody>
   <div class="screenshot-container">
     @if (img) {
       <img [src]="img" alt="" class="screenshot" />
@@ -17,6 +17,6 @@
     <p class="text-danger">Name is required for plugin</p>
   }
 </div>
-<div ngx-dialog-footer>
+<div ngxDialogFooter>
   <button type="button" class="pb-btn" (click)="ok()">Ok</button>
 </div>

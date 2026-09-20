@@ -4,7 +4,7 @@ import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
 import { EditLinkComponent } from '../edit-link/edit-link.component';
-import { Dialog } from '../../extensions/dialog';
+import { Dialog } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'block-settings',

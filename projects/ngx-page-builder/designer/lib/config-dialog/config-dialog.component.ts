@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/cor
 import { PageBuilderService } from '../../services/page-builder.service';
 import { FormsModule } from '@angular/forms';
 import { PageBuilderConfig, PageOrientation, PageSize } from 'ngx-page-builder/core';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'app-config-dialog',

@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">CSS Classes</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">CSS Classes</div>
+<div ngxDialogBody>
   <tab-group [(selectedIndex)]="selectedTabIndex">
     @for (item of files; track $index) {
       <tab-item [title]="item.name" [active]="$index == 0">
@@ -8,7 +8,7 @@
     }
   </tab-group>
 </div>
-<div ngx-dialog-footer>
+<div ngxDialogFooter>
   selectedTabIndex={{ selectedTabIndex }}
   @if (enableAddCssFile) {
     <button type="button" class="pb-btn" (click)="addFile()" [disabled]="loading">Add file</button>

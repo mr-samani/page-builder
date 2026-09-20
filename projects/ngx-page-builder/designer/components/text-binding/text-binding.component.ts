@@ -21,15 +21,13 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
-import { Notify } from '../../extensions/notify';
-import {
-  DataSourceSetting,
-  DEFAULT_IMAGE_URL,
-  DynamicDataService,
-  DynamicDataStructure,
-  PageItem,
-} from 'ngx-page-builder/core';
-import { Dialog } from '../../extensions/dialog';
+import { Dialog } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
+import { DynamicDataStructure } from '../../../core/models/DynamicData';
+import { PageItem } from '../../../core/models/PageItem';
+import { DynamicDataService } from '../../../core/services/dynamic-data.service';
+import { DataSourceSetting } from '../../../core/models/DataSourceSetting';
+import { DEFAULT_IMAGE_URL } from '../../../core/consts/defaults';
 
 @Component({
   selector: 'text-binding',

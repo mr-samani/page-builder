@@ -6,8 +6,8 @@ import { cloneDeep, CSS_VARIABLE_REGEX, CssValueTypeList, ICssVariable, LibConst
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColor } from 'ngx-kit/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
 import { NgxInputGradient } from 'ngx-kit/gradient-picker';
+import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 @Component({
   selector: 'app-css-variables-dialog',
   templateUrl: './css-variables-dialog.component.html',

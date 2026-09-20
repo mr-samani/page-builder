@@ -4,10 +4,10 @@ import { CssClassesEditorComponent } from '../../components/css-classes-editor/c
 import { FileSelector } from '../../helper/FileSelector';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
-import { Notify } from '../../extensions/notify';
 import { LibConsts, cloneDeep } from 'ngx-page-builder/core';
 import { ICssFile, ClassManagerService } from '../../services/class-manager.service';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   selector: 'app-css-file-dialog',

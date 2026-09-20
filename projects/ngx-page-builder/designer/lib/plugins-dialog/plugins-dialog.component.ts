@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
-import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
 import { IPlugin, LibConsts } from 'ngx-page-builder/core';
-import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_REF } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   selector: 'app-plugins-dialog',

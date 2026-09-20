@@ -5,11 +5,11 @@ import { ImportOptions } from '../../services/import-export/ImportOptions';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PreviewImportTreeComponent } from './preview-import-tree/preview-import-tree.component';
-import { Notify } from '../../extensions/notify';
 import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { LibConsts } from 'ngx-page-builder/core';
-import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_REF } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   selector: 'app-import-dialog',
