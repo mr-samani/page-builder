@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, inject, input, OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgxInputColor } from 'ngx-input-color/color-picker';
-import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
+import { NgxInputColor } from 'ngx-kit/color-picker';
+import { NgxInputGradient } from 'ngx-kit/gradient-picker';
 import { CssValueType, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
