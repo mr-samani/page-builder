@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/preview';
 import { IPagebuilderOutput } from 'ngx-page-builder/core';
 import { InitializeDynamicData } from '../dynamic-data/dynamic-data';
@@ -11,6 +11,7 @@ import { FilePickerService } from '../builder/file-picker.service';
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   imports: [NgxPagePreviewComponent, FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     providePagePreview({
       customSources: CustomSources,

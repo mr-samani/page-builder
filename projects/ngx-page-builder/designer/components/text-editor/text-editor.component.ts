@@ -10,6 +10,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -17,12 +18,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicAutocompleteDirective } from '../../directives/ngx-dynamic-data-autocomplete.directive';
 import { fromEvent, Subscription } from 'rxjs';
 import { DynamicDataService, PageItem, WINDOW } from 'ngx-page-builder/core';
-import { DIALOG_DATA, DIALOG_REF } from '../../extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, DynamicAutocompleteDirective],
 })
 export class TextEditorComponent implements AfterViewInit, OnDestroy {

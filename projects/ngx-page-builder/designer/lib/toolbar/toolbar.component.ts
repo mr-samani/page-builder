@@ -6,7 +6,6 @@ import { SortPageListComponent } from '../sort-page-list/sort-page-list.componen
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
 import { ExportHtmlService } from '../../services/import-export/export-html.service';
-import { Notify } from '../../extensions/notify';
 import { HistoryService } from '../../services/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
@@ -18,7 +17,8 @@ import {
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
 } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
-import { Dialog } from '../../extensions/dialog';
+import { Dialog } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
@@ -169,6 +169,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   openConfigDialog() {
     Dialog.open(ConfigDialogComponent, {
       width: '768px',
+      height: '80dvh',
     }).afterClosed.subscribe((r) => {
       this.chdRef.detectChanges();
     });

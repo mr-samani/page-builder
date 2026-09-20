@@ -8,6 +8,7 @@ import {
   Input,
   Renderer2,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {
@@ -26,6 +27,7 @@ import {
   standalone: true,
   selector: 'ngx-page-preview',
   templateUrl: './ngx-page-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./ngx-page-preview.component.scss', '../../../designer/styles/paper.scss'],
 })
 export class NgxPagePreviewComponent implements AfterViewInit {

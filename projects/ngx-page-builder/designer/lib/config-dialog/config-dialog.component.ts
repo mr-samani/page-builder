@@ -1,13 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { FormsModule } from '@angular/forms';
 import { PageBuilderConfig, PageOrientation, PageSize } from 'ngx-page-builder/core';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'app-config-dialog',
   templateUrl: './config-dialog.component.html',
   styleUrls: ['./config-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, NgxDialogModule],
 })
 export class ConfigDialogComponent implements OnInit {

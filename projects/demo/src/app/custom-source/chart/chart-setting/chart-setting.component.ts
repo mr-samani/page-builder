@@ -1,4 +1,4 @@
-import { Component, computed, inject, Inject, OnInit } from '@angular/core';
+import { Component, computed, inject, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartService } from '../chart.service';
 import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
@@ -8,6 +8,7 @@ import { IChartConfig } from '../chart-config.interface';
   selector: 'app-chart-setting',
   templateUrl: './chart-setting.component.html',
   styleUrls: ['./chart-setting.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
 })
 export class ChartSettingComponent implements OnInit {

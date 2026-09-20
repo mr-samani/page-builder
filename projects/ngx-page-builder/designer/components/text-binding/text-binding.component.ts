@@ -1,4 +1,15 @@
-import { Component, EventEmitter, inject, Inject, Injector, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Inject,
+  Injector,
+  Input,
+  OnInit,
+  Output,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
 import { FormsModule } from '@angular/forms';
@@ -10,21 +21,20 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
-import { Notify } from '../../extensions/notify';
-import {
-  DataSourceSetting,
-  DEFAULT_IMAGE_URL,
-  DynamicDataService,
-  DynamicDataStructure,
-  PageItem,
-} from 'ngx-page-builder/core';
-import { Dialog } from '../../extensions/dialog';
+import { Dialog } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
+import { DynamicDataStructure } from '../../../core/models/DynamicData';
+import { PageItem } from '../../../core/models/PageItem';
+import { DynamicDataService } from '../../../core/services/dynamic-data.service';
+import { DataSourceSetting } from '../../../core/models/DataSourceSetting';
+import { DEFAULT_IMAGE_URL } from '../../../core/consts/defaults';
 
 @Component({
   selector: 'text-binding',
   templateUrl: './text-binding.component.html',
   styleUrls: ['./text-binding.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, SvgIconDirective, SwitchComponent],
 })
 export class TextBindingComponent extends BaseComponent implements OnInit {

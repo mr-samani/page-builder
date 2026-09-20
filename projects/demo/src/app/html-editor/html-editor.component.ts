@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, inject, Inject, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, Inject, Injector, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Editor, TinyMCE } from 'tinymce';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-page-builder/designer/extensions/dialog';
+import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 
 type EditorOptions = Parameters<TinyMCE['init']>[0];
 export interface CustomButton {
@@ -17,6 +17,7 @@ export interface CustomButton {
   templateUrl: './html-editor.component.html',
   styleUrls: ['./html-editor.component.scss'],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'assets/tinymce/tinymce.min.js' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, EditorComponent, NgxDialogModule],
 })
 export class HtmlEditorComponent implements OnInit, AfterViewInit {

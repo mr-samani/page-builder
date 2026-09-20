@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">Sort Pages</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">Sort Pages</div>
+<div ngxDialogBody>
   <p>Drag and drop to reorder pages</p>
 
   <div class="list-container" ngxDropList (drop)="onDrop($event)">
@@ -8,7 +8,7 @@
     }
   </div>
 </div>
-<div ngx-dialog-footer>
+<div ngxDialogFooter>
   <button type="button" class="pb-btn" (click)="ok()">Ok</button>
   <button type="button" class="pb-btn" (click)="cancel()">Cancel</button>
 </div>

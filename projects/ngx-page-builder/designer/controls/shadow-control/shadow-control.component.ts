@@ -18,7 +18,7 @@ import { BoxShadow, formatBoxShadowToCSS, parseBoxShadow, validateColor } from '
 import { getOffsetPosition } from './get-offset-position';
 import { BaseControl } from '../base-control';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { NgxInputColor } from 'ngx-input-color/color-picker';
+import { NgxInputColor } from 'ngx-kit/color-picker';
 
 @Component({
   selector: 'shadow-control',

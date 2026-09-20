@@ -17,7 +17,6 @@ import { PageBuilderBaseComponent } from './page-builder-base-component';
 import { IStorageService } from '../services/storage/IStorageService';
 import { Subscription } from 'rxjs';
 import { SideConfigComponent } from '../components/side-config/side-config.component';
-import { NgxPgNotifyModule, Notify } from '../extensions/notify';
 import { SvgIconDirective } from '../directives/svg-icon.directive';
 import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
@@ -40,8 +39,9 @@ import {
   ICssVariable,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
-import { Dialog, NgxDialogModule } from '../extensions/dialog';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
+import { Dialog, NgxDialogModule } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   standalone: true,
@@ -54,7 +54,6 @@ import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
     ToolbarComponent,
     BlockSelectorComponent,
     SideConfigComponent,
-    NgxPgNotifyModule,
     SvgIconDirective,
     NgxDialogModule,
     BlockLayoutsComponent,

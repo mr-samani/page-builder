@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">Import Html</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">Import Html</div>
+<div ngxDialogBody>
   <tab-group>
     <tab-item title="Import from URL" [active]="true">
       <!-- Import from URL -->
@@ -110,6 +110,6 @@
     }
   </div>
 </div>
-<div ngx-dialog-footer>
+<div ngxDialogFooter>
   <button type="button" class="pb-btn" (click)="ok()" [disabled]="!result || !result.data || loading">Ok</button>
 </div>

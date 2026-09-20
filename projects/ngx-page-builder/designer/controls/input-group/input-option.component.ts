@@ -8,6 +8,7 @@ import {
   OnInit,
   Optional,
   Renderer2,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { InputGroupComponent } from './input-group.component';
 
@@ -47,6 +48,7 @@ import { InputGroupComponent } from './input-group.component';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class InputOptionComponent implements OnInit, OnDestroy {

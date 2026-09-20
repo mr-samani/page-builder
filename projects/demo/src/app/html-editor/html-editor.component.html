@@ -1,5 +1,5 @@
-<div ngx-dialog-header [showCloseButton]="true">HtmlEditor</div>
-<div ngx-dialog-body>
+<div ngxDialogHeader [showCloseButton]="true">HtmlEditor</div>
+<div ngxDialogBody>
   <editor
     [init]="tinymceInit"
     [(ngModel)]="content"
@@ -7,7 +7,7 @@
     [licenseKey]="'gpl'"
     (onInit)="onInitTinyMce($event)"></editor>
 </div>
-<div ngx-dialog-footer [align]="'space-between'">
+<div ngxDialogFooter [align]="'space-between'">
   <div>
     <button (click)="ok()" type="button" class="btn btn-primary mx-1">ok</button>
     <button (click)="cancel()" type="button" class="btn btn-warning mx-1">cancel</button>

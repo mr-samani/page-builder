@@ -4,7 +4,7 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 function addDependencies(tree: Tree, context: SchematicContext): void {
   const dependencies = [
     { name: 'ngx-drag-drop-kit', version: '^4.0.3' },
-    { name: 'ngx-input-color', version: '^4.1.2' },
+    { name: 'ngx-kit', version: '^7.4.0' },
   ];
 
   const packageJsonPath = '/package.json';

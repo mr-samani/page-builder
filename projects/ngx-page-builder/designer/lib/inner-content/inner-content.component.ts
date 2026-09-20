@@ -8,6 +8,7 @@ import {
   OnInit,
   viewChild,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
@@ -18,6 +19,7 @@ import { LibConsts } from 'ngx-page-builder/core';
   templateUrl: './inner-content.component.html',
   styleUrls: ['./inner-content.component.scss', '../../../../../node_modules/ngx-drag-drop-kit/assets/styles.css'],
   encapsulation: ViewEncapsulation.ShadowDom,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgxDragDropKitModule],
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {

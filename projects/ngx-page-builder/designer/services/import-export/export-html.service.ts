@@ -1,5 +1,5 @@
 import { DOCUMENT, Inject, Injectable } from '@angular/core';
-import { Notify } from '../../extensions/notify';
+import { Notify } from 'ngx-kit/notify';
 import { IPagebuilderOutput, PagePreviewService, downloadFile } from 'ngx-page-builder/core';
 
 @Injectable()

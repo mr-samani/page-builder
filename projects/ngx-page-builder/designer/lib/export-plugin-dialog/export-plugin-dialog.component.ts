@@ -1,17 +1,18 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
-import { Notify } from '../../extensions/notify';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { IPlugin, PageItem } from 'ngx-page-builder/core';
-import { DIALOG_DATA, DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
+import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
+import { Notify } from 'ngx-kit/notify';
 
 @Component({
   selector: 'app-export-plugin-dialog',
   templateUrl: './export-plugin-dialog.component.html',
   styleUrls: ['./export-plugin-dialog.component.scss'],
   imports: [FormsModule, NgxDialogModule, LoadingComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [PBPluginService],
 })
 export class ExportPluginDialogComponent implements OnInit {

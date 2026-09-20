@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPageBuilderHtmlEditor } from 'ngx-page-builder/designer';
 import { HtmlEditorComponent } from '../html-editor/html-editor.component';
-import { Dialog } from 'ngx-page-builder/designer/extensions/dialog';
+import { Dialog } from 'ngx-kit/dialog';
 
 @Injectable()
 export class HtmlEditorService implements IPageBuilderHtmlEditor {

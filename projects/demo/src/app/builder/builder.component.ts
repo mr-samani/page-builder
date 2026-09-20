@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DOCUMENT, inject, OnInit, viewChild } from '@angular/core';
+import { AfterViewInit, Component, DOCUMENT, inject, OnInit, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
   NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
@@ -21,6 +21,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.css'],
   imports: [NgxPageBuilder],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     providePageBuilder({
       customSources: CustomSources,

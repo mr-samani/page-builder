@@ -4,10 +4,10 @@ import { TabGroupModule } from '../../controls/tab-group/tab-group.module';
 import { CommonModule } from '@angular/common';
 import { cloneDeep, CSS_VARIABLE_REGEX, CssValueTypeList, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
-import { NgxInputColor } from 'ngx-input-color/color-picker';
+import { NgxInputColor } from 'ngx-kit/color-picker';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
-import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
+import { NgxInputGradient } from 'ngx-kit/gradient-picker';
+import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 @Component({
   selector: 'app-css-variables-dialog',
   templateUrl: './css-variables-dialog.component.html',
