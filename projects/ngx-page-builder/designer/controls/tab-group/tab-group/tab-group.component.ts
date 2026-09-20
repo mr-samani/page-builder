@@ -7,6 +7,7 @@ import {
   Input,
   Output,
   QueryList,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { TabItemComponent } from '../tab-item/tab-item.component';
 
@@ -14,6 +15,7 @@ import { TabItemComponent } from '../tab-item/tab-item.component';
   standalone: false,
   selector: 'tab-group',
   templateUrl: './tab-group.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./tab-group.component.scss'],
 })
 export class TabGroupComponent implements AfterContentInit {

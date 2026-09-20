@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DOCUMENT, inject, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, DOCUMENT, inject, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ImportHtmlService } from '../../services/import-export/import-html.service';
 import { ImportResult } from '../../services/import-export/ImportResult';
 import { ImportOptions } from '../../services/import-export/ImportOptions';
@@ -16,6 +16,7 @@ import { DIALOG_REF, NgxDialogModule } from '../../extensions/dialog';
   templateUrl: './import-dialog.component.html',
   styleUrls: ['./import-dialog.component.scss'],
   imports: [CommonModule, FormsModule, NgxDialogModule, PreviewImportTreeComponent, TabGroupModule, LoadingComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ImportHtmlService],
 })
 export class ImportDialogComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageItem } from 'ngx-page-builder/core';
 
@@ -6,6 +6,7 @@ import { PageItem } from 'ngx-page-builder/core';
   selector: 'preview-import-tree',
   templateUrl: './preview-import-tree.component.html',
   styleUrls: ['./preview-import-tree.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
 export class PreviewImportTreeComponent implements OnInit {

@@ -9,6 +9,7 @@ import {
   OnDestroy,
   ViewChild,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 declare const bootstrap: any;
 @Component({
@@ -22,6 +23,7 @@ declare const bootstrap: any;
       height: 500px;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
 export class SliderComponent implements AfterViewInit, OnDestroy {

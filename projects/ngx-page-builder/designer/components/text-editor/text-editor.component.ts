@@ -10,6 +10,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ import { DIALOG_DATA, DIALOG_REF } from '../../extensions/dialog';
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, DynamicAutocompleteDirective],
 })
 export class TextEditorComponent implements AfterViewInit, OnDestroy {

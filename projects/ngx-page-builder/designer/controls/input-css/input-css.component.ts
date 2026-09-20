@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject, input, OnInit, output } from '@angular/core';
+import { Component, forwardRef, inject, input, OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgxInputColor } from 'ngx-input-color/color-picker';
 import { NgxInputGradient } from 'ngx-input-color/gradient-picker';
@@ -14,6 +14,7 @@ import { ClassManagerService } from '../../services/class-manager.service';
   templateUrl: './input-css.component.html',
   styleUrls: ['./input-css.component.scss'],
   imports: [CommonModule, FormsModule, NgxInputColor, NgxInputGradient, MenuDialog, SvgIconDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

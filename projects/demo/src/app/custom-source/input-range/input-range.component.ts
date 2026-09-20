@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'input-range',
@@ -9,6 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <span>range:{{ value }}</span>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
       display: block;

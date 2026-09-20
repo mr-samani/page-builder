@@ -1,10 +1,20 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDataStructure } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'data-source-selector',
   templateUrl: './data-source-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
 })
 export class DataSourceSelectorComponent implements OnInit {

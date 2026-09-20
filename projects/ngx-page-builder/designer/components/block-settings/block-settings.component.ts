@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, effect, Injector, OnInit, Type, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
@@ -11,6 +11,7 @@ import { Dialog } from '../../extensions/dialog';
   templateUrl: './block-settings.component.html',
   styleUrls: ['./block-settings.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, TextBindingComponent, EditLinkComponent],
 })
 export class BlockSettingsComponent extends BaseComponent implements OnInit {

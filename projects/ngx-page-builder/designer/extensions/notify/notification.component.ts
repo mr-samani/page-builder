@@ -1,8 +1,19 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject, DOCUMENT, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef,
+  Inject,
+  DOCUMENT,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgxPgNotifyPayload } from './notify.model';
 
 @Component({
   selector: 'ngx-pg-notification',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       class="{{ containerClass }} {{ containerClass }}-{{ payload.type }}"

@@ -1,4 +1,15 @@
-import { Component, EventEmitter, inject, Inject, Injector, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Inject,
+  Injector,
+  Input,
+  OnInit,
+  Output,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
 import { FormsModule } from '@angular/forms';
@@ -25,6 +36,7 @@ import { Dialog } from '../../extensions/dialog';
   templateUrl: './text-binding.component.html',
   styleUrls: ['./text-binding.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, SvgIconDirective, SwitchComponent],
 })
 export class TextBindingComponent extends BaseComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, Injector, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { LibConsts, PageItem, Page } from 'ngx-page-builder/core';
@@ -9,6 +9,7 @@ import { PageBuilderBaseComponent } from '../page-builder-base-component';
   templateUrl: './block-layouts.component.html',
   styleUrls: ['./block-layouts.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SvgIconDirective],
 })
 export class BlockLayoutsComponent extends PageBuilderBaseComponent implements OnInit, OnDestroy {

@@ -1,11 +1,12 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragDropModule],
 })
 export class TestComponent implements OnInit {

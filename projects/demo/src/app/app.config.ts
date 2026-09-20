@@ -3,14 +3,14 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHighcharts } from 'highcharts-angular';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
       instance: () => import('highcharts'),

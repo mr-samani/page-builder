@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import { ChartService } from './chart.service';
 import { COMPONENT_DATA, ComponentDataContext } from 'ngx-page-builder/core';
@@ -10,6 +10,7 @@ import { IChartConfig } from './chart-config.interface';
   standalone: true,
   imports: [HighchartsChartComponent],
   providers: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
       display: block;

@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicDataStructure, IPagebuilderOutput, LibConsts, ViewMode } from 'ngx-page-builder/core';
@@ -22,6 +23,7 @@ import { DIALOG_DATA, NgxDialogModule } from '../../extensions/dialog';
   templateUrl: './preview-dialog.component.html',
   styleUrls: ['./preview-dialog.component.scss'],
   imports: [FormsModule, NgxDialogModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [],
 })
 export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
