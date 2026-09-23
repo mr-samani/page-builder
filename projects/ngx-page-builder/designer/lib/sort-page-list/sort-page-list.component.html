@@ -1,5 +1,5 @@
 <div ngxDialogHeader [showCloseButton]="true">Sort Pages</div>
-<div ngxDialogBody>
+<div ngxDialogBody ngxDropListGroup>
   <p>Drag and drop to reorder pages</p>
 
   <div class="list-container" ngxDropList (drop)="onDrop($event)">

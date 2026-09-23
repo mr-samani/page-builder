@@ -4,13 +4,13 @@
   "peerDependencies": {
     "@angular/common": ">=21.0.0",
     "@angular/core": ">=21.0.0",
-    "ngx-kit": ">=7.0.0"
+    "ngx-kit": ">=8.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "peerDependenciesMeta": {
-    "ngx-drag-drop-kit": {
+    "ngx-kit": {
       "optional": true
     }
   },

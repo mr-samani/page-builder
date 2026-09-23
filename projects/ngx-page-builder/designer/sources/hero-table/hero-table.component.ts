@@ -15,7 +15,6 @@ import {
 } from '@angular/core';
 import { debounceTime, Subscription } from 'rxjs';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 
 import { BlockHelper } from '../../helper/BlockHelper';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
@@ -43,7 +42,7 @@ import {
   templateUrl: './hero-table.component.html',
   styleUrls: ['./hero-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NgxDragDropKitModule, SvgIconDirective],
+  imports: [CommonModule, SvgIconDirective],
   encapsulation: ViewEncapsulation.None,
 })
 export class HeroTableComponent implements OnInit, AfterViewInit {

@@ -11,16 +11,16 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
-import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { LibConsts } from 'ngx-page-builder/core';
+import { NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
 
 @Component({
   selector: 'inner-content',
   templateUrl: './inner-content.component.html',
-  styleUrls: ['./inner-content.component.scss', '../../../../../node_modules/ngx-drag-drop-kit/assets/styles.css'],
+  styleUrls: ['./inner-content.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgxDragDropKitModule],
+  imports: [NgxDropList, NgxDropListGroup],
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
   containerClassName = '';

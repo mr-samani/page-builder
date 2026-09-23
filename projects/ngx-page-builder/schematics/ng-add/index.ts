@@ -2,10 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 function addDependencies(tree: Tree, context: SchematicContext): void {
-  const dependencies = [
-    { name: 'ngx-drag-drop-kit', version: '^4.0.3' },
-    { name: 'ngx-kit', version: '^7.4.0' },
-  ];
+  const dependencies = [{ name: 'ngx-kit', version: '^8.0.0' }];
 
   const packageJsonPath = '/package.json';
   if (!tree.exists(packageJsonPath)) {

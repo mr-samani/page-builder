@@ -1,4 +1,8 @@
-<div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName" [attr.dir]="pb.pageInfo.config.direction">
+<div
+  [hidden]="pb.currentPageIndex() < 0"
+  [class]="containerClassName"
+  [attr.dir]="pb.pageInfo.config.direction"
+  ngxDropListGroup>
   @if (viewMode == 'PrintPage') {
     <div
       class="page-header"
@@ -31,7 +35,7 @@
       id="NgxPageBuilderBody"
       [class.show-outlines]="pb.showOutlines()"
       ngxDropList
-      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0)?.children"
+      [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0)?.children ?? []"
       (drop)="pb.onDrop($event, pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0))"></div>
   }
 </div>

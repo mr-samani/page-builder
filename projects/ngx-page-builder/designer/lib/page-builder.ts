@@ -10,7 +10,6 @@ import {
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { PageBuilderBaseComponent } from './page-builder-base-component';
@@ -42,6 +41,7 @@ import { ClassManagerService } from '../services/class-manager.service';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
 import { Dialog, NgxDialogModule } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
+import { NgxDropList } from 'ngx-kit/drag-resize';
 
 @Component({
   standalone: true,
@@ -49,8 +49,8 @@ import { Notify } from 'ngx-kit/notify';
   templateUrl: './page-builder.html',
   styleUrls: ['./page-builder.scss', '../styles/paper.scss', '../styles/inputs.scss'],
   imports: [
+    NgxDropList,
     InnerContentComponent,
-    NgxDragDropKitModule,
     ToolbarComponent,
     BlockSelectorComponent,
     SideConfigComponent,

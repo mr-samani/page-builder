@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, DOCUMENT, HostListener, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgxDraggableDirective } from 'ngx-drag-drop-kit';
+import { NgxDraggable } from 'ngx-kit/drag-resize';
 import { PageItem } from 'ngx-page-builder/core';
 
 @Directive({
@@ -9,7 +9,7 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
   @Input() pageItem!: PageItem;
 
   doc = inject(DOCUMENT);
-  dragDir?: NgxDraggableDirective;
+  dragDir?: NgxDraggable;
 
   private previousContent?: string = '';
   private keydownHandler!: (ev: KeyboardEvent) => void;
@@ -25,7 +25,7 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
 
     this.pageItem.el.addEventListener('dblclick', this.dblClickHandler);
 
-    this.dragDir = (this.pageItem.el as any)?.__ngDirectives__?.find((x: any) => x instanceof NgxDraggableDirective);
+    this.dragDir = (this.pageItem.el as any)?.__ngDirectives__?.find((x: any) => x instanceof NgxDraggable);
   }
 
   ngOnDestroy(): void {
@@ -40,7 +40,7 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     if (!this.pageItem.el) return;
 
     this.pageItem.el.contentEditable = 'true';
-    this.dragDir && (this.dragDir.disabled = true);
+    this.dragDir && this.dragDir.disabled.set(true);
     this.pageItem.el.focus();
 
     this.previousContent = this.pageItem.content;
@@ -60,7 +60,7 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
 
     this.pageItem.content = this.pageItem.el.innerHTML;
     this.pageItem.el.removeAttribute('contentEditable');
-    this.dragDir && (this.dragDir.disabled = false);
+    this.dragDir && this.dragDir.disabled.set(false);
     this.pageItem.el.removeEventListener('keydown', this.keydownHandler);
     this.doc.removeEventListener('click', this.documentClickHandler);
   }

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { IDropEvent, moveItemInArray, NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { Page } from 'ngx-page-builder/core';
 import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
+import { moveItemInArray, NgxDropList, IDropEvent, NgxDropListGroup } from 'ngx-kit/drag-resize';
 
 @Component({
   selector: 'app-sort-page-list',
@@ -10,7 +10,7 @@ import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
   styleUrls: ['./sort-page-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgxDialogModule, NgxDragDropKitModule],
+  imports: [NgxDialogModule, NgxDropList, NgxDropListGroup],
 })
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];

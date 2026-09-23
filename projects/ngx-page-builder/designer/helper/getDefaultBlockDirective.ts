@@ -1,12 +1,12 @@
-import { NgxDraggableDirective, NgxDropListDirective, IDropEvent } from 'ngx-drag-drop-kit';
 import { Directive, PageItem } from 'ngx-page-builder/core';
 import { InlineEditTextDirective } from '../directives/inline-edit-text.directive';
+import { NgxDraggable, NgxDropList, IDropEvent } from 'ngx-kit/drag-resize';
 
 export function getDefaultBlockDirective(pageItem: PageItem, onDropFn: Function) {
   return new Promise<Directive[]>((resolve, reject) => {
-    // حتما باید برای همه المان ها NgxDraggableDirective اضاف شود در غیر اینصورت در جابجایی ایتم ها ایندکس اشتباه خواهد بود
-    // حتی اگر disableMovement باشد باید NgxDraggableDirective اضافه شود
-    let dir: Directive[] = [{ directive: NgxDraggableDirective }];
+    // حتما باید برای همه المان ها NgxDraggable اضاف شود در غیر اینصورت در جابجایی ایتم ها ایندکس اشتباه خواهد بود
+    // حتی اگر disableMovement باشد باید NgxDraggable اضافه شود
+    let dir: Directive[] = [{ directive: NgxDraggable }];
     if (isTextBlock(pageItem) == true) {
       dir.push({
         directive: InlineEditTextDirective,
@@ -19,7 +19,7 @@ export function getDefaultBlockDirective(pageItem: PageItem, onDropFn: Function)
       dir = [
         ...dir,
         {
-          directive: NgxDropListDirective,
+          directive: NgxDropList,
           inputs: {
             data: pageItem.children,
             // must be check in ondrop event

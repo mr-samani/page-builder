@@ -7,7 +7,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgxDragDropKitModule } from 'ngx-drag-drop-kit';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageItem } from 'ngx-page-builder/core';
@@ -16,7 +15,7 @@ import { PageItem } from 'ngx-page-builder/core';
   selector: 'page-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
-  imports: [NgxDragDropKitModule, SvgIconDirective],
+  imports: [SvgIconDirective],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
