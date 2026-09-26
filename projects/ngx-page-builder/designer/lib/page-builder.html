@@ -1,6 +1,6 @@
-<div class="page-builder-container ngx-page-builder" dir="ltr">
+<div class="page-builder-container ngx-page-builder" dir="ltr" ngxDropListGroup>
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
-  <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="true">
+  <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="false">
     <div class="tool" (click)="toggleLayoutPanel()" title="Layouts" [class.active]="openLayout()">
       <svg Icon="assets/icons/layout.svg"></svg>
     </div>
@@ -10,7 +10,7 @@
       <svg Icon="assets/icons/hexagon-plus.svg"></svg>
     </div>
     } @for (item of pb.sources; track $index) {
-    <div class="tool" ngxDraggable [title]="item.title">
+    <div class="tool" ngxDraggable [title]="item.title" (dblclick)="addItem(item)">
       <svg [Icon]="item.icon"></svg>
     </div>
     }

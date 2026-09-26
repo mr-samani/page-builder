@@ -36,12 +36,13 @@ import {
   CustomToolbarButtons,
   CMSPage,
   ICssVariable,
+  SourceItem,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
 import { Dialog, NgxDialogModule } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDropList } from 'ngx-kit/drag-resize';
+import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
 
 @Component({
   standalone: true,
@@ -50,6 +51,7 @@ import { NgxDropList } from 'ngx-kit/drag-resize';
   styleUrls: ['./page-builder.scss', '../styles/paper.scss', '../styles/inputs.scss'],
   imports: [
     NgxDropList,
+    NgxDraggable,
     InnerContentComponent,
     ToolbarComponent,
     BlockSelectorComponent,
@@ -57,6 +59,7 @@ import { NgxDropList } from 'ngx-kit/drag-resize';
     SvgIconDirective,
     NgxDialogModule,
     BlockLayoutsComponent,
+    NgxDropListGroup,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -424,5 +427,9 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         reject(error);
       }
     });
+  }
+
+  async addItem(item: SourceItem) {
+    await this.pb.addBlockToBody(item);
   }
 }

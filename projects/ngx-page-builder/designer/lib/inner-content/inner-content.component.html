@@ -1,8 +1,4 @@
-<div
-  [hidden]="pb.currentPageIndex() < 0"
-  [class]="containerClassName"
-  [attr.dir]="pb.pageInfo.config.direction"
-  ngxDropListGroup>
+<div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName" [attr.dir]="pb.pageInfo.config.direction">
   @if (viewMode == 'PrintPage') {
     <div
       class="page-header"

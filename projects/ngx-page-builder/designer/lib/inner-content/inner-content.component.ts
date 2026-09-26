@@ -1,18 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  DOCUMENT,
-  ElementRef,
-  inject,
-  Injector,
-  OnInit,
-  viewChild,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
-import { NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
+import { NgxDropList } from 'ngx-kit/drag-resize';
 
 @Component({
   selector: 'inner-content',
@@ -20,7 +9,7 @@ import { NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
   styleUrls: ['./inner-content.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgxDropList, NgxDropListGroup],
+  imports: [NgxDropList],
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
   containerClassName = '';

@@ -178,6 +178,22 @@ export class PageBuilderService implements OnDestroy {
     this.onPageChange$.next(this.currentPage);
   }
 
+  public async addBlockToBody(item: SourceItem) {
+    const body = this.pageInfo.pages[this.currentPageIndex()].bodyItems.at(0);
+    if (!body) {
+      throw () => 'Body not found!';
+    }
+
+    const source = new PageItem(item);
+    source.children = []; // very important to create reference to droplist data
+    await this.createBlockElement(true, source, body.el, body.children.length);
+    body.children.push(source);
+    this.selectBlock(source);
+    this.updateChangeDetection({ item: source, type: 'AddBlock' });
+
+    this.history.saveAdd('', body.children.length - 1, source, `Add block'${source.id}' to 'body'`);
+  }
+
   /**
    * in collection item list only can move element in inner self template
    * @param source current drag item
@@ -408,9 +424,10 @@ export class PageBuilderService implements OnDestroy {
    */
   findRootParentItem(item: PageItem) {
     const page = this.pageInfo.pages[this.currentPageIndex()];
-    for (let p of page.headerItems) if (p.id == item.id) return page.headerItems;
-    for (let p of page.bodyItems) if (p.id == item.id) return page.bodyItems;
-    for (let p of page.footerItems) if (p.id == item.id) return page.footerItems;
+    const findExp = (children: PageItem[], id: string) => children.findIndex((x) => x.id == id) > -1;
+    for (let p of page.headerItems) if (findExp(p.children, item.id)) return page.headerItems;
+    for (let p of page.bodyItems) if (findExp(p.children, item.id)) return page.bodyItems;
+    for (let p of page.footerItems) if (findExp(p.children, item.id)) return page.footerItems;
     return undefined;
   }
 
