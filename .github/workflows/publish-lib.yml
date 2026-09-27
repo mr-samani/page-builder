@@ -27,7 +27,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm ci -d
+        run: npm ci
 
       - name: Determine if version changed
         id: check

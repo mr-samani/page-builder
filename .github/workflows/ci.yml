@@ -20,7 +20,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci -d
+        run: npm ci
 
       # - name: Lint (در صورت وجود اسکریپت lint)
       #   run: npm run lint --if-present
