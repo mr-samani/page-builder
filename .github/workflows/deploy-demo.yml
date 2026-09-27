@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Build demo
-        run: npx ng build demo --configuration production --base-href /ngx-page-builder/
+        run: npx ng build demo --configuration production --base-href /page-builder/
 
       - name: Copy index.html to 404.html (SPA fallback)
         run: cp dist/demo/browser/index.html dist/demo/browser/404.html
