@@ -1,4 +1,4 @@
-import { WEB_BODY_BLOCK } from 'ngx-page-builder/designer/sources/WEB_BODY_BLOCK';
+import { WEB_BODY_BLOCK } from '../consts/WEB_BODY_BLOCK';
 import { LibConsts } from '../consts/LibConsts';
 import { IPageBuilderDto } from '../contracts/IPageBuilderDto';
 import { Page } from './Page';

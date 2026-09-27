@@ -1,4 +1,4 @@
-import { PageItem } from 'ngx-page-builder/core';
+import { PageItem } from '../models/PageItem';
 
 export const WEB_BODY_BLOCK: PageItem = new PageItem({
   tag: 'body',

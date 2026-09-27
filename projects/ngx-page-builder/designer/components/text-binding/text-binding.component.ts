@@ -23,11 +23,13 @@ import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.h
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
 import { Dialog } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { DynamicDataStructure } from '../../../core/models/DynamicData';
-import { PageItem } from '../../../core/models/PageItem';
-import { DynamicDataService } from '../../../core/services/dynamic-data.service';
-import { DataSourceSetting } from '../../../core/models/DataSourceSetting';
-import { DEFAULT_IMAGE_URL } from '../../../core/consts/defaults';
+import {
+  DataSourceSetting,
+  DEFAULT_IMAGE_URL,
+  DynamicDataService,
+  DynamicDataStructure,
+  PageItem,
+} from 'ngx-page-builder/core';
 
 @Component({
   selector: 'text-binding',
