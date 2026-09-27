@@ -32,7 +32,7 @@ jobs:
       - name: Determine if version changed
         id: check
         run: |
-          LOCAL_VERSION=$(node -p "require('./projects/libs/package.json').version")
+          LOCAL_VERSION=$(node -p "require('./projects/ngx-page-builder/package.json').version")
           echo "version=$LOCAL_VERSION" >> "$GITHUB_OUTPUT"
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -49,10 +49,10 @@ jobs:
       - name: Publish to npm
         if: steps.check.outputs.changed == 'true'
         run: |
-          if [ -f "./dist/page-builder/package.json" ]; then
-            name=$(node -p "require('./dist/page-builder/package.json').name")
-            echo "Publishing $name from ./dist/page-builder ..."
-            npm publish "./dist/page-builder" --access public
+          if [ -f "./dist/ngx-page-builder/package.json" ]; then
+            name=$(node -p "require('./dist/ngx-page-builder/package.json').name")
+            echo "Publishing $name from ./dist/ngx-page-builder ..."
+            npm publish "./dist/ngx-page-builder" --access public
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
