@@ -6,6 +6,12 @@
     [style.width.px]="width"
     [style.height.px]="height">
     <div class="actions" [class.bottom]="showInBottom">
+      <!-- @if (!item.disableMovement) {
+        <span type="button" dragHandle>
+          <svg Icon="assets/icons/grip-dots.svg"></svg>
+        </span>
+      } -->
+
       @if (item.parent) {
         <button type="button" (click)="selectParent($event)" title="Parent">
           <svg Icon="assets/icons/arrow-turn-up.svg"></svg>

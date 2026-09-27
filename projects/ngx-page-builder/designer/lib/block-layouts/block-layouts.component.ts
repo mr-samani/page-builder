@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
-import { LibConsts, PageItem, Page } from 'ngx-page-builder/core';
+import { PageItem, Page } from 'ngx-page-builder/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
+import { NgxDropListGroup, NgxDraggable, NgxDropList, type IDropEvent, transferArrayItem } from 'ngx-kit/drag-resize';
+import { HistoryService } from '../../services/history.service';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',
   styleUrls: ['./block-layouts.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SvgIconDirective],
+  imports: [CommonModule, SvgIconDirective, NgxDropListGroup, NgxDraggable, NgxDropList],
 })
 export class BlockLayoutsComponent extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   currentPageHeaderItems: PageItem[] = [];
   currentPageFooterItems: PageItem[] = [];
   currentPageBodyItems: PageItem[] = [];
   pagebuiderChangeSubscription: Subscription;
+  protected readonly history = inject(HistoryService);
   constructor() {
     super();
     effect(() => {
@@ -70,5 +73,34 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent implements O
     if (item.parent) {
       this.openToParent(item.parent);
     }
+  }
+
+  async onDrop(ev: IDropEvent<PageItem[]>, parent?: PageItem) {
+    const dragItem = ev.previousContainer.data?.[ev.previousIndex];
+    const containerEl = parent?.el;
+    if (!dragItem || !containerEl || !ev.previousContainer.data || !ev.container.data) {
+      return;
+    }
+    // transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
+    await this.pb.removeBlock(dragItem);
+    dragItem.parent = parent;
+    await this.pb.createBlockElement(true, dragItem, containerEl, ev.currentIndex);
+    ev.container.data.splice(ev.currentIndex, 0, dragItem);
+
+    this.pb.updateChangeDetection({
+      item: dragItem,
+      parent: ev.container.data,
+      type: 'MoveBlock',
+    });
+
+    this.history.saveMove(
+      dragItem.id,
+      dragItem.parent?.id,
+      ev.previousIndex,
+      ev.container.data?.[ev.currentIndex]?.parent?.id,
+      ev.currentIndex,
+      dragItem,
+      `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${dragItem?.parent?.id}'`,
+    );
   }
 }

@@ -1,4 +1,4 @@
-<div class="pb-inner">
+<div class="pb-inner" ngxDropListGroup>
   @if (viewMode == 'PrintPage') {
     <div class="title">Header</div>
     <ng-container
@@ -17,10 +17,10 @@
   }
 </div>
 
-<ng-template #treeLayout let-list let-isOpen="isOpen">
-  <ul class="tree-list" [class.is-open]="isOpen">
+<ng-template #treeLayout let-list let-isOpen="isOpen" let-parent="parent">
+  <ul class="tree-list" [class.is-open]="isOpen" ngxDropList (drop)="onDrop($event, parent)" [data]="list">
     @for (item of list; track $index) {
-      <li (click)="onSelectBlock($event, item)" [class.active]="pb.activeEl() == item">
+      <li (click)="onSelectBlock($event, item)" [class.active]="pb.activeEl() == item" ngxDraggable>
         <div>
           @if (item.children && item.children.length > 0) {
             <button type="button" (click)="item.isOpen = !item.isOpen">
@@ -35,7 +35,10 @@
         </div>
         @if (item.children && item.children.length > 0) {
           <ng-container
-            *ngTemplateOutlet="treeLayout; context: { $implicit: item.children, isOpen: item.isOpen }"></ng-container>
+            *ngTemplateOutlet="
+              treeLayout;
+              context: { $implicit: item.children, isOpen: item.isOpen, parent: item }
+            "></ng-container>
         }
       </li>
     }
