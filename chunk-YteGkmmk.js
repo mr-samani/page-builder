@@ -1,0 +1,1 @@
+import{t as R}from"./chunk-As3DBvyx.js";async function r(n,e){let o=e.type;if(o===`svg`){let t=decodeURIComponent(n.split(`,`)[1]);return new Blob([t],{type:`image/svg+xml`})}let i=await R(n,e);return new Promise(t=>i.toBlob(l=>t(l),`image/${o}`,e.quality))}export{r as t};

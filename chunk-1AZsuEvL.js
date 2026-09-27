@@ -1,0 +1,1 @@
+import{t as R}from"./chunk-As3DBvyx.js";async function o(r,t){let a=await R(r,t),e=new Image;return e.src=a.toDataURL(`image/${t.format}`,t.quality),await e.decode(),e.style.width=`${a.width/t.dpr}px`,e.style.height=`${a.height/t.dpr}px`,e}export{o as t};
