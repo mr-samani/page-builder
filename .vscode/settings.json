@@ -15,7 +15,6 @@
     "**/node_modules/**": true,
     "**/dist/**": true,
     "**/.junie/**": true,
-    "**/.github/**": true,
     "**/.gemini/**": true,
     "**/.cursor/**": true,
     "**/.claude/**": true,
