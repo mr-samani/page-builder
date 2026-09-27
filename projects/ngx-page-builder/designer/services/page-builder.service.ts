@@ -18,7 +18,7 @@ import {
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
-import type { IDropEvent } from 'ngx-kit/drag-resize';
+import { IDropEvent } from 'ngx-kit/drag-resize';
 
 export interface PageItemChange {
   item: PageItem | null;
@@ -529,7 +529,6 @@ export class PageBuilderService implements OnDestroy {
 
   async addBlockToCurrentPage(p: IPageItem) {
     try {
-      debugger;
       let item = PageItem.fromJSON(p);
       let activeBlock = this.activeEl();
 

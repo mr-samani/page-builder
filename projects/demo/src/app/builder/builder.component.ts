@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, DOCUMENT, inject, OnInit, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DOCUMENT,
+  inject,
+  OnInit,
+  viewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
   NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
@@ -30,6 +39,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
       enableShotcuts: true,
       showPlugins: true,
       canDeletePlugin: true,
+      enableHistory: true,
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: true,
@@ -58,6 +68,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
 export class BuilderComponent implements OnInit, AfterViewInit {
   private readonly doc = inject(DOCUMENT);
   private readonly router = inject(Router);
+  private readonly chdr = inject(ChangeDetectorRef);
   private readonly dynamicDatainitializer = inject(InitializeDynamicData);
 
   pb = viewChild<NgxPageBuilder>('pageBuilder');
@@ -180,14 +191,18 @@ export class BuilderComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit() {
-    try {
-      const savedData = localStorage.getItem('page');
-      const parsed = JSON.parse(savedData || '{}');
-      this.data = parsed?.data ?? [];
-      this.config = parsed?.config;
-      this.styles = parsed?.styles;
-      this.cssVariables = parsed.cssVariables;
-    } catch (error) {}
+    setTimeout(() => {
+      try {
+        const savedData = localStorage.getItem('page');
+        const parsed = JSON.parse(savedData || '{}');
+        this.data = parsed?.data ?? [];
+        this.config = parsed?.config;
+        this.styles = parsed?.styles;
+        this.cssVariables = parsed.cssVariables;
+
+        this.chdr.markForCheck();
+      } catch (error) {}
+    }, 1000);
   }
   ngAfterViewInit(): void {
     this.doc.querySelector('ngx-page-builder')?.scrollIntoView();

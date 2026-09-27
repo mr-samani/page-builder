@@ -28,11 +28,11 @@ export class PageBuilderDto implements IPageBuilderDto {
     } else {
       page = data.at(0)!;
     }
-
     let firstBlock: PageItem | undefined = page.bodyItems.at(0);
     if (firstBlock) {
       if (firstBlock.tag.toLowerCase() != WEB_BODY_BLOCK.tag.toLowerCase()) {
-        bodyBlock.children = page.bodyItems.map((x) => (x.parent = bodyBlock));
+        page.bodyItems.forEach((x) => (x.parent = bodyBlock));
+        bodyBlock.children = page.bodyItems;
         page.bodyItems = [bodyBlock];
       } else {
         // todo merge WEB_BODY_BLOCK with saved body
