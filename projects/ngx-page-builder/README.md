@@ -1,5 +1,5 @@
 # PageBuilder
 
-## This package is Expremental!
+## This package is Experimental!
 
 ### _>> DO NOT USE THIS LIBRARY <<_
