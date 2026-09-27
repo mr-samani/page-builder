@@ -1,7 +1,7 @@
 import { DOCUMENT, ElementRef, inject, Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
-import { HistoryService } from './history.service';
+import { HistoryService } from './history/history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {

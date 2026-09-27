@@ -191,18 +191,18 @@ export class BuilderComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit() {
-    setTimeout(() => {
-      try {
-        const savedData = localStorage.getItem('page');
-        const parsed = JSON.parse(savedData || '{}');
-        this.data = parsed?.data ?? [];
-        this.config = parsed?.config;
-        this.styles = parsed?.styles;
-        this.cssVariables = parsed.cssVariables;
+    //  setTimeout(() => {
+    try {
+      const savedData = localStorage.getItem('page');
+      const parsed = JSON.parse(savedData || '{}');
+      this.data = parsed?.data ?? [];
+      this.config = parsed?.config;
+      this.styles = parsed?.styles;
+      this.cssVariables = parsed.cssVariables;
 
-        this.chdr.markForCheck();
-      } catch (error) {}
-    }, 1000);
+      this.chdr.markForCheck();
+    } catch (error) {}
+    // }, 1000);
   }
   ngAfterViewInit(): void {
     this.doc.querySelector('ngx-page-builder')?.scrollIntoView();

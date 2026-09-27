@@ -1,0 +1,8 @@
+<p>history</p>
+
+@for (item of list; track $index) {
+  <div class="list-item" [attr.data.el-id]="item.id">
+    {{ item.itemSnapshot?.tag || item.prevSnapshot?.tag }}
+    <span>{{ item.action }}</span>
+  </div>
+}

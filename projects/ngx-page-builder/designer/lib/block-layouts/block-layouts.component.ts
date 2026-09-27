@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { PageItem, Page } from 'ngx-page-builder/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDropListGroup, NgxDraggable, NgxDropList, type IDropEvent, transferArrayItem } from 'ngx-kit/drag-resize';
-import { HistoryService } from '../../services/history.service';
+import { HistoryService } from '../../services/history/history.service';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, Injector, Input, OnInit } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
 import { ConfigDialogComponent } from '../config-dialog/config-dialog.component';
@@ -6,7 +6,7 @@ import { SortPageListComponent } from '../sort-page-list/sort-page-list.componen
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
 import { ExportHtmlService } from '../../services/import-export/export-html.service';
-import { HistoryService } from '../../services/history.service';
+import { HistoryService } from '../../services/history/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import {
@@ -19,6 +19,8 @@ import {
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
+import { OverlayService } from 'ngx-kit/core';
+import { HistoryComponent } from '../history/history.component';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
@@ -29,17 +31,16 @@ import { Notify } from 'ngx-kit/notify';
   providers: [ExportHtmlService],
 })
 export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit {
+  protected readonly previewService = inject(PagePreviewService);
+  protected readonly exporter = inject(ExportHtmlService);
+  protected readonly history = inject(HistoryService);
+  protected readonly overlay = inject(OverlayService);
   @Input() customToolbarButtons: CustomToolbarButtons[] = [];
   pageNumber: number = 1;
   enableHistory = LibConsts.enableHistory;
   toolbarConfig = LibConsts.toolbarConfig;
 
-  constructor(
-    private exporter: ExportHtmlService,
-
-    public history: HistoryService,
-    private previewService: PagePreviewService,
-  ) {
+  constructor() {
     super();
     effect(() => {
       this.pageNumber = this.pb.currentPageIndex() + 1;
@@ -61,6 +62,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     if (!this.pb.currentPage) {
       return;
     }
+    debugger;
     let blocks = this.pb.currentPage.bodyItems;
     blocks = this.history.undo(blocks);
     this.pb.updatePage(blocks);
@@ -74,8 +76,11 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     this.pb.updatePage(blocks);
   }
 
-  getHistory() {
-    console.log(this.history.getHistory());
+  getHistory(ev: Event) {
+    this.overlay.open({
+      component: HistoryComponent,
+      anchor: ev.currentTarget as any,
+    });
   }
 
   changePage() {
