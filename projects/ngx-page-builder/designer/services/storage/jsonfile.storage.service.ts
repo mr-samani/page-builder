@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IStorageService } from './IStorageService';
 import { PageBuilderService } from '../page-builder.service';
-import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
+import { serializeData } from '../../helper/prepare-page-builder-data';
 import { FileSelectionError, FileSelectionException, FileSelector } from '../../helper/FileSelector';
-import { IPagebuilderOutput, PageBuilderDto, downloadFile } from 'ngx-page-builder/core';
+import { IPagebuilderOutput, downloadFile } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
@@ -50,8 +50,8 @@ export class JsonFileStorageService implements IStorageService {
 
   async saveData(): Promise<boolean> {
     try {
-      const sanitized = await preparePageDataForSave(this.pb);
-      const json = JSON.stringify(sanitized, null, 2);
+      const sanitized = await serializeData(this.pb);
+      const json = sanitized; // JSON.stringify(sanitized, null, 2);
       downloadFile(json, 'page-data.json', 'application/json');
       return true;
     } catch (error) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Notify } from 'ngx-kit/notify';
 import { IPagebuilderOutput, PageBuilderConfig } from 'ngx-page-builder/core';
-import { IStorageService, PageBuilderService, preparePageDataForSave } from 'ngx-page-builder/designer';
+import { IStorageService, PageBuilderService, serializeData } from 'ngx-page-builder/designer';
 
 @Injectable()
 export class LocalStoreService implements IStorageService {
@@ -27,7 +27,7 @@ export class LocalStoreService implements IStorageService {
 
   async saveData(): Promise<boolean> {
     try {
-      const sanitized = await preparePageDataForSave(this.pb);
+      const sanitized = await serializeData(this.pb);
       const result = JSON.stringify(sanitized);
       localStorage.setItem('page', result);
       return true;

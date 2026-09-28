@@ -1,6 +1,6 @@
-import { HistoryOperation, HistoryPosition, HistorySubtree } from './types';
+import { HistoryOperation } from './types';
 
-export function invertOperation(operation: HistoryOperation): HistoryOperation {
+export function invertOperation(operation: HistoryOperation<any>): HistoryOperation<any> {
   switch (operation.type) {
     case 'set':
       return { ...operation, before: operation.after, after: operation.before };
@@ -9,29 +9,19 @@ export function invertOperation(operation: HistoryOperation): HistoryOperation {
     case 'remove':
       return { ...operation, type: 'insert' };
     case 'move':
-      return { ...operation, from: operation.to, to: operation.from };
+      return { ...operation, fromIndex: operation.toIndex, toIndex: operation.fromIndex };
   }
 }
 
-export function isNoop(operation: HistoryOperation): boolean {
+export function isNoop(operation: any): boolean {
   if (operation.type === 'set')
     return serializeHistoryValue(operation.before) === serializeHistoryValue(operation.after);
-  return (
-    operation.type === 'move' &&
-    operation.from.parentId === operation.to.parentId &&
-    operation.from.index === operation.to.index
-  );
+  return operation.type === 'move' && operation.fromIndex === operation.toIndex && operation.node === operation.node;
 }
 
-export function validateOperation(operation: HistoryOperation): void {
-  const position = (value: HistoryPosition) => {
-    if (
-      !value ||
-      (value.parentId !== null && (typeof value.parentId !== 'string' || !value.parentId)) ||
-      !Number.isSafeInteger(value.index) ||
-      value.index < 0
-    )
-      throw new TypeError('Invalid history position.');
+export function validateOperation(operation: HistoryOperation<any>): void {
+  const position = (value?: number) => {
+    if (!value || !Number.isSafeInteger(value) || value < 0) throw new TypeError('Invalid history position.');
   };
   const id = (value: string) => {
     if (typeof value !== 'string' || !value) throw new TypeError('A stable nonempty ID is required.');
@@ -40,12 +30,7 @@ export function validateOperation(operation: HistoryOperation): void {
   switch (operation.type) {
     case 'set':
       id(operation.id);
-      if (
-        !Array.isArray(operation.path) ||
-        !operation.path.length ||
-        operation.path.some((key) => typeof key !== 'string' || ['__proto__', 'prototype', 'constructor'].includes(key))
-      )
-        throw new TypeError('Invalid property path.');
+
       for (const state of [operation.before, operation.after]) {
         if (!state || typeof state.exists !== 'boolean' || (state.exists && !Object.hasOwn(state, 'value')))
           throw new TypeError('Invalid property state.');
@@ -53,70 +38,125 @@ export function validateOperation(operation: HistoryOperation): void {
       return;
     case 'insert':
     case 'remove':
-      position(operation.position);
+      position(operation.index);
       validateSubtree(operation.node);
       return;
     case 'move':
       id(operation.id);
-      position(operation.from);
-      position(operation.to);
+      position(operation.fromIndex);
+      position(operation.toIndex);
       return;
     default:
       throw new TypeError('Unknown history operation.');
   }
 }
 
-export function validateSubtree(node: HistorySubtree, ids = new Set<string>()): void {
+export function validateSubtree(node: any, ids = new Set<string>()): void {
   if (!node || typeof node.id !== 'string' || !node.id || ids.has(node.id))
     throw new TypeError('Missing or duplicate node ID.');
   ids.add(node.id);
-  if (
-    !node.properties ||
-    typeof node.properties !== 'object' ||
-    Array.isArray(node.properties) ||
-    !Array.isArray(node.children)
-  ) {
+  if (!Array.isArray(node.children)) {
     throw new TypeError('A node requires a properties object and children array.');
   }
   for (const child of node.children) validateSubtree(child, ids);
 }
 
-export function cloneHistoryValue<T>(value: T): T {
-  return JSON.parse(serializeHistoryValue(value)) as T;
+/** Canonical JSON of the DELTA only. No document scan to discover changes. */
+export async function serializeHistoryValue<T>(value: HistoryOperation<T>): Promise<string> {
+  const clone = await serializeSafe(value);
+  return JSON.stringify(clone);
 }
 
-/** Canonical JSON of the DELTA only. No document scan to discover changes. */
-export function serializeHistoryValue(value: unknown): string {
-  const ancestors = new WeakSet<object>();
-  const visit = (value: unknown): unknown => {
-    if (value === null || typeof value === 'string' || typeof value === 'boolean') return value;
-    if (typeof value === 'number' && Number.isFinite(value) && !Object.is(value, -0)) return value;
-    if (typeof value !== 'object' || value === null)
-      throw new TypeError('Use plain JSON data; undefined, functions and non-finite numbers are not supported.');
-    if (ancestors.has(value)) throw new TypeError('Circular history data.');
-    const array = Array.isArray(value);
-    if (!array && Object.getPrototypeOf(value) !== Object.prototype && Object.getPrototypeOf(value) !== null)
-      throw new TypeError('Convert runtime instances to data first.');
-    if (Object.getOwnPropertySymbols(value).length) throw new TypeError('Symbol properties are not supported.');
-    ancestors.add(value);
-    const descriptors = Object.getOwnPropertyDescriptors(value);
-    const result: unknown[] | Record<string, unknown> = array ? [] : Object.create(null);
-    const keys = Object.keys(descriptors)
-      .filter((key) => !(array && key === 'length'))
-      .sort();
-    if (
-      array &&
-      (keys.length !== value.length || keys.some((key) => !/^(0|[1-9]\d*)$/.test(key) || Number(key) >= value.length))
-    )
-      throw new TypeError('Sparse/custom arrays are not supported.');
-    for (const key of keys) {
-      const descriptor = descriptors[key];
-      if (!descriptor.enumerable || !('value' in descriptor))
-        throw new TypeError('Getters/non-enumerable properties are not supported.');
-      (result as Record<string, unknown>)[key] = visit(descriptor.value);
+export function serializeSafe(value: unknown): any {
+  const seen = new WeakSet<object>();
+
+  function clean(value: unknown): unknown {
+    if (value === null) {
+      return null;
     }
-    ancestors.delete(value);
+
+    const type = typeof value;
+
+    // Primitive
+    if (type === 'string' || type === 'number' || type === 'boolean') {
+      return value;
+    }
+
+    // چیزهایی که نمی‌خواهیم
+    if (type === 'undefined' || type === 'function' || type === 'symbol') {
+      return undefined;
+    }
+
+    // BigInt
+    if (type === 'bigint') {
+      return `${value}n`;
+    }
+
+    if (type !== 'object') {
+      return undefined;
+    }
+
+    // Circular reference
+    if (seen.has(value as object)) {
+      return undefined;
+    }
+
+    seen.add(value as object);
+
+    // DOM
+    if (typeof Node !== 'undefined' && value instanceof Node) {
+      return undefined;
+    }
+
+    // Date
+    if (value instanceof Date) {
+      return value.toISOString();
+    }
+
+    // Array
+    if (Array.isArray(value)) {
+      return value.map(clean).filter((x) => x !== undefined);
+    }
+
+    // Map
+    if (value instanceof Map) {
+      const result: unknown[] = [];
+
+      for (const [key, item] of value) {
+        const k = clean(key);
+        const v = clean(item);
+
+        if (k !== undefined && v !== undefined) {
+          result.push([k, v]);
+        }
+      }
+
+      return result;
+    }
+
+    // Set
+    if (value instanceof Set) {
+      return [...value].map(clean).filter((x) => x !== undefined);
+    }
+
+    // ArrayBuffer / typed arrays / binary data
+    if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) {
+      return undefined;
+    }
+
+    // Object / class instance
+    const result: Record<string, unknown> = {};
+
+    for (const key of Object.keys(value ?? {})) {
+      const cleaned = clean((value as Record<string, unknown>)[key]);
+
+      if (cleaned !== undefined) {
+        result[key] = cleaned;
+      }
+    }
+
     return result;
-  };
-  return JSON.stringify(visit(value));
+  }
+
+  return clean(value);
 }

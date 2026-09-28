@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PageBuilderService } from '../page-builder.service';
 import { IStorageService } from './IStorageService';
-import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
+import { preparePageDataForSave, serializeData } from '../../helper/prepare-page-builder-data';
 
-import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig, PageBuilderDto } from 'ngx-page-builder/core';
+import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
@@ -42,8 +42,8 @@ export class LocalStorageService implements IStorageService {
 
   saveData() {
     return new Promise<boolean>(async (resolve, reject) => {
-      const sanitized = await preparePageDataForSave(this.pb);
-      localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, JSON.stringify(sanitized));
+      const sanitized = await serializeData(this.pb);
+      localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, sanitized);
       resolve(true);
     });
   }

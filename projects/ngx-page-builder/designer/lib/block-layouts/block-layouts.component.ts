@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, OnDestroy, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { debounceTime, distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { PageItem, Page } from 'ngx-page-builder/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
-import { NgxDropListGroup, NgxDraggable, NgxDropList, type IDropEvent, transferArrayItem } from 'ngx-kit/drag-resize';
-import { HistoryService } from '../../services/history/history.service';
+import { NgxDropListGroup, NgxDraggable, NgxDropList, IDropEvent } from 'ngx-kit/drag-resize';
 @Component({
   selector: 'block-layouts',
   templateUrl: './block-layouts.component.html',
@@ -19,7 +18,6 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent implements O
   currentPageFooterItems: PageItem[] = [];
   currentPageBodyItems: PageItem[] = [];
   pagebuiderChangeSubscription: Subscription;
-  protected readonly history = inject(HistoryService);
   constructor() {
     super();
     effect(() => {
@@ -96,8 +94,8 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent implements O
     this.history.saveMove(
       dragItem.id,
       dragItem.parent?.id,
-      ev.previousIndex,
       ev.container.data?.[ev.currentIndex]?.parent?.id,
+      ev.previousIndex,
       ev.currentIndex,
       dragItem,
       `Move block '${dragItem.id}' from: '${dragItem.parent?.id}' to: '${dragItem?.parent?.id}'`,

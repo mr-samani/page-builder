@@ -13,6 +13,15 @@ import {
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 
+export async function serializeData(pb: PageBuilderService): Promise<string> {
+  try {
+    return JSON.stringify(await preparePageDataForSave(pb));
+  } catch (error) {
+    console.error('SerializeData', error);
+    throw error;
+  }
+}
+
 export function preparePageDataForSave(pb: PageBuilderService): Promise<IPagebuilderOutput> {
   const pageInfo: PageBuilderDto = pb.pageInfo;
   const cls: ClassManagerService = pb.cls;

@@ -6,7 +6,6 @@ import { SortPageListComponent } from '../sort-page-list/sort-page-list.componen
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
 import { ExportHtmlService } from '../../services/import-export/export-html.service';
-import { HistoryService } from '../../services/history/history.service';
 import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import {
@@ -33,7 +32,6 @@ import { HistoryComponent } from '../history/history.component';
 export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit {
   protected readonly previewService = inject(PagePreviewService);
   protected readonly exporter = inject(ExportHtmlService);
-  protected readonly history = inject(HistoryService);
   protected readonly overlay = inject(OverlayService);
   @Input() customToolbarButtons: CustomToolbarButtons[] = [];
   pageNumber: number = 1;
@@ -64,22 +62,23 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     }
     debugger;
     let blocks = this.pb.currentPage.bodyItems;
-    blocks = this.history.undo(blocks);
-    this.pb.updatePage(blocks);
+    const r = this.history.undo();
+    this.pb.setFromHistory(r);
   }
   redo() {
     if (!this.pb.currentPage) {
       return;
     }
     let blocks = this.pb.currentPage.bodyItems;
-    blocks = this.history.redo(blocks);
-    this.pb.updatePage(blocks);
+    const r = this.history.redo();
+    this.pb.setFromHistory(r);
   }
 
   getHistory(ev: Event) {
     this.overlay.open({
       component: HistoryComponent,
       anchor: ev.currentTarget as any,
+      panelClass: 'ngx-page-builder',
     });
   }
 

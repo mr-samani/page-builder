@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  border: none var(--tools-border);
+  background-color: var(--panel-bg);
+  color: var(--side-config-fg);
+  width: 320px;
+  max-height: 50vh;
+  overflow: auto;
+}
