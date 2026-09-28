@@ -388,13 +388,13 @@ export class PageBuilderService implements OnDestroy {
    * - and destroy directives
    * @returns void
    */
-  private cleanCanvas(pageIndex: number) {
+  private async cleanCanvas(pageIndex: number) {
     this.deSelectBlock();
     const page = this.pageInfo.pages[pageIndex];
     if (!page) return;
-    this.dynamicElementService.destroyBatch(page.bodyItems);
-    this.dynamicElementService.destroyBatch(page.headerItems);
-    this.dynamicElementService.destroyBatch(page.footerItems);
+    await this.dynamicElementService.destroyBatch(page.bodyItems);
+    await this.dynamicElementService.destroyBatch(page.headerItems);
+    await this.dynamicElementService.destroyBatch(page.footerItems);
     const body = this.getInnerItemContainer();
     if (body) {
       body.innerHTML = '';

@@ -141,7 +141,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     // const childCount = Math.min(count, this.dataList.length);
     const childCount = count;
 
-    this.clearContainer();
+    await this.clearContainer();
     this.pageItem.children = [];
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
@@ -155,7 +155,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   async update(change: PageItemChange) {
     if (!this.pageItem || !this.pageItem.template || !change.item) return;
 
-    this.clearContainer();
+    await this.clearContainer();
     this.pageItem.children = [];
 
     const count = this.pageItem.dataSource?.maxResultCount || 10;
@@ -169,7 +169,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     this.chdRef.detectChanges();
   }
 
-  private clearContainer() {
-    this.dynamicElementService.destroyBatch(this.pageItem.children);
+  private async clearContainer() {
+    await this.dynamicElementService.destroyBatch(this.pageItem.children);
   }
 }

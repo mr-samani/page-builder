@@ -94,7 +94,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     // const childCount = Math.min(count, this.dataList.length);
     const childCount = count;
 
-    this.clearContainer();
+    await this.clearContainer();
     this.pageItem.children = [];
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
@@ -106,7 +106,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     this.chdRef.detectChanges();
   }
 
-  private clearContainer() {
-    this.dynamicElementService.destroyBatch(this.pageItem.children);
+  private async clearContainer() {
+    await this.dynamicElementService.destroyBatch(this.pageItem.children);
   }
 }
