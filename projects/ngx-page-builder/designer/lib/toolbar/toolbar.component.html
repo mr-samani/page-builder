@@ -29,6 +29,18 @@
       <svg Icon="assets/icons/files.svg"></svg>
     </button>
   </div>
+} @else {
+  <div class="responsive-handle">
+    <button (click)="pb.changeResponive('desktop')" title="desktop" [class.active]="pb.responsive() == 'desktop'">
+      <svg Icon="assets/icons/desktop.svg"></svg>
+    </button>
+    <button (click)="pb.changeResponive('tablet')" title="tablet" [class.active]="pb.responsive() == 'tablet'">
+      <svg Icon="assets/icons/tablet.svg"></svg>
+    </button>
+    <button (click)="pb.changeResponive('mobile')" title="mobile" [class.active]="pb.responsive() == 'mobile'">
+      <svg Icon="assets/icons/mobile.svg"></svg>
+    </button>
+  </div>
 }
 
 <!-- --------------------------------------------------------------------------------- -->

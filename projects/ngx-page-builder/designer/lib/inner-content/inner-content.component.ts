@@ -19,13 +19,24 @@ import { DragDropService } from 'ngx-kit/drag-resize';
 @Component({
   selector: 'inner-content',
   template: `
-    <iframe #iframe></iframe>
+    <iframe #iframe class="responive-{{ pb.responsive() }}"></iframe>
   `,
   styles: `
     iframe {
       width: 100%;
       height: 100%;
       border: none;
+      margin: 0 auto;
+      display: block;
+      box-shadow: 0 0 7px 0px #4f4f4f;
+    }
+    .responive-desktop {
+    }
+    .responive-tablet {
+      max-width: 768px;
+    }
+    .responive-mobile {
+      max-width: 500px;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

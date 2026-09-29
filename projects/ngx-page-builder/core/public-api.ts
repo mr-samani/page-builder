@@ -12,6 +12,7 @@ export * from './contracts/IPageBuilderOutput';
 export * from './contracts/IStyleSheetFile';
 export * from './contracts/IPlugin';
 export * from './contracts/ICssVariable';
+export * from './contracts/responsive';
 
 // Models
 export * from './models/SourceItem';

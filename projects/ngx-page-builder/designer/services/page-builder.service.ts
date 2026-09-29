@@ -14,6 +14,7 @@ import {
   PageConfig,
   PageItem,
   SourceItem,
+  type ResponsiveSize,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -43,6 +44,8 @@ export class PageBuilderService implements OnDestroy {
   pageHeaderEl?: HTMLElement;
   pageBodyEl?: HTMLElement;
   pageFooterEl?: HTMLElement;
+
+  responsive = signal<ResponsiveSize>('desktop');
 
   /** start from 0 */
   currentPageIndex = signal<number>(0);
@@ -553,5 +556,9 @@ export class PageBuilderService implements OnDestroy {
       Notify.error('Body Not Exist!');
       throw 'BodyNotFound';
     }
+  }
+
+  changeResponive(size: ResponsiveSize) {
+    this.responsive.set(size);
   }
 }
