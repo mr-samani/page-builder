@@ -8,7 +8,6 @@ import { IPagebuilderOutput } from '../contracts/IPageBuilderOutput';
 import { IPageItem } from '../contracts/IPageItem';
 import { LibPreviewConsts } from '../consts/LibPreviewConsts';
 import { waitForFontsToLoad, waitForRenderComplete } from '../utiles/rendering';
-import { WINDOW } from '../utiles/window';
 
 @Injectable({ providedIn: 'root' })
 export class PagePreviewService {
@@ -27,8 +26,6 @@ export class PagePreviewService {
   private previewWindow?: Window | null;
   private renderer!: Renderer2;
   private doc = inject(DOCUMENT);
-  private win = inject(WINDOW);
-
   constructor(
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
@@ -54,7 +51,7 @@ export class PagePreviewService {
 
       await this.loadPageData();
 
-      this.previewWindow = this.win?.open(
+      this.previewWindow = this.doc.open(
         '',
         '_blank',
         type == 'Print' ? '' : 'width=900,height=700,resizable=yes,scrollbars=yes',

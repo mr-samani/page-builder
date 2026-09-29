@@ -41,8 +41,8 @@ export class BlockPropertiesComponent extends BaseComponent implements OnInit {
   currentCss = '';
   currentClassName = '';
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     effect(() => {
       this.item = this.pb.activeEl();
       // console.log('updated properties', this.item);

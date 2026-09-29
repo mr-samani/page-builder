@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, HostListener, Injector, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, HostListener, Injector, input, OnDestroy } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageItem } from 'ngx-page-builder/core';
@@ -13,6 +13,7 @@ import { PageItem } from 'ngx-page-builder/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
+  // readonly body = input.required<>();
   x = 0;
   y = 0;
   width = 0;
@@ -32,8 +33,8 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
 
   private rafId?: number;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
 
     effect(() => {
       const newItem = this.pb.activeEl();
@@ -134,9 +135,8 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
 
     // اگه element هنوز در DOM نیست
     if (rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0) return;
-
-    this.x = (this.win?.scrollX ?? 0) + rect.x;
-    this.y = (this.win?.scrollY ?? 0) + rect.y;
+    this.x = rect.x; // (this.body()?.scrollX ?? 0) + rect.x;
+    this.y = rect.y; //(this.body()?.scrollY ?? 0) + rect.y;
     this.width = rect.width;
     this.height = rect.height;
     this.showInBottom = rect.y < 0 || rect.y - 24 < this.headerOffset;

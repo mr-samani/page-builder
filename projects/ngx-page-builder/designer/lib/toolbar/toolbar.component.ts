@@ -157,7 +157,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   previewPage() {
-    this.win?.open('/preview');
+    this.doc?.open('/preview');
   }
   sortPages() {
     Dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {

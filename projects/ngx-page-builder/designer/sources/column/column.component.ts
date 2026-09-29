@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageItem } from 'ngx-page-builder/core';
 
@@ -26,7 +26,7 @@ export class ColumnComponent implements OnInit {
   @Input() pageItem!: PageItem;
 
   @ViewChild('colContainer', { static: true }) colContainer!: ElementRef<HTMLDivElement>;
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   ngOnInit() {
     if (this.pageItem.children.length == 0) {

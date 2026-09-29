@@ -1,7 +1,7 @@
 import { inject, Inject, Injectable } from '@angular/core';
 import { sanitizeForStorage } from '../../helper/sanitizeForStorage';
 
-import { NXG_PAGE_BUILDER_SERVICE } from '../page-builder.service';
+import { PageBuilderService } from '../page-builder.service';
 import { NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE } from './plugin.token';
 import { IPluginStore } from './plugin.store';
 import { preparePageItems } from '../../helper/prepare-page-builder-data';
@@ -12,7 +12,7 @@ import { ClassManagerService } from '../class-manager.service';
 @Injectable()
 export class PBPluginService {
   private pluginStore = inject<IPluginStore>(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE);
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(private cls: ClassManagerService) {}
   async getPlugin(item: PageItem): Promise<IPlugin> {

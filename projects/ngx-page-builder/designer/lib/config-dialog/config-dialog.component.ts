@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 import { FormsModule } from '@angular/forms';
 import { PageBuilderConfig, PageOrientation, PageSize } from 'ngx-page-builder/core';
 import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
@@ -18,7 +18,7 @@ export class ConfigDialogComponent implements OnInit {
   private data = inject(DIALOG_DATA);
   private dialogRef = inject(DIALOG_REF);
 
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor() {
     this.configs = Object.assign({}, this.pb.pageInfo.config);

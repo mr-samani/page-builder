@@ -126,10 +126,6 @@
   position: sticky !important;
   top: var(--topbar-height);
 }
-.full-height {
-  max-height: calc(100vh - var(--topbar-height));
-  overflow: auto;
-}
 
 .ngx-page-alert {
   color: #303030;

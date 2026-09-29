@@ -19,10 +19,6 @@ import { ClassManagerService } from '../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
 import { IDropEvent } from 'ngx-kit/drag-resize';
 
-export const NXG_PAGE_BUILDER_SERVICE = new InjectionToken<PageBuilderService>('NXG_PAGE_BUILDER_SERVICE', {
-  factory: () => new PageBuilderService(),
-});
-
 export interface PageItemChange {
   item: PageItem | null;
   parent?: PageItem[];

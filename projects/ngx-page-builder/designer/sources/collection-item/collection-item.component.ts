@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { debounceTime, Subscription } from 'rxjs';
-import { NXG_PAGE_BUILDER_SERVICE, PageItemChange } from '../../services/page-builder.service';
+import { PageBuilderService, PageItemChange } from '../../services/page-builder.service';
 
 import {
   COMPONENT_DATA,
@@ -65,7 +65,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
   dataList: DynamicDataStructure[][] = [];
 
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(
     private chdRef: ChangeDetectorRef,

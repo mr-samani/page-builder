@@ -11,7 +11,7 @@ import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { BaseContentComponent } from './base-content';
-import { NXG_PAGE_BUILDER_SERVICE } from 'ngx-page-builder/designer/services/page-builder.service';
+import { PageBuilderService } from 'ngx-page-builder/designer/services/page-builder.service';
 
 @Component({
   selector: 'inner-content',
@@ -54,7 +54,20 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const iframe = this.iframe()?.nativeElement;
     if (!iframe) return;
 
+    const dir = this.pb.pageInfo.config.direction;
     const doc = iframe.contentDocument!;
+
+    const style = doc.createElement('style');
+    style.innerHTML = `
+    body{
+      margin:0;
+      padding:0;
+      height:100%;
+      direction:${dir};
+      overflow-y:scroll;
+    }
+    `;
+    doc.head.appendChild(style);
     // clean previous data
     doc.body.innerHTML = '';
     const host = doc.createElement('ngx-page-builder-context');
@@ -71,7 +84,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
           useValue: doc,
         },
         {
-          provide: NXG_PAGE_BUILDER_SERVICE,
+          provide: PageBuilderService,
           useValue: this.pb,
         },
       ],

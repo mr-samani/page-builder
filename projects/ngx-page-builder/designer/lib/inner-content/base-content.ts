@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { NgxDropList } from 'ngx-kit/drag-resize';
+import { BlockSelectorComponent } from '../../components/block-selector/block-selector.component';
 
 @Component({
   template: `
-    inner
-    <div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName" [attr.dir]="pb.pageInfo.config.direction">
+    <div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName">
       @if (viewMode == 'PrintPage') {
         <div
           class="page-header"
@@ -49,8 +49,9 @@ import { NgxDropList } from 'ngx-kit/drag-resize';
           (drop)="pb.onDrop($event, pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0))"></div>
       }
     </div>
+    <block-selector #blockSelector />
   `,
-  imports: [NgxDropList],
+  imports: [NgxDropList, BlockSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseContentComponent extends PageBuilderBaseComponent implements OnInit, AfterViewInit {
@@ -59,7 +60,12 @@ export class BaseContentComponent extends PageBuilderBaseComponent implements On
   headerEl = viewChild<ElementRef<HTMLElement>>('headerEl');
   bodyEl = viewChild<ElementRef<HTMLElement>>('bodyEl');
   footerEl = viewChild<ElementRef<HTMLElement>>('footerEl');
+
+  blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
+
   ngOnInit(): void {
+    this.pb.blockSelector = this.blockSelector();
+
     if (this.viewMode == 'PrintPage') {
       this.containerClassName = `ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
     } else {

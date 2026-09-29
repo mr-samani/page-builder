@@ -215,8 +215,8 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
     this.popupPosition = el.getBoundingClientRect();
     const popupWidth = 320;
     const popupHeight = 420;
-    let ww = (this.win?.innerWidth ?? 0) - 10;
-    let wh = (this.win?.innerHeight ?? 0) - 10;
+    let ww = 10;
+    let wh = 10;
     if (this.popupPosition.x + popupWidth > ww) {
       this.popupPosition.x += ww - (this.popupPosition.x + popupWidth);
     }

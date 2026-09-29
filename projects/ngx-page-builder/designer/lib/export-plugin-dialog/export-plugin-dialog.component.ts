@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy }
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
 import { LoadingComponent } from '../../controls/loading/loading.component';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 import { IPlugin, PageItem } from 'ngx-page-builder/core';
 import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
@@ -23,7 +23,7 @@ export class ExportPluginDialogComponent implements OnInit {
   loading = true;
   private _data = inject<PageItem>(DIALOG_DATA);
   private dialogRef = inject(DIALOG_REF);
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(
     private pluginService: PBPluginService,

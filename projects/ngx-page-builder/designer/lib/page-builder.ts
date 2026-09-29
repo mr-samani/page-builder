@@ -57,7 +57,6 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
     NgxDraggable,
     InnerContentComponent,
     ToolbarComponent,
-    BlockSelectorComponent,
     SideConfigComponent,
     SvgIconDirective,
     NgxDialogModule,
@@ -114,8 +113,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     }
   }
 
-  blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
-
   subscriptions: Subscription[] = [];
 
   showPlugins = LibConsts.showPlugins;
@@ -147,7 +144,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   }
 
   ngOnInit(): void {
-    this.pb.blockSelector = this.blockSelector();
     this.cls.initialize();
     this.registerShortcuts();
   }

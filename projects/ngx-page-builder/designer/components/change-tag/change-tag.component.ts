@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 
 @Component({
   selector: 'change-tag',
@@ -63,7 +63,7 @@ export class ChangeTagComponent implements OnInit {
     'span',
     'strong',
   ];
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
   protected dynamicElementService = inject(DynamicElementService);
 
   ngOnInit() {}

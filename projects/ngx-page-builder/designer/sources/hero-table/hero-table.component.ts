@@ -13,7 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { debounceTime, Subscription } from 'rxjs';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 
 import { BlockHelper } from '../../helper/BlockHelper';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
@@ -73,7 +73,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
   private doc = inject(DOCUMENT);
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(
     private chdRef: ChangeDetectorRef,

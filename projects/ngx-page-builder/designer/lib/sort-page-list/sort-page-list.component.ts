@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 import { Page } from 'ngx-page-builder/core';
 import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 import { moveItemInArray, NgxDropList, IDropEvent, NgxDropListGroup } from 'ngx-kit/drag-resize';
@@ -15,7 +15,7 @@ import { moveItemInArray, NgxDropList, IDropEvent, NgxDropListGroup } from 'ngx-
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
   private dialogRef = inject(DIALOG_REF);
-  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor() {
     this.pageList = [...(this.pb.pageInfo.pages ?? [])];

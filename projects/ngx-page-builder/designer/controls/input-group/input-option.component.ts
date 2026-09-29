@@ -9,6 +9,7 @@ import {
   Optional,
   Renderer2,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { InputGroupComponent } from './input-group.component';
 
@@ -55,12 +56,13 @@ export class InputOptionComponent implements OnInit, OnDestroy {
   @Input() value: any;
 
   selected = false;
-
+  private readonly group = inject(InputGroupComponent, {
+    optional: true,
+    host: true,
+  });
   constructor(
     private el: ElementRef<HTMLElement>,
     private renderer: Renderer2,
-    // Optional: اگر بیرون از input-group استفاده شد، crash نکنه
-    @Optional() @Host() private group: InputGroupComponent,
   ) {}
 
   ngOnInit(): void {
