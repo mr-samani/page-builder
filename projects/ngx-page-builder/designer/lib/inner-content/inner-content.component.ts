@@ -35,8 +35,12 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private readonly iframe = viewChild.required<ElementRef<HTMLIFrameElement>>('iframe');
   private iframeApp?: ApplicationRef;
   protected readonly injector = inject(Injector);
+
   constructor() {
     super();
+    this.pb.onUpdateBaseConfig$.subscribe((c) => {
+      if (c) this.updateBodyStyle();
+    });
   }
 
   ngOnInit() {
@@ -56,24 +60,8 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const iframe = this.iframe()?.nativeElement;
     if (!iframe) return;
 
-    const dir = this.pb.pageInfo.config.direction;
     const doc = iframe.contentDocument!;
 
-    const style = doc.createElement('style');
-    style.innerHTML = `
-    body{
-      margin:0;
-      padding:0;
-      height:100%;
-      direction:${dir};
-      overflow-y:scroll;
-    }
-    ngx-page-builder-context{
-      height: 100%;
-      display: block;
-    }
-    `;
-    doc.head.appendChild(style);
     // clean previous data
     doc.body.innerHTML = '';
     const host = doc.createElement('ngx-page-builder-context');
@@ -105,6 +93,36 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     this.iframeApp.bootstrap(BaseContentComponent, {
       hostElement: host,
     });
+
+    this.updateBodyStyle();
+  }
+
+  updateBodyStyle() {
+    const iframe = this.iframe()?.nativeElement;
+    if (!iframe) return;
+    const doc = iframe.contentDocument!;
+    const dir = this.pb.pageInfo.config.direction;
+    const s = `
+    body{
+      margin:0;
+      padding:0;
+      height:100%;
+      direction:${dir};
+      overflow-y:scroll;
+    }
+    ngx-page-builder-context{
+      height: 100%;
+      display: block;
+    }
+    `;
+
+    let style = doc.head.querySelector('#ngx-page-context-base-style');
+    if (!style) {
+      style = doc.createElement('style');
+      style.id = 'ngx-page-context-base-style';
+      doc.head.appendChild(style);
+    }
+    style.innerHTML = s;
   }
 
   ngOnDestroy() {

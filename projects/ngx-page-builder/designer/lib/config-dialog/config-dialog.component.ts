@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { FormsModule } from '@angular/forms';
-import { PageBuilderConfig, PageOrientation, PageSize } from 'ngx-page-builder/core';
+import { LibConsts, PageBuilderConfig, PageOrientation, PageSize } from 'ngx-page-builder/core';
 import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 
 @Component({
@@ -15,6 +15,7 @@ export class ConfigDialogComponent implements OnInit {
   configs: PageBuilderConfig;
   sizeList: PageSize[] = ['A4', 'A5', 'Letter'];
   orientationList: PageOrientation[] = ['Portrait', 'Landscape'];
+  viewMode = LibConsts.viewMode;
   private data = inject(DIALOG_DATA);
   private dialogRef = inject(DIALOG_REF);
 
@@ -29,6 +30,6 @@ export class ConfigDialogComponent implements OnInit {
   ok() {
     this.pb.pageInfo.config = this.configs;
     this.pb.updateChangeDetection({ item: null, type: 'ChangePageConfig' });
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.configs);
   }
 }

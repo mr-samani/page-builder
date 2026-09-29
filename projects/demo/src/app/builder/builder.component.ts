@@ -7,6 +7,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  signal,
 } from '@angular/core';
 import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
@@ -76,7 +77,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
 
   styles: IStyleSheetFile[] = [];
 
-  config?: PageBuilderConfig;
+  config = signal<PageBuilderConfig | undefined>(undefined);
   data: IPage[] = [];
 
   cssVariables: ICssVariable[] = [];
@@ -99,7 +100,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
       const savedData = localStorage.getItem('page');
       const parsed = JSON.parse(savedData || '{}');
       this.data = parsed?.data ?? [];
-      this.config = parsed?.config;
+      this.config.set(parsed?.config);
       this.styles = parsed?.styles;
       this.cssVariables = parsed.cssVariables;
 

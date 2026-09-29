@@ -131,7 +131,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   toggleOutlines() {
-    this.pb.showOutlines.set(!this.pb.showOutlines());
+    this.pb.showOutlines.update((u) => !u);
     localStorage.setItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY, this.pb.showOutlines() + '');
   }
   deSelectBlock() {
@@ -168,10 +168,12 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
   openConfigDialog() {
     Dialog.open(ConfigDialogComponent, {
-      width: '768px',
-      height: '80dvh',
+      size: 'lg',
+      minHeight: '80dvh',
     }).afterClosed.subscribe((r) => {
-      this.chdRef.detectChanges();
+      if (r) {
+        this.pb.onUpdateBaseConfig$.next(r);
+      }
     });
   }
   openCssFileDialog() {

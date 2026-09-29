@@ -146,7 +146,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.cls.initialize();
     this.registerShortcuts();
   }
@@ -163,7 +163,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   private async loadPageData(data: Page[]) {
     try {
       this.isLoading.set(true);
-      await this.pb.reset();
       this.pb.pageInfo.pages = data;
       // check has body block
       //console.log('load data:', data, 'converted class:', this.pb.pageInfo);

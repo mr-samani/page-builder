@@ -4,10 +4,11 @@ import {
   ElementRef,
   inject,
   viewChild,
+  ViewEncapsulation,
   type AfterViewInit,
   type OnInit,
 } from '@angular/core';
-import { NgxDraggable, NgxDropList } from 'ngx-kit/drag-resize';
+import { NgxDropList } from 'ngx-kit/drag-resize';
 import { BlockSelectorComponent } from '../../components/block-selector/block-selector.component';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { LibConsts } from 'ngx-page-builder/core';
@@ -17,49 +18,36 @@ import { LibConsts } from 'ngx-page-builder/core';
     @let ci = pb.currentPageIndex();
     @let cp = pb.pageInfo.pages[ci];
 
-    <div [class]="containerClassName">
+    <div [class]="containerClassName" [class.show-outlines]="pb.showOutlines()">
       @if (viewMode == 'PrintPage') {
         <div
           class="page-header"
           #headerEl
-          [class.show-outlines]="pb.showOutlines()"
           ngxDropList
           [data]="cp.headerItems"
           [class.is-empty]="!cp.headerItems.length"
           (drop)="pb.onDrop($event)"></div>
 
-        <div
-          class="page-body"
-          #bodyEl
-          [class.show-outlines]="pb.showOutlines()"
-          ngxDropList
-          [data]="cp.bodyItems"
-          (drop)="pb.onDrop($event)"></div>
+        <div class="page-body" #bodyEl ngxDropList [data]="cp.bodyItems" (drop)="pb.onDrop($event)"></div>
 
         <div
           class="page-footer"
           #footerEl
-          [class.show-outlines]="pb.showOutlines()"
           ngxDropList
           [class.is-empty]="!cp.footerItems.length"
           [data]="cp.footerItems"
           (drop)="pb.onDrop($event)"></div>
       } @else {
-        <div
-          class="page-body"
-          #bodyEl
-          [class.show-outlines]="pb.showOutlines()"
-          ngxDropList
-          [data]="cp.bodyItems"
-          (drop)="pb.onDrop($event)"></div>
+        <div class="page-body" #bodyEl ngxDropList [data]="cp.bodyItems" (drop)="pb.onDrop($event)"></div>
       }
     </div>
 
     <block-selector #blockSelector />
   `,
   styleUrls: ['./base-content.scss', '../../styles/paper.scss'],
-  imports: [NgxDropList, NgxDraggable, BlockSelectorComponent],
+  imports: [NgxDropList, BlockSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class BaseContentComponent implements OnInit, AfterViewInit {
   containerClassName = 'ngx-page-builder';

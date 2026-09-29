@@ -1,3 +1,6 @@
+:host {
+  direction: ltr;
+}
 .box-list {
   display: flex;
   gap: 15px;
@@ -40,5 +43,103 @@
       width: calc(var(--letter-width) * var(--scale) / 100);
       min-height: calc(var(--letter-height) * var(--scale) / 100);
     }
+  }
+}
+
+/*--------------group buttons------------------------------*/
+
+.radio-group {
+  --radio-bg: var(--toolbar-bg, #383838);
+  --radio-fg: var(--toolbar-fg, #e5e7eb);
+  --radio-hover: color-mix(in srgb, var(--radio-bg) 72%, white);
+  --radio-active: #151515;
+  --radio-active-fg: #fff;
+  --radio-border: color-mix(in srgb, var(--radio-bg) 65%, white);
+
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  gap: 2px;
+
+  background: var(--radio-bg);
+  border: 1px solid var(--radio-border);
+  border-radius: var(--radius-medium, 0.375rem);
+
+  color: var(--radio-fg);
+
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 1px 2px rgb(0 0 0 / 0.15);
+
+  user-select: none;
+
+  label {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 42px;
+    height: 28px;
+    padding: 0 11px;
+
+    border-radius: calc(var(--radius-medium, 0.375rem) - 2px);
+
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+      background-color 140ms ease,
+      color 140ms ease,
+      box-shadow 140ms ease,
+      transform 100ms ease;
+
+    // Hover
+    &:hover {
+      background: var(--radio-hover);
+    }
+
+    // Selected
+    &:has(input:checked) {
+      background: var(--radio-active);
+      color: var(--radio-active-fg);
+
+      box-shadow:
+        0 1px 3px rgb(0 0 0 / 0.25),
+        inset 0 1px 0 rgb(255 255 255 / 0.06);
+    }
+
+    // Keyboard focus
+    &:has(input:focus-visible) {
+      outline: 2px solid color-mix(in srgb, var(--radio-active) 65%, white);
+      outline-offset: -2px;
+    }
+
+    // Click feedback
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+    border: 0;
   }
 }

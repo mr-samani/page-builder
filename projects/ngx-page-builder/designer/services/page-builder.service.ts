@@ -1,4 +1,4 @@
-import { DOCUMENT, inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { DOCUMENT, inject, Injectable, model, OnDestroy, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
@@ -11,6 +11,7 @@ import {
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
   Page,
   PageBuilderDto,
+  PageConfig,
   PageItem,
   SourceItem,
 } from 'ngx-page-builder/core';
@@ -56,6 +57,7 @@ export class PageBuilderService implements OnDestroy {
   /** جابجایی بین صفحات */
   onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
   onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(undefined);
+  onUpdateBaseConfig$ = new BehaviorSubject<PageConfig | undefined>(undefined);
 
   blockSelector?: BlockSelectorComponent;
 
