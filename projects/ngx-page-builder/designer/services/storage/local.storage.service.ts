@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
-import { PageBuilderService } from '../page-builder.service';
+import { inject, Injectable } from '@angular/core';
+import { NXG_PAGE_BUILDER_SERVICE } from '../page-builder.service';
 import { IStorageService } from './IStorageService';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 
-import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig, PageBuilderDto } from 'ngx-page-builder/core';
+import { IPagebuilderOutput, LOCAL_STORAGE_SAVE_KEY, PageBuilderConfig } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../class-manager.service';
 
 @Injectable()
 export class LocalStorageService implements IStorageService {
-  constructor(
-    private pb: PageBuilderService,
-    private cls: ClassManagerService,
-  ) {}
+  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+
+  constructor(private cls: ClassManagerService) {}
   loadData() {
     return new Promise<IPagebuilderOutput>(async (resolve, reject) => {
       try {

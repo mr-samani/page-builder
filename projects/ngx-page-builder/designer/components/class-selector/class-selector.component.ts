@@ -4,12 +4,13 @@ import {
   Component,
   effect,
   EventEmitter,
+  inject,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
-import { PageBuilderService } from '../../services/page-builder.service';
+import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
 import { PageItem } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
@@ -47,10 +48,11 @@ export class ClassSelectorComponent implements OnInit {
   showSuggestions: boolean = false;
   filteredSuggestions: string[] = [];
 
+  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
+
   constructor(
     private cdr: ChangeDetectorRef,
     public cls: ClassManagerService,
-    private pb: PageBuilderService,
   ) {
     effect(() => {
       this.item = this.pb.activeEl();

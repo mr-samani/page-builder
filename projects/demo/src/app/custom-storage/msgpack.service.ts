@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IPagebuilderOutput, PageBuilderConfig } from 'ngx-page-builder/core';
-import { IStorageService, PageBuilderService, preparePageDataForSave } from 'ngx-page-builder/designer';
+import { IStorageService, NXG_PAGE_BUILDER_SERVICE, preparePageDataForSave } from 'ngx-page-builder/designer';
 import { encode, decode } from 'msgpack-lite';
 
 @Injectable()
 export class MessagePackStorageService implements IStorageService {
-  constructor(private pb: PageBuilderService) {}
+  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
 
   async loadData(): Promise<IPagebuilderOutput> {
     try {

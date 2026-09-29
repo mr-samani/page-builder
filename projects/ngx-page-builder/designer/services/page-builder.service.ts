@@ -1,11 +1,10 @@
-import { DOCUMENT, ElementRef, inject, Injectable, OnDestroy, Signal, signal } from '@angular/core';
+import { DOCUMENT, inject, Injectable, InjectionToken, OnDestroy, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {
-  DynamicDataService,
   DynamicElementService,
   IPageItem,
   LibConsts,
@@ -19,6 +18,10 @@ import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getD
 import { ClassManagerService } from '../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
 import { IDropEvent } from 'ngx-kit/drag-resize';
+
+export const NXG_PAGE_BUILDER_SERVICE = new InjectionToken<PageBuilderService>('NXG_PAGE_BUILDER_SERVICE', {
+  factory: () => new PageBuilderService(),
+});
 
 export interface PageItemChange {
   item: PageItem | null;
@@ -40,7 +43,9 @@ export interface PageItemChange {
 export class PageBuilderService implements OnDestroy {
   isSaving: boolean = false;
   sources: SourceItem[] = LibConsts.SourceItemList;
-  innerShadowRootDom?: ShadowRoot | null;
+  pageHeaderEl?: HTMLElement;
+  pageBodyEl?: HTMLElement;
+  pageFooterEl?: HTMLElement;
 
   /** start from 0 */
   currentPageIndex = signal<number>(-1);
@@ -61,12 +66,12 @@ export class PageBuilderService implements OnDestroy {
   storageService!: IStorageService;
 
   copyStorage?: PageItem;
-  private readonly doc = inject(DOCUMENT);
-  constructor(
-    private dynamicElementService: DynamicElementService,
-    private history: HistoryService,
-    public cls: ClassManagerService,
-  ) {
+  protected readonly doc = inject(DOCUMENT);
+  protected readonly dynamicElementService = inject(DynamicElementService);
+  protected readonly history = inject(HistoryService);
+  readonly cls = inject(ClassManagerService);
+
+  constructor() {
     const so = localStorage.getItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY) || '';
     if (so != '') {
       this.showOutlines.set(so == 'true');
@@ -97,22 +102,6 @@ export class PageBuilderService implements OnDestroy {
       throw new Error('Current page does not exist');
     }
     this.pageInfo.pages[this.currentPageIndex()] = page;
-  }
-
-  getInnerItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderBody');
-    if (el) return el;
-    throw 'BodyNotFound';
-  }
-  getHeaderItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderHeader');
-    if (el) return el;
-    throw 'HeaderNotFound';
-  }
-  getFooterItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderFooter');
-    if (el) return el;
-    throw 'FooterNotFound';
   }
 
   async onDrop(event: IDropEvent<PageItem[]>, parent?: PageItem) {
@@ -294,10 +283,10 @@ export class PageBuilderService implements OnDestroy {
       } else {
         await this.cleanCanvas(this.currentPageIndex());
         const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
-        await this.genElms(bodyItems, this.getInnerItemContainer());
+        await this.genElms(bodyItems, this.pageBodyEl);
         if (LibConsts.viewMode == 'PrintPage') {
-          await this.genElms(headerItems, this.getHeaderItemContainer());
-          await this.genElms(footerItems, this.getFooterItemContainer());
+          await this.genElms(headerItems, this.pageHeaderEl);
+          await this.genElms(footerItems, this.pageFooterEl);
         }
         this.currentPageIndex.set(pageNumber - 1);
         this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
@@ -345,7 +334,7 @@ export class PageBuilderService implements OnDestroy {
    */
   async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement | null, index: number = -1) {
     if (!container) {
-      container = this.getInnerItemContainer();
+      container = this.pageBodyEl;
     }
     if (!container) {
       throw new Error('Required container to create element');
@@ -395,13 +384,12 @@ export class PageBuilderService implements OnDestroy {
     await this.dynamicElementService.destroyBatch(page.bodyItems);
     await this.dynamicElementService.destroyBatch(page.headerItems);
     await this.dynamicElementService.destroyBatch(page.footerItems);
-    const body = this.getInnerItemContainer();
-    if (body) {
-      body.innerHTML = '';
+    if (this.pageBodyEl) {
+      this.pageBodyEl.innerHTML = '';
     }
     if (LibConsts.viewMode == 'PrintPage') {
-      this.getHeaderItemContainer().innerHTML = '';
-      this.getFooterItemContainer().innerHTML = '';
+      this.pageHeaderEl!.innerHTML = '';
+      this.pageFooterEl!.innerHTML = '';
     }
   }
 

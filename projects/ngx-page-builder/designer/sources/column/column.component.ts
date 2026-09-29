@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { PageBuilderService } from '../../services/page-builder.service';
+import { NXG_PAGE_BUILDER_SERVICE } from '../../services/page-builder.service';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageItem } from 'ngx-page-builder/core';
 
@@ -25,7 +26,7 @@ export class ColumnComponent implements OnInit {
   @Input() pageItem!: PageItem;
 
   @ViewChild('colContainer', { static: true }) colContainer!: ElementRef<HTMLDivElement>;
-  constructor(public pb: PageBuilderService) {}
+  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
 
   ngOnInit() {
     if (this.pageItem.children.length == 0) {

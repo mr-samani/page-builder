@@ -52,7 +52,7 @@ export class ClassManagerService {
 
   doc = inject(DOCUMENT);
   http = inject(HttpClient);
-  innerShadowRootDom?: ShadowRoot | null;
+  iframe?: HTMLIFrameElement | null;
 
   private _cssVariables: ICssVariable[] = [];
   public get cssVariables(): ICssVariable[] {
@@ -180,7 +180,7 @@ export class ClassManagerService {
    */
   private loadRawCssFile(file: ICssFile): void {
     if (!file.isRawCss || !file.rawContent) return;
-    if (!this.publicStyleElement || !this.innerShadowRootDom) return;
+    if (!this.publicStyleElement || !this.iframe) return;
 
     // اضافه کردن محتوای CSS به style element عمومی
     this.publicStyleElement.textContent += `\n/* ${file.name} */\n${file.rawContent}\n`;
@@ -189,32 +189,30 @@ export class ClassManagerService {
   public initialize(): void {
     if (this.isInitialized) return;
 
-    if (!this.innerShadowRootDom) {
-      console.warn('PageBuilder shadow root not ready');
+    if (!this.iframe) {
+      console.warn('PageBuilder iframe context root not ready');
       return;
     }
 
     // ساخت style element برای CSS های عمومی (Bootstrap و غیره)
-    let existingPublicStyle = this.innerShadowRootDom.querySelector(
-      'style#NgxPageBuilderPublicCSS',
-    ) as HTMLStyleElement;
+    let existingPublicStyle = this.iframe.querySelector('style#NgxPageBuilderPublicCSS') as HTMLStyleElement;
 
     if (!existingPublicStyle) {
       existingPublicStyle = this.doc.createElement('style');
       existingPublicStyle.id = 'NgxPageBuilderPublicCSS';
       // اضافه کردن به ابتدای shadow root برای اولویت کمتر
-      this.innerShadowRootDom.insertBefore(existingPublicStyle, this.innerShadowRootDom.firstChild);
+      this.iframe.insertBefore(existingPublicStyle, this.iframe.firstChild);
     }
 
     this.publicStyleElement = existingPublicStyle;
 
     // ساخت style element برای CSS های custom
-    let existingStyle = this.innerShadowRootDom.querySelector('style#NgxPageBuilderClassUI') as HTMLStyleElement;
+    let existingStyle = this.iframe.querySelector('style#NgxPageBuilderClassUI') as HTMLStyleElement;
 
     if (!existingStyle) {
       existingStyle = this.doc.createElement('style');
       existingStyle.id = 'NgxPageBuilderClassUI';
-      this.innerShadowRootDom.appendChild(existingStyle);
+      this.iframe.appendChild(existingStyle);
     }
 
     this.styleElement = existingStyle;

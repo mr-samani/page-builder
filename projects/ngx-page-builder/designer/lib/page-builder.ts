@@ -1,14 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   Injector,
+  input,
   Input,
   OnDestroy,
   OnInit,
   signal,
   viewChild,
   ViewEncapsulation,
+  type AfterViewInit,
 } from '@angular/core';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -66,15 +69,8 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   openLayout = signal(false);
-  @Input() set data(val: IPage[] | undefined) {
-    if (!val || Array.isArray(val) == false) {
-      console.warn('NgxPageBuilder', 'Input data not valid!');
-      Notify.error('Input data not valid!');
-      return;
-    }
-    const pages = val.map((m) => Page.fromJSON(m));
-    this.loadPageData(pages);
-  }
+
+  readonly data = input<IPage[]>();
 
   @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
     if (val) {
@@ -136,6 +132,17 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       if (data.type == 'ChangePageConfig') {
         this.chdRef.detectChanges();
       }
+    });
+
+    effect(() => {
+      const d = this.data();
+      if (!d || Array.isArray(d) == false) {
+        console.warn('NgxPageBuilder', 'Input data not valid!');
+        Notify.error('Input data not valid!');
+        return;
+      }
+      const pages = d.map((m) => Page.fromJSON(m));
+      this.loadPageData(pages);
     });
   }
 

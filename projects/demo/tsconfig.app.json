@@ -4,10 +4,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "rootDirs": [".", "../ngx-page-builder"],
     "outDir": "../../out-tsc/app",
     "types": []
   },
   "exclude": ["src/**/*.spec.ts"],
+  "include": ["../ngx-page-builder/**/*.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

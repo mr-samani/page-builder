@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Notify } from 'ngx-kit/notify';
 import { IPagebuilderOutput, PageBuilderConfig } from 'ngx-page-builder/core';
-import { IStorageService, PageBuilderService, preparePageDataForSave } from 'ngx-page-builder/designer';
+import { IStorageService, NXG_PAGE_BUILDER_SERVICE, preparePageDataForSave } from 'ngx-page-builder/designer';
 
 @Injectable()
 export class LocalStoreService implements IStorageService {
-  constructor(private pb: PageBuilderService) {}
+  protected readonly pb = inject(NXG_PAGE_BUILDER_SERVICE);
 
   async loadData(): Promise<IPagebuilderOutput> {
     try {
