@@ -1,4 +1,4 @@
-import { DOCUMENT, inject, Injectable, InjectionToken, OnDestroy, signal } from '@angular/core';
+import { DOCUMENT, inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
@@ -44,7 +44,7 @@ export class PageBuilderService implements OnDestroy {
   pageFooterEl?: HTMLElement;
 
   /** start from 0 */
-  currentPageIndex = signal<number>(-1);
+  currentPageIndex = signal<number>(0);
   activeEl = signal<PageItem | undefined>(undefined);
   showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
@@ -159,24 +159,21 @@ export class PageBuilderService implements OnDestroy {
         }'`,
       );
     }
+
+    // console.log('ev', event.container.data, 'p', this.pageInfo.pages);
     // this.chdRef.detectChanges();
     this.onPageChange$.next(this.currentPage);
   }
 
   public async addBlockToBody(item: SourceItem) {
-    const body = this.pageInfo.pages[this.currentPageIndex()].bodyItems.at(0);
-    if (!body) {
-      throw () => 'Body not found!';
-    }
-
+    if (!this.currentPage) return;
     const source = new PageItem(item);
     source.children = []; // very important to create reference to droplist data
-    await this.createBlockElement(true, source, body.el, body.children.length);
-    body.children.push(source);
+    await this.createBlockElement(true, source);
     this.selectBlock(source);
     this.updateChangeDetection({ item: source, type: 'AddBlock' });
-
-    this.history.saveAdd('', body.children.length - 1, source, `Add block'${source.id}' to 'body'`);
+    this.currentPage.bodyItems.push(source);
+    this.history.saveAdd('', 0, source, `Add block'${source.id}' to 'body'`);
   }
 
   /**
@@ -241,8 +238,8 @@ export class PageBuilderService implements OnDestroy {
           await this.cleanCanvas(index);
         }
       }
-      this.pageInfo.pages = [];
-      this.currentPageIndex.set(-1);
+      this.pageInfo.pages = [new Page()];
+      this.currentPageIndex.set(0);
       return;
     } catch (error) {
       // console.error( error);
@@ -408,10 +405,9 @@ export class PageBuilderService implements OnDestroy {
    */
   findRootParentItem(item: PageItem) {
     const page = this.pageInfo.pages[this.currentPageIndex()];
-    const findExp = (children: PageItem[], id: string) => children.findIndex((x) => x.id == id) > -1;
-    for (let p of page.headerItems) if (findExp(p.children, item.id)) return page.headerItems;
-    for (let p of page.bodyItems) if (findExp(p.children, item.id)) return page.bodyItems;
-    for (let p of page.footerItems) if (findExp(p.children, item.id)) return page.footerItems;
+    for (let p of page.headerItems) if (p.id == item.id) return page.headerItems;
+    for (let p of page.bodyItems) if (p.id == item.id) return page.bodyItems;
+    for (let p of page.footerItems) if (p.id == item.id) return page.footerItems;
     return undefined;
   }
 
@@ -462,7 +458,6 @@ export class PageBuilderService implements OnDestroy {
     this.storageService
       .saveData()
       .then((result) => {
-        console.log('Data saved successfully:', result);
         Notify.success('Data saved successfully');
       })
       .finally(() => (this.isSaving = false));

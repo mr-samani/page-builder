@@ -79,14 +79,6 @@
   }
 }
 
-.web-page-view {
-  min-height: 100%;
-  display: contents;
-  .page-body {
-    min-height: calc(100vh - var(--topbar-height));
-  }
-}
-
 .ngx-page-builder {
   .page-break {
     page-break-after: always !important;

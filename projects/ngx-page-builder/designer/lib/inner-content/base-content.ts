@@ -2,25 +2,30 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   viewChild,
   type AfterViewInit,
   type OnInit,
 } from '@angular/core';
-import { PageBuilderBaseComponent } from '../page-builder-base-component';
-import { NgxDropList } from 'ngx-kit/drag-resize';
+import { NgxDraggable, NgxDropList } from 'ngx-kit/drag-resize';
 import { BlockSelectorComponent } from '../../components/block-selector/block-selector.component';
+import { PageBuilderService } from '../../services/page-builder.service';
+import { LibConsts } from 'ngx-page-builder/core';
 
 @Component({
   template: `
-    <div [hidden]="pb.currentPageIndex() < 0" [class]="containerClassName">
+    @let ci = pb.currentPageIndex();
+    @let cp = pb.pageInfo.pages[ci];
+
+    <div [class]="containerClassName">
       @if (viewMode == 'PrintPage') {
         <div
           class="page-header"
           #headerEl
           [class.show-outlines]="pb.showOutlines()"
           ngxDropList
-          [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems"
-          [class.is-empty]="!pb.pageInfo.pages[pb.currentPageIndex()]?.headerItems?.length"
+          [data]="cp.headerItems"
+          [class.is-empty]="!cp.headerItems.length"
           (drop)="pb.onDrop($event)"></div>
 
         <div
@@ -28,7 +33,7 @@ import { BlockSelectorComponent } from '../../components/block-selector/block-se
           #bodyEl
           [class.show-outlines]="pb.showOutlines()"
           ngxDropList
-          [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems"
+          [data]="cp.bodyItems"
           (drop)="pb.onDrop($event)"></div>
 
         <div
@@ -36,8 +41,8 @@ import { BlockSelectorComponent } from '../../components/block-selector/block-se
           #footerEl
           [class.show-outlines]="pb.showOutlines()"
           ngxDropList
-          [class.is-empty]="!pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems?.length"
-          [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.footerItems"
+          [class.is-empty]="!cp.footerItems.length"
+          [data]="cp.footerItems"
           (drop)="pb.onDrop($event)"></div>
       } @else {
         <div
@@ -45,31 +50,33 @@ import { BlockSelectorComponent } from '../../components/block-selector/block-se
           #bodyEl
           [class.show-outlines]="pb.showOutlines()"
           ngxDropList
-          [data]="pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0)?.children ?? []"
-          (drop)="pb.onDrop($event, pb.pageInfo.pages[pb.currentPageIndex()]?.bodyItems?.at(0))"></div>
+          [data]="cp.bodyItems"
+          (drop)="pb.onDrop($event)"></div>
       }
     </div>
+
     <block-selector #blockSelector />
   `,
-  imports: [NgxDropList, BlockSelectorComponent],
+  styleUrls: ['./base-content.scss', '../../styles/paper.scss'],
+  imports: [NgxDropList, NgxDraggable, BlockSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseContentComponent extends PageBuilderBaseComponent implements OnInit, AfterViewInit {
-  containerClassName = '';
+export class BaseContentComponent implements OnInit, AfterViewInit {
+  containerClassName = 'ngx-page-builder';
 
   headerEl = viewChild<ElementRef<HTMLElement>>('headerEl');
   bodyEl = viewChild<ElementRef<HTMLElement>>('bodyEl');
   footerEl = viewChild<ElementRef<HTMLElement>>('footerEl');
 
   blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
-
+  viewMode = LibConsts.viewMode;
+  readonly pb = inject(PageBuilderService);
   ngOnInit(): void {
     this.pb.blockSelector = this.blockSelector();
-
-    if (this.viewMode == 'PrintPage') {
-      this.containerClassName = `ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
+    if (LibConsts.viewMode == 'PrintPage') {
+      this.containerClassName += ` ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
     } else {
-      this.containerClassName = `web-page-view`;
+      this.containerClassName += ` web-page-view`;
     }
   }
   ngAfterViewInit(): void {

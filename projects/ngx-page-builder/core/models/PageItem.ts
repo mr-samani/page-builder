@@ -62,7 +62,6 @@ export class PageItem implements IPageItem {
 
     if (!this.id) {
       this.id = randomStrnig(5);
-      console.log(this.tag, this.id);
     }
     if (parent) this.parent = parent;
     this.classList ??= [];

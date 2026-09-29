@@ -24,7 +24,7 @@ import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';
-import { PageItemChange } from '../services/page-builder.service';
+import { PageBuilderService, PageItemChange } from '../services/page-builder.service';
 
 import {
   DynamicDataStructure,
@@ -65,6 +65,7 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [],
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   openLayout = signal(false);
@@ -138,8 +139,10 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         Notify.error('Input data not valid!');
         return;
       }
-      const pages = d.map((m) => Page.fromJSON(m));
-      this.loadPageData(pages);
+      if (d.length > 0) {
+        const pages = d.map((m) => Page.fromJSON(m));
+        this.loadPageData(pages);
+      }
     });
   }
 
@@ -161,9 +164,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     try {
       this.isLoading.set(true);
       await this.pb.reset();
-      // let data = await this.storageService.loadData();
-      //this.pb.pageInfo = PageBuilderDto.fromJSON(data);
-      this.pb.pageInfo.setPages(data);
+      this.pb.pageInfo.pages = data;
       // check has body block
       //console.log('load data:', data, 'converted class:', this.pb.pageInfo);
       if (this.pb.pageInfo.pages.length == 0) {
@@ -434,5 +435,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   async addItem(item: SourceItem) {
     await this.pb.addBlockToBody(item);
+    console.log(this.pb);
   }
 }

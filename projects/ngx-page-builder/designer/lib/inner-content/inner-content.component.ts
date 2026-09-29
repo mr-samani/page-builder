@@ -6,12 +6,15 @@ import {
   viewChild,
   type ApplicationRef,
   DOCUMENT,
+  inject,
+  Injector,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { BaseContentComponent } from './base-content';
 import { PageBuilderService } from 'ngx-page-builder/designer/services/page-builder.service';
+import { DragDropService } from 'ngx-kit/drag-resize';
 
 @Component({
   selector: 'inner-content',
@@ -31,14 +34,13 @@ import { PageBuilderService } from 'ngx-page-builder/designer/services/page-buil
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
   private readonly iframe = viewChild.required<ElementRef<HTMLIFrameElement>>('iframe');
   private iframeApp?: ApplicationRef;
-
+  protected readonly injector = inject(Injector);
   constructor() {
     super();
   }
 
   ngOnInit() {
     this.pb.cls.iframe = this.iframe().nativeElement;
-    this.loadIframe();
     for (let js of LibConsts.publicJs) {
       const j = this.doc.createElement('script');
       j.src = js;
@@ -47,7 +49,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       this.iframe().nativeElement?.insertBefore(j, this.iframe().nativeElement?.firstChild);
     }
 
-    console.log('pageinfo:', this.pb.pageInfo);
+    this.loadIframe();
   }
 
   async loadIframe() {
@@ -66,6 +68,10 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       direction:${dir};
       overflow-y:scroll;
     }
+    ngx-page-builder-context{
+      height: 100%;
+      display: block;
+    }
     `;
     doc.head.appendChild(style);
     // clean previous data
@@ -73,6 +79,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const host = doc.createElement('ngx-page-builder-context');
     doc.body.appendChild(host);
 
+    const drp = this.injector.get(DragDropService);
     // create new Angular Application Instance
     this.iframeApp = await createApplication({
       providers: [
@@ -82,6 +89,10 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
         {
           provide: DOCUMENT,
           useValue: doc,
+        },
+        {
+          provide: DragDropService,
+          useValue: drp,
         },
         {
           provide: PageBuilderService,
