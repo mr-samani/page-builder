@@ -27,7 +27,7 @@
     "highcharts": "^12.5.0",
     "highcharts-angular": "^5.4.0",
     "msgpack-lite": "^0.1.26",
-    "ngx-kit": "^8.1.0",
+    "ngx-kit": "^8.2.0",
     "rxjs": "~7.8.0",
     "tinymce": "^8.3.2",
     "tslib": "^2.3.0"
