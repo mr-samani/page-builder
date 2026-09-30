@@ -8,11 +8,11 @@ export interface IStyleSheetFile {
 export type BreakPointKey = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 /** پیش‌فرض هم‌راستا با Bootstrap 5 */
 export const DEFAULT_BREAKPOINTS: Breakpoint[] = [
-  { key: 'sm', minWidth: 576 },
-  { key: 'md', minWidth: 768 },
-  { key: 'lg', minWidth: 992 },
-  { key: 'xl', minWidth: 1200 },
-  { key: 'xxl', minWidth: 1400 },
+  { key: 'sm', minWidth: 576, icon: 'mobile' },
+  { key: 'md', minWidth: 768, icon: 'mobile-landscape' },
+  { key: 'lg', minWidth: 992, icon: 'tablet' },
+  { key: 'xl', minWidth: 1200, icon: 'desktop' },
+  { key: 'xxl', minWidth: 1400, icon: 'desktop-wide' },
 ];
 
 /**
@@ -36,6 +36,7 @@ export interface BlockCss extends BlockCssChunk {
 
 export interface Breakpoint {
   key: BreakPointKey;
+  icon: string;
   /** mobile-first: 0 یعنی بدون media query (پایه) */
   minWidth: number;
 }

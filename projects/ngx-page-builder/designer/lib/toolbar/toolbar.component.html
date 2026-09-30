@@ -31,15 +31,14 @@
   </div>
 } @else {
   <div class="responsive-handle">
-    <button (click)="pb.changeResponive('desktop')" title="desktop" [class.active]="pb.responsive() == 'desktop'">
-      <svg Icon="assets/icons/desktop.svg"></svg>
-    </button>
-    <button (click)="pb.changeResponive('tablet')" title="tablet" [class.active]="pb.responsive() == 'tablet'">
-      <svg Icon="assets/icons/tablet.svg"></svg>
-    </button>
-    <button (click)="pb.changeResponive('mobile')" title="mobile" [class.active]="pb.responsive() == 'mobile'">
-      <svg Icon="assets/icons/mobile.svg"></svg>
-    </button>
+    @for (bp of breakPoints; track bp.key) {
+      <button
+        (click)="pb.changeResponive(bp.key)"
+        [title]="bp.key + ': Min Width=' + bp.minWidth"
+        [class.active]="pb.responsive() == bp.key">
+        <svg [Icon]="'assets/icons/' + bp.icon + '.svg'"></svg>
+      </button>
+    }
   </div>
 }
 

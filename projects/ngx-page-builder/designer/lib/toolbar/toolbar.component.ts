@@ -15,6 +15,7 @@ import {
   PagePreviewService,
   CustomToolbarButtons,
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
+  DEFAULT_BREAKPOINTS,
 } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from 'ngx-kit/dialog';
@@ -33,6 +34,8 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   pageNumber: number = 1;
   enableHistory = LibConsts.enableHistory;
   toolbarConfig = LibConsts.toolbarConfig;
+
+  breakPoints = DEFAULT_BREAKPOINTS;
 
   constructor(
     private exporter: ExportHtmlService,

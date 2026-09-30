@@ -14,7 +14,7 @@ import {
   PageConfig,
   PageItem,
   SourceItem,
-  type ResponsiveSize,
+  type BreakPointKey,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -45,7 +45,7 @@ export class PageBuilderService implements OnDestroy {
   pageBodyEl?: HTMLElement;
   pageFooterEl?: HTMLElement;
 
-  responsive = signal<ResponsiveSize>('desktop');
+  responsive = signal<BreakPointKey>('xxl');
 
   /** start from 0 */
   currentPageIndex = signal<number>(0);
@@ -559,7 +559,7 @@ export class PageBuilderService implements OnDestroy {
     }
   }
 
-  changeResponive(size: ResponsiveSize) {
+  changeResponive(size: BreakPointKey) {
     this.responsive.set(size);
   }
 }
