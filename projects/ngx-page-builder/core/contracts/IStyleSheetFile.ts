@@ -7,8 +7,15 @@ export interface IStyleSheetFile {
 
 export type BreakPointKey = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-/** پیش‌فرض هم‌راستا با Bootstrap 5 */
-export const DEFAULT_FIRST_BREAKPOINT: Breakpoint = { key: 'xxl', minWidth: 1400, icon: 'desktop-wide' };
+/**
+ * breakpoint پایه (مثل «Desktop» در Webflow): استایل‌هایی که روی آن ثبت می‌شود بدون media query اعمال می‌شود.
+ * - breakpointهای بزرگ‌تر از پایه  → `@media (min-width)` (به سمت بالا cascade می‌شوند)
+ * - breakpointهای کوچک‌تر از پایه → `@media (max-width)` (به سمت پایین cascade می‌شوند)
+ */
+export const DEFAULT_BASE_BREAKPOINT_KEY: BreakPointKey = 'xl';
+
+/** breakpoint انتخاب‌شده هنگام باز شدن ادیتور = breakpoint پایه (هم‌راستا با Bootstrap 5) */
+export const DEFAULT_FIRST_BREAKPOINT: Breakpoint = { key: 'xl', minWidth: 1200, icon: 'desktop' };
 export const DEFAULT_BREAKPOINTS: Breakpoint[] = [
   { key: 'sm', minWidth: 576, icon: 'mobile' },
   { key: 'md', minWidth: 768, icon: 'mobile-landscape' },
@@ -32,8 +39,11 @@ export interface BlockCssChunk {
 
 /** استایل کامل یک بلاک: پایه + حالت‌ها + به‌ازای هر breakpoint یک BlockCssChunk جدا */
 export interface BlockCss extends BlockCssChunk {
-  /** کلید = نام breakpoint، مثل 'md' */
-  breakpoints?: Record<BreakPointKey, BlockCssChunk>;
+  /**
+   * کلید = نام breakpoint، مثل 'md'.
+   * breakpoint پایه اینجا ذخیره نمی‌شود؛ استایل آن در خود `base` و `states` است.
+   */
+  breakpoints?: Partial<Record<BreakPointKey, BlockCssChunk>>;
 }
 
 export interface Breakpoint {

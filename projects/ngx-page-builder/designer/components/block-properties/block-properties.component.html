@@ -3,7 +3,16 @@
     <!-- <p>{{ item.tag }}</p> -->
     <change-tag [item]="item" [(cssPseudoState)]="cssPseudoState"></change-tag>
 
-    <class-selector (selectedCss)="onSelectClass($event)"></class-selector>
+    <class-selector></class-selector>
+
+    <div class="context-bar">
+      <span class="context-label" [title]="'Editing: ' + contextLabel">Editing: {{ contextLabel }}</span>
+      @if (hasOverride) {
+        <button type="button" class="pb-btn" (click)="resetContext()" title="Remove overrides of this breakpoint/state">
+          Reset
+        </button>
+      }
+    </div>
 
     <details name="block-properties" (toggle)="openPanel(display)" #display>
       <summary>Display</summary>

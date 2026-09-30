@@ -7,6 +7,7 @@ import { Page } from '../models/Page';
 import { IPagebuilderOutput } from '../contracts/IPageBuilderOutput';
 import { IPageItem } from '../contracts/IPageItem';
 import { LibPreviewConsts } from '../consts/LibPreviewConsts';
+import { applyBlockStylesToDocument } from '../utiles/block-css';
 import { waitForFontsToLoad, waitForRenderComplete } from '../utiles/rendering';
 
 @Injectable({ providedIn: 'root' })
@@ -223,6 +224,8 @@ export class PagePreviewService {
       style.id = s.name;
       targetDoc.head.appendChild(style);
     }
+    // 4.1 استایل بلاک‌ها (base / hover / ... / breakpoint ها) — باید بعد از Bootstrap و استایل‌های کاربر بیاید
+    applyBlockStylesToDocument(targetDoc, this.data.data, this.data.cssVariables);
 
     // ۵. اضافه کردن JavaScript های عمومی
     for (let js of LibPreviewConsts.publicJs) {
@@ -459,5 +462,8 @@ export class PagePreviewService {
       style.id = s.name;
       this.doc.head.appendChild(style);
     }
+
+    // استایل بلاک‌ها (item.css) — در انتهای head تا بر Bootstrap و فایل‌های کاربر اولویت داشته باشد
+    applyBlockStylesToDocument(this.doc, this.data.data, this.data.cssVariables);
   }
 }

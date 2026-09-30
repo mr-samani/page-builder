@@ -8,6 +8,7 @@ import {
   DOCUMENT,
   inject,
   Injector,
+  computed,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
@@ -19,24 +20,28 @@ import { DragDropService } from 'ngx-kit/drag-resize';
 @Component({
   selector: 'inner-content',
   template: `
-    <iframe #iframe class="responive-{{ pb.responsive() }}"></iframe>
+    <div class="canvas">
+      <!-- عرض iframe برابر minWidth همان breakpoint است تا media query های همان breakpoint واقعاً فعال شوند -->
+      <iframe #iframe [style.width.px]="canvasWidth()"></iframe>
+    </div>
   `,
   styles: `
+    :host {
+      display: block;
+      height: 100%;
+    }
+    .canvas {
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
     iframe {
-      width: 100%;
       height: 100%;
       border: none;
       margin: 0 auto;
       display: block;
       box-shadow: 0 0 7px 0px #4f4f4f;
-    }
-    .responive-desktop {
-    }
-    .responive-tablet {
-      max-width: 768px;
-    }
-    .responive-mobile {
-      max-width: 500px;
+      transition: width 200ms ease;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +51,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private readonly iframe = viewChild.required<ElementRef<HTMLIFrameElement>>('iframe');
   private iframeApp?: ApplicationRef;
   protected readonly injector = inject(Injector);
+  protected readonly canvasWidth = computed(() => this.pb.responsive().minWidth);
 
   constructor() {
     super();

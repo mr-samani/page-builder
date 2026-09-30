@@ -126,6 +126,8 @@ export class PageItem implements IPageItem {
   public clone(parent?: PageItem): PageItem {
     let item = PageItem.fromJSON(cloneDeep(this));
     item.id = randomStrnig(5);
+    // کلاس اختصاصی استایل (blk-<id>) باید به id جدید وصل شود، وگرنه کپی و اصل استایل مشترک پیدا می‌کنند
+    item.classList = (item.classList ?? []).map((c) => (c.startsWith('blk-') ? `blk-${item.id}` : c));
     delete item.options?.events;
     delete item.options?.directives;
     delete item.options?.inputs;

@@ -16,7 +16,7 @@ export class CSSStyleHelper {
 
       if (!property || !value) continue;
 
-      result[this.toCamelCase(property)] = value;
+      result[this.toStyleKey(property)] = value;
     }
 
     return result as Partial<CSSStyleDeclaration>;
@@ -41,6 +41,35 @@ export class CSSStyleHelper {
     }
 
     return minify ? parts.join(' ') : parts.join('\n');
+  }
+
+  /**
+   * kebab-case → کلید شیء style. custom property ها (`--my-var`) دست‌نخورده می‌مانند
+   * (قبلاً به `-MyVar` خراب می‌شدند).
+   */
+  private static toStyleKey(property: string): string {
+    return property.startsWith('--') ? property : this.toCamelCase(property);
+  }
+
+  /** نقشه‌ی declaration ها (kebab-case، مثل خروجی ClassManagerService) → شیء style برای کنترل‌ها */
+  static declsToStyleObject(decls: Record<string, string>): Partial<CSSStyleDeclaration> {
+    const result = Object.create(null) as Record<string, string>;
+    for (const k of Object.keys(decls)) result[this.toStyleKey(k)] = decls[k];
+    return result as Partial<CSSStyleDeclaration>;
+  }
+
+  /** شیء style کنترل‌ها → نقشه‌ی kebab-case (فقط مقدارهای غیرخالی) */
+  static styleObjectToDecls(style: Partial<CSSStyleDeclaration>): Record<string, string> {
+    const out: Record<string, string> = {};
+    if (!style) return out;
+    const obj = style as Record<string, any>;
+    for (const key in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, key) || key === 'cssText') continue;
+      const value = obj[key];
+      if (typeof value !== 'string' || !value.trim()) continue;
+      out[key.startsWith('--') || key.includes('-') ? key : this.toKebabCase(key)] = value.trim();
+    }
+    return out;
   }
 
   /**

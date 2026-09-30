@@ -11,7 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { PageItem } from 'ngx-page-builder/core';
+import { PageItem, isBlockClass } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
 
@@ -58,10 +58,12 @@ export class ClassSelectorComponent implements OnInit {
       this.item = this.pb.activeEl();
       if (this.item) {
         this.classes = [];
+        // کلاس داخلی blk-<id> نگه‌دارنده‌ی استایل خودِ بلاک است؛ نمایش/حذف آن به کاربر داده نمی‌شود
         for (let c of this.item.classList) {
-          this.classes.push({ name: c });
+          if (!isBlockClass(c)) this.classes.push({ name: c });
         }
-        this.onSelectClass(this.item.classList[0]);
+        const first = this.classes[0]?.name;
+        if (first) this.onSelectClass(first);
       }
     });
 
@@ -118,12 +120,15 @@ export class ClassSelectorComponent implements OnInit {
   }
 
   remove(index: number) {
-    if (this.item?.classList.length == 1) {
+    if (this.classes.length == 1) {
       Notify.error('Can not delete all classes!');
       return;
     }
     if (this.item && this.item.classList) {
-      this.item.classList.splice(index, 1);
+      const name = this.classes[index]?.name;
+      const realIndex = this.item.classList.indexOf(name);
+      if (realIndex > -1) this.item.classList.splice(realIndex, 1);
+      this.item.el?.classList.remove(name);
       this.classes.splice(index, 1);
     }
   }

@@ -15,9 +15,9 @@ import {
   PageConfig,
   PageItem,
   SourceItem,
-  type Breakpoint,
-  type BreakPointKey,
-  type PseudoState,
+  cloneDeep,
+  BlockCss,
+  Breakpoint,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -360,8 +360,9 @@ export class PageBuilderService implements OnDestroy {
       item.options.events['click'] = (ev: PointerEvent) => this.selectBlock(item, ev);
     }
 
+    // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
     if (item.css) {
-      this.cls.addBlockCss(item);
+      this.cls.addBlockCss(item, false);
     }
 
     let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
@@ -398,6 +399,7 @@ export class PageBuilderService implements OnDestroy {
     // console.log('click on block', c.el);
     ev?.stopPropagation();
     ev?.preventDefault();
+    if (this.activeEl() !== c) this.flushStyleChange();
     this.activeEl.set(c);
     this.onSelectBlock$.next({ ev: ev, item: c });
   }
@@ -442,6 +444,42 @@ export class PageBuilderService implements OnDestroy {
     this.history.saveDelete(item.parent?.id, index, item, `Delete block '${item.id}' from '${item.parent?.id}'`);
   }
 
+  //---------------------------------- تغییر استایل بلاک (پنل تنظیمات) ----------------------------------
+  // کاربر هنگام درگ اسلایدر/رنگ ده‌ها رویداد در ثانیه می‌فرستد. CSSOM همان لحظه به‌روز می‌شود (ارزان)،
+  // ولی کارهای سنگین (deep clone برای history و اعلان تغییر به بیرون) فقط یک بار بعد از توقف انجام می‌شود.
+  private styleBurst?: { item: PageItem; prevCss?: BlockCss; timer?: ReturnType<typeof setTimeout> };
+  private static readonly STYLE_DEBOUNCE_MS = 400;
+
+  /** قبل از اعمال تغییر صدا بزنید: اولین بار در هر burst، css قبلی را برای history نگه می‌دارد */
+  beforeStyleChange(item: PageItem) {
+    if (this.styleBurst?.item === item) return;
+    this.flushStyleChange();
+    this.styleBurst = { item, prevCss: LibConsts.enableHistory && item.css ? cloneDeep(item.css) : undefined };
+  }
+
+  /** بعد از اعمال تغییر صدا بزنید (debounce می‌شود) */
+  notifyStyleChanged(item: PageItem) {
+    if (this.styleBurst?.item !== item) this.styleBurst = { item };
+    clearTimeout(this.styleBurst.timer);
+    this.styleBurst.timer = setTimeout(() => this.flushStyleChange(), PageBuilderService.STYLE_DEBOUNCE_MS);
+  }
+
+  /** فوراً burst جاری را نهایی می‌کند (مثلاً هنگام عوض شدن بلاک انتخابی یا ذخیره) */
+  flushStyleChange() {
+    const burst = this.styleBurst;
+    if (!burst) return;
+    clearTimeout(burst.timer);
+    this.styleBurst = undefined;
+
+    const { item, prevCss } = burst;
+    this.updateChangeDetection({ item, type: 'ChangeBlockProperties' });
+    if (LibConsts.enableHistory) {
+      // نمونه‌ی قبلی بلاک با css قبلی؛ history خودش deep-clone می‌کند
+      const prev = Object.assign(Object.create(Object.getPrototypeOf(item)), item, { css: prevCss }) as PageItem;
+      this.history.saveEdit(item.id, item, prev, `Change styles '${item.id}'`);
+    }
+  }
+
   writeItemValue(data: PageItem) {
     this.dynamicElementService.updateElementContent(data);
     this.updateChangeDetection({ item: data, type: 'ChangeBlockContent' });
@@ -455,7 +493,7 @@ export class PageBuilderService implements OnDestroy {
         // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
       }
     }
-    this.cls.addBlockCss(item);
+    this.cls.addBlockCss(item, false);
     this.updateChangeDetection({ item: item, type: 'ChangeBlockProperties' });
 
     // TODO: required previouws snapshot
@@ -463,6 +501,7 @@ export class PageBuilderService implements OnDestroy {
   }
 
   save() {
+    this.flushStyleChange();
     this.isSaving = true;
     this.storageService
       .saveData()

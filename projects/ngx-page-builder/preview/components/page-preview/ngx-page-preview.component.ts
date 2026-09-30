@@ -20,6 +20,7 @@ import {
   DynamicDataStructure,
   IPagebuilderOutput,
   PageBuilderConfig,
+  applyBlockStylesToDocument,
 } from 'ngx-page-builder/core';
 
 @Component({
@@ -93,6 +94,8 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
       this.doc.head.appendChild(j);
     }
+    // لینک‌های Bootstrap همین‌جا اضافه شدند؛ استایل بلاک‌ها را دوباره به انتهای head می‌بریم تا اولویت را از دست ندهد
+    applyBlockStylesToDocument(this.doc, this.data.data, this.data.cssVariables);
   }
 
   async load() {

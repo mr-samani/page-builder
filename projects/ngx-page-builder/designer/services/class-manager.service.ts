@@ -8,10 +8,24 @@ import {
   PageItem,
   parseCssBlockToRecord,
   BlockCss,
-  BlockCssChunk,
-  Breakpoint,
+  BlockCssContext,
+  BreakpointSetup,
+  DEFAULT_BREAKPOINT_SETUP,
   PseudoState,
-  DEFAULT_BREAKPOINTS,
+  compileBlocksCss,
+  getChunkText,
+  isBlockCssEmpty,
+  isBlockClass,
+  isSafeDecl,
+  listContexts,
+  mediaCondition,
+  mediaRank,
+  normalizeBlockCss,
+  parseDecls,
+  pseudoRank,
+  resolveDecls,
+  setChunkText,
+  stringifyDecls,
   type BreakPointKey,
 } from 'ngx-page-builder/core';
 
@@ -42,14 +56,17 @@ interface IClassInfo {
   fileId: string;
 }
 
-/** رفرنس‌های zinde به rule های مربوط به یک node (بدون هیچ ایندکس عددی) */
-interface NodeStyleRefs {
+/** رفرنس مستقیم به rule های یک (breakpoint) — بدون هیچ ایندکس عددی */
+interface CtxRefs {
   base?: CSSStyleRule;
   states: Map<PseudoState, CSSStyleRule>;
-  breakpoints: Map<BreakPointKey, { base?: CSSStyleRule; states: Map<PseudoState, CSSStyleRule> }>;
 }
 
-const VALID_IDENT = /(sm|md|lg|xl|xxl)/;
+/** رفرنس‌های rule های مربوط به یک node: breakpoint پایه (root) + بقیه‌ی breakpointها */
+interface NodeStyleRefs {
+  root: CtxRefs;
+  bps: Map<BreakPointKey, CtxRefs>;
+}
 
 //====================================================================================
 
@@ -92,25 +109,36 @@ export class ClassManagerService {
   private blocksLayer?: GroupingRule;
 
   /** رفرنس به `@media (min-width:..)` هر breakpoint، داخل blocksLayer، مرتب‌شده صعودی */
-  private mediaRules: { key: string; minWidth: number; rule: GroupingRule }[] = [];
+  private mediaRules: { key: BreakPointKey; rank: number; rule: GroupingRule }[] = [];
 
   private rootVarsRule?: CSSStyleRule;
 
-  breakpoints: Breakpoint[] = DEFAULT_BREAKPOINTS;
+  /** breakpointهای فعال + کلید breakpoint پایه (بدون media query) */
+  private setup: BreakpointSetup = DEFAULT_BREAKPOINT_SETUP;
+  public get breakpointSetup(): BreakpointSetup {
+    return this.setup;
+  }
 
   doc = inject(DOCUMENT);
   http = inject(HttpClient);
 
   private _cssVariables: ICssVariable[] = [];
+  private cssVariablesSubject = new BehaviorSubject<ICssVariable[]>([]);
+  /** برای انتخابگرهای متغیر CSS در پنل — با هر تغییر متغیرها مقدار جدید می‌دهد */
+  public cssVariables$ = this.cssVariablesSubject.asObservable();
+
   public get cssVariables(): ICssVariable[] {
     return this._cssVariables;
   }
 
   public setCssVariables(val: ICssVariable[]): void {
-    this._cssVariables = val;
+    this._cssVariables = val ?? [];
+    this.cssVariablesSubject.next(this._cssVariables);
+    val = this._cssVariables;
     if (!this.rootVarsRule) return;
     let cssText = '';
     for (const c of val) {
+      if (!c?.name || !isSafeDecl(`--${c.name}`, String(c.value ?? ''))) continue;
       cssText += `--${c.name}:${c.value};`;
     }
     this.rootVarsRule.style.cssText = cssText;
@@ -478,7 +506,8 @@ export class ClassManagerService {
   }
 
   /**
-   * TODO: چانک درست (item.css.base یا item.css.states.hover یا item.css.breakpoints.md.base) بنویسند و بعد addBlockCss(item) را صدا بزنند.
+   * ویرایش «کلاس مشترک» (لایه files). برای استایل خودِ بلاک، سراغ setBlockStyle بروید
+   * (آن item.css را به‌روز می‌کند و بر اساس breakpoint/state فعال می‌نویسد).
    */
   public updateClass(selector: string, styles: Partial<CSSStyleDeclaration> | string, fileId?: string): void {
     if (!this.filesLayer) {
@@ -577,201 +606,259 @@ export class ClassManagerService {
 
   //==================================================================================
   // استایل بلاک‌ها (per-node) — پایه + حالت‌ها + breakpointها — لایه blocks
+  //
+  // منبع حقیقت (source of truth) همیشه `item.css` است (متن declaration ها؛ همان چیزی که ذخیره می‌شود).
+  // CSSOM (rule های داخل styleSheet) فقط یک «نمایش» از item.css است و با syncContext هماهنگ می‌شود.
+  //
+  // ترتیب داخل @layer blocks (مهم برای درست بودن cascade):
+  //   [ rule های base/state همه‌ی بلاک‌ها ]  →  [ @media ها به ترتیب mediaRank ]
+  // و برای هر بلاک: base → visited → hover → focus → focus-visible → active → checked → disabled
   //==================================================================================
 
-  /**
-   * کلاس تولیدی بلاک را تضمین می‌کند و برمی‌گرداند.
-   * توجه: کلاس دیگر به tag وابسته نیست (blk-id)، پس تغییر تگ (changeElementTagName)
-   * دیگر نیازی به rename کلاس ندارد.
-   */
+  /** کلاس اختصاصی بلاک (blk-<id>) را تضمین می‌کند و روی المان هم اضافه می‌کند (کلاس به tag وابسته نیست) */
   private ensureBlockClassName(item: PageItem): string {
-    let cls = item.classList?.find((c) => c.startsWith('blk-'));
+    let cls = item.classList?.find((c) => isBlockClass(c));
     if (!cls) {
       cls = `blk-${item.id}`;
       item.classList ??= [];
       item.classList.push(cls);
     }
+    // اولین بار که استایل ساخته می‌شود، المان از قبل ساخته شده و کلاس ندارد
+    if (item.el && !item.el.classList.contains(cls)) item.el.classList.add(cls);
     return cls;
   }
 
-  private getOrCreateMediaRule(bpKey: string): GroupingRule | undefined {
+  private getRefs(id: string): NodeStyleRefs {
+    let refs = this.nodeRefs.get(id);
+    if (!refs) {
+      refs = { root: { states: new Map() }, bps: new Map() };
+      this.nodeRefs.set(id, refs);
+    }
+    return refs;
+  }
+
+  private getOrCreateMediaRule(bpKey: BreakPointKey): GroupingRule | undefined {
     if (!this.blocksLayer) return undefined;
     const existing = this.mediaRules.find((m) => m.key === bpKey);
     if (existing) return existing.rule;
 
-    const bp = this.breakpoints.find((b) => b.key === bpKey);
-    if (!bp) {
-      console.warn(`Unknown breakpoint: ${bpKey}`);
+    const cond = mediaCondition(this.setup, bpKey);
+    if (!cond) {
+      console.warn(`Unknown or base breakpoint: ${bpKey}`);
       return undefined;
     }
 
-    // موقعیت درج: صعودی بر اساس minWidth (mobile-first)
+    const rank = mediaRank(this.setup, bpKey);
+    let listIdx = this.mediaRules.findIndex((m) => m.rank > rank);
     let insertAt = this.blocksLayer.cssRules.length;
-    let listInsertAt = this.mediaRules.length;
-    for (let i = 0; i < this.mediaRules.length; i++) {
-      if (this.mediaRules[i].minWidth > bp.minWidth) {
-        insertAt = Array.prototype.indexOf.call(this.blocksLayer.cssRules, this.mediaRulesRuleAt(i));
-        listInsertAt = i;
-        break;
-      }
+    if (listIdx === -1) {
+      listIdx = this.mediaRules.length;
+    } else {
+      const idx = Array.prototype.indexOf.call(this.blocksLayer.cssRules, this.mediaRules[listIdx].rule);
+      if (idx > -1) insertAt = idx;
     }
 
-    const idx = this.blocksLayer.insertRule(`@media (min-width:${bp.minWidth}px){}`, insertAt);
+    const idx = this.blocksLayer.insertRule(`@media ${cond}{}`, insertAt);
     const rule = this.blocksLayer.cssRules[idx] as unknown as GroupingRule;
-    this.mediaRules.splice(listInsertAt, 0, { key: bpKey, minWidth: bp.minWidth, rule });
+    this.mediaRules.splice(listIdx, 0, { key: bpKey, rank, rule });
     return rule;
   }
 
-  private mediaRulesRuleAt(i: number): CSSRule {
-    return this.mediaRules[i].rule as unknown as CSSRule;
+  /**
+   * ایندکس درج یک rule جدید:
+   *  - اگر برای همین بلاک rule ای با اولویت بالاتر (state دیرتر) از قبل هست → درست قبل از آن
+   *  - وگرنه: انتهای ناحیه‌ی base/state (در ریشه، قبل از media ها) یا انتهای media
+   * حالت دوم O(1) است، پس بارگذاری هزاران بلاک کند نمی‌شود.
+   */
+  private insertIndex(container: GroupingRule, isRoot: boolean, refs: CtxRefs, state: PseudoState): number {
+    const myRank = pseudoRank(state);
+    let next: CSSRule | undefined;
+    let nextRank = Infinity;
+    for (const [s, r] of refs.states) {
+      const rk = pseudoRank(s);
+      if (rk > myRank && rk < nextRank) {
+        next = r;
+        nextRank = rk;
+      }
+    }
+    if (next) {
+      const i = Array.prototype.indexOf.call(container.cssRules, next);
+      if (i > -1) return i;
+    }
+    // در ریشه، media ها همیشه انتهای لایه‌اند
+    return isRoot ? container.cssRules.length - this.mediaRules.length : container.cssRules.length;
   }
 
-  private upsertStyleRule(
-    container: GroupingRule,
-    selector: string,
-    cssText: string | undefined,
-    existing?: CSSStyleRule,
-  ): CSSStyleRule | undefined {
-    if (!cssText || !cssText.trim()) {
+  /** rule مربوط به یک context را با متن فعلی item.css هماهنگ می‌کند (ساخت / به‌روزرسانی / حذف) */
+  private syncContext(item: PageItem, ctx: BlockCssContext): void {
+    if (!this.blocksLayer) return;
+    const text = getChunkText(normalizeBlockCss(item.css), this.setup, ctx);
+    const isRoot = ctx.bp === this.setup.baseKey;
+
+    const nodeRefs = this.getRefs(item.id);
+    let ctxRefs: CtxRefs | undefined = isRoot ? nodeRefs.root : nodeRefs.bps.get(ctx.bp);
+    if (!ctxRefs) {
+      if (!text) return; // چیزی برای حذف نیست
+      ctxRefs = { states: new Map() };
+      if (!isRoot) nodeRefs.bps.set(ctx.bp, ctxRefs);
+    }
+
+    const container = isRoot ? this.blocksLayer : this.getOrCreateMediaRule(ctx.bp);
+    if (!container) return;
+
+    const existing = ctx.state === 'none' ? ctxRefs.base : ctxRefs.states.get(ctx.state);
+
+    if (!text) {
       if (existing) this.deleteRuleRef(container, existing);
-      return undefined;
+      if (ctx.state === 'none') ctxRefs.base = undefined;
+      else ctxRefs.states.delete(ctx.state);
+      if (!isRoot && !ctxRefs.base && !ctxRefs.states.size) nodeRefs.bps.delete(ctx.bp);
+      return;
     }
+
     if (existing) {
-      existing.style.cssText = cssText;
-      return existing;
+      // مسیر داغ (هر تغییر کاربر): فقط یک انتساب روی CSSOM
+      existing.style.cssText = text;
+      return;
     }
+
+    const selector = '.' + this.ensureBlockClassName(item) + (ctx.state === 'none' ? '' : ':' + ctx.state);
     try {
-      const idx = container.insertRule(`${selector} { ${cssText} }`, container.cssRules.length);
-      return container.cssRules[idx] as CSSStyleRule;
+      const at = this.insertIndex(container, isRoot, ctxRefs, ctx.state);
+      container.insertRule(`${selector}{${text}}`, at);
+      const rule = container.cssRules[at] as CSSStyleRule;
+      if (ctx.state === 'none') ctxRefs.base = rule;
+      else ctxRefs.states.set(ctx.state, rule);
     } catch (e) {
       console.warn(`Could not insert block rule for ${selector}:`, e);
-      return undefined;
     }
   }
 
-  private applyStates(
-    container: GroupingRule,
-    selector: string,
-    input: Partial<Record<PseudoState, string>> | undefined,
-    refs: Map<PseudoState, CSSStyleRule>,
-  ): void {
-    const incoming = input ?? {};
-    const allStates = new Set<PseudoState>([...refs.keys(), ...(Object.keys(incoming) as PseudoState[])]);
-    for (const state of allStates) {
-      const rule = this.upsertStyleRule(container, `${selector}:${state}`, incoming[state], refs.get(state));
-      if (rule) refs.set(state, rule);
-      else refs.delete(state);
-    }
+  /** همه‌ی contextهای item (چه در css و چه rule های موجود) را هماهنگ می‌کند؛ rule های اضافی حذف می‌شوند */
+  private syncAllContexts(item: PageItem): void {
+    const css = normalizeBlockCss(item.css);
+    const seen = new Set<string>();
+    const run = (ctx: BlockCssContext) => {
+      const k = `${ctx.bp}|${ctx.state}`;
+      if (seen.has(k)) return;
+      seen.add(k);
+      this.syncContext(item, ctx);
+    };
+    for (const ctx of listContexts(css, this.setup)) run(ctx);
+
+    const refs = this.nodeRefs.get(item.id);
+    if (!refs) return;
+    const stale = (bp: BreakPointKey, c: CtxRefs) => {
+      if (c.base) run({ bp, state: 'none' });
+      for (const s of Array.from(c.states.keys())) run({ bp, state: s });
+    };
+    stale(this.setup.baseKey, refs.root);
+    for (const [bp, c] of Array.from(refs.bps)) stale(bp, c);
   }
 
   /**
-   * اعمال استایل یک بلاک (و بازگشتی روی فرزندان/template که css دارند).
-   * جایگزین addBlockCss قدیمی. برای سازگاری، item.css می‌تواند string (فقط base) یا BlockCss باشد.
+   * اعمال استایل یک بلاک از روی item.css (هنگام ساخت المان / بارگذاری صفحه / undo و redo).
+   * برای ساخت درخت، createBlockElement خودش برای هر بلاک صدا می‌زند، پس آنجا recursive=false بدهید.
    */
-  public async addBlockCss(item: PageItem): Promise<void> {
+  public addBlockCss(item: PageItem, recursive = true): void {
     if (!item) return;
     if (!this.blocksLayer) {
       console.warn('ClassManagerService not initialized yet');
       return;
     }
+    if (typeof item.css === 'string') item.css = normalizeBlockCss(item.css); // سازگاری با داده‌ی قدیمی
+    if (item.css || this.nodeRefs.has(item.id)) this.syncAllContexts(item);
 
-    if (item.css) {
-      const chunk: BlockCss = typeof item.css === 'string' ? { base: item.css } : (item.css as BlockCss);
-      this.applyBlockStyle(item, chunk);
-    }
-
-    if (item.children) {
-      for (const child of item.children) {
-        if (child.css) await this.addBlockCss(child);
-      }
-    }
-    if (item.template?.css) {
-      await this.addBlockCss(item.template);
-    }
+    if (!recursive) return;
+    if (item.children) for (const child of item.children) this.addBlockCss(child, true);
+    if (item.template) this.addBlockCss(item.template, true);
   }
 
-  private applyBlockStyle(item: PageItem, chunk: BlockCss): void {
-    if (!this.blocksLayer) return;
-    const selector = '.' + this.ensureBlockClassName(item);
+  //---------------------------------- API پنل تنظیمات ----------------------------------
 
-    let refs = this.nodeRefs.get(item.id);
-    if (!refs) {
-      refs = { states: new Map(), breakpoints: new Map() };
-      this.nodeRefs.set(item.id, refs);
-    }
-
-    refs.base = this.upsertStyleRule(this.blocksLayer, selector, chunk.base, refs.base);
-    this.applyStates(this.blocksLayer, selector, chunk.states, refs.states);
-
-    const seenBp = new Set<BreakPointKey>();
-    for (const k of Object.keys(chunk.breakpoints ?? {})) {
-      const bpKey = k as BreakPointKey;
-      if (!VALID_IDENT.test(bpKey)) continue;
-      seenBp.add(bpKey);
-      const media = this.getOrCreateMediaRule(bpKey);
-      if (!media) continue;
-
-      let bpRefs = refs.breakpoints.get(bpKey);
-      if (!bpRefs) {
-        bpRefs = { states: new Map() };
-        refs.breakpoints.set(bpKey, bpRefs);
-      }
-      const c = chunk.breakpoints![bpKey];
-      bpRefs.base = this.upsertStyleRule(media, selector, c.base, bpRefs.base);
-      this.applyStates(media, selector, c.states, bpRefs.states);
-    }
-
-    // پاک‌سازی breakpointهایی که دیگر در ورودی نیستند
-    for (const bpKey of Array.from(refs.breakpoints.keys())) {
-      if (seenBp.has(bpKey)) continue;
-      const media = this.mediaRules.find((m) => m.key === bpKey)?.rule;
-      const bpRefs = refs.breakpoints.get(bpKey)!;
-      if (media) {
-        if (bpRefs.base) this.deleteRuleRef(media, bpRefs.base);
-        for (const r of bpRefs.states.values()) this.deleteRuleRef(media, r);
-      }
-      refs.breakpoints.delete(bpKey);
-    }
+  private toCtx(ctx?: Partial<BlockCssContext>): BlockCssContext {
+    return { bp: ctx?.bp ?? this.setup.baseKey, state: ctx?.state ?? 'none' };
   }
 
-  /** خواندن استایل فعلی یک بلاک برای پرکردن پنل تنظیمات (base/state/breakpoint فعال) */
+  /** فقط مقادیری که خود کاربر در همین context ثبت کرده (بدون ارث‌بری) — kebab-case */
+  public getOwnDeclarations(item: PageItem, ctx?: Partial<BlockCssContext>): Record<string, string> {
+    const text = getChunkText(normalizeBlockCss(item.css), this.setup, this.toCtx(ctx));
+    return Object.fromEntries(parseDecls(text));
+  }
+
+  /** مقدار مؤثر با ارث‌بری از base و breakpointهای میانی — برای پر کردن کنترل‌ها — kebab-case */
+  public getEffectiveDeclarations(item: PageItem, ctx?: Partial<BlockCssContext>): Record<string, string> {
+    return Object.fromEntries(resolveDecls(normalizeBlockCss(item.css), this.setup, this.toCtx(ctx)));
+  }
+
+  public hasOwnDeclarations(item: PageItem, ctx?: Partial<BlockCssContext>): boolean {
+    return !!getChunkText(normalizeBlockCss(item.css), this.setup, this.toCtx(ctx));
+  }
+
+  /**
+   * تغییر استایل بلاک در یک context. `patch`: کلید kebab-case → مقدار؛ null/'' یعنی حذف override.
+   * item.css را به‌روز می‌کند و همان لحظه روی CSSOM اعمال می‌کند (یک انتساب، بدون بازسازی).
+   * @returns true اگر واقعاً چیزی تغییر کرد
+   */
+  public setBlockStyle(
+    item: PageItem,
+    ctx: Partial<BlockCssContext> | undefined,
+    patch: Record<string, string | null | undefined>,
+  ): boolean {
+    if (!item) return false;
+    const c = this.toCtx(ctx);
+    const css: BlockCss = normalizeBlockCss(item.css) ?? {};
+
+    const map = parseDecls(getChunkText(css, this.setup, c));
+    let changed = false;
+    for (const [rawKey, rawVal] of Object.entries(patch)) {
+      const key = rawKey.startsWith('--') ? rawKey : rawKey.toLowerCase();
+      const val = rawVal == null ? '' : String(rawVal).trim();
+      if (!val) {
+        changed = map.delete(key) || changed;
+        continue;
+      }
+      if (!isSafeDecl(key, val)) {
+        console.warn(`Rejected unsafe declaration: ${key}`);
+        continue;
+      }
+      if (map.get(key) !== val) {
+        map.set(key, val);
+        changed = true;
+      }
+    }
+    if (!changed) return false;
+
+    setChunkText(css, this.setup, c, stringifyDecls(map));
+    item.css = isBlockCssEmpty(css) ? undefined : css;
+    this.syncContext(item, c);
+    return true;
+  }
+
+  /** حذف همه‌ی override های یک context (مثلاً «reset hover در tablet») */
+  public resetBlockContext(item: PageItem, ctx?: Partial<BlockCssContext>): boolean {
+    const own = this.getOwnDeclarations(item, ctx);
+    const patch: Record<string, null> = {};
+    for (const k of Object.keys(own)) patch[k] = null;
+    return this.setBlockStyle(item, ctx, patch);
+  }
+
+  /** css خام بلاک (برای دیباگ/سازگاری با کد قدیمی) */
   public getBlockCss(item: PageItem): BlockCss | undefined {
-    const refs = this.nodeRefs.get(item.id);
-    if (!refs) return undefined;
-
-    const result: BlockCss = {};
-    if (refs.base) result.base = refs.base.style.cssText;
-    if (refs.states.size) {
-      result.states = {};
-      for (const [state, rule] of refs.states) result.states[state] = rule.style.cssText;
-    }
-    if (refs.breakpoints.size) {
-      result.breakpoints = {} as any;
-      for (const [bp, bpRefs] of refs.breakpoints) {
-        const chunk: BlockCssChunk = {};
-        if (bpRefs.base) chunk.base = bpRefs.base.style.cssText;
-        if (bpRefs.states.size) {
-          chunk.states = {};
-          for (const [state, rule] of bpRefs.states) chunk.states[state] = rule.style.cssText;
-        }
-        result.breakpoints![bp] = chunk;
-      }
-    }
-    return result;
+    return normalizeBlockCss(item.css);
   }
 
-  /** حذف کامل استایل یک بلاک هنگام حذف بلاک از صفحه — این را از removeBlock در PageBuilderService صدا بزنید */
+  /** حذف کامل استایل یک بلاک هنگام حذف بلاک از صفحه — از removeBlock در PageBuilderService صدا زده می‌شود */
   public removeBlockCss(item: PageItem): void {
     const refs = this.nodeRefs.get(item.id);
     if (refs && this.blocksLayer) {
-      if (refs.base) this.deleteRuleRef(this.blocksLayer, refs.base);
-      for (const r of refs.states.values()) this.deleteRuleRef(this.blocksLayer, r);
-      for (const [bpKey, bpRefs] of refs.breakpoints) {
+      if (refs.root.base) this.deleteRuleRef(this.blocksLayer, refs.root.base);
+      for (const r of refs.root.states.values()) this.deleteRuleRef(this.blocksLayer, r);
+      for (const [bpKey, c] of refs.bps) {
         const media = this.mediaRules.find((m) => m.key === bpKey)?.rule;
-        if (media) {
-          if (bpRefs.base) this.deleteRuleRef(media, bpRefs.base);
-          for (const r of bpRefs.states.values()) this.deleteRuleRef(media, r);
-        }
+        if (!media) continue;
+        if (c.base) this.deleteRuleRef(media, c.base);
+        for (const r of c.states.values()) this.deleteRuleRef(media, r);
       }
     }
     this.nodeRefs.delete(item.id);
@@ -780,16 +867,25 @@ export class ClassManagerService {
     if (item.template) this.removeBlockCss(item.template);
   }
 
-  /** برای اسنپ‌شات گرفتن (پلاگین/thumbnail): فقط استایل پایه‌ی درخت، بدون media/pseudo */
+  /**
+   * تنظیم breakpointها (مثلاً از تنظیمات پروژه). چون شرط media ها عوض می‌شود،
+   * لایه‌ی blocks خالی می‌شود و استایل `roots` دوباره ساخته می‌شود.
+   */
+  public setBreakpoints(setup: BreakpointSetup, roots: PageItem[] = []): void {
+    this.setup = setup;
+    if (!this.blocksLayer) return;
+    while (this.blocksLayer.cssRules.length) this.blocksLayer.deleteRule(this.blocksLayer.cssRules.length - 1);
+    this.mediaRules = [];
+    this.nodeRefs.clear();
+    for (const r of roots) this.addBlockCss(r, true);
+  }
+
+  /** استایل کامل درخت (base + state ها + media ها) برای اسنپ‌شات/پلاگین، به‌همراه کلاس‌های دستی بلاک */
   getBlockStyles(item: PageItem): string {
-    let css = '';
+    let css = compileBlocksCss([item], this.setup);
     const tree = (node: PageItem) => {
-      const refs = this.nodeRefs.get(node.id);
-      if (refs?.base) {
-        const cls = node.classList.find((c) => c.startsWith('blk-'));
-        if (cls) css += `\n.${cls}{\n  ${refs.base.style.cssText}\n}\n`;
-      }
       for (const c of node.classList) {
+        if (isBlockClass(c)) continue;
         const s = this.getClassStyles(c);
         if (s) css += `\n.${c}{\n  ${s}\n}\n`;
       }

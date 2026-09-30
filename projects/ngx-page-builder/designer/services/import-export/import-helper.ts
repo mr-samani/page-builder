@@ -217,11 +217,9 @@ export abstract class HtmlImporter {
     // TODO: Import style to class
     const css = await StyleHelper.extractStyles(element, options);
     if (css) {
-      const className = pageItem.tag + '_' + pageItem.id;
-      pageItem.classList = [className];
-      pageItem.css = {
-        base: `.${className}{${css}}`,
-      };
+      // کلاس اختصاصی استایل بلاک (blk-<id>)، و css فقط declaration ها (نه یک rule کامل)
+      pageItem.classList = [`blk-${pageItem.id}`];
+      pageItem.css = { base: css };
     }
 
     // پردازش فرزندان
