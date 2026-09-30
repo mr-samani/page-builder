@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, Injector, model, OnInit, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { SpacingControlComponent } from '../../controls/spacing-control/spacing-control.component';
 import { FormsModule } from '@angular/forms';
@@ -10,8 +10,9 @@ import { SizeControlComponent } from '../../controls/size-control/size-control.c
 import { ShadowControlComponent } from '../../controls/shadow-control/shadow-control.component';
 import { ClassSelectorComponent, IClassOutput } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
-import { PageItem } from 'ngx-page-builder/core';
+import { PageItem, type PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
+import type { classNames } from '@angular/cdk/schematics';
 
 @Component({
   selector: 'block-properties',
@@ -40,6 +41,7 @@ export class BlockPropertiesComponent extends BaseComponent implements OnInit {
 
   currentCss = '';
   currentClassName = '';
+  cssPseudoState = model<PseudoState>('none');
 
   constructor() {
     super();
@@ -60,5 +62,9 @@ export class BlockPropertiesComponent extends BaseComponent implements OnInit {
     this.currentCss = cls.value;
     this.currentClassName = cls.name;
     this.style = CSSStyleHelper.cssTextToStyleObject(this.currentCss);
+  }
+
+  onChangeStyle(ev: Partial<CSSStyleDeclaration>) {
+    this.cls.updateClass(this.currentClassName, ev, this.cssPseudoState());
   }
 }

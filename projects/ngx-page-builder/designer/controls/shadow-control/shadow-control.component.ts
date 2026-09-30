@@ -36,8 +36,6 @@ import { NgxInputColor } from 'ngx-kit/color-picker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShadowControlComponent extends BaseControl implements OnInit, AfterViewInit {
-  @Input() currentClassName = '';
-
   @Input() maxRange = 25;
 
   padRect?: DOMRect;
@@ -272,6 +270,5 @@ export class ShadowControlComponent extends BaseControl implements OnInit, After
     this.style.boxShadow = this.result;
     this.onChange(this.style);
     this.change.emit(this.style);
-    this.cls.updateClass(this.currentClassName, this.style);
   }
 }

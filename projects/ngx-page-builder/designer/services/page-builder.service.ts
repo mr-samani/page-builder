@@ -5,6 +5,7 @@ import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {
+  DEFAULT_FIRST_BREAKPOINT,
   DynamicElementService,
   IPageItem,
   LibConsts,
@@ -14,7 +15,9 @@ import {
   PageConfig,
   PageItem,
   SourceItem,
+  type Breakpoint,
   type BreakPointKey,
+  type PseudoState,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -45,7 +48,7 @@ export class PageBuilderService implements OnDestroy {
   pageBodyEl?: HTMLElement;
   pageFooterEl?: HTMLElement;
 
-  responsive = signal<BreakPointKey>('xxl');
+  responsive = signal<Breakpoint>(DEFAULT_FIRST_BREAKPOINT);
 
   /** start from 0 */
   currentPageIndex = signal<number>(0);
@@ -557,9 +560,5 @@ export class PageBuilderService implements OnDestroy {
       Notify.error('Body Not Exist!');
       throw 'BodyNotFound';
     }
-  }
-
-  changeResponive(size: BreakPointKey) {
-    this.responsive.set(size);
   }
 }

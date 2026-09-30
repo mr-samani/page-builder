@@ -1,52 +1,52 @@
 <div class="pb-inner">
   @if (item) {
     <!-- <p>{{ item.tag }}</p> -->
-    <change-tag [item]="item"></change-tag>
+    <change-tag [item]="item" [(cssPseudoState)]="cssPseudoState"></change-tag>
 
     <class-selector (selectedCss)="onSelectClass($event)"></class-selector>
 
     <details name="block-properties" (toggle)="openPanel(display)" #display>
       <summary>Display</summary>
       @if (display.open) {
-        <display-control [(ngModel)]="style" [currentClassName]="currentClassName"></display-control>
+        <display-control [(ngModel)]="style" (change)="onChangeStyle($event)"></display-control>
       }
     </details>
 
     <details name="block-properties" (toggle)="openPanel(size)" #size>
       <summary>Size</summary>
       @if (size.open) {
-        <size-control [(ngModel)]="style" [currentClassName]="currentClassName"></size-control>
+        <size-control [(ngModel)]="style" (change)="onChangeStyle($event)"></size-control>
       }
     </details>
 
     <details name="block-properties" (toggle)="openPanel(spacing)" #spacing>
       <summary>Spacing</summary>
       @if (spacing.open) {
-        <spacing-control [(ngModel)]="style" [currentClassName]="currentClassName"></spacing-control>
+        <spacing-control [(ngModel)]="style" (change)="onChangeStyle($event)"></spacing-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(typography)" #typography>
       <summary>Typography</summary>
       @if (typography.open) {
-        <typography-control [(ngModel)]="style" [currentClassName]="currentClassName"></typography-control>
+        <typography-control [(ngModel)]="style" (change)="onChangeStyle($event)"></typography-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(background)" #background>
       <summary>Background</summary>
       @if (background.open) {
-        <background-control [(ngModel)]="style" [currentClassName]="currentClassName"></background-control>
+        <background-control [(ngModel)]="style" (change)="onChangeStyle($event)"></background-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(shadow)" #shadow>
       <summary>Shadow</summary>
       @if (shadow.open) {
-        <shadow-control [(ngModel)]="style" [currentClassName]="currentClassName"></shadow-control>
+        <shadow-control [(ngModel)]="style" (change)="onChangeStyle($event)"></shadow-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>
       <summary>Advanced</summary>
       @if (advanced.open) {
-        <textcss-control [(ngModel)]="style" [currentClassName]="currentClassName"></textcss-control>
+        <textcss-control [(ngModel)]="style" (change)="onChangeStyle($event)"></textcss-control>
       }
     </details>
   } @else {

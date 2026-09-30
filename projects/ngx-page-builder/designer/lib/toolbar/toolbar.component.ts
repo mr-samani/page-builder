@@ -16,6 +16,7 @@ import {
   CustomToolbarButtons,
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
   DEFAULT_BREAKPOINTS,
+  type Breakpoint,
 } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from 'ngx-kit/dialog';
@@ -212,5 +213,9 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
         this.chdRef.detectChanges();
       }
     });
+  }
+
+  changeResponive(b: Breakpoint) {
+    this.pb.responsive.set(b);
   }
 }

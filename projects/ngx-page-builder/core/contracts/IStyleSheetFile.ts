@@ -6,7 +6,9 @@ export interface IStyleSheetFile {
 }
 
 export type BreakPointKey = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
 /** پیش‌فرض هم‌راستا با Bootstrap 5 */
+export const DEFAULT_FIRST_BREAKPOINT: Breakpoint = { key: 'xxl', minWidth: 1400, icon: 'desktop-wide' };
 export const DEFAULT_BREAKPOINTS: Breakpoint[] = [
   { key: 'sm', minWidth: 576, icon: 'mobile' },
   { key: 'md', minWidth: 768, icon: 'mobile-landscape' },
@@ -20,7 +22,7 @@ export const DEFAULT_BREAKPOINTS: Breakpoint[] = [
  * فقط شبه‌کلاس‌های ساده (بدون آرگومان) مجازند تا خطر تزریق CSS نداشته باشیم.
  * اگر چیزی مثل `:nth-child()` لازم شد، جدا و آگاهانه اضافه کنید.
  */
-export type PseudoState = 'hover' | 'focus' | 'focus-visible' | 'active' | 'visited' | 'disabled' | 'checked';
+export type PseudoState = 'hover' | 'focus' | 'focus-visible' | 'active' | 'visited' | 'disabled' | 'checked' | 'none';
 
 /** یک تکه‌ی استایل: مقدار پایه + حالت‌های شبه‌کلاس، به‌صورت متن خام CSS declarations (مثل: "color:red;font-size:14px;") */
 export interface BlockCssChunk {
