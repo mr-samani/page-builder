@@ -416,7 +416,6 @@ export class PageBuilderService implements OnDestroy {
     return undefined;
   }
 
-  // TODO: clear css class on delete tree
   async removeBlock(item: PageItem) {
     if (!item || item.disableDelete) return;
 
@@ -432,6 +431,7 @@ export class PageBuilderService implements OnDestroy {
     if (index !== -1 && item.el) {
       parentChildren.splice(index, 1);
       await this.dynamicElementService.destroy(item);
+      await this.cls.removeBlockCss(item);
     }
     this.activeEl.set(undefined);
     this.updateChangeDetection({ item: item, parent: parentChildren, type: 'RemoveBlock' });
@@ -452,6 +452,7 @@ export class PageBuilderService implements OnDestroy {
         // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
       }
     }
+    this.cls.addBlockCss(item);
     this.updateChangeDetection({ item: item, type: 'ChangeBlockProperties' });
 
     // TODO: required previouws snapshot

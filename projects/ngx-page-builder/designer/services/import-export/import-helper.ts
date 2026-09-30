@@ -219,7 +219,9 @@ export abstract class HtmlImporter {
     if (css) {
       const className = pageItem.tag + '_' + pageItem.id;
       pageItem.classList = [className];
-      pageItem.css = `.${className}{${css}}`;
+      pageItem.css = {
+        base: `.${className}{${css}}`,
+      };
     }
 
     // پردازش فرزندان

@@ -5,13 +5,15 @@ export const CollectionItemPreview = new SourceItem({
   icon: 'assets/icons/collection.svg',
   title: 'Collection Item',
   classList: [],
-  css: `
+  css: {
+    base: `
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     align-items: center;
     justify-content: center;
     padding: 10px;`,
+  },
   customComponent: {
     componentKey: 'NgxPgCollectionItem',
     component: () => import('./collection-item.component').then((c) => c.PreviewCollectionItemComponent),

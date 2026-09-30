@@ -51,7 +51,8 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     disableDelete: true,
     classList: [],
     children: [],
-    css: `
+    css: {
+      base: `
     position: relative;
     flex: auto;
     box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
@@ -60,6 +61,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     overflow: hidden;
     min-height: 220px;
     min-width: 150px;`,
+    },
   };
 
   dataList: DynamicDataStructure[][] = [];

@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   viewChild,
-  type ApplicationRef,
+  ApplicationRef,
   DOCUMENT,
   inject,
   Injector,
@@ -55,15 +55,6 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   }
 
   ngOnInit() {
-    this.pb.cls.iframe = this.iframe().nativeElement;
-    for (let js of LibConsts.publicJs) {
-      const j = this.doc.createElement('script');
-      j.src = js;
-      j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
-
-      this.iframe().nativeElement?.insertBefore(j, this.iframe().nativeElement?.firstChild);
-    }
-
     this.loadIframe();
   }
 
@@ -104,11 +95,12 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     this.iframeApp.bootstrap(BaseContentComponent, {
       hostElement: host,
     });
-
+    this.pb.cls.setIframe(iframe);
     this.updateBodyStyle();
+    this.loadJs();
   }
 
-  updateBodyStyle() {
+  private updateBodyStyle() {
     const iframe = this.iframe()?.nativeElement;
     if (!iframe) return;
     const doc = iframe.contentDocument!;
@@ -134,6 +126,19 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       doc.head.appendChild(style);
     }
     style.innerHTML = s;
+  }
+
+  private loadJs() {
+    const iframe = this.iframe()?.nativeElement;
+    if (!iframe) return;
+    const doc = iframe.contentDocument!;
+
+    for (let js of LibConsts.publicJs) {
+      const j = this.doc.createElement('script');
+      j.src = js;
+      j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
+      doc.head.appendChild(j);
+    }
   }
 
   ngOnDestroy() {

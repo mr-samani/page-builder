@@ -4,6 +4,7 @@ import { DataSourceSetting } from './DataSourceSetting';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
 import { cloneDeep } from '../utiles/clone-deep';
+import { BlockCss } from '../contracts/IStyleSheetFile';
 
 export class PageItem implements IPageItem {
   id: string = '';
@@ -44,7 +45,7 @@ export class PageItem implements IPageItem {
   classList: string[] = [];
 
   /** like color:white; */
-  css?: string;
+  css?: BlockCss;
 
   constructor(data?: IPageItem, parent?: PageItem) {
     if (data) {
@@ -65,10 +66,6 @@ export class PageItem implements IPageItem {
     }
     if (parent) this.parent = parent;
     this.classList ??= [];
-
-    if (this.classList.length == 0) {
-      this.classList.push(this.tag + '-' + this.id);
-    }
   }
   static fromJSON(data: IPageItem): PageItem {
     const item = new PageItem(data);

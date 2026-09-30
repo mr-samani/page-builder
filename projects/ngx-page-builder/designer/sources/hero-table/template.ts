@@ -42,11 +42,13 @@ export const _template: IPageItem = {
   lockMoveInnerChild: true,
   disableDelete: true,
   classList: [],
-  css: ` 
+  css: {
+    base: ` 
     width: 100%;
     border-collapse: collapse;
     border: 1px #2196f3 solid;
     `,
+  },
   children: [
     {
       tag: 'thead',
@@ -55,9 +57,11 @@ export const _template: IPageItem = {
       lockMoveInnerChild: true,
       disableMovement: true,
       children: [cloneDeep(_headRow)],
-      css: `
+      css: {
+        base: `
         background-color: beige;
         `,
+      },
     },
     {
       tag: 'tbody',

@@ -6,7 +6,8 @@ export const CollectionItemSource = new SourceItem({
   title: 'Collection Item',
   classList: [],
   canHaveChild: false,
-  css: `
+  css: {
+    base: `
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -14,6 +15,7 @@ export const CollectionItemSource = new SourceItem({
     justify-content: center;
     padding: 10px;
   `,
+  },
   customComponent: {
     componentKey: 'NgxPgCollectionItem',
     component: () => import('./collection-item.component').then((c) => c.CollectionItemComponent),
