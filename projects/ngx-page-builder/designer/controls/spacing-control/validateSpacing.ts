@@ -1,82 +1,64 @@
-import { PosValue, Spacing } from './SpacingModel';
+import { IPosValue } from './IPosValue';
 
-export function validateSpacing(spacing: Spacing, allowNegative: boolean): Spacing {
-  const validated: Spacing = {
-    top: { value: undefined, unit: 'px' },
-    right: { value: undefined, unit: 'px' },
-    bottom: { value: undefined, unit: 'px' },
-    left: { value: undefined, unit: 'px' },
-  };
-  const keys: (keyof Spacing)[] = ['top', 'right', 'bottom', 'left'];
+export function validateSpacing(spacing: IPosValue, allowNegative: boolean): IPosValue {
+  const validated: IPosValue = {};
+  const keys: (keyof IPosValue)[] = ['top', 'right', 'bottom', 'left'];
 
   for (const key of keys) {
-    const value = spacing[key]?.value;
-    validated[key] = new PosValue();
-
+    const value = spacing[key];
     if (value == 'auto') {
-      validated[key].value = 'auto';
+      validated[key] = 'auto';
     } else if (value === undefined || isNaN(+value)) {
-      validated[key].value = undefined;
+      validated[key] = 0;
     } else if (!allowNegative && +value < 0) {
-      validated[key].value = 0; // No negative values for padding
+      validated[key] = 0; // No negative values for padding
     } else {
-      validated[key].value = Math.round(+value * 100) / 100; // Round to 2 decimal places
+      validated[key] = Math.round(+value * 100) / 100; // Round to 2 decimal places
     }
-    validated[key]!.unit = spacing[key]?.unit ?? 'px';
   }
   return validated;
 }
 // Parse spacing values from CSS string (e.g., "10px 20px 30px 40px")
-export function parseSpacingValues(cssValue: string | undefined): Spacing {
-  if (!cssValue) return new Spacing();
+export function parseSpacingValues(cssValue: string | undefined, defaultValue: IPosValue, unit: string): IPosValue {
+  if (!cssValue) return { ...defaultValue };
 
   const values = cssValue.trim().split(/\s+/);
-  const unitRegex = /(px|rem|em|%)$/;
+  const unitRegex = /(px|rem|em|%|vw|vh)$/;
 
   // Extract numeric values and unit
-  const parsed = new Spacing();
+  const parsed: IPosValue = { ...defaultValue };
   if (values.length === 1) {
     // Single value (e.g., "10px")
-    const v0 = parseSingleValue(values[0], unitRegex);
-    parsed.top = { ...v0 };
-    parsed.right = { ...v0 };
-    parsed.bottom = { ...v0 };
-    parsed.left = { ...v0 };
+    const val = parseSingleValue(values[0], unitRegex);
+    parsed.top = parsed.right = parsed.bottom = parsed.left = val;
+    unit = values[0].match(unitRegex)?.[0] || unit;
   } else if (values.length === 2) {
     // Two values (e.g., "10px 20px")
-    const v0 = parseSingleValue(values[0], unitRegex);
-    const v1 = parseSingleValue(values[1], unitRegex);
-    parsed.top = { ...v0 };
-    parsed.bottom = { ...v0 };
-    parsed.right = { ...v1 };
-    parsed.left = { ...v1 };
+    parsed.top = parsed.bottom = parseSingleValue(values[0], unitRegex);
+    parsed.right = parsed.left = parseSingleValue(values[1], unitRegex);
+    unit = values[0].match(unitRegex)?.[0] || unit;
   } else if (values.length === 3) {
     // Three values (e.g., "10px 20px 30px")
-    const v0 = parseSingleValue(values[0], unitRegex);
-    const v1 = parseSingleValue(values[1], unitRegex);
-    const v2 = parseSingleValue(values[2], unitRegex);
-    parsed.top = { ...v0 };
-    parsed.right = { ...v1 };
-    parsed.left = { ...v1 };
-    parsed.bottom = { ...v2 };
+    parsed.top = parseSingleValue(values[0], unitRegex);
+    parsed.right = parsed.left = parseSingleValue(values[1], unitRegex);
+    parsed.bottom = parseSingleValue(values[2], unitRegex);
+    unit = values[0].match(unitRegex)?.[0] || unit;
   } else if (values.length === 4) {
     // Four values (e.g., "10px 20px 30px 40px")
     parsed.top = parseSingleValue(values[0], unitRegex);
     parsed.right = parseSingleValue(values[1], unitRegex);
     parsed.bottom = parseSingleValue(values[2], unitRegex);
     parsed.left = parseSingleValue(values[3], unitRegex);
+    unit = values[0].match(unitRegex)?.[0] || unit;
   }
 
+  unit = unit; // Update unit if detected
   return parsed;
 }
 
 // Parse a single CSS value (e.g., "10px" -> 10)
-export function parseSingleValue(value: string, unitRegex: RegExp): PosValue {
-  if (value == 'auto') return { value: 'auto', unit: 'auto' };
+export function parseSingleValue(value: string, unitRegex: RegExp): number | 'auto' {
+  if (value == 'auto') return 'auto';
   const num = parseFloat(value.replace(unitRegex, ''));
-  let unit = value.match(unitRegex)?.[0] as any;
-  return {
-    value: isNaN(num) ? 0 : num,
-    unit,
-  };
+  return isNaN(num) ? 0 : num;
 }

@@ -40,11 +40,10 @@ dialog {
     font-size: 16px;
   }
   .pb-menu-content {
-    height: 500px;
     padding: 10px;
     overflow: auto;
   }
-  .pb-menu-footer {
+  .pb-menu-footer:not(:empty) {
     border-top: var(--border);
     padding: 8px;
   }

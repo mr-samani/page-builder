@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DOCUMENT, inject, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ImportHtmlService } from '../../services/import-export/import-html.service';
 import { ImportResult } from '../../services/import-export/ImportResult';
 import { ImportOptions } from '../../services/import-export/ImportOptions';
@@ -36,7 +36,6 @@ export class ImportDialogComponent implements OnInit {
   useBackendApi = false;
 
   loading: boolean = false;
-  private doc = inject(DOCUMENT);
   private dialogRef = inject(DIALOG_REF);
 
   constructor(
@@ -45,10 +44,6 @@ export class ImportDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
-  ngAfterViewInit(): void {
-    // fix bug for show colors in tinymce editor
-    this.doc.querySelector('.cdk-overlay-popover')?.removeAttribute('popover');
-  }
 
   importFromUrl(resultSection: HTMLElement) {
     if (!this.urlInput || !this.querySelectorInput) {
