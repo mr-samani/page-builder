@@ -7,6 +7,8 @@ import { BackgroundControlComponent } from '../../controls/beckground-control/ba
 import { DisplayControlComponent } from '../../controls/display-control/display-control.component';
 import { TextCssControlComponent } from '../../controls/textcss-control/textcss-control.component';
 import { SizeControlComponent } from '../../controls/size-control/size-control.component';
+import { TransformControlComponent } from '../../controls/transform-control/transform-control.component';
+import { TransitionControlComponent } from '../../controls/transition-control/transition-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
@@ -24,6 +26,8 @@ import { NgxShadowBox } from 'ngx-kit/box-shadow';
     TypographyControlComponent,
     BackgroundControlComponent,
     NgxShadowBox,
+    TransformControlComponent,
+    TransitionControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -103,6 +107,9 @@ export class BlockPropertiesComponent extends BaseComponent {
   onChangeStyle(ev: Partial<CSSStyleDeclaration>) {
     const item = this.item;
     if (!item) return;
+    // اگر کنترل خروجی‌ای به اسم `change` دارد، رویداد DOM ـی `change` ورودی‌های داخلش هم (با bubble) به همین handler می‌رسد.
+    // آن یک Event است نه شیء style؛ بدون این گارد، «همه‌ی» استایل‌ها به‌عنوان حذف‌شده تفسیر می‌شدند.
+    if (typeof Event !== 'undefined' && (ev as unknown) instanceof Event) return;
 
     const next = CSSStyleHelper.styleObjectToDecls(ev);
     const patch: Record<string, string | null> = {};

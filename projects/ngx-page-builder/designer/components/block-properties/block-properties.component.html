@@ -52,6 +52,27 @@
         <ngx-box-shadow [(ngModel)]="style.boxShadow" (shadowChange)="onShadowChange($event)"></ngx-box-shadow>
       }
     </details>
+    <details name="block-properties" (toggle)="openPanel(transform)" #transform>
+      <summary>Transform</summary>
+      @if (transform.open) {
+        <transform-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transform-control>
+      }
+    </details>
+    <details name="block-properties" (toggle)="openPanel(transition)" #transition>
+      <summary>Transition</summary>
+      @if (transition.open) {
+        @if (cssPseudoState() !== 'none') {
+          <p class="pb-hint">
+            Tip: put the transition on the
+            <b>Normal</b>
+            state, so the element animates both into and out of
+            <b>{{ cssPseudoState() }}</b>
+            .
+          </p>
+        }
+        <transition-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transition-control>
+      }
+    </details>
     <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>
       <summary>Advanced</summary>
       @if (advanced.open) {
