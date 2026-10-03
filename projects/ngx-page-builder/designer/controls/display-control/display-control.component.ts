@@ -1,22 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseControl } from '../base-control';
+import { HtmlSanitizer } from 'ngx-page-builder/core';
 
-interface ISelectOption {
-  value: string;
-  label: string;
-  icon: string;
-}
 export type DisplayType =
   | 'block'
   | 'inline'
@@ -32,9 +19,21 @@ export type DisplayType =
   | 'contents'
   | 'flow-root';
 
+type LayoutMode = 'block' | 'flex' | 'grid' | 'inline' | 'advanced';
+
+interface LayoutOption {
+  value: string;
+  label: string;
+  icon: string;
+  description?: string;
+}
+
 @Component({
   selector: 'display-control',
+  standalone: true,
+  imports: [FormsModule, HtmlSanitizer],
   templateUrl: './display-control.component.html',
+  styleUrl: './display-control.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -42,154 +41,276 @@ export type DisplayType =
       multi: true,
     },
   ],
-  standalone: true,
-  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DisplayControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
+export class DisplayControlComponent extends BaseControl implements ControlValueAccessor {
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
-  // Display Mode Options
-  displayOptions: ISelectOption[] = [
-    { value: 'block', label: 'Block', icon: '▭' },
-    { value: 'inline', label: 'Inline', icon: '═' },
-    { value: 'inline-block', label: 'Inline Block', icon: '▢' },
-    { value: 'flex', label: 'Flex', icon: '⫴' },
-    { value: 'inline-flex', label: 'Inline Flex', icon: '⫴' },
-    { value: 'grid', label: 'Grid', icon: '▦' },
-    { value: 'inline-grid', label: 'Inline Grid', icon: '▦' },
-    { value: 'table', label: 'Table', icon: '⊞' },
-    { value: 'table-row', label: 'Table Row', icon: '━' },
-    { value: 'table-cell', label: 'Table Cell', icon: '□' },
-    { value: 'none', label: 'None', icon: '⊗' },
-    { value: 'contents', label: 'Contents', icon: '⋯' },
-    { value: 'flow-root', label: 'Flow Root', icon: '↯' },
+  advanced = false;
+
+  readonly layoutModes: LayoutOption[] = [
+    {
+      value: 'block',
+      label: 'Block',
+      icon: '▣',
+      description: 'One item per line',
+    },
+    {
+      value: 'flex',
+      label: 'Flex',
+      icon: '⇆',
+      description: 'Arrange items in one direction',
+    },
+    {
+      value: 'grid',
+      label: 'Grid',
+      icon: '▦',
+      description: 'Arrange items in rows and columns',
+    },
+    {
+      value: 'inline',
+      label: 'Inline',
+      icon: '↔',
+      description: 'Flow with surrounding content',
+    },
   ];
 
-  justifyOptions: ISelectOption[] = [
-    { value: 'flex-start', label: 'Start', icon: '⫷|||' },
-    { value: 'center', label: 'Center', icon: '|⫷|⫸|' },
-    { value: 'flex-end', label: 'End', icon: '|||⫸' },
-    { value: 'space-between', label: 'Between', icon: '|⫷⫷|' },
-    { value: 'space-around', label: 'Around', icon: '⫷|⫷|⫷' },
-    { value: 'space-evenly', label: 'Evenly', icon: '⫷|⫷|⫷' },
+  readonly directions: LayoutOption[] = [
+    {
+      value: 'row',
+      label: 'Horizontal',
+      icon: '→',
+      description: 'Left to right',
+    },
+    {
+      value: 'row-reverse',
+      label: 'Horizontal Reverse',
+      icon: '←',
+    },
+    {
+      value: 'column',
+      label: 'Vertical',
+      icon: '↓',
+      description: 'Top to bottom',
+    },
+    {
+      value: 'column-reverse',
+      label: 'Vertical Reverse',
+      icon: '↑',
+    },
   ];
 
-  alignOptions: ISelectOption[] = [
-    { value: 'flex-start', label: 'Start', icon: '' },
-    { value: 'center', label: 'Center', icon: '' },
-    { value: 'flex-end', label: 'End', icon: '' },
-    { value: 'stretch', label: 'Stretch', icon: '' },
-    { value: 'baseline', label: 'Baseline', icon: '' },
-  ];
-  alignContentOptions: ISelectOption[] = [
-    { value: 'flex-start', label: 'Flex Start', icon: '' },
-    { value: 'flex-end', label: 'Flex End', icon: '' },
-    { value: 'center', label: 'Center', icon: '' },
-    { value: 'space-between', label: 'Space Between', icon: '' },
-    { value: 'space-around', label: 'Space Around', icon: '' },
-    { value: 'stretch', label: 'Stretch', icon: '' },
+  readonly alignmentOptions: LayoutOption[] = [
+    {
+      value: 'flex-start',
+      label: 'Start',
+      icon: '⫷',
+    },
+    {
+      value: 'center',
+      label: 'Center',
+      icon: '≡',
+    },
+    {
+      value: 'flex-end',
+      label: 'End',
+      icon: '⫸',
+    },
+    {
+      value: 'space-between',
+      label: 'Between',
+      icon: '⇤ ⇥',
+    },
+    {
+      value: 'space-around',
+      label: 'Around',
+      icon: '⇠ ⇢',
+    },
+    {
+      value: 'space-evenly',
+      label: 'Evenly',
+      icon: '↔',
+    },
   ];
 
-  alignSelfOptions: ISelectOption[] = [
-    { value: 'auto', label: 'Auto', icon: '' },
-    { value: 'flex-start', label: 'Flex Start', icon: '' },
-    { value: 'flex-end', label: 'Flex End', icon: '' },
-    { value: 'center', label: 'Center', icon: '' },
-    { value: 'baseline', label: 'Baseline', icon: '' },
-    { value: 'stretch', label: 'Stretch', icon: '' },
+  readonly crossAlignmentOptions: LayoutOption[] = [
+    {
+      value: 'flex-start',
+      label: 'Start',
+      icon: '↑',
+    },
+    {
+      value: 'center',
+      label: 'Center',
+      icon: '↕',
+    },
+    {
+      value: 'flex-end',
+      label: 'End',
+      icon: '↓',
+    },
+    {
+      value: 'stretch',
+      label: 'Stretch',
+      icon: '↕',
+    },
+    {
+      value: 'baseline',
+      label: 'Baseline',
+      icon: '≡',
+    },
   ];
 
-  constructor(private cdr: ChangeDetectorRef) {
+  readonly wrapOptions: LayoutOption[] = [
+    {
+      value: 'nowrap',
+      label: 'No wrap',
+      icon: '→',
+    },
+    {
+      value: 'wrap',
+      label: 'Wrap',
+      icon: '<svg data-wf-icon="FlexFlowWrapIcon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M14.207 11.5L10.8535 14.8535L10.1465 14.1465L12.293 12H3V11H12.293L10.1465 8.85352L10.8535 8.14648L14.207 11.5ZM11 4H3V3H11V4Z" fill="currentColor"></path><path opacity="0.4" d="M11 4.20703L4.20703 11H3V10.793L9.79297 4H11V4.20703Z" fill="currentColor"></path></g></svg>',
+    },
+    {
+      value: 'wrap-reverse',
+      label: 'Reverse',
+      icon: '↗',
+    },
+  ];
+
+  readonly gridColumnPresets: LayoutOption[] = [
+    {
+      value: 'repeat(1, 1fr)',
+      label: '1',
+      icon: '▯',
+    },
+    {
+      value: 'repeat(2, 1fr)',
+      label: '2',
+      icon: '▯▯',
+    },
+    {
+      value: 'repeat(3, 1fr)',
+      label: '3',
+      icon: '▯▯▯',
+    },
+    {
+      value: 'repeat(4, 1fr)',
+      label: '4',
+      icon: '▯▯▯▯',
+    },
+    {
+      value: 'repeat(6, 1fr)',
+      label: '6',
+      icon: '▯▯▯▯▯▯',
+    },
+  ];
+
+  constructor(private readonly cdr: ChangeDetectorRef) {
     super();
   }
 
-  ngOnInit() {}
-
   writeValue(style: Partial<CSSStyleDeclaration>): void {
-    if (!style) {
-      style = {};
-    }
-    this.style = style;
-    this.cdr.detectChanges();
+    this.style = style ?? {};
+    this.cdr.markForCheck();
   }
 
-  setDisplay(displayType: DisplayType) {
+  get display(): DisplayType {
+    return (this.style.display as DisplayType) || 'block';
+  }
+
+  get isFlexLayout(): boolean {
+    return this.display === 'flex' || this.display === 'inline-flex';
+  }
+
+  get isGridLayout(): boolean {
+    return this.display === 'grid' || this.display === 'inline-grid';
+  }
+
+  get isInlineLayout(): boolean {
+    return (
+      this.display === 'inline' ||
+      this.display === 'inline-block' ||
+      this.display === 'inline-flex' ||
+      this.display === 'inline-grid'
+    );
+  }
+
+  selectLayout(display: string): void {
+    this.style.display = display;
+
+    if (display === 'flex' || display === 'inline-flex') {
+      this.ensureFlexDefaults();
+    }
+
+    if (display === 'grid' || display === 'inline-grid') {
+      this.ensureGridDefaults();
+    }
+
     this.update();
   }
 
-  update() {
+  private ensureFlexDefaults(): void {
+    this.style.flexDirection ??= 'row';
+    this.style.flexWrap ??= 'nowrap';
+    this.style.justifyContent ??= 'flex-start';
+    this.style.alignItems ??= 'stretch';
+  }
+
+  private ensureGridDefaults(): void {
+    this.style.gridTemplateColumns ??= 'repeat(2, 1fr)';
+    this.style.gridTemplateRows ??= 'auto';
+    this.style.gap ??= '0px';
+  }
+
+  setDirection(value: string): void {
+    this.style.flexDirection = value;
+    this.update();
+  }
+
+  setJustify(value: string): void {
+    this.style.justifyContent = value;
+    this.update();
+  }
+
+  setAlign(value: string): void {
+    this.style.alignItems = value;
+    this.update();
+  }
+
+  setWrap(value: string): void {
+    this.style.flexWrap = value;
+    this.update();
+  }
+
+  setGridColumns(value: string): void {
+    this.style.gridTemplateColumns = value;
+    this.update();
+  }
+
+  setGridPreset(value: string): void {
+    this.style.gridTemplateColumns = value;
+    this.update();
+  }
+
+  setNumber(property: keyof CSSStyleDeclaration, value: string): void {
+    (this.style as any)[property] = value as never;
+    this.update();
+  }
+
+  update(): void {
     this.onChange(this.style);
     this.change.emit(this.style);
   }
 
-  isFlex(): boolean {
-    return this.style.display === 'flex' || this.style.display === 'inline-flex';
-  }
-
-  isGrid(): boolean {
-    return this.style.display === 'grid' || this.style.display === 'inline-grid';
-  }
-
-  isTable(): boolean {
-    return this.style.display?.includes('table') == true;
-  }
-
-  // Quick Flex Presets
-  setFlexPreset(preset: string) {
-    switch (preset) {
-      case 'row-start':
-        this.style.flexDirection = 'row';
-        this.style.justifyContent = 'flex-start';
-        this.style.alignItems = 'flex-start';
-        break;
-      case 'row-center':
-        this.style.flexDirection = 'row';
-        this.style.justifyContent = 'center';
-        this.style.alignItems = 'center';
-        break;
-      case 'row-between':
-        this.style.flexDirection = 'row';
-        this.style.justifyContent = 'space-between';
-        this.style.alignItems = 'center';
-        break;
-      case 'column-start':
-        this.style.flexDirection = 'column';
-        this.style.justifyContent = 'flex-start';
-        this.style.alignItems = 'flex-start';
-        break;
-      case 'column-center':
-        this.style.flexDirection = 'column';
-        this.style.justifyContent = 'center';
-        this.style.alignItems = 'center';
-        break;
-    }
+  clear(property: keyof CSSStyleDeclaration): void {
+    delete this.style[property];
     this.update();
   }
 
-  // Quick Grid Presets
-  setGridPreset(preset: string) {
-    switch (preset) {
-      case '2-col':
-        this.style.gridTemplateColumns = 'repeat(2, 1fr)';
-        break;
-      case '3-col':
-        this.style.gridTemplateColumns = 'repeat(3, 1fr)';
-        break;
-      case '4-col':
-        this.style.gridTemplateColumns = 'repeat(4, 1fr)';
-        break;
-      case 'auto-fill':
-        this.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-        break;
-      case 'auto-fit':
-        this.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
-        break;
-    }
-    this.update();
-  }
-
-  clear(property: any) {
-    this.style[property] = undefined;
+  toggleAdvanced(): void {
+    this.advanced = !this.advanced;
+    this.cdr.markForCheck();
   }
 }

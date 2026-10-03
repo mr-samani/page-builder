@@ -54,3 +54,6 @@ export * from './consts/LibPreviewConsts';
 export * from './consts/validateViewMode';
 export * from './consts/defaults';
 export * from './consts/regex';
+
+// pipes
+export * from './pipes/sanitizer.pipe';
