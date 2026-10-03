@@ -9,6 +9,7 @@ import {
   inject,
   Injector,
   computed,
+  signal,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
@@ -20,9 +21,14 @@ import { DragDropService } from 'ngx-kit/drag-resize';
 @Component({
   selector: 'inner-content',
   template: `
-    <div class="canvas">
+    <div class="canvas" #canvas>
       <!-- عرض iframe برابر minWidth همان breakpoint است تا media query های همان breakpoint واقعاً فعال شوند -->
-      <iframe #iframe [style.width.px]="canvasWidth()"></iframe>
+      <iframe
+        #iframe
+        [style.width.px]="canvasWidth()"
+        [style.minWidth.px]="canvasWidth()"
+        [style.maxWidth.px]="canvasWidth()"
+        [style.transform]="'scale(' + scale() + ')'"></iframe>
     </div>
   `,
   styles: `
@@ -32,8 +38,7 @@ import { DragDropService } from 'ngx-kit/drag-resize';
     }
     .canvas {
       height: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
+      overflow: hidden;
     }
     iframe {
       height: 100%;
@@ -42,6 +47,8 @@ import { DragDropService } from 'ngx-kit/drag-resize';
       display: block;
       box-shadow: 0 0 7px 0px #4f4f4f;
       transition: width 200ms ease;
+      transform-style: preserve-3d;
+      transform-origin: 0 0;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,8 +56,16 @@ import { DragDropService } from 'ngx-kit/drag-resize';
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
   private readonly iframe = viewChild.required<ElementRef<HTMLIFrameElement>>('iframe');
+  private readonly canvas = viewChild.required<ElementRef<HTMLIFrameElement>>('canvas');
+
   private iframeApp?: ApplicationRef;
   protected readonly injector = inject(Injector);
+
+  readonly scale = computed(() => {
+    const mw = this.pb.responsive().minWidth;
+    const c = this.canvas().nativeElement.getBoundingClientRect();
+    return Math.min(c.width / mw, 1);
+  });
   protected readonly canvasWidth = computed(() => this.pb.responsive().minWidth);
 
   constructor() {
@@ -123,6 +138,10 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
       height: 100%;
       display: block;
     }
+    *{
+      box-sizing:border-box;
+    }
+
     `;
 
     let style = doc.head.querySelector('#ngx-page-context-base-style');

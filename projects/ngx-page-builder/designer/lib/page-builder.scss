@@ -1,6 +1,9 @@
 .page-builder-container {
   display: grid;
-  grid-template-columns: var(--toolbar-width) auto var(--side-config-width);
+  grid-template-columns:
+    var(--toolbar-width)
+    calc(100vw - var(--toolbar-width) - var(--side-config-width))
+    var(--side-config-width);
   grid-template-rows: var(--topbar-height) auto;
   gap: 0px 5px;
   min-height: 100vh;

@@ -130,18 +130,21 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
 
   updatePosition() {
     if (!this.item?.el) return;
-
     const rect = this.item.el.getBoundingClientRect();
 
     // اگه element هنوز در DOM نیست
     if (rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0) return;
-    this.x = rect.x; // (this.body()?.scrollX ?? 0) + rect.x;
+    const doc = this.item.el.ownerDocument;
+    const win = doc.defaultView!;
+    const scrollbarWidth = win.innerWidth - doc.documentElement.clientWidth;
+
+    this.x = rect.x - scrollbarWidth; // (this.body()?.scrollX ?? 0) + rect.x;
     this.y = rect.y; //(this.body()?.scrollY ?? 0) + rect.y;
     this.width = rect.width;
     this.height = rect.height;
     this.showInBottom = rect.y < 0 || rect.y - 24 < this.headerOffset;
 
-    this.chdRef.detectChanges();
+    this.chdRef.markForCheck();
   }
 
   async deleteBlock() {
