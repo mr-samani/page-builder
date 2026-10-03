@@ -4,8 +4,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "strict": true,
-    "rootDir": "./projects",
-    "outDir": "./dist/out-tsc",
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -16,7 +14,6 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2022",
@@ -25,8 +22,7 @@
 
     "esModuleInterop": true,
     "sourceMap": true,
-    "declaration": false,
-    /* very important when using false then optional field in class not set in Object.hasOwn(this, property) */
+    "declaration": true,
     "useDefineForClassFields": true
   },
   "angularCompilerOptions": {
@@ -34,22 +30,5 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  },
-  "references": [
-    {
-      "path": "./projects/demo/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/demo/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/ngx-page-builder/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/ngx-page-builder/tsconfig.lib.prod.json"
-    },
-    {
-      "path": "./projects/ngx-page-builder/tsconfig.spec.json"
-    }
-  ]
+  }
 }

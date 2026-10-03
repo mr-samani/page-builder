@@ -26,8 +26,6 @@
       color: var(--active-button-fg);
     }
     svg {
-      color: var(--toolbar-fg);
-      fill: var(--toolbar-fg);
       max-width: 100%;
       max-height: 100%;
     }
@@ -57,4 +55,8 @@
   svg {
     max-height: 100%;
   }
+}
+
+.responsive-handle {
+  display: flex;
 }

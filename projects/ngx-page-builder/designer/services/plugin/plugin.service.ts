@@ -12,10 +12,9 @@ import { ClassManagerService } from '../class-manager.service';
 @Injectable()
 export class PBPluginService {
   private pluginStore = inject<IPluginStore>(NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE);
-  constructor(
-    private cls: ClassManagerService,
-    private pb: PageBuilderService,
-  ) {}
+  protected readonly pb = inject(PageBuilderService);
+
+  constructor(private cls: ClassManagerService) {}
   async getPlugin(item: PageItem): Promise<IPlugin> {
     return new Promise<IPlugin>(async (resolve, reject) => {
       try {

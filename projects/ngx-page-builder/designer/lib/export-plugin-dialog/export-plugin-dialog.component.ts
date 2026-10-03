@@ -23,11 +23,11 @@ export class ExportPluginDialogComponent implements OnInit {
   loading = true;
   private _data = inject<PageItem>(DIALOG_DATA);
   private dialogRef = inject(DIALOG_REF);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
-    private pb: PageBuilderService,
   ) {
     this.loading = true;
   }

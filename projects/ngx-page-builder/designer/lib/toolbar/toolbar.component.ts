@@ -15,6 +15,8 @@ import {
   PagePreviewService,
   CustomToolbarButtons,
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
+  DEFAULT_BREAKPOINTS,
+  type Breakpoint,
 } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from 'ngx-kit/dialog';
@@ -33,6 +35,8 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   pageNumber: number = 1;
   enableHistory = LibConsts.enableHistory;
   toolbarConfig = LibConsts.toolbarConfig;
+
+  breakPoints = DEFAULT_BREAKPOINTS;
 
   constructor(
     private exporter: ExportHtmlService,
@@ -131,7 +135,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   toggleOutlines() {
-    this.pb.showOutlines.set(!this.pb.showOutlines());
+    this.pb.showOutlines.update((u) => !u);
     localStorage.setItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY, this.pb.showOutlines() + '');
   }
   deSelectBlock() {
@@ -157,7 +161,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
 
   previewPage() {
-    this.win?.open('/preview');
+    this.doc?.open('/preview');
   }
   sortPages() {
     Dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {
@@ -168,10 +172,12 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
   openConfigDialog() {
     Dialog.open(ConfigDialogComponent, {
-      width: '768px',
-      height: '80dvh',
+      size: 'lg',
+      minHeight: '80dvh',
     }).afterClosed.subscribe((r) => {
-      this.chdRef.detectChanges();
+      if (r) {
+        this.pb.onUpdateBaseConfig$.next(r);
+      }
     });
   }
   openCssFileDialog() {
@@ -207,5 +213,9 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
         this.chdRef.detectChanges();
       }
     });
+  }
+
+  changeResponive(b: Breakpoint) {
+    this.pb.responsive.set(b);
   }
 }

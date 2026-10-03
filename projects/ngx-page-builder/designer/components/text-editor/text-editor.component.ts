@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DynamicAutocompleteDirective } from '../../directives/ngx-dynamic-data-autocomplete.directive';
 import { fromEvent, Subscription } from 'rxjs';
-import { DynamicDataService, PageItem, WINDOW } from 'ngx-page-builder/core';
+import { DynamicDataService, PageItem } from 'ngx-page-builder/core';
 import { DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 
 @Component({
@@ -58,7 +58,6 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = [];
   data = inject<PageItem>(DIALOG_DATA);
   private doc = inject(DOCUMENT);
-  private win = inject(WINDOW);
   private dialogRef = inject(DIALOG_REF);
 
   constructor(
@@ -87,7 +86,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   // ✅ ذخیره کردن selection فعلی
   saveSelection(eventType: string = 'other') {
-    const sel = this.win?.getSelection();
+    const sel = this.doc?.getSelection();
     if (sel && sel.rangeCount > 0) {
       this.savedSelection = sel.getRangeAt(0).cloneRange();
 
@@ -104,7 +103,7 @@ export class TextEditorComponent implements AfterViewInit, OnDestroy {
   // ✅ بازگردانی selection ذخیره شده
   restoreSelection() {
     if (this.savedSelection) {
-      const sel = this.win?.getSelection();
+      const sel = this.doc?.getSelection();
       if (sel) {
         sel.removeAllRanges();
         sel.addRange(this.savedSelection);

@@ -8,7 +8,8 @@ export const HeroTablePreview = new SourceItem({
     componentKey: 'NgxPgHeroTable',
     component: () => import('./hero-table.component').then((c) => c.PreviewHeroTableComponent),
   },
-  css: `
+  css: {
+    base: `
   .ngx-hero-table{
     width: 100%;
     border-collapse: collapse;
@@ -24,4 +25,5 @@ export const HeroTablePreview = new SourceItem({
   }
 
   `,
+  },
 });

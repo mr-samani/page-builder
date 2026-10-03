@@ -191,3 +191,15 @@ details[open] {
     }
   }
 }
+
+.context-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 12px;
+  .context-label {
+    opacity: 0.8;
+  }
+}

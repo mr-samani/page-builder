@@ -7,6 +7,7 @@ import {
   viewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  signal,
 } from '@angular/core';
 import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
@@ -74,107 +75,10 @@ export class BuilderComponent implements OnInit, AfterViewInit {
   pb = viewChild<NgxPageBuilder>('pageBuilder');
   dynamicData = this.dynamicDatainitializer.DynamicData;
 
-  styles: IStyleSheetFile[] = [
-    {
-      name: 'default',
-      data: `
-          .blur-card {
-            background-size: cover;
-            background-position: center center;
-            background-repeat: repeat-y;
-            box-shadow: rgba(76, 48, 255, 0.2) 0px 0px 20px 0px;
-            color: rgb(0, 0, 237);
-            background-color: rgba(0, 0, 0, 0);
-            margin: 0px;
-            backdrop-filter: blur(14px);
-            display: block;
-            padding: 20px;
-            border-radius: 5px;
-            border: 1px solid rgba(236, 236, 236, 0.37);
-          }
+  styles: IStyleSheetFile[] = [];
 
-          .center {
-            padding: 0px;
-            margin: 0px;
-            display: flex;
-            flex-flow: column;
-            place-content: center;
-            align-items: center;
-          }
-
-          .header {
-            background:green;
-            width: 100%;
-            min-width: auto;
-            min-height: 50vh;
-            display: flex;
-            flex-flow: column;
-            place-content: center;
-            align-items: center;
-            gap: 15px;
-          }
-
-  `,
-    },
-  ];
-
-  config?: PageBuilderConfig;
-  data: IPage[] = [
-    {
-      headerItems: [],
-      bodyItems: [
-        {
-          id: 'mivg5lkw-LfMxd',
-
-          tag: 'section',
-          canHaveChild: true,
-          classList: ['center', 'header'],
-          disableMovement: false,
-          lockMoveInnerChild: false,
-          disableDelete: false,
-          children: [
-            {
-              id: 'miu3rvp9-Gzmms',
-              classList: ['blur-card'],
-              tag: 'h1',
-              canHaveChild: false,
-              content: 'Heading 1',
-              options: {
-                attributes: {
-                  class: '',
-                },
-              },
-              disableMovement: false,
-              lockMoveInnerChild: false,
-              disableDelete: false,
-            },
-            {
-              id: 'mivma9c8-IRvrb',
-
-              children: [],
-              tag: 'h5',
-              canHaveChild: false,
-              content: 'Heading 5',
-              options: {
-                attributes: {
-                  class: '',
-                },
-              },
-              disableMovement: false,
-              lockMoveInnerChild: false,
-              disableDelete: false,
-            },
-          ],
-        },
-      ],
-      footerItems: [],
-      config: {
-        title: '',
-        description: '',
-      },
-      order: 0,
-    },
-  ];
+  config = signal<PageBuilderConfig | undefined>(undefined);
+  data: IPage[] = [];
 
   cssVariables: ICssVariable[] = [];
   customButtons: CustomToolbarButtons[] = [
@@ -191,18 +95,18 @@ export class BuilderComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit() {
-    setTimeout(() => {
-      try {
-        const savedData = localStorage.getItem('page');
-        const parsed = JSON.parse(savedData || '{}');
-        this.data = parsed?.data ?? [];
-        this.config = parsed?.config;
-        this.styles = parsed?.styles;
-        this.cssVariables = parsed.cssVariables;
+    //setTimeout(() => {
+    try {
+      const savedData = localStorage.getItem('page');
+      const parsed = JSON.parse(savedData || '{}');
+      this.data = parsed?.data ?? [];
+      this.config.set(parsed?.config);
+      this.styles = parsed?.styles;
+      this.cssVariables = parsed.cssVariables;
 
-        this.chdr.markForCheck();
-      } catch (error) {}
-    }, 1000);
+      this.chdr.markForCheck();
+    } catch (error) {}
+    //}, 1000);
   }
   ngAfterViewInit(): void {
     this.doc.querySelector('ngx-page-builder')?.scrollIntoView();

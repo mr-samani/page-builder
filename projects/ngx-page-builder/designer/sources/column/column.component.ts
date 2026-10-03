@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   OnInit,
   ViewChild,
@@ -25,7 +26,7 @@ export class ColumnComponent implements OnInit {
   @Input() pageItem!: PageItem;
 
   @ViewChild('colContainer', { static: true }) colContainer!: ElementRef<HTMLDivElement>;
-  constructor(public pb: PageBuilderService) {}
+  protected readonly pb = inject(PageBuilderService);
 
   ngOnInit() {
     if (this.pageItem.children.length == 0) {

@@ -4,6 +4,7 @@ import { DataSourceSetting } from './DataSourceSetting';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
 import { cloneDeep } from '../utiles/clone-deep';
+import { BlockCss } from '../contracts/IStyleSheetFile';
 
 export class PageItem implements IPageItem {
   id: string = '';
@@ -44,7 +45,7 @@ export class PageItem implements IPageItem {
   classList: string[] = [];
 
   /** like color:white; */
-  css?: string;
+  css?: BlockCss;
 
   constructor(data?: IPageItem, parent?: PageItem) {
     if (data) {
@@ -62,14 +63,9 @@ export class PageItem implements IPageItem {
 
     if (!this.id) {
       this.id = randomStrnig(5);
-      console.log(this.tag, this.id);
     }
     if (parent) this.parent = parent;
     this.classList ??= [];
-
-    if (this.classList.length == 0) {
-      this.classList.push(this.tag + '-' + this.id);
-    }
   }
   static fromJSON(data: IPageItem): PageItem {
     const item = new PageItem(data);
@@ -130,6 +126,8 @@ export class PageItem implements IPageItem {
   public clone(parent?: PageItem): PageItem {
     let item = PageItem.fromJSON(cloneDeep(this));
     item.id = randomStrnig(5);
+    // کلاس اختصاصی استایل (blk-<id>) باید به id جدید وصل شود، وگرنه کپی و اصل استایل مشترک پیدا می‌کنند
+    item.classList = (item.classList ?? []).map((c) => (c.startsWith('blk-') ? `blk-${item.id}` : c));
     delete item.options?.events;
     delete item.options?.directives;
     delete item.options?.inputs;

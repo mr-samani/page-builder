@@ -1,38 +1,172 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ChangeDetectionStrategy,
+  viewChild,
+  ApplicationRef,
+  DOCUMENT,
+  inject,
+  Injector,
+  computed,
+  signal,
+} from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
-import { NgxDropList } from 'ngx-kit/drag-resize';
+import { createApplication } from '@angular/platform-browser';
+import { BaseContentComponent } from './base-content';
+import { PageBuilderService } from 'ngx-page-builder/designer/services/page-builder.service';
+import { DragDropService } from 'ngx-kit/drag-resize';
 
 @Component({
   selector: 'inner-content',
-  templateUrl: './inner-content.component.html',
-  styleUrls: ['./inner-content.component.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  template: `
+    <div class="canvas" #canvas>
+      <!-- عرض iframe برابر minWidth همان breakpoint است تا media query های همان breakpoint واقعاً فعال شوند -->
+      <iframe
+        #iframe
+        [style.width.px]="canvasWidth()"
+        [style.minWidth.px]="canvasWidth()"
+        [style.maxWidth.px]="canvasWidth()"
+        [style.transform]="'scale(' + scale() + ')'"></iframe>
+    </div>
+  `,
+  styles: `
+    :host {
+      display: block;
+      height: 100%;
+    }
+    .canvas {
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      height: 100%;
+      border: none;
+      margin: 0 auto;
+      display: block;
+      box-shadow: 0 0 7px 0px #4f4f4f;
+      transition: width 200ms ease;
+      transform-style: preserve-3d;
+      transform-origin: 0 0;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgxDropList],
+  imports: [],
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit {
-  containerClassName = '';
-  constructor(private el: ElementRef<HTMLElement>) {
+  private readonly iframe = viewChild.required<ElementRef<HTMLIFrameElement>>('iframe');
+  private readonly canvas = viewChild.required<ElementRef<HTMLIFrameElement>>('canvas');
+
+  private iframeApp?: ApplicationRef;
+  protected readonly injector = inject(Injector);
+
+  readonly scale = computed(() => {
+    const mw = this.pb.responsive().minWidth;
+    const c = this.canvas().nativeElement.getBoundingClientRect();
+    return Math.min(c.width / mw, 1);
+  });
+  protected readonly canvasWidth = computed(() => this.pb.responsive().minWidth);
+
+  constructor() {
     super();
-    this.pb.innerShadowRootDom = this.el.nativeElement.shadowRoot;
-    this.pb.cls.innerShadowRootDom = this.el.nativeElement.shadowRoot;
+    this.pb.onUpdateBaseConfig$.subscribe((c) => {
+      if (c) this.updateBodyStyle();
+    });
   }
 
   ngOnInit() {
-    if (this.viewMode == 'PrintPage') {
-      this.containerClassName = `ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
-    } else {
-      this.containerClassName = `web-page-view`;
+    this.loadIframe();
+  }
+
+  async loadIframe() {
+    const iframe = this.iframe()?.nativeElement;
+    if (!iframe) return;
+
+    const doc = iframe.contentDocument!;
+
+    // clean previous data
+    doc.body.innerHTML = '';
+    const host = doc.createElement('ngx-page-builder-context');
+    doc.body.appendChild(host);
+
+    const drp = this.injector.get(DragDropService);
+    // create new Angular Application Instance
+    this.iframeApp = await createApplication({
+      providers: [
+        // خیلی مهم:
+        // Angular را مجبور می‌کنیم DOCUMENT را
+        // همان document مربوط به iframe بداند.
+        {
+          provide: DOCUMENT,
+          useValue: doc,
+        },
+        {
+          provide: DragDropService,
+          useValue: drp,
+        },
+        {
+          provide: PageBuilderService,
+          useValue: this.pb,
+        },
+      ],
+    });
+
+    // کامپوننت Angular را داخل iframe bootstrap می‌کنیم
+    this.iframeApp.bootstrap(BaseContentComponent, {
+      hostElement: host,
+    });
+    this.pb.cls.setIframe(iframe);
+    this.updateBodyStyle();
+    this.loadJs();
+  }
+
+  private updateBodyStyle() {
+    const iframe = this.iframe()?.nativeElement;
+    if (!iframe) return;
+    const doc = iframe.contentDocument!;
+    const dir = this.pb.pageInfo.config.direction;
+    const s = `
+    body{
+      margin:0;
+      padding:0;
+      height:100%;
+      direction:${dir};
+      overflow-y:scroll;
     }
+    ngx-page-builder-context{
+      height: 100%;
+      display: block;
+    }
+    *{
+      box-sizing:border-box;
+    }
+
+    `;
+
+    let style = doc.head.querySelector('#ngx-page-context-base-style');
+    if (!style) {
+      style = doc.createElement('style');
+      style.id = 'ngx-page-context-base-style';
+      doc.head.appendChild(style);
+    }
+    style.innerHTML = s;
+  }
+
+  private loadJs() {
+    const iframe = this.iframe()?.nativeElement;
+    if (!iframe) return;
+    const doc = iframe.contentDocument!;
+
     for (let js of LibConsts.publicJs) {
       const j = this.doc.createElement('script');
       j.src = js;
       j.id = js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000;
-
-      this.el.nativeElement.shadowRoot?.insertBefore(j, this.el.nativeElement.shadowRoot?.firstChild);
+      doc.head.appendChild(j);
     }
+  }
 
-    console.log('pageinfo:', this.pb.pageInfo);
+  ngOnDestroy() {
+    this.iframeApp?.destroy();
   }
 }

@@ -1,14 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   Injector,
+  input,
   Input,
   OnDestroy,
   OnInit,
   signal,
   viewChild,
   ViewEncapsulation,
+  type AfterViewInit,
 } from '@angular/core';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -21,7 +24,7 @@ import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';
-import { PageItemChange } from '../services/page-builder.service';
+import { PageBuilderService, PageItemChange } from '../services/page-builder.service';
 
 import {
   DynamicDataStructure,
@@ -54,7 +57,6 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
     NgxDraggable,
     InnerContentComponent,
     ToolbarComponent,
-    BlockSelectorComponent,
     SideConfigComponent,
     SvgIconDirective,
     NgxDialogModule,
@@ -63,18 +65,12 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [],
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   openLayout = signal(false);
-  @Input() set data(val: IPage[] | undefined) {
-    if (!val || Array.isArray(val) == false) {
-      console.warn('NgxPageBuilder', 'Input data not valid!');
-      Notify.error('Input data not valid!');
-      return;
-    }
-    const pages = val.map((m) => Page.fromJSON(m));
-    this.loadPageData(pages);
-  }
+
+  readonly data = input<IPage[]>();
 
   @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
     if (val) {
@@ -118,8 +114,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     }
   }
 
-  blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
-
   subscriptions: Subscription[] = [];
 
   showPlugins = LibConsts.showPlugins;
@@ -137,10 +131,22 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         this.chdRef.detectChanges();
       }
     });
+
+    effect(() => {
+      const d = this.data();
+      if (!d || Array.isArray(d) == false) {
+        console.warn('NgxPageBuilder', 'Input data not valid!');
+        Notify.error('Input data not valid!');
+        return;
+      }
+      if (d.length > 0) {
+        const pages = d.map((m) => Page.fromJSON(m));
+        this.loadPageData(pages);
+      }
+    });
   }
 
-  ngOnInit(): void {
-    this.pb.blockSelector = this.blockSelector();
+  async ngOnInit(): Promise<void> {
     this.cls.initialize();
     this.registerShortcuts();
   }
@@ -157,10 +163,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   private async loadPageData(data: Page[]) {
     try {
       this.isLoading.set(true);
-      await this.pb.reset();
-      // let data = await this.storageService.loadData();
-      //this.pb.pageInfo = PageBuilderDto.fromJSON(data);
-      this.pb.pageInfo.setPages(data);
+      this.pb.pageInfo.pages = data;
       // check has body block
       //console.log('load data:', data, 'converted class:', this.pb.pageInfo);
       if (this.pb.pageInfo.pages.length == 0) {
@@ -431,5 +434,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   async addItem(item: SourceItem) {
     await this.pb.addBlockToBody(item);
+    console.log(this.pb);
   }
 }

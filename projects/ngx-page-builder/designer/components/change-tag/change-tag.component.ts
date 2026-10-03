@@ -1,23 +1,31 @@
-import { Component, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, Input, OnInit, ChangeDetectionStrategy, effect, signal, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DynamicElementService, PageItem } from 'ngx-page-builder/core';
+import {
+  DEFAULT_BREAKPOINTS,
+  DynamicElementService,
+  PageItem,
+  type Breakpoint,
+  type PseudoState,
+} from 'ngx-page-builder/core';
 import { PageBuilderService } from '../../services/page-builder.service';
+import { SvgIconDirective } from '../../directives/svg-icon.directive';
 
 @Component({
   selector: 'change-tag',
   templateUrl: './change-tag.component.html',
   styleUrls: ['./change-tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule],
+  imports: [FormsModule, SvgIconDirective],
 })
 export class ChangeTagComponent implements OnInit {
   canChangeTag = false;
   item!: PageItem;
+  cssPseudoState = model<PseudoState>('none');
+
   @Input('item') set setItem(val: PageItem) {
     this.item = val;
     this.canChangeTag = this.tagList.indexOf(this.item.tag) > -1;
   }
-
   tagList = [
     'a',
     'area',
@@ -63,9 +71,10 @@ export class ChangeTagComponent implements OnInit {
     'span',
     'strong',
   ];
-  protected pb = inject(PageBuilderService);
+  protected readonly pb = inject(PageBuilderService);
   protected dynamicElementService = inject(DynamicElementService);
 
+  constructor() {}
   ngOnInit() {}
 
   async onChangeTag(ev: Event) {

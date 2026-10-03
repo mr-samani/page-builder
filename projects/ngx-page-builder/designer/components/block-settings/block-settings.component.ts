@@ -27,7 +27,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     private injector: Injector,
     private dynamicDataService: DynamicDataService,
   ) {
-    super(injector);
+    super();
     effect(async () => {
       this.item = this.pb.activeEl();
       this.checkParentIsCollection();

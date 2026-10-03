@@ -123,10 +123,10 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
 
   /*--------------group buttons------------------------------*/
   .pi-btn-group {
-    background-color: var(--color-bg-secondary, #383838);
-    border: 1px solid var(--color-bg-secondary, #383838);
+    background-color: var(--toolbar-bg);
+    border: 1px solid var(--toolbar-bg);
     border-radius: var(--radius-medium, 0.3125rem);
-    color: var(--fgColor);
+    color: var(--toolbar-fg);
     button,
     .button {
       display: inline-block;

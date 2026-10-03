@@ -34,7 +34,7 @@ export * from './services/preview.service';
 export * from './services/dynamic-element.service';
 
 // Utils
-export * from './utiles/window';
+export * from './utiles/block-css';
 export * from './utiles/clone-deep';
 export * from './utiles/collection-helper';
 export * from './utiles/css-parser';
@@ -54,4 +54,3 @@ export * from './consts/LibPreviewConsts';
 export * from './consts/validateViewMode';
 export * from './consts/defaults';
 export * from './consts/regex';
-export * from './consts/WEB_BODY_BLOCK';

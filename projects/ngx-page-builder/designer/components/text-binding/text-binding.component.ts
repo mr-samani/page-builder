@@ -59,11 +59,10 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
   private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
   private htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
   constructor(
-    injector: Injector,
     public dynamicDataService: DynamicDataService,
     private renderer: Renderer2,
   ) {
-    super(injector);
+    super();
     // dynamic data if is not item collection
     this.dsList = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => !x.list);
   }

@@ -14,8 +14,8 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 })
 export class SideConfigComponent extends BaseComponent implements OnInit {
   selectedTab: 'properties' | 'settings' = 'properties';
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
   }
 
   ngOnInit() {}

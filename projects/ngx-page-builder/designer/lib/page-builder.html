@@ -15,9 +15,8 @@
     </div>
     }
   </div>
-  <div class="page-container full-height" (click)="pb.deSelectBlock()" (scroll)="blockSelector.updatePosition()">
+  <div class="page-container" (click)="pb.deSelectBlock()">
     <inner-content></inner-content>
-    <block-selector #blockSelector />
   </div>
 
   <side-config class="side-config"></side-config>

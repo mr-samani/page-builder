@@ -19,8 +19,8 @@ import {
   DynamicDataService,
   DynamicDataStructure,
   IPagebuilderOutput,
-  WINDOW,
   PageBuilderConfig,
+  applyBlockStylesToDocument,
 } from 'ngx-page-builder/core';
 
 @Component({
@@ -33,7 +33,6 @@ import {
 export class NgxPagePreviewComponent implements AfterViewInit {
   @Input() doc = inject(DOCUMENT);
 
-  private win = inject(WINDOW);
   public readonly previewService = inject(PagePreviewService);
   private readonly dynamicDataService = inject(DynamicDataService);
   isPrintPage = false;
@@ -75,8 +74,8 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    if (this.win) {
-      this.renderer.listen(this.win, 'beforeprint', this.onBeforePrint.bind(this));
+    if (this.doc) {
+      this.renderer.listen(this.doc, 'beforeprint', this.onBeforePrint.bind(this));
     }
     // ۴. اضافه کردن CSS های عمومی (Bootstrap و غیره)
     for (let css of LibPreviewConsts.publicCss) {
@@ -95,6 +94,8 @@ export class NgxPagePreviewComponent implements AfterViewInit {
       j.id = 'j_' + (js.split('/').pop()?.split('.').at(0) ?? 'publicJs-' + Math.random() * 10000);
       this.doc.head.appendChild(j);
     }
+    // لینک‌های Bootstrap همین‌جا اضافه شدند؛ استایل بلاک‌ها را دوباره به انتهای head می‌بریم تا اولویت را از دست ندهد
+    applyBlockStylesToDocument(this.doc, this.data.data, this.data.cssVariables);
   }
 
   async load() {
@@ -132,7 +133,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     this.isPrintPage = true;
     this.chdRef.detectChanges();
     setTimeout(() => {
-      this.win?.print();
+      print();
     });
   }
 }

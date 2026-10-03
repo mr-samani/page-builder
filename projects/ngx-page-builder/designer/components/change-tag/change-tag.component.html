@@ -1,4 +1,20 @@
 <div class="tag-container">
+  <span [title]="pb.responsive().key + ': Min Width=' + pb.responsive().minWidth">
+    <svg [Icon]="'assets/icons/' + pb.responsive().icon + '.svg'"></svg>
+  </span>
+  <span>
+    state:
+    <select [(ngModel)]="cssPseudoState">
+      <option value="none">none</option>
+      <option value="hover">hover</option>
+      <option value="focus">focus</option>
+      <option value="focus-visible">focus-visible</option>
+      <option value="active">active</option>
+      <option value="visited">visited</option>
+      <option value="disabled">disabled</option>
+      <option value="checked">checked</option>
+    </select>
+  </span>
   <span>Tag:</span>
   @if (canChangeTag) {
     <div class="pb-input-group pi-row">

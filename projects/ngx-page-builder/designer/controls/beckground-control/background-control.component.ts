@@ -33,7 +33,6 @@ import { Notify } from 'ngx-kit/notify';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackgroundControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
-  @Input() currentClassName = '';
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
   backgroundGradient = '';
@@ -55,12 +54,12 @@ export class BackgroundControlComponent extends BaseControl implements OnInit, C
 
     let parsed = parseBackground(backgroundFull);
     var isVariable = false;
-    if (backgroundFull.startsWith('var(--')) {
-      const valueOfVariable = this.cls.cssVariables.find((x) => `var(--${x.name})` == backgroundFull)?.value || '';
-      parsed = parseBackground(valueOfVariable);
-
-      isVariable = true;
-    }
+    // TODO: use css variable
+    // if (backgroundFull.startsWith('var(--')) {
+    // //  const valueOfVariable = this.cls.cssVariables.find((x) => `var(--${x.name})` == backgroundFull)?.value || '';
+    // // parsed = parseBackground(valueOfVariable);
+    //   isVariable = true;
+    // }
 
     this.backgroundGradient = parsed.gradient ? (isVariable ? backgroundFull : parsed.gradient) : '';
     this.backgroundImage = parsed.image ? (isVariable ? backgroundFull : parsed.image) : '';
@@ -80,7 +79,6 @@ export class BackgroundControlComponent extends BaseControl implements OnInit, C
     }
     this.onChange(this.style);
     this.change.emit(this.style);
-    this.cls.updateClass(this.currentClassName, this.style);
   }
 
   openImagePicker() {

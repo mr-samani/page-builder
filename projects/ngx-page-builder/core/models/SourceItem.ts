@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { CustomComponent } from './CustomComponent';
+import { BlockCss } from '../contracts/IStyleSheetFile';
 export class Directive {
   directive!: Type<any>;
   inputs?: Record<string, any> | undefined;
@@ -81,8 +82,7 @@ export class SourceItem {
 
   customComponent?: CustomComponent;
 
-  /** like color:white; */
-  css?: string;
+  css?: BlockCss;
   classList?: string[];
   isUserDefined?: boolean = false;
   constructor(data: SourceItem, isUserDefined?: boolean) {

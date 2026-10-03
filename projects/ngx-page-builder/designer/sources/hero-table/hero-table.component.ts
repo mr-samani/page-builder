@@ -6,7 +6,6 @@ import {
   DOCUMENT,
   ElementRef,
   inject,
-  Inject,
   Input,
   OnInit,
   Renderer2,
@@ -74,10 +73,10 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   private context = inject<ComponentDataContext<TableSetting>>(COMPONENT_DATA);
   private doc = inject(DOCUMENT);
+  protected readonly pb = inject(PageBuilderService);
 
   constructor(
     private chdRef: ChangeDetectorRef,
-    private pb: PageBuilderService,
     private dynamicElementService: DynamicElementService,
     private dynamicDataService: DynamicDataService,
     private renderer: Renderer2,

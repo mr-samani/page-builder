@@ -39,8 +39,6 @@ export class TextCssControlComponent
   extends BaseControl
   implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy
 {
-  @Input() currentClassName = '';
-
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
   @ViewChild('editorTextarea', { static: false }) textareaRef?: ElementRef<HTMLTextAreaElement>;
   @ViewChild('highlightDiv', { static: false }) highlightRef?: ElementRef<HTMLDivElement>;
@@ -283,7 +281,6 @@ export class TextCssControlComponent
       // Update item
       this.onChange(this.style);
       this.change.emit(this.style);
-      this.cls.updateClass(this.currentClassName, this.style);
     } catch (error) {
       console.error('Invalid CSS:', error);
     }

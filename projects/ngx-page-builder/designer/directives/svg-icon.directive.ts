@@ -1,9 +1,11 @@
 import {
   Directive,
   DOCUMENT,
+  effect,
   ElementRef,
   inject,
   Inject,
+  input,
   Input,
   OnChanges,
   OnInit,
@@ -16,17 +18,23 @@ const SvgCache = new Map<string, string>(); // Cache for performance
 @Directive({
   selector: 'svg[Icon]',
 })
-export class SvgIconDirective implements OnInit {
-  @Input() Icon!: string;
+export class SvgIconDirective {
+  Icon = input.required<string>();
 
   private doc = inject(DOCUMENT);
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-  ) {}
+  ) {
+    effect(() => {
+      const icon = this.Icon();
+      this.render();
+    });
+  }
 
-  async ngOnInit() {
-    if (!this.Icon) return;
+  async render() {
+    const icon = this.Icon();
+    if (!icon) return;
     const svgEl: SVGElement = this.el.nativeElement;
 
     // پاک کردن محتوای قبلی
@@ -36,10 +44,10 @@ export class SvgIconDirective implements OnInit {
 
     try {
       let svgContent: string;
-      if (this.Icon.startsWith('<svg')) {
-        svgContent = this.Icon;
+      if (icon.startsWith('<svg')) {
+        svgContent = icon;
       } else {
-        svgContent = await this.loadSvg(this.Icon);
+        svgContent = await this.loadSvg(icon);
       }
 
       // تبدیل string → Element

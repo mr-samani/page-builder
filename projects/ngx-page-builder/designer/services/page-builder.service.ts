@@ -1,19 +1,23 @@
-import { DOCUMENT, ElementRef, inject, Injectable, OnDestroy, Signal, signal } from '@angular/core';
+import { DOCUMENT, inject, Injectable, model, OnDestroy, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
 import {
-  DynamicDataService,
+  DEFAULT_FIRST_BREAKPOINT,
   DynamicElementService,
   IPageItem,
   LibConsts,
   LOCAL_STORAGE_SHOW_OUTLINE_KEY,
   Page,
   PageBuilderDto,
+  PageConfig,
   PageItem,
   SourceItem,
+  cloneDeep,
+  BlockCss,
+  Breakpoint,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -40,10 +44,14 @@ export interface PageItemChange {
 export class PageBuilderService implements OnDestroy {
   isSaving: boolean = false;
   sources: SourceItem[] = LibConsts.SourceItemList;
-  innerShadowRootDom?: ShadowRoot | null;
+  pageHeaderEl?: HTMLElement;
+  pageBodyEl?: HTMLElement;
+  pageFooterEl?: HTMLElement;
+
+  responsive = signal<Breakpoint>(DEFAULT_FIRST_BREAKPOINT);
 
   /** start from 0 */
-  currentPageIndex = signal<number>(-1);
+  currentPageIndex = signal<number>(0);
   activeEl = signal<PageItem | undefined>(undefined);
   showOutlines = signal(true);
   pageInfo = new PageBuilderDto();
@@ -55,18 +63,19 @@ export class PageBuilderService implements OnDestroy {
   /** جابجایی بین صفحات */
   onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
   onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(undefined);
+  onUpdateBaseConfig$ = new BehaviorSubject<PageConfig | undefined>(undefined);
 
   blockSelector?: BlockSelectorComponent;
 
   storageService!: IStorageService;
 
   copyStorage?: PageItem;
-  private readonly doc = inject(DOCUMENT);
-  constructor(
-    private dynamicElementService: DynamicElementService,
-    private history: HistoryService,
-    public cls: ClassManagerService,
-  ) {
+  protected readonly doc = inject(DOCUMENT);
+  protected readonly dynamicElementService = inject(DynamicElementService);
+  protected readonly history = inject(HistoryService);
+  readonly cls = inject(ClassManagerService);
+
+  constructor() {
     const so = localStorage.getItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY) || '';
     if (so != '') {
       this.showOutlines.set(so == 'true');
@@ -97,22 +106,6 @@ export class PageBuilderService implements OnDestroy {
       throw new Error('Current page does not exist');
     }
     this.pageInfo.pages[this.currentPageIndex()] = page;
-  }
-
-  getInnerItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderBody');
-    if (el) return el;
-    throw 'BodyNotFound';
-  }
-  getHeaderItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderHeader');
-    if (el) return el;
-    throw 'HeaderNotFound';
-  }
-  getFooterItemContainer(): HTMLElement {
-    const el = this.innerShadowRootDom?.getElementById('NgxPageBuilderFooter');
-    if (el) return el;
-    throw 'FooterNotFound';
   }
 
   async onDrop(event: IDropEvent<PageItem[]>, parent?: PageItem) {
@@ -174,24 +167,21 @@ export class PageBuilderService implements OnDestroy {
         }'`,
       );
     }
+
+    // console.log('ev', event.container.data, 'p', this.pageInfo.pages);
     // this.chdRef.detectChanges();
     this.onPageChange$.next(this.currentPage);
   }
 
   public async addBlockToBody(item: SourceItem) {
-    const body = this.pageInfo.pages[this.currentPageIndex()].bodyItems.at(0);
-    if (!body) {
-      throw () => 'Body not found!';
-    }
-
+    if (!this.currentPage) return;
     const source = new PageItem(item);
     source.children = []; // very important to create reference to droplist data
-    await this.createBlockElement(true, source, body.el, body.children.length);
-    body.children.push(source);
+    await this.createBlockElement(true, source);
     this.selectBlock(source);
     this.updateChangeDetection({ item: source, type: 'AddBlock' });
-
-    this.history.saveAdd('', body.children.length - 1, source, `Add block'${source.id}' to 'body'`);
+    this.currentPage.bodyItems.push(source);
+    this.history.saveAdd('', 0, source, `Add block'${source.id}' to 'body'`);
   }
 
   /**
@@ -256,8 +246,8 @@ export class PageBuilderService implements OnDestroy {
           await this.cleanCanvas(index);
         }
       }
-      this.pageInfo.pages = [];
-      this.currentPageIndex.set(-1);
+      this.pageInfo.pages = [new Page()];
+      this.currentPageIndex.set(0);
       return;
     } catch (error) {
       // console.error( error);
@@ -294,10 +284,10 @@ export class PageBuilderService implements OnDestroy {
       } else {
         await this.cleanCanvas(this.currentPageIndex());
         const { headerItems, bodyItems, footerItems } = this.pageInfo.pages[pageNumber - 1];
-        await this.genElms(bodyItems, this.getInnerItemContainer());
+        await this.genElms(bodyItems, this.pageBodyEl);
         if (LibConsts.viewMode == 'PrintPage') {
-          await this.genElms(headerItems, this.getHeaderItemContainer());
-          await this.genElms(footerItems, this.getFooterItemContainer());
+          await this.genElms(headerItems, this.pageHeaderEl);
+          await this.genElms(footerItems, this.pageFooterEl);
         }
         this.currentPageIndex.set(pageNumber - 1);
         this.onPageChange$.next(this.pageInfo.pages[this.currentPageIndex()]);
@@ -345,7 +335,7 @@ export class PageBuilderService implements OnDestroy {
    */
   async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement | null, index: number = -1) {
     if (!container) {
-      container = this.getInnerItemContainer();
+      container = this.pageBodyEl;
     }
     if (!container) {
       throw new Error('Required container to create element');
@@ -370,8 +360,9 @@ export class PageBuilderService implements OnDestroy {
       item.options.events['click'] = (ev: PointerEvent) => this.selectBlock(item, ev);
     }
 
+    // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
     if (item.css) {
-      this.cls.addBlockCss(item);
+      this.cls.addBlockCss(item, false);
     }
 
     let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
@@ -395,13 +386,12 @@ export class PageBuilderService implements OnDestroy {
     await this.dynamicElementService.destroyBatch(page.bodyItems);
     await this.dynamicElementService.destroyBatch(page.headerItems);
     await this.dynamicElementService.destroyBatch(page.footerItems);
-    const body = this.getInnerItemContainer();
-    if (body) {
-      body.innerHTML = '';
+    if (this.pageBodyEl) {
+      this.pageBodyEl.innerHTML = '';
     }
     if (LibConsts.viewMode == 'PrintPage') {
-      this.getHeaderItemContainer().innerHTML = '';
-      this.getFooterItemContainer().innerHTML = '';
+      this.pageHeaderEl!.innerHTML = '';
+      this.pageFooterEl!.innerHTML = '';
     }
   }
 
@@ -409,6 +399,7 @@ export class PageBuilderService implements OnDestroy {
     // console.log('click on block', c.el);
     ev?.stopPropagation();
     ev?.preventDefault();
+    if (this.activeEl() !== c) this.flushStyleChange();
     this.activeEl.set(c);
     this.onSelectBlock$.next({ ev: ev, item: c });
   }
@@ -424,14 +415,12 @@ export class PageBuilderService implements OnDestroy {
    */
   findRootParentItem(item: PageItem) {
     const page = this.pageInfo.pages[this.currentPageIndex()];
-    const findExp = (children: PageItem[], id: string) => children.findIndex((x) => x.id == id) > -1;
-    for (let p of page.headerItems) if (findExp(p.children, item.id)) return page.headerItems;
-    for (let p of page.bodyItems) if (findExp(p.children, item.id)) return page.bodyItems;
-    for (let p of page.footerItems) if (findExp(p.children, item.id)) return page.footerItems;
+    for (let p of page.headerItems) if (p.id == item.id) return page.headerItems;
+    for (let p of page.bodyItems) if (p.id == item.id) return page.bodyItems;
+    for (let p of page.footerItems) if (p.id == item.id) return page.footerItems;
     return undefined;
   }
 
-  // TODO: clear css class on delete tree
   async removeBlock(item: PageItem) {
     if (!item || item.disableDelete) return;
 
@@ -447,11 +436,48 @@ export class PageBuilderService implements OnDestroy {
     if (index !== -1 && item.el) {
       parentChildren.splice(index, 1);
       await this.dynamicElementService.destroy(item);
+      await this.cls.removeBlockCss(item);
     }
     this.activeEl.set(undefined);
     this.updateChangeDetection({ item: item, parent: parentChildren, type: 'RemoveBlock' });
 
     this.history.saveDelete(item.parent?.id, index, item, `Delete block '${item.id}' from '${item.parent?.id}'`);
+  }
+
+  //---------------------------------- تغییر استایل بلاک (پنل تنظیمات) ----------------------------------
+  // کاربر هنگام درگ اسلایدر/رنگ ده‌ها رویداد در ثانیه می‌فرستد. CSSOM همان لحظه به‌روز می‌شود (ارزان)،
+  // ولی کارهای سنگین (deep clone برای history و اعلان تغییر به بیرون) فقط یک بار بعد از توقف انجام می‌شود.
+  private styleBurst?: { item: PageItem; prevCss?: BlockCss; timer?: ReturnType<typeof setTimeout> };
+  private static readonly STYLE_DEBOUNCE_MS = 400;
+
+  /** قبل از اعمال تغییر صدا بزنید: اولین بار در هر burst، css قبلی را برای history نگه می‌دارد */
+  beforeStyleChange(item: PageItem) {
+    if (this.styleBurst?.item === item) return;
+    this.flushStyleChange();
+    this.styleBurst = { item, prevCss: LibConsts.enableHistory && item.css ? cloneDeep(item.css) : undefined };
+  }
+
+  /** بعد از اعمال تغییر صدا بزنید (debounce می‌شود) */
+  notifyStyleChanged(item: PageItem) {
+    if (this.styleBurst?.item !== item) this.styleBurst = { item };
+    clearTimeout(this.styleBurst.timer);
+    this.styleBurst.timer = setTimeout(() => this.flushStyleChange(), PageBuilderService.STYLE_DEBOUNCE_MS);
+  }
+
+  /** فوراً burst جاری را نهایی می‌کند (مثلاً هنگام عوض شدن بلاک انتخابی یا ذخیره) */
+  flushStyleChange() {
+    const burst = this.styleBurst;
+    if (!burst) return;
+    clearTimeout(burst.timer);
+    this.styleBurst = undefined;
+
+    const { item, prevCss } = burst;
+    this.updateChangeDetection({ item, type: 'ChangeBlockProperties' });
+    if (LibConsts.enableHistory) {
+      // نمونه‌ی قبلی بلاک با css قبلی؛ history خودش deep-clone می‌کند
+      const prev = Object.assign(Object.create(Object.getPrototypeOf(item)), item, { css: prevCss }) as PageItem;
+      this.history.saveEdit(item.id, item, prev, `Change styles '${item.id}'`);
+    }
   }
 
   writeItemValue(data: PageItem) {
@@ -467,6 +493,7 @@ export class PageBuilderService implements OnDestroy {
         // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
       }
     }
+    this.cls.addBlockCss(item, false);
     this.updateChangeDetection({ item: item, type: 'ChangeBlockProperties' });
 
     // TODO: required previouws snapshot
@@ -474,11 +501,11 @@ export class PageBuilderService implements OnDestroy {
   }
 
   save() {
+    this.flushStyleChange();
     this.isSaving = true;
     this.storageService
       .saveData()
       .then((result) => {
-        console.log('Data saved successfully:', result);
         Notify.success('Data saved successfully');
       })
       .finally(() => (this.isSaving = false));

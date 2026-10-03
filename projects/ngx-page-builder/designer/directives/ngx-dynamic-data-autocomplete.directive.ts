@@ -12,7 +12,7 @@ import {
   DOCUMENT,
   inject,
 } from '@angular/core';
-import { DynamicDataStructure, DynamicValueType, WINDOW } from 'ngx-page-builder/core';
+import { DynamicDataStructure, DynamicValueType } from 'ngx-page-builder/core';
 
 @Directive({
   selector: '[ngxDynamicAutocomplete]',
@@ -36,7 +36,6 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   };
 
   private doc = inject(DOCUMENT);
-  private win = inject(WINDOW);
   constructor(
     private el: ElementRef<HTMLElement>,
     private renderer: Renderer2,
@@ -144,8 +143,8 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   private getTextBeforeCursor(): string {
     const el = this.el.nativeElement;
 
-    if ((el as HTMLElement).isContentEditable && this.win) {
-      const sel = this.win.getSelection();
+    if ((el as HTMLElement).isContentEditable && this.doc) {
+      const sel = this.doc.getSelection();
       if (!sel || !sel.rangeCount) return '';
 
       const range = sel.getRangeAt(0);
@@ -407,13 +406,13 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   }
 
   private setPosition(x: number, y: number) {
-    if (!this.popupEl || !this.win) return;
+    if (!this.popupEl || !this.doc) return;
 
     // Force layout calculation
     this.popupEl.style.display = 'block';
     const popupRect = this.popupEl.getBoundingClientRect();
-    const winW = this.win.innerWidth;
-    const winH = this.win.innerHeight;
+    const winW = this.doc.body.clientWidth; //win.innerWidth;
+    const winH = this.doc.body.clientHeight; //win.innerHeight;
 
     let left = Math.max(8, Math.min(x, winW - popupRect.width - 8));
     let top = y + 4;
@@ -451,9 +450,9 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   private replaceCurrentTokenWith(textToInsert: string) {
     const el = this.el.nativeElement;
 
-    if ((el as HTMLElement).isContentEditable && this.win) {
+    if ((el as HTMLElement).isContentEditable && this.doc) {
       // For contenteditable, use Selection API
-      const sel = this.win.getSelection();
+      const sel = this.doc.getSelection();
       if (!sel || !sel.rangeCount) return;
 
       const range = sel.getRangeAt(0);
@@ -528,8 +527,8 @@ export class DynamicAutocompleteDirective implements OnDestroy {
   private getCaretRect(): DOMRect {
     const el = this.el.nativeElement;
 
-    if ((el as HTMLElement).isContentEditable && this.win) {
-      const sel = this.win.getSelection();
+    if ((el as HTMLElement).isContentEditable && this.doc) {
+      const sel = this.doc.getSelection();
       if (!sel || !sel.rangeCount) {
         const rect = el.getBoundingClientRect();
         return new DOMRect(rect.left, rect.top, 0, 0);
@@ -562,7 +561,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
 
   private getTextareaCaretRect(textarea: HTMLTextAreaElement): DOMRect {
     const rect = textarea.getBoundingClientRect();
-    const style = this.win?.getComputedStyle(textarea) ?? ({} as CSSStyleDeclaration);
+    const style = getComputedStyle(textarea) ?? ({} as CSSStyleDeclaration);
 
     const mirror = this.doc.createElement('div');
     const props = [

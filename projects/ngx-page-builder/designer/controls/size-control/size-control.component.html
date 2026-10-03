@@ -46,12 +46,13 @@
         <input
           [id]="property"
           [attr.name]="property"
-          [type]="sizeValue.unit != 'auto' ? 'number' : 'text'"
+          [type]="isTextInput(sizeValue.unit) ? 'text' : 'number'"
           [(ngModel)]="sizeValue.value"
           (ngModelChange)="update()"
           [min]="0"
           [disabled]="sizeValue.unit == 'auto'"
-          [readonly]="sizeValue.unit == 'auto'" />
+          [readonly]="sizeValue.unit == 'auto'"
+          placeholder="var(--x) / calc()" />
         <select
           [(ngModel)]="sizeValue.unit"
           (ngModelChange)="onChangeUnit(property)"
@@ -64,7 +65,9 @@
           <option value="rem">rem</option>
           <option value="vh">vh</option>
           <option value="vw">vw</option>
+          <option value="custom">var / calc</option>
         </select>
+        <css-var-picker [types]="['text', 'number']" (picked)="onPickVar(property, $event)"></css-var-picker>
         <button class="pb-btn" type="button" (click)="clear(sizeValue)">x</button>
       </div>
     </td>

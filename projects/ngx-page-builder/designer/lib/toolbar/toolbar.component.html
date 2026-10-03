@@ -29,6 +29,17 @@
       <svg Icon="assets/icons/files.svg"></svg>
     </button>
   </div>
+} @else {
+  <div class="responsive-handle">
+    @for (bp of breakPoints; track bp.key) {
+      <button
+        (click)="changeResponive(bp)"
+        [title]="bp.key + ': Min Width=' + bp.minWidth"
+        [class.active]="pb.responsive().key == bp.key">
+        <svg [Icon]="'assets/icons/' + bp.icon + '.svg'"></svg>
+      </button>
+    }
+  </div>
 }
 
 <!-- --------------------------------------------------------------------------------- -->

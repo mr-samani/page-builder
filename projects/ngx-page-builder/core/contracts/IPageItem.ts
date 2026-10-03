@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { ISourceOptions } from '../models/SourceItem';
 import { DataSourceSetting } from '../models/DataSourceSetting';
+import { BlockCss } from './IStyleSheetFile';
 
 export interface IPageItem {
   id?: string;
@@ -31,6 +32,5 @@ export interface IPageItem {
 
   classList?: string[];
 
-  /** like color:white; */
-  css?: string;
+  css?: BlockCss;
 }

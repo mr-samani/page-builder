@@ -30,8 +30,6 @@ import { BaseControl } from '../base-control';
   imports: [CommonModule, FormsModule],
 })
 export class SpacingControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
-  @Input() currentClassName = '';
-
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
   padding = new Spacing();
@@ -71,7 +69,6 @@ export class SpacingControlComponent extends BaseControl implements OnInit, Cont
 
     this.onChange(this.style);
     this.change.emit(this.style);
-    this.cls.updateClass(this.currentClassName, this.style);
   }
 
   clear(spacing: PosValue) {

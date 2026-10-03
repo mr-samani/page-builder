@@ -15,9 +15,10 @@ import { moveItemInArray, NgxDropList, IDropEvent, NgxDropListGroup } from 'ngx-
 export class SortPageListComponent implements OnInit {
   pageList: Page[] = [];
   private dialogRef = inject(DIALOG_REF);
+  protected readonly pb = inject(PageBuilderService);
 
-  constructor(private pb: PageBuilderService) {
-    this.pageList = [...(pb.pageInfo.pages ?? [])];
+  constructor() {
+    this.pageList = [...(this.pb.pageInfo.pages ?? [])];
     this.pageList.map((m: Page, index: number) => (m.order = index));
   }
 

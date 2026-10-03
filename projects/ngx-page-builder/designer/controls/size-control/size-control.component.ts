@@ -11,6 +11,7 @@ import {
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BaseControl } from '../base-control';
+import { CssVarPickerComponent } from '../css-var-picker/css-var-picker.component';
 
 export interface ISizeModel {
   width: string;
@@ -23,7 +24,8 @@ export interface ISizeModel {
 
 export interface ISizeValue {
   value: number | string | undefined;
-  unit: 'px' | '%' | 'em' | 'rem' | 'vh' | 'vw' | 'auto';
+  /** custom = هر مقدار غیرعددی مثل var(--w) ، calc(...) ، clamp(...) — دست‌نخورده نگه داشته می‌شود */
+  unit: 'px' | '%' | 'em' | 'rem' | 'vh' | 'vw' | 'auto' | 'custom';
 }
 
 export type SizeProperty = 'width' | 'minWidth' | 'maxWidth' | 'height' | 'minHeight' | 'maxHeight';
@@ -39,11 +41,9 @@ export type SizeProperty = 'width' | 'minWidth' | 'maxWidth' | 'height' | 'minHe
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CssVarPickerComponent],
 })
 export class SizeControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
-  @Input() currentClassName = '';
-
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
   widthProperties: SizeProperty[] = ['width', 'minWidth', 'maxWidth'];
@@ -101,7 +101,8 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
       };
     }
 
-    return { value: 0, unit: 'px' };
+    // var(--x) ، calc() ، clamp() و ... : قبلاً به 0px تبدیل و خراب می‌شد
+    return { value, unit: 'custom' };
   }
 
   formatSizeValue(sizeValue: ISizeValue): string {
@@ -109,12 +110,19 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
     if (sizeValue.unit === 'auto') {
       return sizeValue.value === 'none' ? 'none' : 'auto';
     }
+    if (sizeValue.unit === 'custom') {
+      return String(sizeValue.value ?? '').trim();
+    }
     return `${sizeValue.value}${sizeValue.unit}`;
   }
 
   onChangeUnit(property: SizeProperty) {
     const sizeValue = this.sizes[property];
-    if (sizeValue.unit === 'auto') {
+    if (sizeValue.unit === 'custom') {
+      // عدد فعلی را به متن تبدیل می‌کنیم تا قابل ویرایش باشد (مثلاً 16 → 16px)
+      const v = sizeValue.value;
+      sizeValue.value = typeof v === 'number' ? `${v}px` : v === 'auto' || v === 'none' ? '' : (v ?? '');
+    } else if (sizeValue.unit === 'auto') {
       if (property.includes('max')) {
         sizeValue.value = 'none';
       } else {
@@ -124,6 +132,16 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
       sizeValue.value = 0;
     }
     this.update();
+  }
+
+  /** انتخاب از متغیرهای CSS */
+  onPickVar(property: SizeProperty, cssVar: string) {
+    this.sizes[property] = { value: cssVar, unit: 'custom' };
+    this.update();
+  }
+
+  isTextInput(unit: ISizeValue['unit']): boolean {
+    return unit === 'auto' || unit === 'custom';
   }
 
   getLabel(property: SizeProperty): string {
@@ -153,7 +171,6 @@ export class SizeControlComponent extends BaseControl implements OnInit, Control
 
     this.onChange(this.style);
     this.change.emit(this.style);
-    this.cls.updateClass(this.currentClassName, this.style);
   }
   clear(property: ISizeValue) {
     property.value = undefined;
