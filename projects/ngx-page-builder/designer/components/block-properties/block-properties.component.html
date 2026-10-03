@@ -49,7 +49,7 @@
     <details name="block-properties" (toggle)="openPanel(shadow)" #shadow>
       <summary>Shadow</summary>
       @if (shadow.open) {
-        <shadow-control [(ngModel)]="style" (change)="onChangeStyle($event)"></shadow-control>
+        <ngx-box-shadow [(ngModel)]="style.boxShadow" (shadowChange)="onShadowChange($event)"></ngx-box-shadow>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>

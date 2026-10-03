@@ -7,11 +7,11 @@ import { BackgroundControlComponent } from '../../controls/beckground-control/ba
 import { DisplayControlComponent } from '../../controls/display-control/display-control.component';
 import { TextCssControlComponent } from '../../controls/textcss-control/textcss-control.component';
 import { SizeControlComponent } from '../../controls/size-control/size-control.component';
-import { ShadowControlComponent } from '../../controls/shadow-control/shadow-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
+import { NgxShadowBox } from 'ngx-kit/box-shadow';
 
 @Component({
   selector: 'block-properties',
@@ -23,7 +23,7 @@ import { ChangeTagComponent } from '../change-tag/change-tag.component';
     SpacingControlComponent,
     TypographyControlComponent,
     BackgroundControlComponent,
-    ShadowControlComponent,
+    NgxShadowBox,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -88,6 +88,10 @@ export class BlockPropertiesComponent extends BaseComponent {
       this.hasOverride = false;
     }
     this.chdRef.detectChanges();
+  }
+
+  onShadowChange(ev: string) {
+    this.onChangeStyle(this.style);
   }
 
   /**
