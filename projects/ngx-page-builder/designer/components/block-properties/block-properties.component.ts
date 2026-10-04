@@ -49,6 +49,14 @@ export class BlockPropertiesComponent extends BaseComponent {
   hasOverride = false;
 
   /**
+   * display «محاسبه‌شده» از مرورگر (شامل کلاس‌ها / Bootstrap) برای خودِ بلاک و والدش.
+   * کنترل Display از این‌ها می‌فهمد المان واقعاً flex/grid است (حتی با `.d-flex`) و کدام تنظیمات فرزند معنی دارد.
+   */
+  computedDisplay = '';
+  parentDisplay: string | undefined = undefined;
+  parentFlexDirection = 'row';
+
+  /**
    * snapshot مقدار مؤثر هنگام لود (kebab-case). کنترل‌ها همیشه «کل شیء style» را emit می‌کنند،
    * پس با مقایسه‌ی آن با این snapshot می‌فهمیم دقیقاً کدام property را کاربر عوض کرده
    * (و مقادیر ارث‌بری‌شده‌ی دست‌نخورده به‌عنوان override ذخیره نمی‌شوند).
@@ -82,6 +90,7 @@ export class BlockPropertiesComponent extends BaseComponent {
 
   private load(item: PageItem | undefined, ctx: BlockCssContext) {
     this.item = item;
+    this.readLayoutContext(item);
     if (item) {
       this.loaded = this.cls.getEffectiveDeclarations(item, ctx);
       this.style = CSSStyleHelper.declsToStyleObject(this.loaded);
@@ -94,10 +103,29 @@ export class BlockPropertiesComponent extends BaseComponent {
     this.chdRef.detectChanges();
   }
 
+  /** یک‌بار هنگام لود (نه در مسیر داغ ویرایش) */
+  private readLayoutContext(item: PageItem | undefined) {
+    this.computedDisplay = '';
+    this.parentDisplay = undefined;
+    this.parentFlexDirection = 'row';
+    try {
+      const own = item?.el;
+      const par = item?.parent?.el;
+      if (own?.ownerDocument?.defaultView) {
+        this.computedDisplay = own.ownerDocument.defaultView.getComputedStyle(own).display;
+      }
+      if (par?.ownerDocument?.defaultView) {
+        const cs = par.ownerDocument.defaultView.getComputedStyle(par);
+        this.parentDisplay = cs.display;
+        this.parentFlexDirection = cs.flexDirection || 'row';
+      }
+    } catch {
+      /* المان هنوز ساخته نشده یا iframe در دسترس نیست */
+    }
+  }
   onShadowChange(ev: string) {
     this.onChangeStyle(this.style);
   }
-
   /**
    * هر کنترل با هر تغییر، کل شیء style را emit می‌کند.
    * فقط تفاوت با مقدار لودشده روی item.css (در breakpoint/state فعال) نوشته می‌شود:

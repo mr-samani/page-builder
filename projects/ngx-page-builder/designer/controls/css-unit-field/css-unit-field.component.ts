@@ -31,9 +31,9 @@ import { parseCssNumber, trimNum } from './css-value-utils';
           (pointerdown)="scrubStart($event)"
           (pointermove)="scrubMove($event)"
           (pointerup)="scrubEnd($event)"
-          (pointercancel)="scrubEnd($event)"
-          >{{ label() }}</span
-        >
+          (pointercancel)="scrubEnd($event)">
+          {{ label() }}
+        </span>
       }
       <div class="cuf-box">
         @if (isCustom()) {
@@ -53,15 +53,18 @@ import { parseCssNumber, trimNum } from './css-value-utils';
             inputmode="decimal"
             autocomplete="off"
             [value]="numText()"
-            [placeholder]="placeholder() || fallbackText()"
+            [placeholder]="keyword() || placeholder() || fallbackText()"
             [attr.aria-label]="label() || 'value'"
             (input)="onNumInput($event)"
             (change)="onNumCommit($event)"
             (keydown)="onKey($event)" />
-          @if (units().length) {
+          @if (hasUnitSelect()) {
             <select class="cuf-unit" [attr.aria-label]="(label() || 'value') + ' unit'" (change)="onUnit($event)">
               @for (u of units(); track u) {
-                <option [value]="u" [selected]="u === unit()">{{ u }}</option>
+                <option [value]="u" [selected]="u === unitSelected()">{{ u }}</option>
+              }
+              @for (k of keywords(); track k) {
+                <option [value]="k" [selected]="k === unitSelected()">{{ k }}</option>
               }
             </select>
           }
@@ -163,7 +166,8 @@ import { parseCssNumber, trimNum } from './css-value-utils';
     }
     .cuf-unit {
       flex: none;
-      width: 46px;
+      min-width: 46px;
+      max-width: 74px;
       padding: 0 2px 0 4px;
       color: #c9c9d2;
       background: #33333a;
@@ -263,6 +267,8 @@ export class CssUnitFieldComponent {
   labelWidth = input<number>(16);
   /** واحدهای مجاز؛ خالی = بدون واحد (مثل scale) */
   units = input<readonly string[]>([]);
+  /** کلیدواژه‌های مجاز به‌جای عدد (مثل auto) — کنار واحدها در لیست واحد دیده می‌شوند */
+  keywords = input<readonly string[]>([]);
   step = input<number>(1);
   /** گام مخصوص هر واحد (مثلاً {ms: 10, s: 0.1}) — اگر نبود از `step` استفاده می‌شود */
   stepByUnit = input<Record<string, number>>({});
@@ -289,20 +295,30 @@ export class CssUnitFieldComponent {
   private readonly forcedCustom = signal(false);
 
   protected readonly parsed = computed(() => parseCssNumber(this.value(), this.units()));
+  /** اگر مقدار فعلی یکی از کلیدواژه‌هاست همان، وگرنه '' */
+  protected readonly keyword = computed(() => {
+    const v = this.value().trim().toLowerCase();
+    return this.keywords().find((k) => k.toLowerCase() === v) ?? '';
+  });
   protected readonly isCustom = computed(
-    () => this.forcedCustom() || (this.parsed() === null && this.value().trim() !== ''),
+    () => !this.keyword() && (this.forcedCustom() || (this.parsed() === null && this.value().trim() !== '')),
   );
   protected readonly numText = computed(() => {
     const p = this.parsed();
     return p ? trimNum(p.num) : '';
   });
   protected readonly unit = computed(() => this.parsed()?.unit ?? this.units()[0] ?? '');
+  /** گزینه‌ی انتخاب‌شده‌ی لیست واحد: کلیدواژه یا واحد */
+  protected readonly unitSelected = computed(() => this.keyword() || this.unit());
+  protected readonly hasUnitSelect = computed(() => this.units().length > 0 || this.keywords().length > 0);
   protected readonly fallbackText = computed(() => {
     const p = parseCssNumber(this.fallback(), this.units());
     return p ? trimNum(p.num) : this.fallback();
   });
   protected readonly curStep = computed(() => this.stepByUnit()[this.unit()] ?? this.step());
-  protected readonly sliderValue = computed(() => this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0);
+  protected readonly sliderValue = computed(
+    () => this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0,
+  );
 
   //---------------------------------- number ----------------------------------
 
@@ -319,7 +335,7 @@ export class CssUnitFieldComponent {
     const t = (ev.target as HTMLInputElement).value.trim();
     if (!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(t)) return;
     const n = parseFloat(t);
-    if (Number.isFinite(n)) this.emitNumber(n);
+    if (Number.isFinite(n)) this.emitNumber(n, this.parsed()?.unit ?? this.units()[0] ?? '');
   }
 
   protected onNumCommit(ev: Event): void {
@@ -351,6 +367,10 @@ export class CssUnitFieldComponent {
 
   protected onUnit(ev: Event): void {
     const unit = (ev.target as HTMLSelectElement).value;
+    if (this.keywords().includes(unit)) {
+      this.value.set(unit);
+      return;
+    }
     let cur = this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0;
     const f = this.unitFactors();
     const from = this.unit();

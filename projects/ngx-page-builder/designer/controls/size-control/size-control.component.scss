@@ -1,0 +1,145 @@
+:host {
+  display: block;
+  color: #e8e8ea;
+  font:
+    12px/1.4 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+button {
+  font: inherit;
+}
+code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+}
+.sc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 0 8px;
+  &.sub {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid #ffffff14;
+  }
+}
+.sc-title {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a8a8b2;
+}
+.sc-link {
+  all: unset;
+  cursor: pointer;
+  font-size: 11px;
+  color: #7aa7ff;
+  padding: 1px 4px;
+  border-radius: 3px;
+  &:hover {
+    background: #4b8bff22;
+    color: #a9c6ff;
+  }
+  &:focus-visible {
+    outline: 2px solid #4b8bff;
+  }
+}
+.sc-row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+  margin-top: 8px;
+}
+.sc-lbl {
+  font-size: 11px;
+  color: #a8a8b2;
+}
+.sc-sublbl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 4px;
+  font-size: 11px;
+  color: #a8a8b2;
+}
+.sc-tools {
+  display: inline-flex;
+  gap: 2px;
+  min-width: 54px;
+  justify-content: flex-end;
+  &.one {
+    min-width: 54px;
+  }
+}
+.sc-icon {
+  all: unset;
+  box-sizing: border-box;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #8a8a96;
+  font-size: 10px;
+  &:hover:not(:disabled) {
+    background: #ffffff1f;
+    color: #fff;
+  }
+  &:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+  &:focus-visible {
+    outline: 2px solid #4b8bff;
+  }
+}
+.sc-more {
+  margin-top: 12px;
+  summary {
+    cursor: pointer;
+    font-size: 11px;
+    color: #8a8a96;
+    padding: 4px 2px;
+    user-select: none;
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+.sc-input {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 26px;
+  margin-top: 6px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background: #2a2a30;
+  color: #fff;
+  font:
+    11px/1 ui-monospace,
+    Menlo,
+    Consolas,
+    monospace;
+  &:focus {
+    outline: 1px solid #4b8bff;
+  }
+  &.invalid {
+    outline: 1px solid #e5484d;
+  }
+}
+.sc-note {
+  margin: 4px 2px 0;
+  font-size: 10.5px;
+  color: #8a8a96;
+  &.err {
+    color: #ff8a8e;
+  }
+}

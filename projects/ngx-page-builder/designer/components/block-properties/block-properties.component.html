@@ -17,7 +17,12 @@
     <details name="block-properties" (toggle)="openPanel(display)" #display>
       <summary>Display</summary>
       @if (display.open) {
-        <display-control [(ngModel)]="style" (change)="onChangeStyle($event)"></display-control>
+        <display-control
+          [(ngModel)]="style"
+          [computedDisplay]="computedDisplay"
+          [parentDisplay]="parentDisplay"
+          [parentFlexDirection]="parentFlexDirection"
+          (change)="onChangeStyle($event)"></display-control>
       }
     </details>
 
