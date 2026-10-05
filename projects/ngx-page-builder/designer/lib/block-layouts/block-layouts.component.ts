@@ -76,9 +76,11 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent implements O
   }
 
   async onDrop(ev: IDropEvent<PageItem[]>, parent?: PageItem) {
+    console.log(ev);
+    debugger;
     const dragItem = ev.previousContainer.data?.[ev.previousIndex];
     const containerEl = parent?.el;
-    if (!dragItem || !containerEl || !ev.previousContainer.data || !ev.container.data) {
+    if (!dragItem || !ev.previousContainer.data || !ev.container.data) {
       return;
     }
     // transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);

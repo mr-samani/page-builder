@@ -207,7 +207,7 @@ export class ClassManagerService {
     if (!this.layerOrderElement) {
       this.layerOrderElement = idoc.createElement('style');
       this.layerOrderElement.id = 'NgxPageBuilderLayerOrder';
-      this.layerOrderElement.textContent = '@layer vendor, files, blocks;';
+      this.layerOrderElement.textContent = '@layer vendor, files ,defaults, blocks;';
       head.insertBefore(this.layerOrderElement, head.firstChild);
     }
 

@@ -4,15 +4,20 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Input,
-  OnInit,
+  inject,
   Output,
+  computed,
+  signal,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseControl } from '../base-control';
-import { CssVarPickerComponent } from '../css-var-picker/css-var-picker.component';
+import { CssUnitFieldComponent } from '../css-unit-field/css-unit-field.component';
+import { OriginPadComponent, OriginValue } from '../origin-pad/origin-pad.component';
+import { SegGroupComponent, SegOption } from '../seg-group/seg-group.component';
+import { ORIGIN_DEFAULT, formatOrigin, parseOrigin } from '../transform-control/transform-model';
+import { RATIO_PRESETS, isValidRatio, normalizeRatio } from './size-model';
 
+/** نگه‌داری شده برای سازگاری با کدهای قدیمی */
 export interface ISizeModel {
   width: string;
   minWidth: string;
@@ -21,18 +26,92 @@ export interface ISizeModel {
   minHeight: string;
   maxHeight: string;
 }
+export type SizeProperty = 'width' | 'minWidth' | 'maxWidth' | 'height' | 'minHeight' | 'maxHeight';
 
-export interface ISizeValue {
-  value: number | string | undefined;
-  /** custom = هر مقدار غیرعددی مثل var(--w) ، calc(...) ، clamp(...) — دست‌نخورده نگه داشته می‌شود */
-  unit: 'px' | '%' | 'em' | 'rem' | 'vh' | 'vw' | 'auto' | 'custom';
+interface SizeRow {
+  prop: SizeProperty;
+  label: string;
+  title: string;
+  fallback: string;
+  keywords: readonly string[];
 }
 
-export type SizeProperty = 'width' | 'minWidth' | 'maxWidth' | 'height' | 'minHeight' | 'maxHeight';
+const SIZE_KW = ['auto', 'fit-content', 'min-content', 'max-content'] as const;
+const MIN_KW = ['auto', 'fit-content', 'min-content', 'max-content'] as const;
+const MAX_KW = ['none', 'fit-content', 'min-content', 'max-content'] as const;
+
+const row = (
+  prop: SizeProperty,
+  label: string,
+  title: string,
+  fallback: string,
+  keywords: readonly string[],
+): SizeRow => ({
+  prop,
+  label,
+  title,
+  fallback,
+  keywords,
+});
+
+const MAIN_ROWS: SizeRow[] = [
+  row('width', 'Width', 'width', 'auto', SIZE_KW),
+  row('height', 'Height', 'height', 'auto', SIZE_KW),
+];
+const MIN_ROWS: SizeRow[] = [
+  row('minWidth', 'Min W', 'min-width', '0px', MIN_KW),
+  row('minHeight', 'Min H', 'min-height', '0px', MIN_KW),
+];
+const MAX_ROWS: SizeRow[] = [
+  row('maxWidth', 'Max W', 'max-width', 'none', MAX_KW),
+  row('maxHeight', 'Max H', 'max-height', 'none', MAX_KW),
+];
+
+const OVERFLOW: SegOption[] = [
+  {
+    value: 'visible',
+    label: 'Visible',
+    paths: [
+      'M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z',
+      'M8 6.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6z',
+    ],
+  },
+  {
+    value: 'hidden',
+    label: 'Hidden',
+    paths: ['M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z', 'M3 13L13 3'],
+  },
+  { value: 'scroll', label: 'Scroll', paths: ['M5 2.5h6v11H5z', 'M8 5v3.5'] },
+  { value: 'auto', label: 'Auto', text: 'Auto' },
+];
+
+const FIT: SegOption[] = [
+  { value: 'fill', label: 'Fill (stretch)', text: 'Fill' },
+  { value: 'contain', label: 'Contain (fit inside)', text: 'Contain' },
+  { value: 'cover', label: 'Cover (crop to fill)', text: 'Cover' },
+  { value: 'none', label: 'None (original size)', text: 'None' },
+  { value: 'scale-down', label: 'Scale down', text: 'Scale' },
+];
+
+const BOX: SegOption[] = [
+  {
+    value: 'content-box',
+    label: 'Content box',
+    text: 'Content',
+    title: 'content-box: padding and border are added to the size',
+  },
+  {
+    value: 'border-box',
+    label: 'Border box',
+    text: 'Border',
+    title: 'border-box: padding and border are included in the size',
+  },
+];
 
 @Component({
   selector: 'size-control',
   templateUrl: './size-control.component.html',
+  styleUrls: ['./size-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,141 +119,113 @@ export type SizeProperty = 'width' | 'minWidth' | 'maxWidth' | 'height' | 'minHe
       multi: true,
     },
   ],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, CssVarPickerComponent],
+  imports: [CssUnitFieldComponent, OriginPadComponent, SegGroupComponent],
 })
-export class SizeControlComponent extends BaseControl implements OnInit, ControlValueAccessor {
+export class SizeControlComponent extends BaseControl {
   @Output() change = new EventEmitter<Partial<CSSStyleDeclaration>>();
 
-  widthProperties: SizeProperty[] = ['width', 'minWidth', 'maxWidth'];
-  heightProperties: SizeProperty[] = ['height', 'minHeight', 'maxHeight'];
+  private readonly cd = inject(ChangeDetectorRef);
 
-  sizes: {
-    width: ISizeValue;
-    minWidth: ISizeValue;
-    maxWidth: ISizeValue;
-    height: ISizeValue;
-    minHeight: ISizeValue;
-    maxHeight: ISizeValue;
-  } = {
-    width: { value: undefined, unit: 'px' },
-    minWidth: { value: undefined, unit: 'px' },
-    maxWidth: { value: undefined, unit: 'px' },
-    height: { value: undefined, unit: 'px' },
-    minHeight: { value: undefined, unit: 'px' },
-    maxHeight: { value: undefined, unit: 'px' },
-  };
+  protected readonly mainRows = MAIN_ROWS;
+  protected readonly minRows = MIN_ROWS;
+  protected readonly maxRows = MAX_ROWS;
+  protected readonly overflow = OVERFLOW;
+  protected readonly fit = FIT;
+  protected readonly box = BOX;
+  protected readonly units = ['px', '%', 'em', 'rem', 'vw', 'vh'] as const;
+  protected readonly ratios: SegOption[] = RATIO_PRESETS.map((r) => ({
+    value: r.value,
+    label: r.label,
+    text: r.label,
+  }));
+  protected readonly normalizeRatio = normalizeRatio;
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
-  }
+  private readonly snap = signal<Partial<CSSStyleDeclaration>>({});
+  protected readonly s = this.snap.asReadonly();
+  /** وضعیت اولیه‌ی باز/بسته بودن بخش‌های جمع‌شونده (با writeValue تعیین می‌شود) */
+  protected readonly minMaxOpen = signal(false);
+  protected readonly mediaOpen = signal(false);
+  protected readonly ratioInvalid = signal(false);
 
-  ngOnInit() {}
+  protected readonly position = computed(() => parseOrigin(this.s().objectPosition) ?? { ...ORIGIN_DEFAULT });
+  protected readonly ratioPreset = computed(() => {
+    const v = normalizeRatio(this.s().aspectRatio);
+    return RATIO_PRESETS.find((r) => normalizeRatio(r.value) === v)?.value ?? '';
+  });
 
   writeValue(style: Partial<CSSStyleDeclaration>): void {
-    if (!style) {
-      style = {};
-    }
-    this.style = style;
-
-    // Parse size values
-    this.sizes.width = this.parseSizeValue(this.style.width);
-    this.sizes.minWidth = this.parseSizeValue(this.style.minWidth);
-    this.sizes.maxWidth = this.parseSizeValue(this.style.maxWidth);
-    this.sizes.height = this.parseSizeValue(this.style.height);
-    this.sizes.minHeight = this.parseSizeValue(this.style.minHeight);
-    this.sizes.maxHeight = this.parseSizeValue(this.style.maxHeight);
-
-    this.cdr.detectChanges();
+    this.style = style ?? {};
+    const s = this.style;
+    this.snap.set({ ...s });
+    this.minMaxOpen.set(!!(s.minWidth || s.minHeight || s.maxWidth || s.maxHeight));
+    this.mediaOpen.set(!!(s.objectFit || s.objectPosition || s.aspectRatio || s.boxSizing));
+    this.ratioInvalid.set(false);
+    this.cd.markForCheck();
   }
 
-  parseSizeValue(value: string | undefined): ISizeValue {
-    if (!value || value === 'auto' || value === 'none') {
-      return { value: value, unit: 'auto' };
-    }
-
-    const match = value.match(/^([\d.]+)(px|%|em|rem|vh|vw)$/);
-    if (match) {
-      return {
-        value: parseFloat(match[1]),
-        unit: match[2] as ISizeValue['unit'],
-      };
-    }
-
-    // var(--x) ، calc() ، clamp() و ... : قبلاً به 0px تبدیل و خراب می‌شد
-    return { value, unit: 'custom' };
-  }
-
-  formatSizeValue(sizeValue: ISizeValue): string {
-    if (sizeValue.value == undefined) return '';
-    if (sizeValue.unit === 'auto') {
-      return sizeValue.value === 'none' ? 'none' : 'auto';
-    }
-    if (sizeValue.unit === 'custom') {
-      return String(sizeValue.value ?? '').trim();
-    }
-    return `${sizeValue.value}${sizeValue.unit}`;
-  }
-
-  onChangeUnit(property: SizeProperty) {
-    const sizeValue = this.sizes[property];
-    if (sizeValue.unit === 'custom') {
-      // عدد فعلی را به متن تبدیل می‌کنیم تا قابل ویرایش باشد (مثلاً 16 → 16px)
-      const v = sizeValue.value;
-      sizeValue.value = typeof v === 'number' ? `${v}px` : v === 'auto' || v === 'none' ? '' : (v ?? '');
-    } else if (sizeValue.unit === 'auto') {
-      if (property.includes('max')) {
-        sizeValue.value = 'none';
-      } else {
-        sizeValue.value = 'auto';
-      }
-    } else if (Number.isNaN(Number.parseInt(sizeValue.value?.toString() ?? ''))) {
-      sizeValue.value = 0;
-    }
-    this.update();
-  }
-
-  /** انتخاب از متغیرهای CSS */
-  onPickVar(property: SizeProperty, cssVar: string) {
-    this.sizes[property] = { value: cssVar, unit: 'custom' };
-    this.update();
-  }
-
-  isTextInput(unit: ISizeValue['unit']): boolean {
-    return unit === 'auto' || unit === 'custom';
-  }
-
-  getLabel(property: SizeProperty): string {
-    const labels: { [key in SizeProperty]: string } = {
-      width: 'Width',
-      minWidth: 'Min Width',
-      maxWidth: 'Max Width',
-      height: 'Height',
-      minHeight: 'Min Height',
-      maxHeight: 'Max Height',
-    };
-    return labels[property];
-  }
-
-  isMaxProperty(property: SizeProperty): boolean {
-    return property === 'maxWidth' || property === 'maxHeight';
-  }
-
-  update() {
-    // Update style object with formatted CSS values
-    this.style.width = this.formatSizeValue(this.sizes.width);
-    this.style.minWidth = this.formatSizeValue(this.sizes.minWidth);
-    this.style.maxWidth = this.formatSizeValue(this.sizes.maxWidth);
-    this.style.height = this.formatSizeValue(this.sizes.height);
-    this.style.minHeight = this.formatSizeValue(this.sizes.minHeight);
-    this.style.maxHeight = this.formatSizeValue(this.sizes.maxHeight);
-
+  private apply(patch: Record<string, string>): void {
+    const st = this.style as unknown as Record<string, string>;
+    for (const k of Object.keys(patch)) st[k] = patch[k];
+    this.snap.set({ ...this.style });
     this.onChange(this.style);
     this.change.emit(this.style);
+    this.cd.markForCheck();
   }
-  clear(property: ISizeValue) {
-    property.value = undefined;
-    property.unit = 'px';
-    this.update();
+
+  protected value(prop: string): string {
+    return (this.s() as Record<string, string | undefined>)[prop] ?? '';
+  }
+
+  protected set(prop: string, v: string): void {
+    this.apply({ [prop]: v });
+  }
+
+  protected clear(prop: string): void {
+    this.apply({ [prop]: '' });
+  }
+
+  protected hasAnySize(): boolean {
+    const s = this.s();
+    return !!(s.width || s.height || s.minWidth || s.minHeight || s.maxWidth || s.maxHeight);
+  }
+
+  protected clearSizes(): void {
+    this.apply({ width: '', height: '', minWidth: '', minHeight: '', maxWidth: '', maxHeight: '' });
+  }
+
+  /** عرض/ارتفاع را با هم ۱۰۰٪ می‌کند (میان‌بر پرکاربرد) */
+  protected fill(prop: 'width' | 'height'): void {
+    this.apply({ [prop]: '100%' });
+  }
+
+  //---------------- aspect ratio ----------------
+
+  protected onRatioPreset(v: string): void {
+    this.ratioInvalid.set(false);
+    this.apply({ aspectRatio: v });
+  }
+
+  protected onRatioText(ev: Event): void {
+    const input = ev.target as HTMLInputElement;
+    const v = input.value.trim();
+    if (!v) {
+      this.ratioInvalid.set(false);
+      this.apply({ aspectRatio: '' });
+      return;
+    }
+    if (!isValidRatio(v)) {
+      this.ratioInvalid.set(true);
+      return;
+    }
+    this.ratioInvalid.set(false);
+    this.apply({ aspectRatio: normalizeRatio(v) });
+  }
+
+  //---------------- object-position ----------------
+
+  protected onPosition(v: OriginValue): void {
+    this.apply({ objectPosition: formatOrigin({ x: v.x, y: v.y }) });
   }
 }

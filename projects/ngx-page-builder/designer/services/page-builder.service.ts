@@ -525,6 +525,7 @@ export class PageBuilderService implements OnDestroy {
           } else {
             await this.changePage(1);
           }
+          this.onUpdateBaseConfig$.next(this.pageInfo.config);
           resolve(true);
         })
         .catch((error) => {

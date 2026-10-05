@@ -7,11 +7,30 @@ import { BackgroundControlComponent } from '../../controls/beckground-control/ba
 import { DisplayControlComponent } from '../../controls/display-control/display-control.component';
 import { TextCssControlComponent } from '../../controls/textcss-control/textcss-control.component';
 import { SizeControlComponent } from '../../controls/size-control/size-control.component';
-import { ShadowControlComponent } from '../../controls/shadow-control/shadow-control.component';
+import { TransformControlComponent } from '../../controls/transform-control/transform-control.component';
+import { TransitionControlComponent } from '../../controls/transition-control/transition-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
+import { NgxShadowBox } from 'ngx-kit/box-shadow';
+
+/** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
+const TYPO_KEYS = [
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'fontStyle',
+  'lineHeight',
+  'color',
+  'textAlign',
+  'textDecorationLine',
+  'textTransform',
+  'letterSpacing',
+  'wordSpacing',
+  'textIndent',
+  'direction',
+] as const;
 
 @Component({
   selector: 'block-properties',
@@ -23,7 +42,9 @@ import { ChangeTagComponent } from '../change-tag/change-tag.component';
     SpacingControlComponent,
     TypographyControlComponent,
     BackgroundControlComponent,
-    ShadowControlComponent,
+    NgxShadowBox,
+    TransformControlComponent,
+    TransitionControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -43,6 +64,16 @@ export class BlockPropertiesComponent extends BaseComponent {
 
   /** آیا در context فعلی (breakpoint + state) خود کاربر چیزی override کرده؟ */
   hasOverride = false;
+
+  /**
+   * display «محاسبه‌شده» از مرورگر (شامل کلاس‌ها / Bootstrap) برای خودِ بلاک و والدش.
+   * کنترل Display از این‌ها می‌فهمد المان واقعاً flex/grid است (حتی با `.d-flex`) و کدام تنظیمات فرزند معنی دارد.
+   */
+  computedDisplay = '';
+  parentDisplay: string | undefined = undefined;
+  parentFlexDirection = 'row';
+  /** مقدارهای محاسبه‌شده‌ی تایپوگرافی؛ فیلدهای ست‌نشده با آن‌ها placeholder و پیش‌نمایش درست می‌گیرند */
+  computedTypography: Record<string, string> = {};
 
   /**
    * snapshot مقدار مؤثر هنگام لود (kebab-case). کنترل‌ها همیشه «کل شیء style» را emit می‌کنند،
@@ -78,6 +109,7 @@ export class BlockPropertiesComponent extends BaseComponent {
 
   private load(item: PageItem | undefined, ctx: BlockCssContext) {
     this.item = item;
+    this.readLayoutContext(item);
     if (item) {
       this.loaded = this.cls.getEffectiveDeclarations(item, ctx);
       this.style = CSSStyleHelper.declsToStyleObject(this.loaded);
@@ -90,6 +122,34 @@ export class BlockPropertiesComponent extends BaseComponent {
     this.chdRef.detectChanges();
   }
 
+  /** یک‌بار هنگام لود (نه در مسیر داغ ویرایش) */
+  private readLayoutContext(item: PageItem | undefined) {
+    this.computedDisplay = '';
+    this.parentDisplay = undefined;
+    this.parentFlexDirection = 'row';
+    this.computedTypography = {};
+    try {
+      const own = item?.el;
+      const par = item?.parent?.el;
+      if (own?.ownerDocument?.defaultView) {
+        const cs = own.ownerDocument.defaultView.getComputedStyle(own);
+        this.computedDisplay = cs.display;
+        const t: Record<string, string> = {};
+        for (const k of TYPO_KEYS) t[k] = cs[k];
+        this.computedTypography = t;
+      }
+      if (par?.ownerDocument?.defaultView) {
+        const cs = par.ownerDocument.defaultView.getComputedStyle(par);
+        this.parentDisplay = cs.display;
+        this.parentFlexDirection = cs.flexDirection || 'row';
+      }
+    } catch {
+      /* المان هنوز ساخته نشده یا iframe در دسترس نیست */
+    }
+  }
+  onShadowChange(ev: string) {
+    this.onChangeStyle(this.style);
+  }
   /**
    * هر کنترل با هر تغییر، کل شیء style را emit می‌کند.
    * فقط تفاوت با مقدار لودشده روی item.css (در breakpoint/state فعال) نوشته می‌شود:
@@ -99,6 +159,9 @@ export class BlockPropertiesComponent extends BaseComponent {
   onChangeStyle(ev: Partial<CSSStyleDeclaration>) {
     const item = this.item;
     if (!item) return;
+    // اگر کنترل خروجی‌ای به اسم `change` دارد، رویداد DOM ـی `change` ورودی‌های داخلش هم (با bubble) به همین handler می‌رسد.
+    // آن یک Event است نه شیء style؛ بدون این گارد، «همه‌ی» استایل‌ها به‌عنوان حذف‌شده تفسیر می‌شدند.
+    if (typeof Event !== 'undefined' && (ev as unknown) instanceof Event) return;
 
     const next = CSSStyleHelper.styleObjectToDecls(ev);
     const patch: Record<string, string | null> = {};

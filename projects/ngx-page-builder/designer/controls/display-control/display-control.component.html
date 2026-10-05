@@ -1,324 +1,379 @@
-<table class="properties-table">
-  <tbody>
-    <tr>
-      <td><label for="display">Display Type</label></td>
-      <td>
-        <div class="pb-input-group">
-          <select [(ngModel)]="style.display" id="display" (ngModelChange)="update()">
-            @for (option of displayOptions; track option) {
-              <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
-            }
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('style.display')">x</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="display-control" [class.disabled]="isDisabled">
-  <!-- Display Type Selector -->
-
-  <!-- Flex Controls -->
-  @if (isFlex()) {
-    <table class="properties-table">
-      <tbody>
-        <tr>
-          <td colspan="2">
-            <label>Flexbox Settings</label>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="flex-direction">Flex Direction</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.flexDirection" (ngModelChange)="update()" id="flex-direction">
-                <option value="row">Row →</option>
-                <option value="row-reverse">Row Reverse ←</option>
-                <option value="column">Column ↓</option>
-                <option value="column-reverse">Column Reverse ↑</option>
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('display')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="flex-direction">Flex Wrap</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.flexWrap" (ngModelChange)="update()">
-                <option value="nowrap">No Wrap</option>
-                <option value="wrap">Wrap</option>
-                <option value="wrap-reverse">Wrap Reverse</option>
-              </select>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="justifyContent">Justify Content (Main Axis)</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.justifyContent" id="justifyContent" (ngModelChange)="update()">
-                @for (option of justifyOptions; track option) {
-                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
-                }
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('justifyContent')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="alignItems">Align Items (Cross Axis)</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.alignItems" id="alignItems" (ngModelChange)="update()">
-                @for (option of alignOptions; track option) {
-                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
-                }
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('alignItems')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="alignContent">Align Content (Multi-line)</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.alignContent" id="alignContent" (ngModelChange)="update()">
-                @for (option of alignContentOptions; track option) {
-                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
-                }
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('alignContent')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="gap">Gap</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input id="gap" type="text" [(ngModel)]="style.gap" (ngModelChange)="update()" placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('gap')">x</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="rowGap">Row Gap</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="rowGap"
-                type="text"
-                [(ngModel)]="style.rowGap"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('rowGap')">x</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="columnGap">Column Gap</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="columnGap"
-                type="text"
-                [(ngModel)]="style.columnGap"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('columnGap')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="flexGrow">Flex Grow</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="flexGrow"
-                type="text"
-                [(ngModel)]="style.flexGrow"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('flexGrow')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="flexShrink">Flex Shrink</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="flexShrink"
-                type="text"
-                [(ngModel)]="style.flexShrink"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('flexShrink')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="flexBasis">Flex Basis</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="flexBasis"
-                type="text"
-                [(ngModel)]="style.flexBasis"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('flexBasis')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="order">Order</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="order"
-                type="text"
-                [(ngModel)]="style.order"
-                (ngModelChange)="update()"
-                placeholder="e.g., 10px" />
-              <button class="pb-btn" type="button" (click)="clear('order')">x</button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td><label for="alignSelf">Align Self</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select [(ngModel)]="style.alignSelf" id="alignSelf" (ngModelChange)="update()">
-                @for (option of alignSelfOptions; track option) {
-                  <option [value]="option.value">{{ option.icon }} &nbsp; {{ option.label }}</option>
-                }
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('alignSelf')">x</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="dc">
+  <!-- ============ Display ============ -->
+  <div class="dc-head">
+    <span class="dc-title">Display</span>
+    @if (s().display) {
+      <button type="button" class="dc-link" title="Remove the display override of this state" (click)="setProp('display', '')">
+        Clear
+      </button>
+    }
+  </div>
+  <pb-seg
+    ariaLabel="Display"
+    [options]="displayMain"
+    [value]="s().display || ''"
+    [inherited]="computedDisplay()"
+    [clearable]="false"
+    [showLabels]="false"
+    (picked)="onDisplay($event)" />
+  <div class="dc-labels" aria-hidden="true">
+    @for (o of displayMain; track o.value) {
+      <span>{{ o.label }}</span>
+    }
+  </div>
+  <select class="dc-select" aria-label="More display values" (change)="onMoreDisplay($event)">
+    <option value="" [selected]="!moreSelected()">Other display types…</option>
+    @for (o of displayMore; track o.value) {
+      <option [value]="o.value" [selected]="moreSelected() === o.value">{{ o.label }}</option>
+    }
+  </select>
+  @if (!s().display && computedDisplay()) {
+    <p class="dc-note">Currently <b>{{ computedDisplay() }}</b> (from a class or the browser default).</p>
   }
 
-  <!-- Grid Controls -->
+  <!-- ============ Flex container ============ -->
+  @if (isFlex()) {
+    <div class="dc-head sub"><span class="dc-title">Flex layout</span></div>
+
+    <div class="dc-row">
+      <span class="dc-lbl">Direction</span>
+      <pb-seg
+        ariaLabel="Flex direction"
+        [options]="direction"
+        [value]="s().flexDirection || ''"
+        inherited="row"
+        (picked)="setProp('flexDirection', $event)" />
+    </div>
+
+    <div class="dc-aligner">
+      <div class="dc-pad" role="group" aria-label="Alignment pad (justify and align)">
+        @for (i of padCells; track i) {
+          <button
+            type="button"
+            class="dc-pad-cell"
+            [class.on]="padOn(i)"
+            [attr.aria-pressed]="padOn(i)"
+            [title]="'Align here'"
+            (click)="onPad(i)"></button>
+        }
+      </div>
+      <div class="dc-aligner-rows">
+        <span class="dc-sublbl">Justify</span>
+        <pb-seg
+          ariaLabel="Justify content"
+          [options]="justifyOpts()"
+          [value]="s().justifyContent || ''"
+          [normalize]="normalizePos"
+          (picked)="setProp('justifyContent', $event)" />
+        <span class="dc-sublbl">Align</span>
+        <pb-seg
+          ariaLabel="Align items"
+          [options]="alignOpts()"
+          [value]="s().alignItems || ''"
+          [normalize]="normalizePos"
+          inherited="stretch"
+          (picked)="setProp('alignItems', $event)" />
+      </div>
+    </div>
+
+    <div class="dc-row">
+      <span class="dc-lbl">Wrap</span>
+      <pb-seg
+        ariaLabel="Flex wrap"
+        [options]="wrap"
+        [value]="s().flexWrap || ''"
+        inherited="nowrap"
+        (picked)="setProp('flexWrap', $event)" />
+    </div>
+    @if (isWrapped()) {
+      <div class="dc-row">
+        <span class="dc-lbl" title="align-content: how wrapped lines are spread">Lines</span>
+        <pb-seg
+          ariaLabel="Align content"
+          [options]="contentOpts()"
+          [value]="s().alignContent || ''"
+          [normalize]="normalizePos"
+          inherited="stretch"
+          (picked)="setProp('alignContent', $event)" />
+      </div>
+    }
+    <ng-container *ngTemplateOutlet="gapTpl"></ng-container>
+  }
+
+  <!-- ============ Grid container ============ -->
   @if (isGrid()) {
-    <table class="properties-table">
-      <tbody>
-        <tr>
-          <td colspan="2">
-            <label>Grid Settings</label>
-          </td>
-        </tr>
+    <div class="dc-head sub"><span class="dc-title">Grid layout</span></div>
 
-        <tr>
-          <td><label for="alignContent">Quick Presets</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select #gridQuikPresent (change)="setGridPreset(gridQuikPresent.value)">
-                <option value="2-col">2 Columns</option>
-                <option value="3-col">3 Columns</option>
-                <option value="4-col">4 Columns</option>
-                <option value="auto-fill">Auto Fill</option>
-                <option value="auto-fit">Auto Fit</option>
-              </select>
-            </div>
-          </td>
-        </tr>
+    <div class="dc-row">
+      <span class="dc-lbl">Columns</span>
+      <pb-seg
+        ariaLabel="Column presets"
+        [options]="presets"
+        [value]="gridPreset()"
+        [showLabels]="true"
+        (picked)="$event && setProp('gridTemplateColumns', presetColumns($event))" />
+    </div>
 
-        <tr>
-          <td><label for="gridTemplateColumns">Template Columns</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="gridTemplateColumns"
-                type="text"
-                [(ngModel)]="style.gridTemplateColumns"
-                (ngModelChange)="update()"
-                placeholder="e.g., repeat(3, 1fr)" />
-              <button class="pb-btn" type="button" (click)="clear('gridTemplateColumns')">x</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <small class="text-info">Examples: "200px 1fr 2fr", "repeat(3, 1fr)", "minmax(100px, 1fr)"</small>
-          </td>
-        </tr>
+    @if (preview(); as pv) {
+      <div class="dc-gp" aria-hidden="true" [style.gridTemplateColumns]="pv.columns" [style.gridTemplateRows]="pv.rows">
+        @for (c of pv.cells; track c) {
+          <span class="dc-gp-cell"></span>
+        }
+      </div>
+    }
 
-        <tr>
-          <td><label for="gridTemplateRows">Template Rows</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="gridTemplateRows"
-                type="text"
-                [(ngModel)]="style.gridTemplateRows"
-                (ngModelChange)="update()"
-                placeholder="e.g., auto 1fr auto" />
-              <button class="pb-btn" type="button" (click)="clear('gridTemplateRows')">x</button>
-            </div>
-          </td>
-        </tr>
+    <grid-tracks label="Columns" kind="column" [value]="s().gridTemplateColumns || ''" (changed)="setProp('gridTemplateColumns', $event)" />
+    <grid-tracks label="Rows" kind="row" [value]="s().gridTemplateRows || ''" (changed)="setProp('gridTemplateRows', $event)" />
 
-        <tr>
-          <td><label for="gridTemplateAreas">Template Areas</label></td>
-          <td>
-            <div class="pb-input-group">
-              <textarea
-                rows="3"
-                id="gridTemplateAreas"
-                type="text"
-                [(ngModel)]="style.gridTemplateAreas"
-                (ngModelChange)="update()"
-                placeholder="e.g., 'header header' 'sidebar main' 'footer footer'"></textarea>
-              <button class="pb-btn" type="button" (click)="clear('gridTemplateAreas')">x</button>
-            </div>
-          </td>
-        </tr>
+    <ng-container *ngTemplateOutlet="gapTpl"></ng-container>
 
-        <tr>
-          <td><label for="gridAutoColumns">Auto Columns</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="gridAutoColumns"
-                type="text"
-                [(ngModel)]="style.gridAutoColumns"
-                (ngModelChange)="update()"
-                placeholder="e.g., 1fr" />
-              <button class="pb-btn" type="button" (click)="clear('gridAutoColumns')">x</button>
-            </div>
-          </td>
-        </tr>
+    <div class="dc-row">
+      <span class="dc-lbl" title="align-items: place items vertically inside their cell">Align</span>
+      <pb-seg
+        ariaLabel="Align items"
+        [options]="gridItems"
+        [value]="s().alignItems || ''"
+        [normalize]="normalizeGrid"
+        inherited="stretch"
+        (picked)="setProp('alignItems', $event)" />
+    </div>
+    <div class="dc-row">
+      <span class="dc-lbl" title="justify-items: place items horizontally inside their cell">Justify</span>
+      <pb-seg
+        ariaLabel="Justify items"
+        [options]="gridItems"
+        [value]="s().justifyItems || ''"
+        [normalize]="normalizeGrid"
+        inherited="stretch"
+        (picked)="setProp('justifyItems', $event)" />
+    </div>
 
-        <tr>
-          <td><label for="gridAutoRows">Auto Rows</label></td>
-          <td>
-            <div class="pb-input-group">
-              <input
-                id="gridAutoRows"
-                type="text"
-                [(ngModel)]="style.gridAutoRows"
-                (ngModelChange)="update()"
-                placeholder="e.g., 1fr" />
-              <button class="pb-btn" type="button" (click)="clear('gridAutoRows')">x</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <details class="dc-more">
+      <summary>More grid options</summary>
+      <div class="dc-row">
+        <span class="dc-lbl">Auto flow</span>
+        <pb-seg ariaLabel="Auto flow" [options]="gridFlow" [value]="s().gridAutoFlow || ''" inherited="row" (picked)="setProp('gridAutoFlow', $event)" />
+      </div>
+      <div class="dc-row">
+        <span class="dc-lbl">Auto cols</span>
+        <input
+          class="dc-input"
+          type="text"
+          spellcheck="false"
+          placeholder="auto"
+          aria-label="Auto columns"
+          [value]="s().gridAutoColumns || ''"
+          (change)="setProp('gridAutoColumns', $any($event.target).value.trim())" />
+      </div>
+      <div class="dc-row">
+        <span class="dc-lbl">Auto rows</span>
+        <input
+          class="dc-input"
+          type="text"
+          spellcheck="false"
+          placeholder="auto"
+          aria-label="Auto rows"
+          [value]="s().gridAutoRows || ''"
+          (change)="setProp('gridAutoRows', $any($event.target).value.trim())" />
+      </div>
+      <div class="dc-row">
+        <span class="dc-lbl" title="justify-content: spread the whole grid horizontally">Spread ↔</span>
+        <pb-seg
+          ariaLabel="Justify content"
+          [options]="gridJustifyOpts"
+          [value]="s().justifyContent || ''"
+          [normalize]="normalizeGrid"
+          (picked)="setProp('justifyContent', $event)" />
+      </div>
+      <div class="dc-row">
+        <span class="dc-lbl" title="align-content: spread the whole grid vertically">Spread ↕</span>
+        <pb-seg
+          ariaLabel="Align content"
+          [options]="gridAlignContentOpts"
+          [value]="s().alignContent || ''"
+          [normalize]="normalizeGrid"
+          (picked)="setProp('alignContent', $event)" />
+      </div>
+      <span class="dc-sublbl">Template areas</span>
+      <textarea
+        class="dc-input area"
+        rows="3"
+        spellcheck="false"
+        placeholder="&quot;header header&quot; &quot;sidebar main&quot;"
+        aria-label="Grid template areas"
+        [value]="s().gridTemplateAreas || ''"
+        (change)="setProp('gridTemplateAreas', $any($event.target).value.trim())"></textarea>
+    </details>
+  }
+
+  <!-- ============ Child settings ============ -->
+  @if (parentKind() === 'flex') {
+    <div class="dc-head sub">
+      <span class="dc-title">Flex child</span>
+      @if (hasAnyFlexChild()) {
+        <button type="button" class="dc-link" (click)="clearFlexChild()">Clear</button>
+      }
+    </div>
+    <div class="dc-row">
+      <span class="dc-lbl">Sizing</span>
+      <pb-seg ariaLabel="Flex sizing" [options]="sizing" [value]="flexSizing()" inherited="shrink" (picked)="onSizing($event)" />
+    </div>
+    @if (flexSizing() === 'custom') {
+      <div class="dc-trio">
+        <css-unit-field
+          label="Grow"
+          [labelWidth]="34"
+          [units]="[]"
+          fallback="0"
+          [step]="1"
+          [min]="0"
+          [value]="flexInfo().parts.grow"
+          (valueChange)="setFlexPart('flexGrow', $event)" />
+        <css-unit-field
+          label="Shrink"
+          [labelWidth]="34"
+          [units]="[]"
+          fallback="1"
+          [step]="1"
+          [min]="0"
+          [value]="flexInfo().parts.shrink"
+          (valueChange)="setFlexPart('flexShrink', $event)" />
+        <css-unit-field
+          label="Basis"
+          [labelWidth]="34"
+          [units]="lengthUnits"
+          [keywords]="['auto', 'content']"
+          fallback="auto"
+          [step]="1"
+          [min]="0"
+          [value]="flexInfo().parts.basis"
+          (valueChange)="setFlexPart('flexBasis', $event)" />
+      </div>
+    }
+    <div class="dc-row">
+      <span class="dc-lbl">Align self</span>
+      <pb-seg
+        ariaLabel="Align self"
+        [options]="selfOpts()"
+        [value]="s().alignSelf || ''"
+        [normalize]="normalizePos"
+        inherited="auto"
+        (picked)="setProp('alignSelf', $event)" />
+    </div>
+    <div class="dc-row">
+      <span class="dc-lbl">Order</span>
+      <div class="dc-order">
+        <pb-seg ariaLabel="Order shortcuts" [options]="order" [value]="s().order || ''" (picked)="setProp('order', $event)" />
+        <css-unit-field
+          [units]="[]"
+          fallback="0"
+          [step]="1"
+          title="order"
+          [value]="s().order || ''"
+          placeholder="0"
+          (valueChange)="setProp('order', $event === '0' ? '0' : $event)" />
+      </div>
+    </div>
+  } @else if (parentKind() === 'grid') {
+    <div class="dc-head sub">
+      <span class="dc-title">Grid child</span>
+      @if (s().gridColumn || s().gridRow || s().justifySelf || s().alignSelf) {
+        <button type="button" class="dc-link" (click)="clearGridChild()">Clear</button>
+      }
+    </div>
+    @for (ax of [{ k: 'gridColumn', l: 'Column', n: colSpan() }, { k: 'gridRow', l: 'Row', n: rowSpan() }]; track ax.k) {
+      <div class="dc-row">
+        <span class="dc-lbl">{{ ax.l }}</span>
+        @if (ax.n === null) {
+          <input
+            class="dc-input"
+            type="text"
+            spellcheck="false"
+            [attr.aria-label]="ax.l + ' placement'"
+            [value]="ax.k === 'gridColumn' ? s().gridColumn || '' : s().gridRow || ''"
+            (change)="setProp(ax.k, $any($event.target).value.trim())" />
+        } @else {
+          <div class="dc-step" role="group" [attr.aria-label]="ax.l + ' span'">
+            <button type="button" [disabled]="ax.n === 0" aria-label="Decrease span" (click)="stepSpan($any(ax.k), -1)">−</button>
+            <span class="dc-step-val" [class.dim]="ax.n === 0">{{ spanText(ax.n) }}</span>
+            <button type="button" [disabled]="ax.n >= 24" aria-label="Increase span" (click)="stepSpan($any(ax.k), 1)">+</button>
+          </div>
+        }
+      </div>
+    }
+    <div class="dc-row">
+      <span class="dc-lbl">Align</span>
+      <pb-seg
+        ariaLabel="Align self"
+        [options]="gridItems"
+        [value]="s().alignSelf || ''"
+        [normalize]="normalizeGrid"
+        inherited="stretch"
+        (picked)="setProp('alignSelf', $event)" />
+    </div>
+    <div class="dc-row">
+      <span class="dc-lbl">Justify</span>
+      <pb-seg
+        ariaLabel="Justify self"
+        [options]="gridItems"
+        [value]="s().justifySelf || ''"
+        [normalize]="normalizeGrid"
+        inherited="stretch"
+        (picked)="setProp('justifySelf', $event)" />
+    </div>
+  } @else if (parentKind() === 'other') {
+    <p class="dc-note dim">Parent is <b>{{ parentDisplay() }}</b>. Child options appear when the parent is Flex or Grid.</p>
   }
 </div>
+
+<!-- gap (shared by flex and grid) -->
+<ng-template #gapTpl>
+  <div class="dc-row gap">
+    <span class="dc-lbl">Gap</span>
+    <div class="dc-gap">
+      @if (!gapSplit()) {
+        <css-unit-field
+          [units]="lengthUnits"
+          fallback="0px"
+          placeholder="0"
+          [step]="1"
+          [min]="0"
+          title="gap"
+          [value]="gap().row"
+          (valueChange)="setGap($event)" />
+      } @else {
+        <css-unit-field
+          label="↕"
+          title="Row gap"
+          [units]="lengthUnits"
+          fallback="0px"
+          placeholder="0"
+          [step]="1"
+          [min]="0"
+          [value]="gap().row"
+          (valueChange)="setGapAxis('row', $event)" />
+        <css-unit-field
+          label="↔"
+          title="Column gap"
+          [units]="lengthUnits"
+          fallback="0px"
+          placeholder="0"
+          [step]="1"
+          [min]="0"
+          [value]="gap().col"
+          (valueChange)="setGapAxis('col', $event)" />
+      }
+      <button
+        type="button"
+        class="dc-split"
+        [class.on]="gapSplit()"
+        [attr.aria-pressed]="gapSplit()"
+        title="Set row and column gap separately"
+        (click)="toggleGapSplit()">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path d="M3 5h10M3 11h10M8 2v12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -24,7 +24,7 @@
           (ngModelChange)="onChange()" />
       }
       @case ('gradient') {
-        <input class="color" ngxInputGradient [(ngModel)]="value" (ngModelChange)="onChange()" />
+        <input class="color" ngxInputGradient [showSamples]="false" [(ngModel)]="value" (ngModelChange)="onChange()" />
       }
       @case ('text') {
         <input type="text" [(ngModel)]="value" (ngModelChange)="onChange()" />

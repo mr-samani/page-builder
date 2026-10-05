@@ -1,5 +1,15 @@
+:host {
+  height: 100%;
+}
 iframe {
+  box-sizing: border-box;
   width: 100%;
-  border: 1px solid #ccc;
+  border: none;
+  outline: 1px solid #ccc;
+  outline-offset: -1px;
   min-height: 80vh;
+  height: 99%;
+}
+.dialog-body {
+  padding: 0;
 }

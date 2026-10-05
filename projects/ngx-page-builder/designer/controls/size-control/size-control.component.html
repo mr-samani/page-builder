@@ -1,75 +1,117 @@
-@if (sizes) {
-  <table class="properties-table">
-    <tbody>
-      @for (property of widthProperties; track $index) {
-        <ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              sizeControl;
-              context: {
-                sizeValue: sizes[property],
-                property: property,
-                label: getLabel(property),
-              }
-            "></ng-container>
-        </ng-container>
-      }
-    </tbody>
-  </table>
+<div class="sc">
+  <div class="sc-head">
+    <span class="sc-title">Size</span>
+    @if (hasAnySize()) {
+      <button type="button" class="sc-link" title="Remove all size overrides of this state" (click)="clearSizes()">Reset</button>
+    }
+  </div>
 
-  <table class="properties-table">
-    <tbody>
-      @for (property of heightProperties; track $index) {
-        <ng-container>
-          <ng-container
-            *ngTemplateOutlet="
-              sizeControl;
-              context: {
-                sizeValue: sizes[property],
-                property: property,
-                label: getLabel(property),
-              }
-            "></ng-container>
-        </ng-container>
-      }
-    </tbody>
-  </table>
-}
+  @for (r of mainRows; track r.prop) {
+    <div class="sc-row">
+      <span class="sc-lbl">{{ r.label }}</span>
+      <css-unit-field
+        [title]="r.title"
+        [units]="units"
+        [keywords]="r.keywords"
+        [fallback]="r.fallback"
+        [step]="1"
+        [min]="0"
+        [value]="value(r.prop)"
+        (valueChange)="set(r.prop, $event)" />
+      <span class="sc-tools">
+        <button type="button" class="sc-icon" title="Set to 100%" aria-label="Set to 100%" (click)="fill($any(r.prop))">100%</button>
+        <button
+          type="button"
+          class="sc-icon"
+          [disabled]="!value(r.prop)"
+          title="Remove override"
+          aria-label="Remove override"
+          (click)="clear(r.prop)">
+          ✕
+        </button>
+      </span>
+    </div>
+  }
 
-<ng-template #sizeControl let-sizeValue="sizeValue" let-property="property" let-label="label">
-  <tr>
-    <td>
-      <label for="{{ property }}">{{ label }}:</label>
-    </td>
-    <td>
-      <div class="pb-input-group">
-        <input
-          [id]="property"
-          [attr.name]="property"
-          [type]="isTextInput(sizeValue.unit) ? 'text' : 'number'"
-          [(ngModel)]="sizeValue.value"
-          (ngModelChange)="update()"
+  <details class="sc-more" [open]="minMaxOpen()">
+    <summary>Min &amp; Max</summary>
+    @for (r of minRows; track r.prop) {
+      <div class="sc-row">
+        <span class="sc-lbl">{{ r.label }}</span>
+        <css-unit-field
+          [title]="r.title"
+          [units]="units"
+          [keywords]="r.keywords"
+          [fallback]="r.fallback"
+          [step]="1"
           [min]="0"
-          [disabled]="sizeValue.unit == 'auto'"
-          [readonly]="sizeValue.unit == 'auto'"
-          placeholder="var(--x) / calc()" />
-        <select
-          [(ngModel)]="sizeValue.unit"
-          (ngModelChange)="onChangeUnit(property)"
-          [attr.name]="'unit-' + property"
-          class="unit">
-          <option value="auto">{{ isMaxProperty(property) ? 'None' : 'Auto' }}</option>
-          <option value="px">px</option>
-          <option value="%">%</option>
-          <option value="em">em</option>
-          <option value="rem">rem</option>
-          <option value="vh">vh</option>
-          <option value="vw">vw</option>
-          <option value="custom">var / calc</option>
-        </select>
-        <css-var-picker [types]="['text', 'number']" (picked)="onPickVar(property, $event)"></css-var-picker>
-        <button class="pb-btn" type="button" (click)="clear(sizeValue)">x</button>
+          [value]="value(r.prop)"
+          (valueChange)="set(r.prop, $event)" />
+        <span class="sc-tools one">
+          <button type="button" class="sc-icon" [disabled]="!value(r.prop)" title="Remove override" aria-label="Remove override" (click)="clear(r.prop)">✕</button>
+        </span>
       </div>
-    </td>
-  </tr>
-</ng-template>
+    }
+    @for (r of maxRows; track r.prop) {
+      <div class="sc-row">
+        <span class="sc-lbl">{{ r.label }}</span>
+        <css-unit-field
+          [title]="r.title"
+          [units]="units"
+          [keywords]="r.keywords"
+          [fallback]="r.fallback"
+          [step]="1"
+          [min]="0"
+          [value]="value(r.prop)"
+          (valueChange)="set(r.prop, $event)" />
+        <span class="sc-tools one">
+          <button type="button" class="sc-icon" [disabled]="!value(r.prop)" title="Remove override" aria-label="Remove override" (click)="clear(r.prop)">✕</button>
+        </span>
+      </div>
+    }
+  </details>
+
+  <div class="sc-head sub"><span class="sc-title">Overflow</span></div>
+  <pb-seg ariaLabel="Overflow" [options]="overflow" [value]="s().overflow || ''" inherited="visible" (picked)="set('overflow', $event)" />
+
+  <details class="sc-more" [open]="mediaOpen()">
+    <summary>Ratio, fit &amp; box</summary>
+
+    <span class="sc-sublbl">Aspect ratio</span>
+    <pb-seg
+      ariaLabel="Aspect ratio presets"
+      [options]="ratios"
+      [value]="ratioPreset()"
+      [normalize]="normalizeRatio"
+      [columns]="4"
+      (picked)="onRatioPreset($event)" />
+    <input
+      class="sc-input"
+      [class.invalid]="ratioInvalid()"
+      type="text"
+      spellcheck="false"
+      aria-label="Custom aspect ratio"
+      placeholder="Custom, e.g. 2 / 1"
+      [value]="s().aspectRatio || ''"
+      (change)="onRatioText($event)"
+      (keydown.enter)="onRatioText($event)" />
+    @if (ratioInvalid()) {
+      <p class="sc-note err">Use numbers like <code>16 / 9</code>, <code>1.5</code> or <code>auto</code>.</p>
+    }
+
+    <span class="sc-sublbl">Fit (images &amp; video)</span>
+    <pb-seg ariaLabel="Object fit" [options]="fit" [value]="s().objectFit || ''" inherited="fill" [columns]="5" (picked)="set('objectFit', $event)" />
+    @if (s().objectFit && s().objectFit !== 'fill') {
+      <span class="sc-sublbl">
+        Position
+        @if (s().objectPosition) {
+          <button type="button" class="sc-link" (click)="clear('objectPosition')">Clear</button>
+        }
+      </span>
+      <origin-pad ariaLabel="Object position" [x]="position().x" [y]="position().y" [isSet]="!!s().objectPosition" (changed)="onPosition($event)" />
+    }
+
+    <span class="sc-sublbl">Box sizing</span>
+    <pb-seg ariaLabel="Box sizing" [options]="box" [value]="s().boxSizing || ''" inherited="border-box" (picked)="set('boxSizing', $event)" />
+  </details>
+</div>

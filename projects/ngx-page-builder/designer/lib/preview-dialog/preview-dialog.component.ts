@@ -19,7 +19,6 @@ import { NgxPagePreviewComponent, providePagePreview } from 'ngx-page-builder/pr
 import { NgxDialogModule, DIALOG_DATA } from 'ngx-kit/dialog';
 
 @Component({
-  selector: 'app-preview-dialog',
   templateUrl: './preview-dialog.component.html',
   styleUrls: ['./preview-dialog.component.scss'],
   imports: [FormsModule, NgxDialogModule],

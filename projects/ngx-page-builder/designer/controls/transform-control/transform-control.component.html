@@ -1,0 +1,251 @@
+<div class="tc" data-pb-popover-group="tc">
+  <!-- ============ Transforms ============ -->
+  <div class="tc-head">
+    <span class="tc-title">Transforms</span>
+    @if (hasAny()) {
+      <button type="button" class="tc-link" title="Remove all transform overrides of this state" (click)="clearAll()">
+        Reset
+      </button>
+    }
+  </div>
+
+  <div class="tc-add" role="group" aria-label="Add transform">
+    @for (k of kinds; track k) {
+      <button type="button" class="tc-chip" [title]="'Add ' + labels[k]" (click)="add(k, addRow)">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" class="tc-ico">
+          @switch (k) {
+            @case ('move') {
+              <path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3" />
+            }
+            @case ('scale') {
+              <path d="M4 20V14M4 20h6M4 20L11 13M20 4v6M20 4h-6M20 4l-7 7" />
+            }
+            @case ('rotate') {
+              <path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5" />
+            }
+            @case ('skew') {
+              <path d="M7 6h14l-4 12H3z" />
+            }
+          }
+        </svg>
+        {{ labels[k] }}
+      </button>
+    }
+  </div>
+  <span #addRow class="tc-anchor"></span>
+
+  @if (layers().length === 0) {
+    <p class="tc-empty">No transforms. Add one to move, scale, rotate or skew this element.</p>
+  } @else {
+    <ul class="tc-list" role="list">
+      @for (l of layers(); track l.uid; let i = $index; let first = $first; let last = $last) {
+        <li
+          #row
+          class="tc-row"
+          role="listitem"
+          [attr.data-uid]="l.uid"
+          [class.on]="l.uid === selectedUid()"
+          tabindex="0"
+          (click)="toggleLayer(l.uid, row)"
+          (keydown.enter)="toggleLayer(l.uid, row)"
+          (keydown.space)="$event.preventDefault(); toggleLayer(l.uid, row)">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" class="tc-ico dim">
+            @switch (l.kind) {
+              @case ('move') {
+                <path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3" />
+              }
+              @case ('scale') {
+                <path d="M4 20V14M4 20h6M4 20L11 13M20 4v6M20 4h-6M20 4l-7 7" />
+              }
+              @case ('rotate') {
+                <path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5" />
+              }
+              @case ('skew') {
+                <path d="M7 6h14l-4 12H3z" />
+              }
+              @default {
+                <path d="M8 6l-5 6 5 6M16 6l5 6-5 6" />
+              }
+            }
+          </svg>
+          <span class="tc-kind">{{ labels[l.kind] }}</span>
+          <span class="tc-sum" [title]="summary(l)">{{ summary(l) }}</span>
+          <span class="tc-ops">
+            <button
+              type="button"
+              class="tc-icon"
+              [disabled]="first"
+              title="Apply earlier"
+              aria-label="Move up"
+              (click)="moveBy($event, l.uid, -1)">
+              ↑
+            </button>
+            <button
+              type="button"
+              class="tc-icon"
+              [disabled]="last"
+              title="Apply later"
+              aria-label="Move down"
+              (click)="moveBy($event, l.uid, 1)">
+              ↓
+            </button>
+            <button type="button" class="tc-icon del" title="Remove" aria-label="Remove" (click)="remove($event, l.uid)">
+              ✕
+            </button>
+          </span>
+        </li>
+      }
+    </ul>
+    @if (layers().length > 1) {
+      <p class="tc-note">Applied top → bottom. Order changes the result.</p>
+    }
+  }
+
+  <!-- ============ Origin ============ -->
+  <div class="tc-head sub">
+    <span class="tc-title">Origin</span>
+    @if (originSet()) {
+      <button type="button" class="tc-link" (click)="clearOrigin()" title="Remove override">Clear</button>
+    }
+  </div>
+  <origin-pad
+    ariaLabel="Transform origin"
+    [x]="origin().x"
+    [y]="origin().y"
+    [isSet]="originSet()"
+    (changed)="setOrigin($event)" />
+
+  <!-- ============ 3D ============ -->
+  <div class="tc-head sub"><span class="tc-title">3D</span></div>
+  <div class="tc-grid">
+    <span class="tc-lbl" title="Distance between the viewer and the z=0 plane, applied to children">Perspective</span>
+    <css-unit-field
+      [units]="['px']"
+      fallback=""
+      placeholder="none"
+      [step]="10"
+      [min]="0"
+      [value]="perspective()"
+      (valueChange)="setPerspective($event)" />
+
+    @if (perspective()) {
+      <span class="tc-lbl">Persp. origin</span>
+      <origin-pad
+        ariaLabel="Perspective origin"
+        [x]="perspectiveOrigin().x"
+        [y]="perspectiveOrigin().y"
+        [isSet]="perspectiveOriginSet()"
+        (changed)="setPerspectiveOrigin($event)" />
+    }
+
+    <span class="tc-lbl" title="Show the back face when the element is rotated away">Backface</span>
+    <div class="tc-seg" role="group" aria-label="Backface visibility">
+      <button type="button" [class.on]="backface() === 'visible'" (click)="setBackface('visible')">Visible</button>
+      <button type="button" [class.on]="backface() === 'hidden'" (click)="setBackface('hidden')">Hidden</button>
+    </div>
+
+    <span class="tc-lbl" title="Children keep their own 3D position (preserve-3d) or are flattened">Children</span>
+    <div class="tc-seg" role="group" aria-label="Transform style">
+      <button type="button" [class.on]="transformStyle() === 'flat'" (click)="setTransformStyle('flat')">Flat</button>
+      <button type="button" [class.on]="transformStyle() === 'preserve-3d'" (click)="setTransformStyle('preserve-3d')">
+        3D
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Layer editor ============ -->
+<pb-popover #pop [heading]="selected() ? labels[selected()!.kind] : 'Transform'" group="tc" [width]="300" (closed)="onPopupClosed()">
+  <button popover-actions type="button" class="tc-link" (click)="selected() && resetLayer(selected()!.uid)">Reset</button>
+  @if (pop.isOpen() && selected(); as l) {
+    <div class="tc-stage" aria-hidden="true">
+      <div class="tc-stage-grid"></div>
+      <div class="tc-stage-persp" [style.perspective]="previewPerspective() || 'none'">
+        <div class="tc-ghost"></div>
+        <div
+          class="tc-card"
+          [style.transform]="previewTransform() || 'none'"
+          [style.transformOrigin]="previewOrigin()"
+          [style.transformStyle]="transformStyle() || 'flat'"
+          [style.backfaceVisibility]="backface() || 'visible'">
+          <span>A</span>
+        </div>
+      </div>
+    </div>
+
+    @if (l.kind === 'custom') {
+      <label class="tc-lbl" for="tcRaw">Raw transform function</label>
+      <textarea
+        id="tcRaw"
+        class="tc-raw"
+        rows="3"
+        spellcheck="false"
+        [value]="l.raw"
+        (change)="setRaw(l.uid, $any($event.target).value)"></textarea>
+      <p class="tc-note">This function isn't editable visually. It's kept exactly as written.</p>
+    } @else {
+      <div class="tc-fields">
+        @for (a of axesOf(l.kind); track a.axis) {
+          @switch (l.kind) {
+            @case ('move') {
+              <css-unit-field
+                [label]="a.label"
+                [title]="a.title"
+                [units]="lengthUnits"
+                fallback="0px"
+                [step]="1"
+                [value]="l[a.axis]"
+                (valueChange)="setAxis(l.uid, a.axis, $event)" />
+            }
+            @case ('scale') {
+              <css-unit-field
+                [label]="a.label"
+                [title]="a.title"
+                [units]="[]"
+                fallback="1"
+                [step]="0.01"
+                [slider]="true"
+                [sliderMin]="-2"
+                [sliderMax]="3"
+                [sliderStep]="0.01"
+                [value]="l[a.axis]"
+                (valueChange)="setAxis(l.uid, a.axis, $event)" />
+            }
+            @case ('rotate') {
+              <css-unit-field
+                [label]="a.label"
+                [title]="a.title"
+                [units]="angleUnits"
+                fallback="0deg"
+                [step]="1"
+                [slider]="true"
+                [sliderMin]="-180"
+                [sliderMax]="180"
+                [value]="l[a.axis]"
+                (valueChange)="setAxis(l.uid, a.axis, $event)" />
+            }
+            @case ('skew') {
+              <css-unit-field
+                [label]="a.label"
+                [title]="a.title"
+                [units]="angleUnits"
+                fallback="0deg"
+                [step]="1"
+                [slider]="true"
+                [sliderMin]="-89"
+                [sliderMax]="89"
+                [value]="l[a.axis]"
+                (valueChange)="setAxis(l.uid, a.axis, $event)" />
+            }
+          }
+        }
+      </div>
+      @if (l.kind === 'scale') {
+        <button type="button" class="tc-link lock" [class.on]="scaleLinked()" (click)="toggleScaleLink()">
+          {{ scaleLinked() ? '🔗 X and Y linked' : '⛓ Unlinked' }}
+        </button>
+      }
+      <p class="tc-note">Drag a label to scrub · Shift ×10 · Alt ×0.1</p>
+    }
+  }
+</pb-popover>

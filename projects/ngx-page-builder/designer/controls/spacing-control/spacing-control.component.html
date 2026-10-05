@@ -1,83 +1,363 @@
-<table class="properties-table">
-  <tbody>
-    <tr>
-      <th colspan="2" align="start">Margin: {{ style.margin }}</th>
-    </tr>
-    @for (direction of margin | keyvalue: returnZero; track $index) {
-      <ng-container>
-        <ng-container
-          *ngTemplateOutlet="
-            spacingControl;
-            context: {
-              marginOrPadding: margin,
-              spacing: margin[direction.key],
-              key: 'margin',
-              direction: direction.key,
-            }
-          "></ng-container>
-      </ng-container>
-    }
-  </tbody>
-</table>
+<div class="spacing-control" [class.is-dragging]="isDragging()">
+  <svg
+    id="margin"
+    xmlns="http://www.w3.org/2000/svg"
+    width="254"
+    height="112"
+    class="wf-1rzwxxs --styled-sWCga wf-f6zwxq">
+    <mask id="margin-mask" width="254" height="112">
+      <rect fill="#000" height="112" width="254" x="0" y="0"></rect>
+      <rect fill="#fff" height="112" rx="4" width="254" x="0" y="0"></rect>
+      <rect fill="#000" height="66" rx="4" width="154" x="35" y="23"></rect>
+    </mask>
+    <defs>
+      <linearGradient id="FuseLinearGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="white"></stop>
+        <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'margin', 'top')">
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="m0,0  h224  l-36,24  h-152  l-36,-24z"
+          data-automation-id="margin-top-button"
+          aria-label="Margin top button"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="white"
+          d="m0,0  h224  l-36,24  h-152  l-36,-24z"
+          fill-opacity="0.12"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="url(#FuseLinezrGradient)"
+          d="m0,0  h224  l-36,24  h-152  l-36,-24z"
+          fill-opacity="0.02"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'margin', 'right')">
+        <path
+          cursor="e-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="m224,0  v112  l-36,-24  v-64  l36,-24z"
+          data-automation-id="margin-right-button"
+          aria-label="Margin right button"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: e-resize"></path>
+        <path
+          cursor="e-resize"
+          mode="delta"
+          fill="white"
+          d="  m224,0  v112  l-36,-24  v-64  l36,-24z"
+          fill-opacity="0.094"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: e-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'margin', 'bottom')">
+        <path
+          cursor="s-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="  m0,112  h224  l-36,-24  h-152  l-36,24z"
+          data-automation-id="margin-bottom-button"
+          aria-label="Margin bottom button"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: s-resize"></path>
+        <path
+          cursor="s-resize"
+          mode="delta"
+          fill="white"
+          d="  m0,112  h224  l-36,-24  h-152  l-36,24z"
+          fill-opacity="0.064"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: s-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'margin', 'left')">
+        <path
+          cursor="w-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="  m0,0  v112  l36,-24  v-64  l-36,-24z"
+          data-automation-id="margin-left-button"
+          aria-label="Margin left button"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: w-resize"></path>
+        <path
+          cursor="w-resize"
+          mode="delta"
+          fill="white"
+          d="  m0,0  v112  l36,-24  v-64  l-36,-24z"
+          fill-opacity="0.094"
+          mask="url(#margin-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: w-resize"></path>
+      </g>
+    </g>
+    <clipPath id="margin-outer">
+      <rect x="0" y="0" width="254" height="112" fill="transparent" rx="4" ry="4" style="pointer-events: none"></rect>
+    </clipPath>
+    <rect
+      clip-path="url(#margin-outer)"
+      x="0"
+      y="0"
+      width="254"
+      height="112"
+      fill="transparent"
+      rx="4"
+      ry="4"
+      style="pointer-events: none; stroke-width: 0px; stroke: var(--colors-border-2)"></rect>
+    <clipPath id="margin-inner">
+      <rect x="36" y="24" width="152" height="64" fill="transparent" rx="4" ry="4" style="pointer-events: none"></rect>
+    </clipPath>
+    <rect
+      clip-path="url(#margin-inner)"
+      x="36"
+      y="24"
+      width="152"
+      height="64"
+      fill="transparent"
+      rx="4"
+      ry="4"
+      style="pointer-events: none; stroke-width: 0px; stroke: var(--colors-border-2)"></rect>
+    <text x="5" y="4">MARGIN</text>
+  </svg>
 
-<table class="properties-table">
-  <tbody>
-    <tr>
-      <th colspan="2" align="start">Padding: {{ style.padding }}</th>
-    </tr>
-    @for (direction of padding | keyvalue: returnZero; track $index) {
-      <ng-container>
-        <ng-container
-          *ngTemplateOutlet="
-            spacingControl;
-            context: {
-              marginOrPadding: padding,
-              spacing: padding[direction.key],
-              key: 'padding',
-              direction: direction.key,
-            }
-          "></ng-container>
-      </ng-container>
-    }
-  </tbody>
-</table>
+  <!-- ------- padding ---------- -->
+  <svg
+    id="padding"
+    xmlns="http://www.w3.org/2000/svg"
+    width="150"
+    height="62"
+    class="wf-1rzwxxs --styled-sWCga wf-f6zwxq">
+    <mask id="padding-mask" width="150" height="62">
+      <rect fill="#000" height="60" width="150" x="0" y="0"></rect>
+      <rect fill="#fff" height="60" rx="2" width="150" x="0" y="0"></rect>
+      <rect fill="#000" height="14" rx="2" width="80" x="35" y="23"></rect>
+    </mask>
+    <defs>
+      <linearGradient id="FuseLinearGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="white"></stop>
+        <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'padding', 'top')">
+        <path
+          cursor="s-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="    m0,0    h150    l-36,24    h-78    l-36,-24z  "
+          data-automation-id="padding-top-button"
+          aria-label="Padding top button"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: s-resize"></path>
+        <path
+          cursor="s-resize"
+          mode="delta"
+          fill="white"
+          d="    m0,0    h150    l-36,24    h-78    l-36,-24z  "
+          fill-opacity="0.064"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: s-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'padding', 'right')">
+        <path
+          cursor="w-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="    m150,0    v60    l-36,-24    v-12    l36,-24z  "
+          data-automation-id="padding-right-button"
+          aria-label="Padding right button"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: w-resize"></path>
+        <path
+          cursor="w-resize"
+          mode="delta"
+          fill="white"
+          d="    m150,0    v60    l-36,-24    v-12    l36,-24z  "
+          fill-opacity="0.094"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: w-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'padding', 'bottom')">
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="    m0,60    h150    l-36,-24    h-78    l-36,24z  "
+          data-automation-id="padding-bottom-button"
+          aria-label="Padding bottom button"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="white"
+          d="    m0,60    h150    l-36,-24    h-78    l-36,24z  "
+          fill-opacity="0.12"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+        <path
+          cursor="n-resize"
+          mode="delta"
+          fill="url(#FuseLinearGradient)"
+          d="    m0,60    h150    l-36,-24    h-78    l-36,24z  "
+          fill-opacity="0.02"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: var(--colors-background-1); cursor: n-resize"></path>
+      </g>
+    </g>
+    <g>
+      <g (pointerdown)="onPointerDown($event, 'padding', 'left')">
+        <path
+          cursor="e-resize"
+          mode="delta"
+          fill="var(--colors-background-1)"
+          d="    m0,0    v60    l36,-24    v-12    l-36,-24z  "
+          data-automation-id="padding-left-button"
+          aria-label="Padding left button"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: e-resize"></path>
+        <path
+          cursor="e-resize"
+          mode="delta"
+          fill="white"
+          d="    m0,0    v60    l36,-24    v-12    l-36,-24z  "
+          fill-opacity="0.094"
+          mask="url(#padding-mask)"
+          data-legacy-styled="true"
+          style="color: rgb(85, 85, 85); cursor: e-resize"></path>
+      </g>
+    </g>
+    <clipPath id="padding-outer">
+      <rect x="0" y="0" width="150" height="62" fill="transparent" rx="4" ry="4" style="pointer-events: none"></rect>
+    </clipPath>
+    <rect
+      clip-path="url(#padding-outer)"
+      x="0"
+      y="0"
+      width="150"
+      height="62"
+      fill="transparent"
+      rx="4"
+      ry="4"
+      style="pointer-events: none; stroke-width: 0px; stroke: var(--colors-border-2)"></rect>
+    <clipPath id="padding-inner">
+      <rect x="36" y="24" width="78" height="14" fill="transparent" rx="4" ry="4" style="pointer-events: none"></rect>
+    </clipPath>
+    <rect
+      clip-path="url(#padding-inner)"
+      x="36"
+      y="24"
+      width="78"
+      height="14"
+      fill="transparent"
+      rx="4"
+      ry="4"
+      style="pointer-events: none; stroke-width: 0px; stroke: var(--colors-border-2)"></rect>
 
-<ng-template
-  #spacingControl
-  let-marginOrPadding="marginOrPadding"
-  let-spacing="spacing"
-  let-key="key"
-  let-direction="direction">
-  @if (spacing) {
-    <tr>
-      <td>
-        <label for="{{ key }}-{{ direction }}">{{ direction | titlecase }}:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <input
-            id="{{ key }}-{{ direction }}"
-            name="{{ key }}-{{ direction }}"
-            [type]="spacing.unit != 'auto' ? 'number' : 'text'"
-            [(ngModel)]="spacing.value"
-            (ngModelChange)="update()"
-            [min]="key === 'padding' ? 0 : undefined"
-            [disabled]="spacing.unit == 'auto'"
-            [readonly]="spacing.unit == 'auto'" />
-          <select
-            [(ngModel)]="spacing.unit"
-            (ngModelChange)="onChangeUnit(marginOrPadding, direction)"
-            [attr.name]="'unit-' + direction"
-            class="unit">
-            <option value="auto">Auto</option>
-            <option value="px">px</option>
-            <option value="em">em</option>
-            <option value="rem">rem</option>
-            <option value="%">%</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear(spacing)">x</button>
-        </div>
-      </td>
-    </tr>
-  }
-</ng-template>
+    <text x="5" y="4">PADDING</text>
+  </svg>
+
+  <div class="grid-values-margin" #gridValue>
+    <button class="gvm-t" (click)="open(customSpace, 'margin', 'top', 'Margin Top')">
+      {{ spacing.margin.top }}
+    </button>
+    <button class="gvm-r" (click)="open(customSpace, 'margin', 'right', 'Margin Right')">
+      {{ spacing.margin.right }}
+    </button>
+    <button class="gvm-b" (click)="open(customSpace, 'margin', 'bottom', 'Margin Bottom')">
+      {{ spacing.margin.bottom }}
+    </button>
+    <button class="gvm-l" (click)="open(customSpace, 'margin', 'left', 'Margin Left')">
+      {{ spacing.margin.left }}
+    </button>
+
+    <button class="gvp-t" (click)="open(customSpace, 'padding', 'top', 'Padding Top')">
+      {{ spacing.padding.top }}
+    </button>
+    <button class="gvp-r" (click)="open(customSpace, 'padding', 'right', 'Padding Right')">
+      {{ spacing.padding.right }}
+    </button>
+    <button class="gvp-b" (click)="open(customSpace, 'padding', 'bottom', 'Padding Bottom')">
+      {{ spacing.padding.bottom }}
+    </button>
+    <button class="gvp-l" (click)="open(customSpace, 'padding', 'left', 'Padding Left')">
+      {{ spacing.padding.left }}
+    </button>
+  </div>
+</div>
+
+<menu-dialog #customSpace [target]="gridValue">
+  <div role="header">
+    <span>{{ customValueName }}</span>
+  </div>
+  <div class="custom-panel">
+    @if (customValueMOP && customValueP) {
+      <div class="range-row">
+        <input
+          type="range"
+          name="range"
+          [(ngModel)]="spacing[customValueMOP][customValueP]"
+          [min]="customValueMOP == 'padding' ? 200 : -200"
+          max="200"
+          (ratechange)="updateCustomValue()" />
+        @if (spacing[customValueMOP][customValueP] != 'auto') {
+          <input type="number" [(ngModel)]="spacing[customValueMOP][customValueP]" (change)="updateCustomValue()" />
+        }
+        @if (spacing[customValueMOP][customValueP] == 'auto') {
+          <input type="text" readonly [(ngModel)]="spacing[customValueMOP][customValueP]" />
+        }
+      </div>
+      <div class="samples" [ngClass]="customValueMOP">
+        @if (customValueMOP == 'margin') {
+          <button class="btn auto" (click)="updateCustomValue('auto')">Auto</button>
+        }
+        <button class="btn" (click)="updateCustomValue(0)">0</button>
+        <button class="btn" (click)="updateCustomValue(5)">5</button>
+        <button class="btn" (click)="updateCustomValue(10)">10</button>
+        <button class="btn" (click)="updateCustomValue(15)">15</button>
+        <button class="btn" (click)="updateCustomValue(20)">20</button>
+        <button class="btn" (click)="updateCustomValue(40)">40</button>
+        <button class="btn" (click)="updateCustomValue(80)">80</button>
+        <button class="btn" (click)="updateCustomValue(120)">120</button>
+      </div>
+    }
+  </div>
+</menu-dialog>

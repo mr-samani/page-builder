@@ -13,7 +13,7 @@
   --toolbar-bg: #353535;
   --toolbar-fg: #ffffff;
 
-  --side-config-width: 300px;
+  --side-config-width: 270px;
   --side-config-fg: #fff;
 
   --tools-border: 1px solid #eeeeee76;
@@ -24,6 +24,10 @@
   --topbar-height: 50px;
 
   --panel-bg: #14181e;
+  color-scheme: dark;
+}
+.ngx-ui-overlay-host {
+  color-scheme: dark;
 }
 .ngx-paper {
   display: flex;

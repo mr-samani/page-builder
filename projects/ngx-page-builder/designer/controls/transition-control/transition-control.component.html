@@ -1,0 +1,135 @@
+<div class="trc" data-pb-popover-group="trc">
+  <div class="trc-head">
+    <span class="trc-title">Transitions</span>
+    <span class="trc-actions">
+      @if (layers().length) {
+        <button type="button" class="trc-link" title="Remove all transition overrides of this state" (click)="clearAll()">
+          Reset
+        </button>
+      }
+      <button #addBtn type="button" class="trc-add" title="Add transition" aria-label="Add transition" (click)="add(addBtn)">
+        <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
+          <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </button>
+    </span>
+  </div>
+
+  @if (layers().length === 0) {
+    <button type="button" class="trc-empty" (click)="add(addBtn)">
+      <span class="trc-empty-title">No transitions</span>
+      <span class="trc-empty-sub">Animate changes between states, e.g. on hover. Click to add one.</span>
+    </button>
+  } @else {
+    <ul class="trc-list" role="list">
+      @for (r of rows(); track r.layer.uid) {
+        <li
+          #row
+          class="trc-row"
+          role="listitem"
+          tabindex="0"
+          [attr.data-uid]="r.layer.uid"
+          [class.on]="r.layer.uid === selectedUid()"
+          (click)="toggleLayer(r.layer.uid, row)"
+          (keydown.enter)="toggleLayer(r.layer.uid, row)"
+          (keydown.space)="$event.preventDefault(); toggleLayer(r.layer.uid, row)">
+          <svg class="trc-curve" viewBox="0 0 30 20" width="30" height="20" aria-hidden="true">
+            <rect x="3" y="3" width="24" height="14" class="trc-curve-box" />
+            <path [attr.d]="r.path" class="trc-curve-path" />
+          </svg>
+          <span class="trc-text">
+            <span class="trc-prop" [title]="r.title">{{ r.title }}</span>
+            <span class="trc-meta" [title]="r.meta">{{ r.meta }}</span>
+          </span>
+          <span class="trc-ops">
+            <button type="button" class="trc-icon" title="Duplicate" aria-label="Duplicate" (click)="duplicate($event, r.layer.uid)">
+              ⧉
+            </button>
+            <button type="button" class="trc-icon del" title="Remove" aria-label="Remove" (click)="remove($event, r.layer.uid)">
+              ✕
+            </button>
+          </span>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<pb-popover #pop [heading]="'Transition'" group="trc" [width]="300" (closed)="onPopupClosed()">
+  @if (pop.isOpen() && selected(); as l) {
+    @if (l.raw) {
+      <p class="trc-warn">
+        <b>{{ l.raw }}</b
+        ><br />
+        contains a value the editor can't read (like <code>var()</code>). Changing anything below replaces it.
+      </p>
+    }
+
+    <!-- live preview -->
+    <div class="trc-preview">
+      <div #track class="trc-track"><span #dot class="trc-dot"></span></div>
+      <button type="button" class="trc-replay" title="Replay" (click)="replay()">
+        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 3l9 5-9 5z" fill="currentColor" /></svg>
+        Replay
+      </button>
+    </div>
+
+    <div class="trc-grid">
+      <label class="trc-lbl" for="trcProp">Property</label>
+      <div class="trc-propbox">
+        <select id="trcProp" class="trc-select" (change)="onProperty(l.uid, $event)">
+          @for (g of groups; track g.label) {
+            <optgroup [label]="g.label">
+              @for (p of g.items; track p) {
+                <option [value]="p" [selected]="propKey() === p">{{ p === 'all' ? 'All properties' : p }}</option>
+              }
+            </optgroup>
+          }
+          <option [value]="customKey" [selected]="propKey() === customKey">Custom property…</option>
+        </select>
+        @if (propKey() === customKey) {
+          <input
+            class="trc-input"
+            type="text"
+            spellcheck="false"
+            placeholder="e.g. margin-left or --my-var"
+            [value]="l.property === 'all' ? '' : l.property"
+            (change)="onCustomProperty(l.uid, $event)"
+            (keydown.enter)="onCustomProperty(l.uid, $event)" />
+        }
+      </div>
+
+      <span class="trc-lbl">Duration</span>
+      <css-unit-field
+        [units]="timeUnits"
+        [stepByUnit]="timeStep"
+        [unitFactors]="timeFactors"
+        [step]="10"
+        [min]="0"
+        fallback="200ms"
+        [slider]="true"
+        [sliderMin]="0"
+        [sliderMax]="2000"
+        [sliderStep]="10"
+        [varTypes]="['text', 'number']"
+        [value]="l.duration"
+        (valueChange)="setDuration(l.uid, $event)" />
+
+      <span class="trc-lbl">Delay</span>
+      <css-unit-field
+        [units]="timeUnits"
+        [stepByUnit]="timeStep"
+        [unitFactors]="timeFactors"
+        [step]="10"
+        [min]="0"
+        fallback="0ms"
+        [value]="l.delay"
+        (valueChange)="setDelay(l.uid, $event)" />
+    </div>
+
+    <div class="trc-easing">
+      <span class="trc-lbl">Easing</span>
+      <easing-editor [value]="l.easing" (changed)="setEasing(l.uid, $event)" />
+    </div>
+  }
+</pb-popover>
