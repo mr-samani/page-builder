@@ -53,6 +53,10 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
   onPageResize() {
     this.scheduleUpdate();
   }
+  @HostListener('window:scroll')
+  onPageScroll() {
+    this.updatePosition();
+  }
 
   ngOnDestroy() {
     this.disconnectObservers();
@@ -136,10 +140,12 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
     if (rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0) return;
     const doc = this.item.el.ownerDocument;
     const win = doc.defaultView!;
-    const scrollbarWidth = win.innerWidth - doc.documentElement.clientWidth;
 
-    this.x = rect.x; //- scrollbarWidth; // (this.body()?.scrollX ?? 0) + rect.x;
-    this.y = rect.y; //(this.body()?.scrollY ?? 0) + rect.y;
+    const isRtl = this.pb.pageInfo.config.direction === 'rtl';
+    const scrollbarWidth = isRtl ? win.innerWidth - doc.documentElement.clientWidth : 0;
+
+    this.x = win.scrollX + rect.x - scrollbarWidth;
+    this.y = win.scrollY + rect.y;
     this.width = rect.width;
     this.height = rect.height;
     this.showInBottom = rect.y < 0 || rect.y - 24 < this.headerOffset;
