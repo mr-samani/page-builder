@@ -1,110 +1,191 @@
-<div class="background-control">
-  <!-- Properties Table -->
-  <table class="properties-table">
-    <tbody>
-      <tr>
-        <th colspan="2" align="start">Background Properties</th>
-      </tr>
-      <!-- Color -->
-      <tr>
-        <td><label for="color">Color:</label></td>
-        <td>
-          <input-css
-            id="color"
-            class="color"
-            type="color"
-            title="color"
-            [(ngModel)]="style.color"
-            (ngModelChange)="update()" />
-        </td>
-      </tr>
+<div class="bg" data-pb-popover-group="bg">
+  <div class="bg-head">
+    <span class="bg-title">Background</span>
+    @if (hasAny()) {
+      <button type="button" class="bg-link" title="Remove all background overrides of this state" (click)="clearAll()">Reset</button>
+    }
+  </div>
 
-      <!-- Background Color -->
-      <tr>
-        <td><label for="background-color">Background Color:</label></td>
-        <td>
-          <input-css
-            id="background-color"
-            type="color"
-            title="Background color"
-            [(ngModel)]="style.backgroundColor"
-            (ngModelChange)="update()" />
-        </td>
-      </tr>
+  @if (legacy().unreadable) {
+    <div class="bg-warn" role="note">
+      <b>Complex <code>background</code> shorthand</b>
+      <code class="bg-warn-code">{{ s().background }}</code>
+      <span>The editor can't split it safely. Replace it to edit layers visually.</span>
+      <button type="button" class="bg-btn" (click)="replaceShorthand()">Replace with editable layers</button>
+    </div>
+  }
 
-      <!-- Gradient -->
-      <tr>
-        <td><label for="background-gradient">Gradient:</label></td>
-        <td>
-          <input-css
-            id="background-gradien"
-            type="gradient"
-            title="Gradient color"
-            [(ngModel)]="backgroundGradient"
-            (ngModelChange)="update()" />
-        </td>
-      </tr>
+  <!-- color -->
+  <div class="bg-row">
+    <span class="bg-lbl">Color</span>
+    <input-css type="color" title="Background color" [ngModel]="s().backgroundColor" (ngModelChange)="setColor($event)" />
+  </div>
 
-      <!-- Image -->
-      <tr>
-        <td><label for="background-image">Image URL:</label></td>
-        <td>
-          <button type="button" (click)="openImagePicker()">Choose Image</button>
-          <div class="pb-input-group">
-            <input
-              id="background-image"
-              type="text"
-              placeholder="e.g. url('/assets/bg.jpg')"
-              [(ngModel)]="backgroundImage"
-              (ngModelChange)="update()" />
-            <button class="pb-btn" type="button" (click)="clear('backgroundImage')">x</button>
-          </div>
-        </td>
-      </tr>
+  <!-- layers -->
+  <div class="bg-subhead">
+    <span class="bg-title">Images &amp; gradients</span>
+    <span class="bg-add">
+      <button #addImg type="button" class="bg-chip" title="Add an image layer" (click)="addImage(addImg)">+ Image</button>
+      <button #addGrad type="button" class="bg-chip" title="Add a gradient layer" (click)="addGradient(addGrad)">+ Gradient</button>
+    </span>
+  </div>
 
-      <!-- Size -->
-      @if (backgroundImage) {
-        <tr>
-          <td><label for="background-size">Size:</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select id="background-size" [(ngModel)]="style.backgroundSize" (ngModelChange)="update()">
-                <option value="auto">Auto</option>
-                <option value="cover">Cover</option>
-                <option value="contain">Contain</option>
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('backgroundSize')">x</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="background-position">Position:</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select id="background-position" [(ngModel)]="style.backgroundPosition" (ngModelChange)="update()">
-                <option value="left top">Left Top</option>
-                <option value="center center">Center</option>
-                <option value="right bottom">Right Bottom</option>
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('backgroundPosition')">x</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="background-repeat">Repeat:</label></td>
-          <td>
-            <div class="pb-input-group">
-              <select id="background-repeat" [(ngModel)]="style.backgroundRepeat" (ngModelChange)="update()">
-                <option value="no-repeat">No Repeat</option>
-                <option value="repeat">Repeat</option>
-                <option value="repeat-x">Repeat X</option>
-                <option value="repeat-y">Repeat Y</option>
-              </select>
-              <button class="pb-btn" type="button" (click)="clear('backgroundRepeat')">x</button>
-            </div>
-          </td>
-        </tr>
+  @if (layers().length === 0) {
+    <p class="bg-empty">No layers. Add an image or a gradient — layers stack on top of the color.</p>
+  } @else {
+    <ul class="bg-list" role="list">
+      @for (l of layers(); track l.uid; let first = $first; let last = $last) {
+        <li
+          #row
+          class="bg-row-item"
+          role="listitem"
+          tabindex="0"
+          [attr.data-uid]="l.uid"
+          [class.on]="l.uid === selectedUid()"
+          (click)="toggleLayer(l.uid, row)"
+          (keydown.enter)="toggleLayer(l.uid, row)"
+          (keydown.space)="$event.preventDefault(); toggleLayer(l.uid, row)">
+          <span class="bg-thumb" aria-hidden="true"><span class="bg-thumb-in" [style.backgroundImage]="resolved(l.image)"></span></span>
+          <span class="bg-text">
+            <span class="bg-name">{{ title(l) }}</span>
+            <span class="bg-meta" [title]="meta(l)">{{ meta(l) }}</span>
+          </span>
+          <span class="bg-ops">
+            <button type="button" class="bg-icon" [disabled]="first" title="Move up (above)" aria-label="Move up" (click)="moveBy($event, l.uid, -1)">↑</button>
+            <button type="button" class="bg-icon" [disabled]="last" title="Move down (below)" aria-label="Move down" (click)="moveBy($event, l.uid, 1)">↓</button>
+            <button type="button" class="bg-icon del" title="Remove" aria-label="Remove" (click)="remove($event, l.uid)">✕</button>
+          </span>
+        </li>
       }
-    </tbody>
-  </table>
+    </ul>
+    @if (layers().length > 1) {
+      <p class="bg-note">Top of the list is drawn on top.</p>
+    }
+  }
+
+  <details class="bg-more" [open]="!!clipValue()">
+    <summary>Clipping</summary>
+    <pb-seg ariaLabel="Background clip" [options]="clip" [value]="clipValue()" inherited="border-box" [columns]="4" (picked)="setClip($event)" />
+    @if (clipsText()) {
+      <p class="bg-note">
+        Text clipping shows the background only through the letters, so the text color must be transparent.
+        @if (!textColorTransparent()) {
+          <button type="button" class="bg-link" (click)="makeTextTransparent()">Make text transparent</button>
+        } @else {
+          <span class="bg-ok">✓ Text color is transparent.</span>
+        }
+      </p>
+    }
+  </details>
 </div>
+
+<!-- ============ Layer editor ============ -->
+<pb-popover #pop [heading]="selected() ? title(selected()!) : 'Layer'" group="bg" [width]="300" (closed)="onPopupClosed()">
+  @if (pop.isOpen() && selected(); as l) {
+    @if (previewCss(); as pv) {
+      <div class="bg-prev" aria-hidden="true">
+        <div
+          class="bg-prev-in"
+          [style.backgroundImage]="pv.image"
+          [style.backgroundSize]="pv.size"
+          [style.backgroundPosition]="pv.position"
+          [style.backgroundRepeat]="pv.repeat"></div>
+      </div>
+    }
+
+    @if (l.kind === 'image') {
+      <div class="bg-field">
+        <span class="bg-lbl">Image</span>
+        <div class="bg-imgbox">
+          @if (hasFilePicker) {
+            <button type="button" class="bg-btn" (click)="chooseImage()">Choose image…</button>
+          }
+          <input
+            class="bg-input"
+            type="text"
+            spellcheck="false"
+            placeholder="https://… or /assets/hero.jpg"
+            aria-label="Image URL"
+            [value]="imagePath()"
+            (change)="setImageText(l.uid, $event)"
+            (keydown.enter)="setImageText(l.uid, $event)" />
+        </div>
+      </div>
+      @if (notice()) {
+        <p class="bg-note err">{{ notice() }}</p>
+      }
+    } @else {
+      <span class="bg-lbl block">Presets</span>
+      <div class="bg-presets" role="group" aria-label="Gradient presets">
+        @for (p of presets; track p.label) {
+          <button
+            type="button"
+            class="bg-preset"
+            [title]="p.label"
+            [attr.aria-label]="p.label"
+            [style.background]="p.css"
+            (click)="setGradient(l.uid, p.css)"></button>
+        }
+      </div>
+
+      <div class="bg-field stack">
+        <span class="bg-lbl">Edit</span>
+        <input-css type="gradient" title="Gradient" [ngModel]="l.image" (ngModelChange)="setGradient(l.uid, $event)" />
+      </div>
+      @if (angle() !== null) {
+        <div class="bg-field stack">
+          <css-unit-field
+            label="Angle"
+            [labelWidth]="40"
+            [units]="['deg']"
+            fallback="180deg"
+            [step]="1"
+            [slider]="true"
+            [sliderMin]="0"
+            [sliderMax]="360"
+            [value]="angle() + 'deg'"
+            (valueChange)="setAngle(l.uid, $event)" />
+        </div>
+      }
+      <details class="bg-more inner">
+        <summary>CSS</summary>
+        <textarea
+          class="bg-input area"
+          rows="3"
+          spellcheck="false"
+          aria-label="Gradient CSS"
+          [value]="l.image"
+          (change)="setGradientText(l.uid, $event)"></textarea>
+      </details>
+    }
+
+    <!-- tiling: always open for images, tucked away for gradients -->
+    <details class="bg-more inner" [open]="l.kind === 'image'">
+      <summary>Size, position &amp; repeat</summary>
+
+      <span class="bg-lbl block">Size</span>
+      <pb-seg ariaLabel="Background size" [options]="sizeModes" [value]="sizeModeValue()" [clearable]="false" [columns]="4" (picked)="setSizeMode(l.uid, $event)" />
+      @if (sizeModeValue() === 'custom') {
+        <div class="bg-wh">
+          <css-unit-field label="W" [units]="lengthUnits" [keywords]="['auto']" fallback="auto" [step]="1" [min]="0" [value]="sizeParts()[0]" (valueChange)="setSizeAxis(l.uid, 0, $event)" />
+          <css-unit-field label="H" [units]="lengthUnits" [keywords]="['auto']" fallback="auto" [step]="1" [min]="0" [value]="sizeParts()[1]" (valueChange)="setSizeAxis(l.uid, 1, $event)" />
+        </div>
+      }
+
+      <span class="bg-lbl block">Position</span>
+      @if (positionComplex()) {
+        <input class="bg-input" type="text" spellcheck="false" aria-label="Background position" [value]="l.position" (change)="setPositionText(l.uid, $event)" />
+      } @else {
+        <origin-pad ariaLabel="Background position" [x]="position().x" [y]="position().y" [isSet]="!!l.position" (changed)="setPosition(l.uid, $event)" />
+      }
+
+      <span class="bg-lbl block">Repeat</span>
+      <pb-seg ariaLabel="Background repeat" [options]="repeat" [value]="l.repeat" inherited="repeat" [columns]="3" (picked)="setRepeat(l.uid, $event)" />
+
+      <span class="bg-lbl block">Scroll</span>
+      <pb-seg ariaLabel="Background attachment" [options]="attachment" [value]="l.attachment" inherited="scroll" [columns]="3" (picked)="setAttachment(l.uid, $event)" />
+
+      <button type="button" class="bg-link reset" (click)="resetTiling(l.uid)">Reset size, position &amp; repeat</button>
+    </details>
+  }
+</pb-popover>

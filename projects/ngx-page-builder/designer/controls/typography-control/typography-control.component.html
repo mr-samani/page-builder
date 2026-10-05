@@ -1,140 +1,240 @@
-<table class="properties-table">
-  <tbody>
-    <tr>
-      <th colspan="2" align="start">Typography:</th>
-    </tr>
-    <tr>
-      <td>
-        <label for="font-family">Font Family:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="font-family" [(ngModel)]="style.fontFamily" (ngModelChange)="update()">
-            <option value="inherit">Inherit</option>
-            <option value="Arial">Arial</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Verdana">Verdana</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('fontFamily')">x</button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="font-size">Font Size:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <input id="font-size" type="number" [(ngModel)]="fontSize" (ngModelChange)="update()" />
-          <button class="pb-btn" type="button" (click)="clear('fontSize')">x</button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="font-weigth">Font Weigth:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="font-weigth" [(ngModel)]="style.fontWeight" (ngModelChange)="update()">
-            <option value="inherit">Inherit</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="300">300</option>
-            <option value="400">400</option>
-            <option value="500">500</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="800">800</option>
-            <option value="900">900</option>
-            <option value="bold">bold</option>
-            <option value="bolder">bolder</option>
-            <option value="lighter">lighter</option>
-            <option value="normal">normal</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('fontWeigth')">x</button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="font-style">Font Style:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="font-style" [(ngModel)]="style.fontStyle" (ngModelChange)="update()">
-            <option value="inherit">Inherit</option>
-            <option value="normal">normal</option>
-            <option value="italic">italic</option>
-            <option value="oblique">oblique</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('fontStyle')">x</button>
-        </div>
-      </td>
-    </tr>
+<div class="ty">
+  <div class="ty-head">
+    <span class="ty-title">Typography</span>
+    @if (hasAny()) {
+      <button type="button" class="ty-link" title="Remove all typography overrides of this state" (click)="clearAll()">
+        Reset
+      </button>
+    }
+  </div>
 
-    <tr>
-      <td>
-        <label for="line-height">Line Height:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <input id="line-height" type="number" [(ngModel)]="lineHeight" (ngModelChange)="update()" />
-          <button class="pb-btn" type="button" (click)="clear('lineHeight')">x</button>
-        </div>
-      </td>
-    </tr>
+  <!-- live preview -->
+  @if (pv(); as p) {
+    <div class="ty-preview" [style.background]="p.stage" aria-hidden="true">
+      <span
+        class="ty-sample"
+        [style.fontFamily]="p.fontFamily"
+        [style.fontSize]="p.fontSize"
+        [style.fontWeight]="p.fontWeight"
+        [style.fontStyle]="p.fontStyle"
+        [style.lineHeight]="p.lineHeight"
+        [style.letterSpacing]="p.letterSpacing"
+        [style.color]="p.color"
+        [style.textTransform]="p.textTransform"
+        [style.textDecoration]="p.textDecoration"
+        [style.direction]="p.direction">
+        Aa Bb — متن نمونه
+      </span>
+    </div>
+  }
 
-    <tr>
-      <td>
-        <label for="text-decoration">Text Decoration:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="text-decoration" [(ngModel)]="style.textDecoration" (ngModelChange)="update()">
-            <option value="none">None</option>
-            <option value="underline">Underline</option>
-            <option value="line-through">Line Through</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('textDecoration')">x</button>
-        </div>
-      </td>
-    </tr>
+  <!-- font family -->
+  <div class="ty-row">
+    <label class="ty-lbl" for="tyFont">Font</label>
+    <div class="ty-fontbox">
+      <select id="tyFont" class="ty-select" (change)="onFont($event)">
+        <option value="" [selected]="fontChoice() === ''">Inherited · {{ inheritedFontLabel() }}</option>
+        @for (g of fontGroups; track g.label) {
+          <optgroup [label]="g.label">
+            @for (f of g.items; track f.value) {
+              <option [value]="f.value" [selected]="fontChoice() === f.value" [style.fontFamily]="f.value">
+                {{ f.label }}
+              </option>
+            }
+          </optgroup>
+        }
+        <option [value]="customKey" [selected]="fontChoice() === customKey">Custom…</option>
+      </select>
+      <css-var-picker [types]="['text']" title="Font variables" (picked)="onFontVar($event)"></css-var-picker>
+    </div>
+  </div>
+  @if (fontChoice() === customKey) {
+    <div class="ty-row">
+      <span class="ty-lbl"></span>
+      <input
+        class="ty-input"
+        type="text"
+        spellcheck="false"
+        placeholder='"My Font", Tahoma, sans-serif'
+        aria-label="Custom font family"
+        [value]="s().fontFamily || ''"
+        (change)="onFontText($event)"
+        (keydown.enter)="onFontText($event)" />
+    </div>
+  }
 
-    <tr>
-      <td>
-        <label for="text-transform">Text Transform:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="text-transform" [(ngModel)]="style.textTransform" (ngModelChange)="update()">
-            <option value="none">None</option>
-            <option value="uppercase">Uppercase</option>
-            <option value="lowercase">Lowercase</option>
-            <option value="capitalize">Capitalize</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('textTransform')">x</button>
-        </div>
-      </td>
-    </tr>
+  <!-- weight -->
+  <div class="ty-row">
+    <label class="ty-lbl" for="tyWeight">Weight</label>
+    <select id="tyWeight" class="ty-select" (change)="onWeight($event)">
+      <option value="" [selected]="!weightValue()">Inherited · {{ weightHint() || 'default' }}</option>
+      @for (w of weights; track w.value) {
+        <option [value]="w.value" [selected]="weightValue() === w.value">{{ w.label }}</option>
+      }
+      @if (weightIsExtra()) {
+        <option [value]="s().fontWeight || ''" selected>{{ s().fontWeight }}</option>
+      }
+    </select>
+  </div>
 
-    <tr>
-      <td>
-        <label for="text-alignment">Text Alignment:</label>
-      </td>
-      <td>
-        <div class="pb-input-group">
-          <select id="text-alignment" [(ngModel)]="style.textAlign" (ngModelChange)="update()">
-            <option value="left">Left</option>
-            <option value="center">Center</option>
-            <option value="right">Right</option>
-            <option value="justify">Justify</option>
-          </select>
-          <button class="pb-btn" type="button" (click)="clear('textAlign')">x</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <!-- size + line height -->
+  <div class="ty-row">
+    <span class="ty-lbl">Size</span>
+    <css-unit-field
+      title="font-size"
+      [units]="sizeUnits"
+      fallback=""
+      [placeholder]="c('fontSize')"
+      [seed]="c('fontSize')"
+      [step]="1"
+      [min]="0"
+      [value]="s().fontSize || ''"
+      (valueChange)="setProp('fontSize', $event)" />
+  </div>
+  <div class="ty-row">
+    <span class="ty-lbl">Height</span>
+    <css-unit-field
+      title="line-height (unitless = multiple of the font size)"
+      [units]="lineUnits"
+      fallback=""
+      [placeholder]="lineHeightHint()"
+      seed="1.5"
+      [step]="0.05"
+      [stepByUnit]="{ px: 1, em: 0.05, rem: 0.05, '%': 5 }"
+      [min]="0"
+      [value]="s().lineHeight || ''"
+      (valueChange)="setProp('lineHeight', $event)" />
+  </div>
+
+  <!-- color -->
+  <div class="ty-row">
+    <span class="ty-lbl">Color</span>
+    <input-css type="color" title="Text color" [ngModel]="s().color" (ngModelChange)="setProp('color', $event)" />
+  </div>
+
+  <!-- alignment / style / decoration / case -->
+  <div class="ty-row">
+    <span class="ty-lbl">Align</span>
+    <pb-seg
+      ariaLabel="Text align"
+      [options]="align"
+      [value]="alignValue()"
+      [inherited]="alignInherited()"
+      (picked)="setProp('textAlign', $event)" />
+  </div>
+  <div class="ty-row">
+    <span class="ty-lbl">Style</span>
+    <pb-seg
+      ariaLabel="Font style"
+      [options]="fontStyle"
+      [value]="s().fontStyle || ''"
+      [inherited]="c('fontStyle')"
+      (picked)="setProp('fontStyle', $event)" />
+  </div>
+  <div class="ty-row">
+    <span class="ty-lbl">Decor</span>
+    <pb-seg
+      ariaLabel="Text decoration"
+      [options]="decoration"
+      [value]="decorationLine() || ''"
+      [inherited]="decorationInherited()"
+      (picked)="onDecoration($event)" />
+  </div>
+  @if (decorationLine() === null) {
+    <p class="ty-note">Several decoration lines are set. Pick one here to replace them.</p>
+  }
+  <div class="ty-row">
+    <span class="ty-lbl">Case</span>
+    <pb-seg
+      ariaLabel="Text transform"
+      [options]="transform"
+      [value]="s().textTransform || ''"
+      [inherited]="c('textTransform')"
+      (picked)="setProp('textTransform', $event)" />
+  </div>
+
+  <!-- more -->
+  <details class="ty-more">
+    <summary>Spacing, direction &amp; wrapping</summary>
+
+    <div class="ty-row">
+      <span class="ty-lbl" title="letter-spacing">Letter</span>
+      <css-unit-field
+        title="letter-spacing"
+        [units]="spaceUnits"
+        fallback=""
+        [placeholder]="c('letterSpacing')"
+        seed="0px"
+        [step]="0.5"
+        [stepByUnit]="{ px: 0.5, em: 0.01, rem: 0.01 }"
+        [value]="s().letterSpacing || ''"
+        (valueChange)="setProp('letterSpacing', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl" title="word-spacing">Word</span>
+      <css-unit-field
+        title="word-spacing"
+        [units]="spaceUnits"
+        fallback=""
+        [placeholder]="c('wordSpacing')"
+        seed="0px"
+        [step]="1"
+        [stepByUnit]="{ px: 1, em: 0.05, rem: 0.05 }"
+        [value]="s().wordSpacing || ''"
+        (valueChange)="setProp('wordSpacing', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl" title="text-indent">Indent</span>
+      <css-unit-field
+        title="text-indent"
+        [units]="indentUnits"
+        fallback=""
+        [placeholder]="c('textIndent')"
+        seed="0px"
+        [step]="1"
+        [value]="s().textIndent || ''"
+        (valueChange)="setProp('textIndent', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl">Direction</span>
+      <pb-seg
+        ariaLabel="Text direction"
+        [options]="directionOpts"
+        [value]="s().direction || ''"
+        [inherited]="c('direction')"
+        (picked)="setProp('direction', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl" title="white-space">Spaces</span>
+      <pb-seg
+        ariaLabel="White space"
+        [options]="whiteSpace"
+        [value]="s().whiteSpace || ''"
+        inherited="normal"
+        [columns]="3"
+        (picked)="setProp('whiteSpace', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl" title="overflow-wrap">Break</span>
+      <pb-seg
+        ariaLabel="Word wrap"
+        [options]="wordBreak"
+        [value]="s().overflowWrap || ''"
+        inherited="normal"
+        [columns]="3"
+        (picked)="setProp('overflowWrap', $event)" />
+    </div>
+    <div class="ty-row">
+      <span class="ty-lbl"></span>
+      <button
+        type="button"
+        class="ty-toggle"
+        [class.on]="truncated()"
+        [attr.aria-pressed]="truncated()"
+        title="One line only, cut with … (white-space: nowrap · overflow: hidden · text-overflow: ellipsis)"
+        (click)="toggleTruncate()">
+        Truncate with …
+      </button>
+    </div>
+  </details>
+</div>

@@ -61,7 +61,7 @@ import { parseCssNumber, trimNum } from './css-value-utils';
           @if (hasUnitSelect()) {
             <select class="cuf-unit" [attr.aria-label]="(label() || 'value') + ' unit'" (change)="onUnit($event)">
               @for (u of units(); track u) {
-                <option [value]="u" [selected]="u === unitSelected()">{{ u }}</option>
+                <option [value]="u" [selected]="u === unitSelected()">{{ u || '–' }}</option>
               }
               @for (k of keywords(); track k) {
                 <option [value]="k" [selected]="k === unitSelected()">{{ k }}</option>
@@ -283,6 +283,11 @@ export class CssUnitFieldComponent {
   fallback = input<string>('0');
   /** متن placeholder (پیش‌فرض: همان fallback) */
   placeholder = input<string>('');
+  /**
+   * نقطه‌ی شروعِ فیلد خالی برای ↑↓ / کشیدن label / تغییر واحد (مثلاً مقدار محاسبه‌شده‌ی `16px`)؛
+   * بدون آن، از fallback شروع می‌شود. مقدار seed هیچ‌وقت خودش نوشته نمی‌شود.
+   */
+  seed = input<string>('');
   slider = input<boolean>(false);
   sliderMin = input<number>(0);
   sliderMax = input<number>(100);
@@ -307,7 +312,12 @@ export class CssUnitFieldComponent {
     const p = this.parsed();
     return p ? trimNum(p.num) : '';
   });
-  protected readonly unit = computed(() => this.parsed()?.unit ?? this.units()[0] ?? '');
+  private readonly seedParsed = computed(() => parseCssNumber(this.seed(), this.units()));
+  protected readonly unit = computed(() => this.parsed()?.unit ?? this.seedParsed()?.unit ?? this.units()[0] ?? '');
+  /** عدد شروع: مقدار فعلی → seed → fallback → ۰ */
+  private baseNum(): number {
+    return this.parsed()?.num ?? this.seedParsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0;
+  }
   /** گزینه‌ی انتخاب‌شده‌ی لیست واحد: کلیدواژه یا واحد */
   protected readonly unitSelected = computed(() => this.keyword() || this.unit());
   protected readonly hasUnitSelect = computed(() => this.units().length > 0 || this.keywords().length > 0);
@@ -316,9 +326,7 @@ export class CssUnitFieldComponent {
     return p ? trimNum(p.num) : this.fallback();
   });
   protected readonly curStep = computed(() => this.stepByUnit()[this.unit()] ?? this.step());
-  protected readonly sliderValue = computed(
-    () => this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0,
-  );
+  protected readonly sliderValue = computed(() => this.baseNum());
 
   //---------------------------------- number ----------------------------------
 
@@ -360,7 +368,7 @@ export class CssUnitFieldComponent {
     ev.preventDefault();
     const mult = ev.shiftKey ? 10 : ev.altKey ? 0.1 : 1;
     const dir = ev.key === 'ArrowUp' ? 1 : -1;
-    const cur = this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0;
+    const cur = this.baseNum();
     this.emitNumber(cur + dir * this.curStep() * mult);
     (ev.target as HTMLInputElement).value = this.numText();
   }
@@ -371,7 +379,7 @@ export class CssUnitFieldComponent {
       this.value.set(unit);
       return;
     }
-    let cur = this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0;
+    let cur = this.baseNum();
     const f = this.unitFactors();
     const from = this.unit();
     if (f[from] && f[unit]) cur = Math.round(((cur * f[from]) / f[unit]) * 10000) / 10000;
@@ -391,7 +399,7 @@ export class CssUnitFieldComponent {
     (ev.currentTarget as HTMLElement).setPointerCapture(ev.pointerId);
     this.scrub = {
       x: ev.clientX,
-      start: this.parsed()?.num ?? parseCssNumber(this.fallback(), this.units())?.num ?? 0,
+      start: this.baseNum(),
     };
     ev.preventDefault();
   }

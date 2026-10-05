@@ -15,6 +15,23 @@ import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
 
+/** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
+const TYPO_KEYS = [
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'fontStyle',
+  'lineHeight',
+  'color',
+  'textAlign',
+  'textDecorationLine',
+  'textTransform',
+  'letterSpacing',
+  'wordSpacing',
+  'textIndent',
+  'direction',
+] as const;
+
 @Component({
   selector: 'block-properties',
   templateUrl: './block-properties.component.html',
@@ -55,6 +72,8 @@ export class BlockPropertiesComponent extends BaseComponent {
   computedDisplay = '';
   parentDisplay: string | undefined = undefined;
   parentFlexDirection = 'row';
+  /** مقدارهای محاسبه‌شده‌ی تایپوگرافی؛ فیلدهای ست‌نشده با آن‌ها placeholder و پیش‌نمایش درست می‌گیرند */
+  computedTypography: Record<string, string> = {};
 
   /**
    * snapshot مقدار مؤثر هنگام لود (kebab-case). کنترل‌ها همیشه «کل شیء style» را emit می‌کنند،
@@ -108,11 +127,16 @@ export class BlockPropertiesComponent extends BaseComponent {
     this.computedDisplay = '';
     this.parentDisplay = undefined;
     this.parentFlexDirection = 'row';
+    this.computedTypography = {};
     try {
       const own = item?.el;
       const par = item?.parent?.el;
       if (own?.ownerDocument?.defaultView) {
-        this.computedDisplay = own.ownerDocument.defaultView.getComputedStyle(own).display;
+        const cs = own.ownerDocument.defaultView.getComputedStyle(own);
+        this.computedDisplay = cs.display;
+        const t: Record<string, string> = {};
+        for (const k of TYPO_KEYS) t[k] = cs[k];
+        this.computedTypography = t;
       }
       if (par?.ownerDocument?.defaultView) {
         const cs = par.ownerDocument.defaultView.getComputedStyle(par);

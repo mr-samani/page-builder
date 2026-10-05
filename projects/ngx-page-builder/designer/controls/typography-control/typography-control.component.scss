@@ -1,0 +1,174 @@
+:host {
+  display: block;
+  color: #e8e8ea;
+  font:
+    12px/1.4 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+button {
+  font: inherit;
+}
+.ty-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 0 8px;
+}
+.ty-title {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a8a8b2;
+}
+.ty-link {
+  all: unset;
+  cursor: pointer;
+  font-size: 11px;
+  color: #7aa7ff;
+  padding: 2px 4px;
+  border-radius: 3px;
+  &:hover {
+    background: #4b8bff22;
+    color: #a9c6ff;
+  }
+  &:focus-visible {
+    outline: 2px solid #4b8bff;
+  }
+}
+.ty-note {
+  margin: 4px 2px 0;
+  font-size: 10.5px;
+  color: #8a8a96;
+}
+
+/* ---- preview ---- */
+.ty-preview {
+  display: grid;
+  place-items: center;
+  min-height: 64px;
+  padding: 10px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  border: 1px solid #34343a;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+.ty-sample {
+  max-width: 100%;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* ---- rows ---- */
+.ty-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.ty-lbl {
+  font-size: 11px;
+  color: #a8a8b2;
+}
+.ty-fontbox {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+  select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+.ty-select,
+.ty-input {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: #2a2a30;
+  color: #fff;
+  font-size: 12px;
+  &:focus,
+  &:focus-visible {
+    outline: 1px solid #4b8bff;
+  }
+}
+.ty-select {
+  cursor: pointer;
+  appearance: auto;
+}
+.ty-input {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px;
+}
+:host ::ng-deep css-var-picker {
+  display: flex;
+  align-items: stretch;
+}
+:host ::ng-deep css-var-picker .css-v-btn {
+  all: unset;
+  box-sizing: border-box;
+  width: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: #2a2a30;
+  cursor: pointer;
+  font-size: 11px;
+}
+:host ::ng-deep css-var-picker .css-v-btn:hover {
+  background: #3a3a44;
+}
+
+/* ---- the shared color field (input-css) ---- */
+input-css {
+  display: block;
+  min-width: 0;
+}
+
+/* ---- more ---- */
+.ty-more {
+  margin-top: 14px;
+  summary {
+    cursor: pointer;
+    font-size: 11px;
+    color: #8a8a96;
+    padding: 4px 2px;
+    user-select: none;
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+.ty-toggle {
+  all: unset;
+  box-sizing: border-box;
+  height: 26px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  background: #2a2a30;
+  color: #a8a8b2;
+  font-size: 11px;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+    background: #3a3a44;
+  }
+  &.on {
+    background: #4b8bff;
+    color: #fff;
+  }
+  &:focus-visible {
+    outline: 2px solid #4b8bff;
+  }
+}

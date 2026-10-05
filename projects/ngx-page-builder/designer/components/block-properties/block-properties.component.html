@@ -42,7 +42,10 @@
     <details name="block-properties" (toggle)="openPanel(typography)" #typography>
       <summary>Typography</summary>
       @if (typography.open) {
-        <typography-control [(ngModel)]="style" (change)="onChangeStyle($event)"></typography-control>
+        <typography-control
+          [(ngModel)]="style"
+          [computedStyle]="computedTypography"
+          (change)="onChangeStyle($event)"></typography-control>
       }
     </details>
     <details name="block-properties" (toggle)="openPanel(background)" #background>

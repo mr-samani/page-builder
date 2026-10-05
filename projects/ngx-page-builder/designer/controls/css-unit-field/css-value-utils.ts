@@ -32,7 +32,11 @@ export function parseCssNumber(text: string | null | undefined, units: readonly 
   const unit = m[2].toLowerCase();
 
   if (units.length === 0) return unit === '' ? { num, unit: '' } : null;
-  if (unit === '') return num === 0 ? { num, unit: units[0] } : null;
+  if (unit === '') {
+    // لیست واحدها صراحتاً '' دارد (مثل line-height: 1.5) → عدد بدون واحد معتبر است
+    if (units.includes('')) return { num, unit: '' };
+    return num === 0 ? { num, unit: units[0] } : null;
+  }
   const found = units.find((u) => u.toLowerCase() === unit);
   return found ? { num, unit: found } : null;
 }

@@ -14,6 +14,10 @@ export * from './services/page-builder.service';
 export * from './services/file-picker/IFilePicker';
 export * from './services/file-picker/token.filepicker';
 
+// Typography: project fonts for the font picker
+export * from './controls/typography-control/fonts.token';
+export type { FontOption } from './controls/typography-control/typography-model';
+
 // HTML Editor
 export * from './services/html-editor/IHtmlEditor';
 export * from './services/html-editor/token.html-editor';
