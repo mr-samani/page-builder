@@ -15,7 +15,7 @@ import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { LibConsts } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { BaseContentComponent } from './base-content';
-import { PageBuilderService } from 'ngx-page-builder/designer/services/page-builder.service';
+import { PageBuilderService } from '../../services/page-builder.service';
 import { DragDropService } from 'ngx-kit/drag-resize';
 
 @Component({

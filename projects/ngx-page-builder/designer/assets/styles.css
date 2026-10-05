@@ -6,11 +6,11 @@
   --a5-height: 210mm;
   --letter-width: 216mm;
   --letter-height: 279mm;
-  --active-button: #222935;
+  --active-button: #3f51b5;
   --active-button-fg: #ffffff;
   --toolbar-bg: #353535;
   --toolbar-fg: #ffffff;
-  --side-config-width: 260px;
+  --side-config-width: 270px;
   --side-config-fg: #fff;
   --tools-border: 1px solid #eeeeee76;
   --page-padding: 0px;
@@ -18,6 +18,11 @@
   --toolbar-sticky-offset: 0;
   --topbar-height: 50px;
   --panel-bg: #14181e;
+  color-scheme: dark;
+}
+
+.ngx-ui-overlay-host {
+  color-scheme: dark;
 }
 
 .ngx-paper {
@@ -70,14 +75,6 @@
 }
 .ngx-paper .paper-inner {
   min-height: inherit;
-}
-
-.web-page-view {
-  min-height: 100%;
-  display: contents;
-}
-.web-page-view .page-body {
-  min-height: calc(100vh - var(--topbar-height));
 }
 
 .ngx-page-builder .page-break {
@@ -242,10 +239,10 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   /*--------------group buttons------------------------------*/
 }
 .ngx-page-builder .pi-btn-group {
-  background-color: var(--toolbar-bg, #383838);
-  border: 1px solid var(--toolbar-bg, #383838);
+  background-color: var(--toolbar-bg);
+  border: 1px solid var(--toolbar-bg);
   border-radius: var(--radius-medium, 0.3125rem);
-  color: var(--fgColor);
+  color: var(--toolbar-fg);
 }
 .ngx-page-builder .pi-btn-group button,
 .ngx-page-builder .pi-btn-group .button {
