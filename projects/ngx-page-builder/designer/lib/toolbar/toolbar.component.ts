@@ -156,6 +156,9 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       },
       width: '95%',
       maxWidth: '100%',
+      header: {
+        showMaximizeButton: true,
+      },
     });
     // await this.previewService.openPreview(data, 'Preview');
   }

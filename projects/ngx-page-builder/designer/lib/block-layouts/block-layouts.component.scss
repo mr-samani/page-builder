@@ -29,6 +29,7 @@ ul.tree-list {
       border: none;
       padding: 0;
       margin: 0;
+      cursor: pointer;
     }
     svg {
       width: 1em;
@@ -40,6 +41,15 @@ ul.tree-list {
     &.active > div {
       background-color: var(--active-button);
       color: var(--active-button-fg);
+    }
+  }
+
+  .drag-hanlde {
+    display: inline-block;
+    cursor: move;
+    svg {
+      pointer-events: none;
+      width: 24px;
     }
   }
 }

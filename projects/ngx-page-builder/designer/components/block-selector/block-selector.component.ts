@@ -138,7 +138,7 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
     const win = doc.defaultView!;
     const scrollbarWidth = win.innerWidth - doc.documentElement.clientWidth;
 
-    this.x = rect.x - scrollbarWidth; // (this.body()?.scrollX ?? 0) + rect.x;
+    this.x = rect.x; //- scrollbarWidth; // (this.body()?.scrollX ?? 0) + rect.x;
     this.y = rect.y; //(this.body()?.scrollY ?? 0) + rect.y;
     this.width = rect.width;
     this.height = rect.height;

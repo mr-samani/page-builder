@@ -53,7 +53,7 @@ export class ImportDialogComponent implements OnInit {
     this.result = undefined;
     this.loading = true;
 
-    let api = this.importer.importFromUrl(this.urlInput, this.querySelectorInput, this.importOptions);
+    let api;
     if (this.useBackendApi) {
       api = this.importer.importFromUrlWithBackend(
         this.urlInput,
@@ -61,12 +61,15 @@ export class ImportDialogComponent implements OnInit {
         LibConsts.backendProxyImportUrl,
         this.importOptions,
       );
+    } else {
+      api = this.importer.importFromUrl(this.urlInput, this.querySelectorInput, this.importOptions);
     }
 
     api
       .finally(() => (this.loading = false))
       .then((result) => {
         this.result = result;
+        console.log(result);
         Notify.success('Import successfully');
         setTimeout(() => {
           resultSection.scrollIntoView();
@@ -87,6 +90,7 @@ export class ImportDialogComponent implements OnInit {
       .finally(() => (this.loading = false))
       .then((result) => {
         this.result = result;
+        console.log(result);
         Notify.success('Import successfully');
         setTimeout(() => {
           resultSection.scrollIntoView();
