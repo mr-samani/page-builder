@@ -1,0 +1,1210 @@
+{
+  "config": {
+    "title": "Webora — طراحی سایت حرفه‌ای",
+    "description": "طراحی و توسعه وب‌سایت‌های مدرن، سریع و حرفه‌ای برای کسب‌وکارهای رو به رشد",
+    "size": "A4",
+    "orientation": "Portrait",
+    "direction": "ltr"
+  },
+  "data": [
+    {
+      "headerItems": [],
+      "bodyItems": [
+        {
+          "id": "hero-section",
+          "children": [
+            {
+              "id": "hero-nav",
+              "children": [
+                {
+                  "id": "brand",
+                  "children": [],
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "class": "brand",
+                      "data-text": "WEBORA"
+                    }
+                  },
+                  "classList": ["brand", "blk-brand"],
+                  "css": {
+                    "base": "font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#ffffff;"
+                  }
+                },
+                {
+                  "id": "nav-links",
+                  "children": [
+                    {
+                      "id": "nav-services",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "href": "#services",
+                          "class": "nav-link",
+                          "data-text": "Services"
+                        }
+                      },
+                      "classList": ["nav-link", "blk-nav-services"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:500;color:#b7c0d8;text-decoration:none;"
+                      }
+                    },
+                    {
+                      "id": "nav-process",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "href": "#process",
+                          "class": "nav-link",
+                          "data-text": "Process"
+                        }
+                      },
+                      "classList": ["nav-link", "blk-nav-process"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:500;color:#b7c0d8;text-decoration:none;"
+                      }
+                    },
+                    {
+                      "id": "nav-contact",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "href": "#contact",
+                          "class": "nav-link",
+                          "data-text": "Contact"
+                        }
+                      },
+                      "classList": ["nav-link", "blk-nav-contact"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:500;color:#b7c0d8;text-decoration:none;"
+                      }
+                    }
+                  ],
+                  "tag": "nav",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "nav-links"
+                    }
+                  },
+                  "classList": ["nav-links", "blk-nav-links"],
+                  "css": {
+                    "base": "display:flex;align-items:center;gap:34px;"
+                  }
+                },
+                {
+                  "id": "nav-cta",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "href": "#contact",
+                      "class": "nav-cta",
+                      "data-text": "Start a project"
+                    }
+                  },
+                  "classList": ["nav-cta", "blk-nav-cta"],
+                  "css": {
+                    "base": "display:flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:10px;background:#ffffff;color:#101522;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:700;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "hero-nav"
+                }
+              },
+              "classList": ["hero-nav", "blk-hero-nav"],
+              "css": {
+                "base": "display:flex;align-items:center;justify-content:space-between;width:100%;"
+              }
+            },
+            {
+              "id": "hero-content",
+              "children": [
+                {
+                  "id": "hero-badge",
+                  "children": [],
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "class": "hero-badge",
+                      "data-text": "✦ DIGITAL EXPERIENCES THAT GROW"
+                    }
+                  },
+                  "classList": ["hero-badge", "blk-hero-badge"],
+                  "css": {
+                    "base": "display:inline-flex;align-items:center;padding:8px 13px;border:1px solid #293653;border-radius:999px;color:#9eacd0;font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.7px;"
+                  }
+                },
+                {
+                  "id": "hero-title",
+                  "children": [],
+                  "tag": "h1",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "class": "hero-title",
+                      "data-text": "We build websites that move businesses forward."
+                    }
+                  },
+                  "classList": ["hero-title", "blk-hero-title"],
+                  "css": {
+                    "base": "max-width:780px;margin:25px 0 0;font-family:Inter,Arial,sans-serif;font-size:64px;line-height:1.02;letter-spacing:-3px;font-weight:800;color:#ffffff;"
+                  }
+                },
+                {
+                  "id": "hero-description",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "class": "hero-description",
+                      "data-text": "We design and develop high-performance websites that look exceptional, feel effortless and turn visitors into customers."
+                    }
+                  },
+                  "classList": ["hero-description", "blk-hero-description"],
+                  "css": {
+                    "base": "max-width:610px;margin:25px 0 0;font-family:Inter,Arial,sans-serif;font-size:18px;line-height:1.7;color:#9da8c2;"
+                  }
+                },
+                {
+                  "id": "hero-actions",
+                  "children": [
+                    {
+                      "id": "hero-primary-button",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "href": "#contact",
+                          "class": "hero-primary-button",
+                          "data-text": "Let's build something →"
+                        }
+                      },
+                      "classList": ["hero-primary-button", "blk-hero-primary-button"],
+                      "css": {
+                        "base": "display:inline-flex;align-items:center;justify-content:center;padding:15px 23px;border-radius:11px;background:#5b7cfa;color:#ffffff;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;"
+                      }
+                    },
+                    {
+                      "id": "hero-secondary-button",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "href": "#services",
+                          "class": "hero-secondary-button",
+                          "data-text": "Explore our services"
+                        }
+                      },
+                      "classList": ["hero-secondary-button", "blk-hero-secondary-button"],
+                      "css": {
+                        "base": "display:inline-flex;align-items:center;justify-content:center;padding:15px 23px;border-radius:11px;border:1px solid #303b58;background:transparent;color:#dce3f4;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "hero-actions"
+                    }
+                  },
+                  "classList": ["hero-actions", "blk-hero-actions"],
+                  "css": {
+                    "base": "display:flex;align-items:center;gap:12px;margin-top:32px;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "hero-content"
+                }
+              },
+              "classList": ["hero-content", "blk-hero-content"],
+              "css": {
+                "base": "padding-top:105px;"
+              }
+            },
+            {
+              "id": "hero-stats",
+              "children": [
+                {
+                  "id": "stat-one",
+                  "children": [
+                    {
+                      "id": "stat-one-number",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "120+",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-one-number"],
+                      "css": {
+                        "base": "display:block;font-family:Inter,Arial,sans-serif;font-size:28px;font-weight:800;color:#ffffff;"
+                      }
+                    },
+                    {
+                      "id": "stat-one-label",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Projects delivered",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-one-label"],
+                      "css": {
+                        "base": "display:block;margin-top:6px;font-family:Inter,Arial,sans-serif;font-size:12px;color:#7f8aa5;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "stat"
+                    }
+                  },
+                  "classList": ["stat", "blk-stat-one"],
+                  "css": {
+                    "base": "min-width:150px;"
+                  }
+                },
+                {
+                  "id": "stat-two",
+                  "children": [
+                    {
+                      "id": "stat-two-number",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "8+",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-two-number"],
+                      "css": {
+                        "base": "display:block;font-family:Inter,Arial,sans-serif;font-size:28px;font-weight:800;color:#ffffff;"
+                      }
+                    },
+                    {
+                      "id": "stat-two-label",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Years of experience",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-two-label"],
+                      "css": {
+                        "base": "display:block;margin-top:6px;font-family:Inter,Arial,sans-serif;font-size:12px;color:#7f8aa5;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "stat"
+                    }
+                  },
+                  "classList": ["stat", "blk-stat-two"],
+                  "css": {
+                    "base": "min-width:150px;"
+                  }
+                },
+                {
+                  "id": "stat-three",
+                  "children": [
+                    {
+                      "id": "stat-three-number",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "98%",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-three-number"],
+                      "css": {
+                        "base": "display:block;font-family:Inter,Arial,sans-serif;font-size:28px;font-weight:800;color:#ffffff;"
+                      }
+                    },
+                    {
+                      "id": "stat-three-label",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Client satisfaction",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-stat-three-label"],
+                      "css": {
+                        "base": "display:block;margin-top:6px;font-family:Inter,Arial,sans-serif;font-size:12px;color:#7f8aa5;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "stat"
+                    }
+                  },
+                  "classList": ["stat", "blk-stat-three"],
+                  "css": {
+                    "base": "min-width:150px;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "hero-stats"
+                }
+              },
+              "classList": ["hero-stats", "blk-hero-stats"],
+              "css": {
+                "base": "display:flex;gap:65px;margin-top:80px;padding-top:25px;border-top:1px solid #27324d;"
+              }
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "options": {
+            "attributes": {
+              "class": "hero-section"
+            }
+          },
+          "classList": ["hero-section", "blk-hero-section"],
+          "css": {
+            "base": "position:relative;overflow:hidden;min-height:720px;padding:32px 70px 60px;background:#0b1020;background-image:radial-gradient(circle at 78% 22%,#263a77 0%,#131d3a 20%,transparent 48%),radial-gradient(circle at 15% 75%,#192858 0%,transparent 35%);border-radius:0 0 28px 28px;",
+            "breakpoints": {
+              "xxl": {
+                "base": "padding-left:90px;padding-right:90px;"
+              },
+              "lg": {
+                "base": "padding-left:45px;padding-right:45px;"
+              },
+              "md": {
+                "base": "padding:25px 28px 45px;min-height:auto;"
+              },
+              "sm": {
+                "base": "padding:20px 20px 40px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "services-section",
+          "children": [
+            {
+              "id": "services-header",
+              "children": [
+                {
+                  "id": "services-eyebrow",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "WHAT WE DO",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-services-eyebrow"],
+                  "css": {
+                    "base": "font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1.8px;color:#5b7cfa;"
+                  }
+                },
+                {
+                  "id": "services-title",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "Everything your website needs to succeed.",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-services-title"],
+                  "css": {
+                    "base": "max-width:650px;margin:12px 0 0;font-family:Inter,Arial,sans-serif;font-size:38px;line-height:1.15;letter-spacing:-1.5px;color:#111827;font-weight:800;"
+                  }
+                },
+                {
+                  "id": "services-description",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "From strategy to launch, we create digital products that combine thoughtful design with solid engineering.",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-services-description"],
+                  "css": {
+                    "base": "max-width:610px;margin:16px 0 0;font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.7;color:#697386;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "services-header"
+                }
+              },
+              "classList": ["services-header", "blk-services-header"],
+              "css": {
+                "base": "margin-bottom:40px;"
+              }
+            },
+            {
+              "id": "services-grid",
+              "children": [
+                {
+                  "id": "service-design",
+                  "children": [
+                    {
+                      "id": "service-design-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "01",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-design-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "service-design-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Web Design",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-design-title"],
+                      "css": {
+                        "base": "margin:45px 0 12px;font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:750;color:#111827;"
+                      }
+                    },
+                    {
+                      "id": "service-design-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Beautiful interfaces designed around your brand, your audience and your business goals.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-design-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.7;color:#70798b;"
+                      }
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "service-card"
+                    }
+                  },
+                  "classList": ["service-card", "blk-service-design"],
+                  "css": {
+                    "base": "padding:28px;border:1px solid #e5e9f1;border-radius:18px;background:#ffffff;min-height:245px;"
+                  }
+                },
+                {
+                  "id": "service-development",
+                  "children": [
+                    {
+                      "id": "service-development-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "02",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-development-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "service-development-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Web Development",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-development-title"],
+                      "css": {
+                        "base": "margin:45px 0 12px;font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:750;color:#111827;"
+                      }
+                    },
+                    {
+                      "id": "service-development-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Fast, scalable and maintainable websites built with modern technologies and best practices.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-development-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.7;color:#70798b;"
+                      }
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "service-card"
+                    }
+                  },
+                  "classList": ["service-card", "blk-service-development"],
+                  "css": {
+                    "base": "padding:28px;border:1px solid #e5e9f1;border-radius:18px;background:#ffffff;min-height:245px;"
+                  }
+                },
+                {
+                  "id": "service-optimization",
+                  "children": [
+                    {
+                      "id": "service-optimization-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "03",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-optimization-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "service-optimization-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Growth & SEO",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-optimization-title"],
+                      "css": {
+                        "base": "margin:45px 0 12px;font-family:Inter,Arial,sans-serif;font-size:22px;font-weight:750;color:#111827;"
+                      }
+                    },
+                    {
+                      "id": "service-optimization-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Performance, accessibility and SEO foundations that help your website get discovered and convert.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-service-optimization-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.7;color:#70798b;"
+                      }
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "service-card"
+                    }
+                  },
+                  "classList": ["service-card", "blk-service-optimization"],
+                  "css": {
+                    "base": "padding:28px;border:1px solid #e5e9f1;border-radius:18px;background:#ffffff;min-height:245px;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "services-grid"
+                }
+              },
+              "classList": ["services-grid", "blk-services-grid"],
+              "css": {
+                "base": "display:grid;grid-template-columns:repeat(3,1fr);gap:18px;",
+                "breakpoints": {
+                  "md": {
+                    "base": "grid-template-columns:1fr 1fr;"
+                  },
+                  "sm": {
+                    "base": "grid-template-columns:1fr;"
+                  }
+                }
+              }
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "options": {
+            "attributes": {
+              "id": "services",
+              "class": "services-section"
+            }
+          },
+          "classList": ["services-section", "blk-services-section"],
+          "css": {
+            "base": "padding:90px 70px;background:#ffffff;",
+            "breakpoints": {
+              "xxl": {
+                "base": "padding-left:90px;padding-right:90px;"
+              },
+              "md": {
+                "base": "padding:65px 28px;"
+              },
+              "sm": {
+                "base": "padding:55px 20px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "process-section",
+          "children": [
+            {
+              "id": "process-heading",
+              "children": [
+                {
+                  "id": "process-eyebrow",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "HOW IT WORKS",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-process-eyebrow"],
+                  "css": {
+                    "base": "font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1.8px;color:#7f8ca8;"
+                  }
+                },
+                {
+                  "id": "process-title",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "A simple process. No unnecessary complexity.",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-process-title"],
+                  "css": {
+                    "base": "max-width:650px;margin:12px 0 0;font-family:Inter,Arial,sans-serif;font-size:38px;line-height:1.15;letter-spacing:-1.5px;color:#ffffff;font-weight:800;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "process-heading"
+                }
+              },
+              "classList": ["process-heading", "blk-process-heading"],
+              "css": {
+                "base": "margin-bottom:50px;"
+              }
+            },
+            {
+              "id": "process-list",
+              "children": [
+                {
+                  "id": "process-one",
+                  "children": [
+                    {
+                      "id": "process-one-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "01",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-one-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "process-one-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Discover",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-one-title"],
+                      "css": {
+                        "base": "margin:15px 0 8px;font-family:Inter,Arial,sans-serif;font-size:21px;color:#ffffff;font-weight:750;"
+                      }
+                    },
+                    {
+                      "id": "process-one-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "We understand your business, audience and goals before writing a single line of code.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-one-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.7;color:#8e9ab4;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "process-item"
+                    }
+                  },
+                  "classList": ["process-item", "blk-process-one"],
+                  "css": {
+                    "base": "padding:26px 0;border-top:1px solid #27324b;"
+                  }
+                },
+                {
+                  "id": "process-two",
+                  "children": [
+                    {
+                      "id": "process-two-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "02",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-two-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "process-two-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Design",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-two-title"],
+                      "css": {
+                        "base": "margin:15px 0 8px;font-family:Inter,Arial,sans-serif;font-size:21px;color:#ffffff;font-weight:750;"
+                      }
+                    },
+                    {
+                      "id": "process-two-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "We turn strategy into a clear visual system that feels unmistakably yours.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-two-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.7;color:#8e9ab4;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "process-item"
+                    }
+                  },
+                  "classList": ["process-item", "blk-process-two"],
+                  "css": {
+                    "base": "padding:26px 0;border-top:1px solid #27324b;"
+                  }
+                },
+                {
+                  "id": "process-three",
+                  "children": [
+                    {
+                      "id": "process-three-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "03",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-three-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "process-three-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Build",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-three-title"],
+                      "css": {
+                        "base": "margin:15px 0 8px;font-family:Inter,Arial,sans-serif;font-size:21px;color:#ffffff;font-weight:750;"
+                      }
+                    },
+                    {
+                      "id": "process-three-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Your website is developed with performance, responsiveness and maintainability in mind.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-three-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.7;color:#8e9ab4;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "process-item"
+                    }
+                  },
+                  "classList": ["process-item", "blk-process-three"],
+                  "css": {
+                    "base": "padding:26px 0;border-top:1px solid #27324b;"
+                  }
+                },
+                {
+                  "id": "process-four",
+                  "children": [
+                    {
+                      "id": "process-four-number",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "04",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-four-number"],
+                      "css": {
+                        "base": "font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:800;color:#5b7cfa;"
+                      }
+                    },
+                    {
+                      "id": "process-four-title",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "Launch & Grow",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-four-title"],
+                      "css": {
+                        "base": "margin:15px 0 8px;font-family:Inter,Arial,sans-serif;font-size:21px;color:#ffffff;font-weight:750;"
+                      }
+                    },
+                    {
+                      "id": "process-four-text",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "options": {
+                        "attributes": {
+                          "data-text": "We launch, measure and continuously improve your digital presence.",
+                          "class": ""
+                        }
+                      },
+                      "classList": ["blk-process-four-text"],
+                      "css": {
+                        "base": "margin:0;font-family:Inter,Arial,sans-serif;font-size:13px;line-height:1.7;color:#8e9ab4;"
+                      }
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "options": {
+                    "attributes": {
+                      "class": "process-item"
+                    }
+                  },
+                  "classList": ["process-item", "blk-process-four"],
+                  "css": {
+                    "base": "padding:26px 0;border-top:1px solid #27324b;border-bottom:1px solid #27324b;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "process-list"
+                }
+              },
+              "classList": ["process-list", "blk-process-list"],
+              "css": {
+                "base": "max-width:850px;"
+              }
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "options": {
+            "attributes": {
+              "id": "process",
+              "class": "process-section"
+            }
+          },
+          "classList": ["process-section", "blk-process-section"],
+          "css": {
+            "base": "padding:90px 70px;background:#0f1526;",
+            "breakpoints": {
+              "md": {
+                "base": "padding:65px 28px;"
+              },
+              "sm": {
+                "base": "padding:55px 20px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "contact-section",
+          "children": [
+            {
+              "id": "contact-content",
+              "children": [
+                {
+                  "id": "contact-eyebrow",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "READY WHEN YOU ARE",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-contact-eyebrow"],
+                  "css": {
+                    "base": "font-family:Inter,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1.8px;color:#dce5ff;"
+                  }
+                },
+                {
+                  "id": "contact-title",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "Let's build something remarkable.",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-contact-title"],
+                  "css": {
+                    "base": "max-width:700px;margin:15px 0 0;font-family:Inter,Arial,sans-serif;font-size:46px;line-height:1.08;letter-spacing:-2px;font-weight:800;color:#ffffff;"
+                  }
+                },
+                {
+                  "id": "contact-description",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "data-text": "Tell us what you're building. We'll help you turn the idea into a digital experience your customers remember.",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-contact-description"],
+                  "css": {
+                    "base": "max-width:570px;margin:18px 0 0;font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.7;color:#c0cae2;"
+                  }
+                },
+                {
+                  "id": "contact-button",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "options": {
+                    "attributes": {
+                      "href": "mailto:hello@example.com",
+                      "data-text": "Start your project →",
+                      "class": ""
+                    }
+                  },
+                  "classList": ["blk-contact-button"],
+                  "css": {
+                    "base": "display:inline-flex;align-items:center;justify-content:center;margin-top:30px;padding:15px 24px;border-radius:11px;background:#ffffff;color:#101522;text-decoration:none;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:750;"
+                  }
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "class": "contact-content"
+                }
+              },
+              "classList": ["contact-content", "blk-contact-content"],
+              "css": {
+                "base": "position:relative;z-index:2;"
+              }
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "options": {
+            "attributes": {
+              "id": "contact",
+              "class": "contact-section"
+            }
+          },
+          "classList": ["contact-section", "blk-contact-section"],
+          "css": {
+            "base": "position:relative;overflow:hidden;padding:95px 70px;background:#526ff0;background-image:radial-gradient(circle at 88% 30%,#8197ff 0%,transparent 32%),radial-gradient(circle at 10% 90%,#314bc1 0%,transparent 35%);",
+            "breakpoints": {
+              "md": {
+                "base": "padding:65px 28px;"
+              },
+              "sm": {
+                "base": "padding:55px 20px;"
+              }
+            }
+          }
+        }
+      ],
+      "footerItems": [],
+      "config": {
+        "title": "Webora",
+        "description": "Professional web design and development"
+      },
+      "order": 0
+    }
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "createdAt": "2026-10-05T12:37:02.434Z",
+      "updatedAt": "2026-10-05T12:37:02.730Z",
+      "data": "* { box-sizing:border-box; }\n\nimg { max-width: 100%; }\n\npre { white-space: pre-wrap; font-family: inherit; }\n\nhtml { scroll-behavior: smooth; }\n\nbody { margin: 0px; }\n\n[data-text]::before { content: attr(data-text); }\n\n.nav-link::before { transition: color 0.2s; }\n\n.nav-link:hover::before { color: rgb(255, 255, 255); }\n\n.hero-primary-button { transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }\n\n.hero-secondary-button { transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }\n\n.nav-cta { transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }\n\n.contact-section a { transition: transform 0.2s, box-shadow 0.2s, background 0.2s; }\n\n.hero-primary-button:hover { transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.133) 0px 10px 25px; }\n\n.nav-cta:hover { transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.133) 0px 10px 25px; }\n\n.contact-section a:hover { transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.133) 0px 10px 25px; }\n\n.hero-secondary-button:hover { border-color: rgb(91, 124, 250); background: rgb(21, 30, 56); }\n\n.service-card { transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }\n\n.service-card:hover { transform: translateY(-5px); box-shadow: rgba(16, 24, 40, 0.07) 0px 18px 45px; border-color: rgb(215, 222, 240); }\n\n@media (max-width:700px) .hero-nav .nav-links { display:none; }\n\n@media (max-width:700px) .hero-title { font-size:43px !important;letter-spacing:-2px !important; }\n\n@media (max-width:700px) .hero-description { font-size:16px !important; }\n\n@media (max-width:700px) .hero-actions { flex-direction:column;align-items:stretch; }\n\n@media (max-width:700px) .hero-actions a { width:100%; }\n\n@media (max-width:700px) .hero-stats { gap:25px !important;flex-wrap:wrap; }\n\n@media (max-width:700px) .hero-stats .stat { min-width:110px !important; }\n\n@media (max-width:700px) .services-title { font-size:31px !important; }\n\n@media (max-width:700px) .process-heading h2 { font-size:31px !important; }\n\n@media (max-width:700px) .contact-title { font-size:36px !important; }"
+    }
+  ],
+  "cssVariables": []
+}

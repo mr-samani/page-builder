@@ -20,7 +20,7 @@
 <ng-template #treeLayout let-list let-isOpen="isOpen" let-parent="parent">
   <ul class="tree-list" [class.is-open]="isOpen" ngxDropList (drop)="onDrop($event, parent)" [data]="list">
     @for (item of list; track $index) {
-      <li [class.active]="pb.activeEl() == item" ngxDraggable dragHandle=".drag-hanlde">
+      <li class="list-item" [class.active]="pb.activeEl() == item" ngxDraggable dragHandle=".drag-hanlde">
         <div>
           <span class="drag-hanlde">
             <svg Icon="assets/icons/grip-dots.svg"></svg>
@@ -36,13 +36,11 @@
           }
           <span (click)="onSelectBlock($event, item)">{{ item.tag || item.el?.tagName }}</span>
         </div>
-        @if (item.children && item.children.length > 0) {
-          <ng-container
-            *ngTemplateOutlet="
-              treeLayout;
-              context: { $implicit: item.children, isOpen: item.isOpen, parent: item }
-            "></ng-container>
-        }
+        <ng-container
+          *ngTemplateOutlet="
+            treeLayout;
+            context: { $implicit: item.children, isOpen: item.isOpen, parent: item }
+          "></ng-container>
       </li>
     }
   </ul>
