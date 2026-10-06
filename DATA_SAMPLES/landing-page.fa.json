@@ -249,7 +249,7 @@
                             "blk-nav-cta"
                           ],
                           "css": {
-                            "base": "display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 28px;border-radius:14px;background:var(--grad,linear-gradient(135deg, #5b5bf0 0%, #8b5cf6 60%, #c084fc 100%));color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;box-shadow:0 14px 28px -12px rgba(91,91,240,0.65);transition:transform .2s ease,box-shadow .2s ease;padding:11px 22px;font-size:15px;border-radius:12px;",
+                            "base": "display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:12px;background:var(--grad,linear-gradient(135deg, #5b5bf0 0%, #8b5cf6 60%, #c084fc 100%));color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 14px 28px -12px rgba(91,91,240,0.65);transition:transform .2s ease,box-shadow .2s ease;",
                             "states": {
                               "hover": "transform:translateY(-2px);box-shadow:0 20px 34px -12px rgba(91,91,240,0.8);",
                               "active": "transform:translateY(0);",
@@ -464,10 +464,10 @@
                     "base": "background:radial-gradient(900px 480px at 90% -10%,rgba(139,92,246,0.16),transparent 60%),radial-gradient(800px 420px at 0% 10%,rgba(34,211,238,0.12),transparent 55%),#ffffff;padding:88px 0 96px;scroll-margin-top:72px;overflow:visible;",
                     "breakpoints": {
                       "md": {
-                        "base": "padding:72px 0;padding:56px 0 72px;"
+                        "base": "padding:56px 0 72px;"
                       },
                       "sm": {
-                        "base": "padding:56px 0;padding:40px 0 56px;"
+                        "base": "padding:40px 0 56px;"
                       }
                     }
                   },
@@ -551,19 +551,19 @@
                                 "blk-hero-title"
                               ],
                               "css": {
-                                "base": "margin:22px 0 0;font-size:62px;font-weight:800;line-height:1.35;color:var(--ink,#0b1020);",
+                                "base": "margin:22px 0 0;font-size:56px;font-weight:800;line-height:1.4;color:var(--ink,#0b1020);",
                                 "breakpoints": {
                                   "xxl": {
-                                    "base": "font-size:68px;"
+                                    "base": "font-size:62px;"
                                   },
                                   "lg": {
-                                    "base": "font-size:54px;"
+                                    "base": "font-size:48px;"
                                   },
                                   "md": {
-                                    "base": "font-size:46px;"
+                                    "base": "font-size:44px;"
                                   },
                                   "sm": {
-                                    "base": "font-size:34px;"
+                                    "base": "font-size:32px;"
                                   }
                                 }
                               },
@@ -688,7 +688,7 @@
                                 "base": "display:flex;flex-wrap:wrap;gap:40px;margin-top:46px;padding-top:28px;border-top:1px solid var(--line,#e6e8f0);",
                                 "breakpoints": {
                                   "sm": {
-                                    "base": "gap:20px 28px;margin-top:34px;"
+                                    "base": "display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:34px;"
                                   }
                                 }
                               },
@@ -705,7 +705,7 @@
                                       "id": "hero-stat-0-n",
                                       "tag": "div",
                                       "canHaveChild": true,
-                                      "content": "۱۲۰+",
+                                      "content": "+۱۲۰",
                                       "classList": [
                                         "blk-hero-stat-0-n"
                                       ],
@@ -728,7 +728,12 @@
                                         "blk-hero-stat-0-l"
                                       ],
                                       "css": {
-                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);"
+                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);",
+                                        "breakpoints": {
+                                          "sm": {
+                                            "base": "font-size:12.5px;"
+                                          }
+                                        }
                                       },
                                       "children": []
                                     }
@@ -746,7 +751,7 @@
                                       "id": "hero-stat-1-n",
                                       "tag": "div",
                                       "canHaveChild": true,
-                                      "content": "۸ yrs",
+                                      "content": "۸ سال",
                                       "classList": [
                                         "blk-hero-stat-1-n"
                                       ],
@@ -764,12 +769,17 @@
                                       "id": "hero-stat-1-l",
                                       "tag": "div",
                                       "canHaveChild": true,
-                                      "content": "سال تجربه",
+                                      "content": "تجربه",
                                       "classList": [
                                         "blk-hero-stat-1-l"
                                       ],
                                       "css": {
-                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);"
+                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);",
+                                        "breakpoints": {
+                                          "sm": {
+                                            "base": "font-size:12.5px;"
+                                          }
+                                        }
                                       },
                                       "children": []
                                     }
@@ -787,7 +797,7 @@
                                       "id": "hero-stat-2-n",
                                       "tag": "div",
                                       "canHaveChild": true,
-                                      "content": "۹۸%",
+                                      "content": "٪۹۸",
                                       "classList": [
                                         "blk-hero-stat-2-n"
                                       ],
@@ -810,7 +820,12 @@
                                         "blk-hero-stat-2-l"
                                       ],
                                       "css": {
-                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);"
+                                        "base": "margin-top:2px;font-size:14px;color:var(--muted,#5b6475);",
+                                        "breakpoints": {
+                                          "sm": {
+                                            "base": "font-size:12.5px;"
+                                          }
+                                        }
                                       },
                                       "children": []
                                     }
@@ -1427,7 +1442,7 @@
                                     "blk-svc-0-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -1508,7 +1523,7 @@
                                     "blk-svc-1-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -1589,7 +1604,7 @@
                                     "blk-svc-2-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -1670,7 +1685,7 @@
                                     "blk-svc-3-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -1751,7 +1766,7 @@
                                     "blk-svc-4-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -1832,7 +1847,7 @@
                                     "blk-svc-5-link"
                                   ],
                                   "css": {
-                                    "base": "margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
+                                    "base": "margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--brand,#5b5bf0);text-decoration:none;",
                                     "states": {
                                       "hover": "color:var(--brand-dark,#4338ca);"
                                     }
@@ -6113,7 +6128,7 @@
                                     "blk-f-msg-input"
                                   ],
                                   "css": {
-                                    "base": "width:100%;height:140px;padding:0 16px;border-radius:12px;border:1px solid var(--line,#e6e8f0);background:#ffffff;font-size:15px;font-family:inherit;color:var(--ink,#0b1020);padding:14px 16px;resize:vertical;line-height:1.6;",
+                                    "base": "width:100%;height:140px;padding:14px 16px;border-radius:12px;border:1px solid var(--line,#e6e8f0);background:#ffffff;font-size:15px;font-family:inherit;color:var(--ink,#0b1020);resize:vertical;line-height:1.6;",
                                     "states": {
                                       "focus": "border-color:var(--brand,#5b5bf0);box-shadow:0 0 0 4px rgba(91,91,240,0.15);outline:none;"
                                     }
