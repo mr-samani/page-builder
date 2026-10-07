@@ -563,6 +563,8 @@ export class PageBuilderService implements OnDestroy {
   async addBlockToCurrentPage(p: IPageItem) {
     try {
       let item = PageItem.fromJSON(p);
+      item = this.clearIds(item);
+
       let activeBlock = this.activeEl();
 
       if (!this.currentPage) {
@@ -573,37 +575,20 @@ export class PageBuilderService implements OnDestroy {
         activeBlock.children.push(item);
         await this.createBlockElement(true, item, activeBlock?.el);
       } else {
-        if (!this.pageInfo.pages[this.currentPageIndex()]) {
-          Notify.error('Page Not Exist!');
-          return;
-        }
-        const body = this.getCurrentPageBody();
-        item.parent = body;
-        body.children.push(item);
-        await this.createBlockElement(true, item, body.el);
+        await this.createBlockElement(true, item);
       }
       this.selectBlock(item);
       Notify.success('Added successfully');
     } catch (error) {}
   }
 
-  getCurrentPageBody(): PageItem {
-    if (!this.pageInfo.pages[this.currentPageIndex()]) {
-      Notify.error('Page Not Exist!');
-      throw 'PageNotFound';
+  private clearIds(item: PageItem): PageItem {
+    item.id = '';
+    if (item.children) {
+      for (let c of item.children) {
+        this.clearIds(c);
+      }
     }
-
-    if (!this.pageInfo.pages[this.currentPageIndex()].bodyItems.length) {
-      Notify.error('Body Not Exist!');
-      throw 'BodyNotFound';
-    }
-
-    const body = this.pageInfo.pages[this.currentPageIndex()].bodyItems.at(0);
-    if (body) {
-      return body;
-    } else {
-      Notify.error('Body Not Exist!');
-      throw 'BodyNotFound';
-    }
+    return item;
   }
 }

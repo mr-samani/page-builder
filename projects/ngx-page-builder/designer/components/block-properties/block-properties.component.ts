@@ -87,6 +87,7 @@ export class BlockPropertiesComponent extends BaseComponent {
     // با عوض شدن بلاک فعال، breakpoint (toolbar) یا state (hover/...) دوباره لود می‌شود
     effect(() => {
       const item = this.pb.activeEl();
+      // console.log('block selected:', item?.id);
       const bp = this.pb.responsive();
       const state = this.cssPseudoState();
       untracked(() => this.load(item, { bp: bp.key, state }));

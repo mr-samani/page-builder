@@ -2,7 +2,7 @@
   @if (item) {
     <!-- <p>{{ item.tag }}</p> -->
     <change-tag [item]="item" [(cssPseudoState)]="cssPseudoState"></change-tag>
-
+    <p>ID:{{ item.id }}</p>
     <class-selector></class-selector>
 
     <div class="context-bar">

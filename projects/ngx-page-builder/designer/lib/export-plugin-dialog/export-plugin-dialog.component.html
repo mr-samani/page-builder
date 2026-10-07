@@ -1,5 +1,13 @@
 <div ngxDialogHeader [showCloseButton]="true">Export Plugin</div>
 <div ngxDialogBody>
+  <div class="pb-form-field">
+    <label for="name">Name</label>
+    <input id="name" name="name" [(ngModel)]="name" #nameInput="ngModel" required (keydown.enter)="ok($event)" />
+    @if (nameInput.hasError('required')) {
+      <p class="text-danger">Name is required for plugin</p>
+    }
+  </div>
+
   <div class="screenshot-container">
     @if (img) {
       <img [src]="img" alt="" class="screenshot" />
@@ -8,14 +16,6 @@
   <div class="loading-container">
     <loading [loading]="loading"></loading>
   </div>
-
-  <div>Name</div>
-  <div class="p-group">
-    <input id="name" name="name" [(ngModel)]="name" #nameInput="ngModel" required (keydown.enter)="ok($event)" />
-  </div>
-  @if (nameInput.hasError('required')) {
-    <p class="text-danger">Name is required for plugin</p>
-  }
 </div>
 <div ngxDialogFooter>
   <button type="button" class="pb-btn" (click)="ok()">Ok</button>

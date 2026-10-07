@@ -69,7 +69,6 @@ export class PBPluginService {
     return new Promise((resolve, reject) => {
       try {
         const parsed: { sanitized: IPageItem; style: string } = JSON.parse(plugin.plugin);
-
         this.pb.addBlockToCurrentPage(parsed.sanitized);
         if (parsed.style) {
           this.cls.addToDefaultStyles(parsed.style);
