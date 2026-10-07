@@ -21,6 +21,7 @@ import {
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 import { Dialog } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
+import { MSG } from 'ngx-kit/message';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
@@ -134,6 +135,14 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     this.chdRef.detectChanges();
   }
 
+  onNew() {
+    MSG.question('Are you sure reset canvas?').afterClose.subscribe((r) => {
+      if (r.isConfirmed) {
+        this.pb.new();
+      }
+    });
+  }
+
   toggleOutlines() {
     this.pb.showOutlines.update((u) => !u);
     localStorage.setItem(LOCAL_STORAGE_SHOW_OUTLINE_KEY, this.pb.showOutlines() + '');
@@ -154,11 +163,14 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
         dynamicData: this.dynamicDataService.dynamicData,
         viewMode: this.viewMode,
       },
-      width: '95%',
       maxWidth: '100%',
+      minWidth: '95dvw',
+      height: '95dvh',
       header: {
         showMaximizeButton: true,
+        showCloseButton: true,
       },
+      panelClass: 'ngx-page-builder',
     });
     // await this.previewService.openPreview(data, 'Preview');
   }
@@ -177,6 +189,11 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     Dialog.open(ConfigDialogComponent, {
       size: 'lg',
       minHeight: '80dvh',
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
     }).afterClosed.subscribe((r) => {
       if (r) {
         this.pb.onUpdateBaseConfig$.next(r);
@@ -190,6 +207,11 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       },
       width: '80vw',
       maxWidth: '100%',
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
     }).afterClosed.subscribe((r) => {
       this.chdRef.detectChanges();
     });
@@ -209,6 +231,12 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       width: '80%',
       minWidth: '80%',
       maxWidth: '100%',
+      height: '95dvh',
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
     }).afterClosed.subscribe(async (r?: PageItem[]) => {
       if (r) {
         this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);

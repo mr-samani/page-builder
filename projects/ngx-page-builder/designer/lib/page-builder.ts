@@ -189,9 +189,14 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   async viewPlugins() {
     const { PluginsDialogComponent } = await import('./plugins-dialog/plugins-dialog.component');
     Dialog.open(PluginsDialogComponent, {
-      width: '80vw',
-      minHeight: '80%',
+      minWidth: '85dvw',
+      height: '95dvh',
       injector: this.injector,
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
     }).afterClosed.subscribe((p) => {
       if (p) {
       }

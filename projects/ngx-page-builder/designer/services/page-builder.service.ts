@@ -94,6 +94,11 @@ export class PageBuilderService implements OnDestroy {
     this.pageInfo = new PageBuilderDto();
     this.history.clear();
   }
+
+  new() {
+    this.reset();
+  }
+
   updateChangeDetection(data: PageItemChange) {
     this._changed$.next(data);
   }

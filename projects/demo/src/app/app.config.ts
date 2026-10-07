@@ -6,6 +6,7 @@ import { provideHighcharts } from 'highcharts-angular';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideNotify } from 'ngx-kit/notify';
 import { provideNgxDialog } from 'ngx-kit/dialog';
+import { provideMessage } from 'ngx-kit/message';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withXhr()),
     provideNotify(),
-    provideNgxDialog({ header: { showMaximizeButton: false }, panelClass: 'ngx-page-builder' }),
+    provideMessage(),
+    provideNgxDialog({ header: { showMaximizeButton: false } }),
     provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
       instance: () => import('highcharts'),

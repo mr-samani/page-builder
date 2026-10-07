@@ -20,6 +20,7 @@ export class PageBuilderConfiguration {
 }
 
 export class PageBuilderToolbarConfig {
+  showNewButton?: boolean = false;
   showOpenButton?: boolean = false;
   showSaveButton?: boolean = false;
   showPreviewButton?: boolean = true;

@@ -35,7 +35,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
   providers: [
     providePageBuilder({
       customSources: CustomSources,
-      storageType: StorageType.JSONFile,
+      storageType: StorageType.LocalStorage,
       enableExportAsPlugin: true,
       enableShotcuts: true,
       showPlugins: true,
@@ -44,6 +44,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: true,
+        showNewButton: true,
         showPreviewButton: true,
       },
       publicCss: ['/bootstrap.min.css'],
@@ -66,7 +67,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
     // },
   ],
 })
-export class BuilderComponent implements OnInit, AfterViewInit {
+export class BuilderComponent implements OnInit {
   private readonly doc = inject(DOCUMENT);
   private readonly router = inject(Router);
   private readonly chdr = inject(ChangeDetectorRef);
@@ -108,9 +109,7 @@ export class BuilderComponent implements OnInit, AfterViewInit {
     } catch (error) {}
     //}, 1000);
   }
-  ngAfterViewInit(): void {
-    this.doc.querySelector('ngx-page-builder')?.scrollIntoView();
-  }
+
   getData() {
     this.pb()
       ?.getData()

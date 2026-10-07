@@ -72,8 +72,14 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
       await import('../../lib/export-plugin-dialog/export-plugin-dialog.component');
     Dialog.open(ExportPluginDialogComponent, {
       data: this.item,
-      width: '80%',
+      minWidth: '85dvw',
+      height: '95dvh',
       injector: this.injector,
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
     });
   }
 }

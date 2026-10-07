@@ -97,6 +97,11 @@
     <svg Icon="assets/icons/folder-open.svg"></svg>
   </button>
 }
+@if (toolbarConfig?.showNewButton) {
+  <button (click)="onNew()" title="Open">
+    <svg Icon="assets/icons/file.svg"></svg>
+  </button>
+}
 @if (customToolbarButtons && customToolbarButtons.length > 0) {
   @for (btn of customToolbarButtons; track $index) {
     <button (click)="btn.callback()" [title]="btn.title">

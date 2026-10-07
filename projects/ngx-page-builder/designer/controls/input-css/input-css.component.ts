@@ -115,6 +115,14 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
     menuDialog.closeModal();
     const { CssVariablesDialogComponent } =
       await import('../../lib/css-variables-dialog/css-variables-dialog.component');
-    Dialog.open(CssVariablesDialogComponent).afterClosed.subscribe(() => this.searchCssVariable());
+    Dialog.open(CssVariablesDialogComponent, {
+      minWidth: '85dvw',
+      height: '95dvh',
+      header: {
+        showMaximizeButton: true,
+        showCloseButton: true,
+      },
+      panelClass: 'ngx-page-builder',
+    }).afterClosed.subscribe(() => this.searchCssVariable());
   }
 }

@@ -96,6 +96,11 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
         width: '80vw',
         maxWidth: '100%',
         height: '90vh',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
       }).afterClosed.subscribe((result) => {
         if (result && this.item) {
           this.item.content = result;
