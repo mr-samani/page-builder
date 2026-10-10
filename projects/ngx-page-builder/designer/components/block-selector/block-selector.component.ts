@@ -38,14 +38,20 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
 
     effect(() => {
       const newItem = this.pb.activeEl();
-      this.item = newItem;
-      this.observeActiveElement();
+      if (this.item != newItem) {
+        this.item = newItem;
+        this.observeActiveElement();
+      }
     });
 
     this.pb.changed$.subscribe((data) => {
-      this.item = data.item;
-      this.observeActiveElement();
-      this.scheduleUpdate();
+      if (this.item != data.item) {
+        this.item = data.item;
+        if (this.item) {
+          this.observeActiveElement();
+          this.scheduleUpdate();
+        }
+      }
     });
   }
 
@@ -70,19 +76,17 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
       this.chdRef.detectChanges();
       return;
     }
-
     const el = this.item.el;
-
     // 1) سایز خود element
     this.elementResizeObserver = new ResizeObserver(() => this.scheduleUpdate());
     this.elementResizeObserver.observe(el);
 
     // 2) تغییر layout پدر (flex، grid، margin، padding پدر)
     //    فقط یک سطح بالاتر کافیه چون getBoundingClientRect نسبت به viewport هست
-    if (el.parentElement) {
-      this.parentResizeObserver = new ResizeObserver(() => this.scheduleUpdate());
-      this.parentResizeObserver.observe(el.parentElement);
-    }
+    // if (el.parentElement) {
+    //   this.parentResizeObserver = new ResizeObserver(() => this.scheduleUpdate());
+    //   this.parentResizeObserver.observe(el.parentElement);
+    // }
 
     // 3) تغییر محتوا داخل element (text تایپ، child اضافه/حذف شد)
     //    subtree: true یعنی هر تغییری در هر سطحی از داخل
@@ -121,8 +125,15 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
    * و چند تا observer که همزمان fire میکنن debounce بشن
    */
   private scheduleUpdate() {
-    this.cancelScheduledUpdate();
-    this.rafId = requestAnimationFrame(() => this.updatePosition());
+    if (this.rafId !== undefined) {
+      return;
+    }
+
+    // this.cancelScheduledUpdate();
+    this.rafId = requestAnimationFrame(() => {
+      this.rafId = undefined;
+      this.updatePosition();
+    });
   }
 
   private cancelScheduledUpdate() {

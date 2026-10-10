@@ -38,9 +38,7 @@ export interface PageItemChange {
     | 'ChangeClassName';
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class PageBuilderService implements OnDestroy {
   isSaving: boolean = false;
   sources: SourceItem[] = LibConsts.SourceItemList;
@@ -86,7 +84,13 @@ export class PageBuilderService implements OnDestroy {
     this._changed$.complete();
     this.onPageChange$.unsubscribe();
     this.onSelectBlock$.unsubscribe();
+    this.onUpdateBaseConfig$.unsubscribe();
     this.history.clear();
+    this.cls.destroy();
+
+    this.onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
+    this.onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(undefined);
+    this.onUpdateBaseConfig$ = new BehaviorSubject<PageConfig | undefined>(undefined);
   }
 
   async reset() {

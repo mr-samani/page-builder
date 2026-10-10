@@ -1,6 +1,7 @@
 .block-selector {
   position: absolute;
   pointer-events: none;
+  box-sizing: border-box;
   border-radius: 5px;
   outline: 2px solid #0073ff;
   outline-offset: 1px;

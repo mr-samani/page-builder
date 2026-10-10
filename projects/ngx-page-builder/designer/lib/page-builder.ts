@@ -9,11 +9,8 @@ import {
   OnDestroy,
   OnInit,
   signal,
-  viewChild,
   ViewEncapsulation,
-  type AfterViewInit,
 } from '@angular/core';
-import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { PageBuilderBaseComponent } from './page-builder-base-component';
 import { IStorageService } from '../services/storage/IStorageService';
@@ -173,7 +170,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
         setTimeout(async () => {
           await this.pb.changePage(1);
           const body = this.pb.pageInfo.pages[0].bodyItems[0];
-          this.pb.selectBlock(body);
           this.isLoading.set(false);
         }, 100);
         //console.log('after load:', this.pb.pageInfo);
