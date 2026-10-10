@@ -575,6 +575,7 @@ export class PageBuilderService implements OnDestroy {
         activeBlock.children.push(item);
         await this.createBlockElement(true, item, activeBlock?.el);
       } else {
+        this.currentPage!.bodyItems.push(item);
         await this.createBlockElement(true, item);
       }
       this.selectBlock(item);
