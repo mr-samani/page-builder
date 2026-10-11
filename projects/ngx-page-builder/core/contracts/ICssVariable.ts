@@ -1,4 +1,4 @@
-export const CssValueTypeList = ['text', 'color', 'gradient', 'number'] as const;
+export const CssValueTypeList = ['Color', 'Gradient', 'Number', 'Text', 'Image', 'FileId', 'Url'] as const;
 
 export type CssValueType = (typeof CssValueTypeList)[number];
 

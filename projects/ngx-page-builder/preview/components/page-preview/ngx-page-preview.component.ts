@@ -118,7 +118,6 @@ export class NgxPagePreviewComponent implements AfterViewInit {
     //setTimeout(async () => {
     const pageContainer = this.paper()?.nativeElement;
     if (pageContainer) {
-      pageContainer.setAttribute('dir', this.data.config.direction);
       await this.previewService.initializePreview(pageContainer, this.data);
       pageContainer.classList.add(...this.previewService.containerClassName.split(' '));
     }

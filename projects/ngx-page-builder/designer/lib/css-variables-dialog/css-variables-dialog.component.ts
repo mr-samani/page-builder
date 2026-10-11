@@ -52,7 +52,7 @@ export class CssVariablesDialogComponent implements OnInit {
 
   add() {
     this.cssVars.push({
-      type: 'text',
+      type: 'Text',
       name: '',
       value: '',
     });

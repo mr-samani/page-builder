@@ -33,12 +33,12 @@
           </td>
           <td>
             @switch (item.type) {
-              @case ('color') {
+              @case ('Color') {
                 <div class="pb-input-group">
                   <input ngxInputColor name="value" [(ngModel)]="item.value" readonly />
                 </div>
               }
-              @case ('gradient') {
+              @case ('Gradient') {
                 <div class="pb-input-group">
                   <input ngxInputGradient name="value" [(ngModel)]="item.value" readonly />
                 </div>
