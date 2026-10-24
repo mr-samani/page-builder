@@ -1,4 +1,4 @@
-import type { Observable } from 'rxjs/internal/Observable';
+import type { Observable } from 'rxjs';
 
 export interface DynamicDataStructure<ValueType = any> {
   /**

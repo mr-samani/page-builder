@@ -1,178 +1,210 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  DOCUMENT,
   ElementRef,
   inject,
-  Inject,
   Input,
   OnDestroy,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import { debounceTime, Subscription } from 'rxjs';
-import { PageBuilderService, PageItemChange } from '../../services/page-builder.service';
-
 import {
   COMPONENT_DATA,
+  CollectionController,
   ComponentDataContext,
-  DataSourceSetting,
   DynamicDataService,
-  DynamicDataStructure,
-  DynamicElementService,
-  IPageItem,
   PageItem,
-  cloneDeep,
-  cloneTemplate,
-  itemInThisTemplate,
+  Repeater,
+  bindRowOnce,
+  buildRowPlan,
+  createScope,
+  findScope,
+  type RowPlan,
 } from 'ngx-page-builder/core';
+import { PageBuilderService, type PageItemChange } from '../../services/page-builder.service';
+import { CollectionTemplate } from './definition';
 
+/**
+ * DESIGNER collection list.
+ *
+ *  - `pageItem.template` is the ONE editable prototype (shown first, bound to the first record)
+ *  - every other record is a read-only clone of it: cloneNode + binding patch, a few microseconds each
+ *  - style edits cost nothing (all copies share the template's `blk-` class); structure / content edits re-clone from the prototype
+ *    (no data refetch, no block pipeline) after a short debounce
+ *  - clicking a copy selects the matching block of the prototype
+ */
 @Component({
   selector: 'collection-item',
-  templateUrl: './collection-item.component.html',
-  styleUrls: ['./collection-item.component.scss'],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  template: '',
 })
-export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit {
-  // inputs auto filled by create dynamic element
-  @Input() editMode: boolean = false;
+export class CollectionItemComponent implements AfterViewInit, OnDestroy {
+  @Input() editMode = true;
   @Input() pageItem!: PageItem;
-  settingChangeSubscription?: Subscription;
-  pagebuiderChangeSubscription?: Subscription;
 
-  _template: IPageItem = {
-    tag: 'article',
-    isTemplateContainer: true,
-    canHaveChild: true,
-    disableMovement: true,
-    lockMoveInnerChild: true,
-    disableDelete: true,
-    classList: [],
-    children: [],
-    css: {
-      base: `
-    position: relative;
-    flex: auto;
-    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-    min-height: 220px;
-    min-width: 150px;`,
-    },
-  };
+  private readonly host = inject(ElementRef).nativeElement as HTMLElement;
+  private readonly pb = inject(PageBuilderService);
+  private readonly dd = inject(DynamicDataService);
+  private readonly context = inject<ComponentDataContext>(COMPONENT_DATA, { optional: true });
 
-  dataList: DynamicDataStructure[][] = [];
+  private protoEl?: HTMLElement;
+  private plan?: RowPlan;
+  private repeater?: Repeater;
+  private controller?: CollectionController;
+  private plain: Element[] = [];
+  private subs: Subscription[] = [];
+  private offContext?: () => void;
+  private lastRow?: Record<string, unknown>;
 
-  private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
-  protected readonly pb = inject(PageBuilderService);
-
-  constructor(
-    private chdRef: ChangeDetectorRef,
-    private dynamicElementService: DynamicElementService,
-    private dynamicDataService: DynamicDataService,
-    private elRef: ElementRef<HTMLElement>,
-  ) {
-    this.settingChangeSubscription = this.context.onChange.subscribe((data: DataSourceSetting) => {
-      if (this.pageItem) {
-        this.pageItem.dataSource = data;
-      }
-      this.getData();
-      this.chdRef.detectChanges();
-    });
-    /**
-     * TODO: need enhancement for improve performance and avoid unnecessary updates
-     * - change block content -> not rebuild all: only update same contents
-     * - move block -> not rebuild all: only move same contents
-     * - addd block only add new block
-     */
-    this.pagebuiderChangeSubscription = this.pb.changed$.pipe(debounceTime(300)).subscribe((data) => {
-      if (
-        data.type == 'AddBlock' ||
-        data.type == 'RemoveBlock' ||
-        data.type == 'MoveBlock' ||
-        data.type == 'ChangeBlockContent' ||
-        data.type == 'ChangeBlockProperties' ||
-        data.type == 'ChangeTagName' ||
-        data.type == 'ChangeClassName'
-      ) {
-        // console.log('Block changed:', data.item?.id, data.type, data.item?.style);
-        const found = itemInThisTemplate(data.item, this.pageItem.children);
-        if (found.result) {
-          console.time('updateTemplate');
-          this.pageItem.template = cloneDeep(found.root!);
-          console.timeEnd('updateTemplate');
-          this.update(data);
-        }
-      }
-    });
-  }
-
-  ngOnInit() {
-    if (!this.pageItem.template) {
-      this.pageItem.template = new PageItem(this._template, this.pageItem);
-    } else {
-      this.pageItem.template.isTemplateContainer = true;
+  async ngAfterViewInit(): Promise<void> {
+    const item = this.pageItem;
+    if (!item?.template) {
+      item.template = new PageItem(CollectionTemplate);
     }
+    const tpl = item.template as PageItem;
+    tpl.parent = item;
+    item.children = [tpl]; // the prototype is a real child: it can be selected, edited, dragged into
+
+    await this.pb.createBlockElement(true, tpl, this.host);
+    this.protoEl = tpl.el as HTMLElement;
+    this.host.addEventListener('pointerdown', this.onPointerDown, true);
+
+    this.build();
+    this.subs.push(
+      this.pb.changed$.pipe(debounceTime(60)).subscribe((ev: PageItemChange) => {
+        if (ev.item && this.inTemplate(ev.item)) this.rebuild();
+      }),
+    );
+    const settings = (this.context as { onChangeCustomData?: { subscribe(fn: () => void): Subscription } } | null)
+      ?.onChangeCustomData;
+    if (settings) this.subs.push(settings.subscribe(() => this.rebuild()));
+    this.offContext = this.dd.onContextChange(() => void this.controller?.refresh());
+    await this.controller?.refresh();
   }
 
-  ngAfterViewInit(): void {
-    this.getData();
-  }
   ngOnDestroy(): void {
-    if (this.settingChangeSubscription) {
-      this.settingChangeSubscription.unsubscribe();
-    }
-    if (this.pagebuiderChangeSubscription) {
-      this.pagebuiderChangeSubscription.unsubscribe();
-    }
+    this.host.removeEventListener('pointerdown', this.onPointerDown, true);
+    this.subs.forEach((s) => s.unsubscribe());
+    this.offContext?.();
+    this.controller?.destroy();
+    this.repeater?.destroy();
   }
-  async getData() {
-    this.dataList = [];
-    if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
+
+  //---------------------------------------------------------------- build / rebuild
+
+  private build(): void {
+    const item = this.pageItem;
+    const protoEl = this.protoEl;
+    if (!protoEl) return;
+    this.repeater?.destroy();
+    this.controller?.destroy();
+    this.clearPlain();
+
+    this.plan = buildRowPlan(item.template as never, protoEl);
+    const connected = !!item.dataSource?.id;
+    if (!connected) {
+      // nothing to bind yet: show N copies exactly as designed, like a static list
+      this.showPlain(Math.max(1, item.dataSource?.maxResultCount ?? 3) - 1);
       return;
     }
-    const count = this.pageItem.dataSource?.maxResultCount || 10;
-    const skip = this.pageItem.dataSource?.skipCount || 0;
-    const params = this.pageItem.dataSource.params;
-    if (this.pageItem.dataSource.id) {
-      this.dataList = await this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count, params);
-    }
 
-    // const childCount = Math.min(count, this.dataList.length);
-    const childCount = count;
-
-    await this.clearContainer();
-    this.pageItem.children = [];
-    for (let i = 0; i < childCount; i++) {
-      let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pb.createBlockElement(true, cloned, this.elRef.nativeElement);
-      this.pageItem.children.push(cloned);
-    }
-    // console.log('data-collection', this.pageItem.id, this.pageItem);
-    this.chdRef.detectChanges();
+    this.repeater = new Repeater({
+      container: this.host,
+      anchor: protoEl,
+      prototype: protoEl,
+      plan: this.plan,
+      indexOffset: 1,
+      getContext: () => this.dd.context,
+      parentScope: () => findScope(this.host.parentNode),
+      keyField: item.dataSource?.keyField || 'id',
+      decorate: (el) => this.freeze(el),
+    });
+    this.controller = new CollectionController({
+      store: this.dd.store,
+      getContext: () => this.dd.context,
+      getParentScope: () => findScope(this.host.parentNode),
+      host: {
+        render: (rows) => {
+          this.bindPrototype(rows[0], rows.length);
+          return this.repeater!.render(rows.slice(1));
+        },
+      },
+    });
+    this.controller.bind(item as never);
   }
 
-  async update(change: PageItemChange) {
-    if (!this.pageItem || !this.pageItem.template || !change.item) return;
-
-    await this.clearContainer();
-    this.pageItem.children = [];
-
-    const count = this.pageItem.dataSource?.maxResultCount || 10;
-    //const childCount = Math.min(count, this.dataList.length);
-    const childCount = count;
-    for (let i = 0; i < childCount; i++) {
-      let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pb.createBlockElement(this.editMode, cloned, this.elRef.nativeElement);
-      this.pageItem.children.push(cloned);
-    }
-    this.chdRef.detectChanges();
+  private rebuild(): void {
+    this.build();
+    void this.controller?.refresh({ force: true });
   }
 
-  private async clearContainer() {
-    await this.dynamicElementService.destroyBatch(this.pageItem.children);
+  private bindPrototype(row: Record<string, unknown> | undefined, count: number): void {
+    if (!row || !this.plan || !this.protoEl) return;
+    this.lastRow = row;
+    bindRowOnce(this.protoEl, this.plan, createScope(this.dd.context, row, findScope(this.host.parentNode), 0, count));
+  }
+
+  /** copies must not look or behave like editable blocks */
+  private freeze(el: Element): void {
+    el.setAttribute('data-pb-clone', '');
+    el.setAttribute('aria-hidden', 'true');
+    el.removeAttribute('data-id');
+    el.querySelectorAll('[data-id],[contenteditable],[draggable]').forEach((n) => {
+      n.removeAttribute('data-id');
+      n.removeAttribute('contenteditable');
+      n.removeAttribute('draggable');
+    });
+  }
+
+  private showPlain(n: number): void {
+    if (!this.protoEl) return;
+    for (let i = 0; i < n; i++) {
+      const c = this.protoEl.cloneNode(true) as Element;
+      this.freeze(c);
+      this.host.appendChild(c);
+      this.plain.push(c);
+    }
+  }
+
+  private clearPlain(): void {
+    this.plain.forEach((c) => c.remove());
+    this.plain = [];
+  }
+
+  //---------------------------------------------------------------- editing helpers
+
+  private inTemplate(changed: PageItem | undefined): boolean {
+    for (let n: PageItem | undefined = changed; n; n = n.parent as PageItem | undefined)
+      if (n === this.pageItem) return true;
+    return false;
+  }
+
+  /** a click on a COPY selects the same block inside the prototype */
+  private readonly onPointerDown = (ev: PointerEvent): void => {
+    const target = ev.target as Node;
+    const hit = this.repeater?.rowOf(target);
+    if (!hit || !this.protoEl || hit.el === this.protoEl) return;
+    const path: number[] = [];
+    for (let n: Node | null = target; n && n !== hit.el; n = n.parentNode)
+      path.unshift(Array.prototype.indexOf.call(n.parentNode!.childNodes, n));
+    let node: Node | undefined = this.protoEl;
+    for (const i of path) node = node?.childNodes[i];
+    const found = node ? this.findByEl(this.pageItem.template as PageItem, node) : undefined;
+    if (found) {
+      ev.stopPropagation();
+      ev.preventDefault();
+      this.pb.activeEl.set(found);
+    }
+  };
+
+  private findByEl(root: PageItem, el: Node): PageItem | undefined {
+    if (root.el === el) return root;
+    for (const c of (root.children ?? []) as PageItem[]) {
+      const f = this.findByEl(c, el);
+      if (f) return f;
+    }
+    return undefined;
   }
 }

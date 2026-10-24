@@ -1,6 +1,7 @@
 import { ISourceOptions, SourceItem } from './SourceItem';
 import { CustomComponent } from './CustomComponent';
 import { DataSourceSetting } from './DataSourceSetting';
+import type { ItemBinding } from '../data/item-binding';
 import { IPageItem } from '../contracts/IPageItem';
 import { randomStrnig } from '../utiles/generateUUID';
 import { cloneDeep } from '../utiles/clone-deep';
@@ -9,6 +10,8 @@ import { BlockCss } from '../contracts/IStyleSheetFile';
 export class PageItem implements IPageItem {
   id: string = '';
   dataSource?: DataSourceSetting;
+  /** what the block shows from the record it is bound to (text, attributes, classes, visibility) */
+  binding?: ItemBinding = undefined;
   parent?: PageItem;
   el?: HTMLElement | null;
   children: PageItem[] = [];

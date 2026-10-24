@@ -57,3 +57,25 @@ export * from './consts/regex';
 
 // pipes
 export * from './pipes/sanitizer.pipe';
+
+// ── dynamic data layer ─────────────────────────────────────────────────────────
+export * from './data/types';
+export * from './data/stable-json';
+export * from './data/request';
+export * from './data/path';
+export * from './data/scope';
+export * from './data/format';
+export * from './data/template';
+export * from './data/params';
+export * from './data/store';
+export * from './data/http-fetcher';
+export * from './data/legacy';
+export * from './data/url-safety';
+export * from './data/item-binding';
+export * from './data/setting';
+export * from './data/plan';
+export * from './repeat/scope-registry';
+export * from './repeat/row-plan';
+export * from './repeat/repeater';
+export * from './repeat/collection-controller';
+export * from './repeat/record-scope';

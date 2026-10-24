@@ -1,11 +1,34 @@
-import { SourceItem } from 'ngx-page-builder/core';
+import { SourceItem, type IPageItem } from 'ngx-page-builder/core';
+
+export const CollectionTemplate: IPageItem = {
+  tag: 'article',
+  isTemplateContainer: true,
+  canHaveChild: true,
+  disableMovement: true,
+  lockMoveInnerChild: true,
+  disableDelete: true,
+  classList: [],
+  children: [],
+  css: {
+    base: `
+        position: relative;
+        flex: auto;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        min-height: 220px;
+        min-width: 150px;
+    `,
+  },
+};
 
 export const CollectionItemSource = new SourceItem({
   tag: 'collection',
   icon: 'assets/icons/collection.svg',
   title: 'Collection Item',
   classList: [],
-  canHaveChild: false,
+  canHaveChild: true,
   css: {
     base: `
     display: flex;
@@ -14,6 +37,7 @@ export const CollectionItemSource = new SourceItem({
     align-items: center;
     justify-content: center;
     padding: 10px;
+    min-height:100px;
   `,
   },
   customComponent: {
