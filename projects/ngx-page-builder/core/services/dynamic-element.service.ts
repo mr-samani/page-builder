@@ -99,7 +99,7 @@ export class DynamicElementService {
       throw new Error('Not exist custom component');
     }
 
-    const p = item.customComponent?.providers ?? [];
+    const p = [...(item.customComponent?.providers ?? [])];
     // دریافت تغییرات  تنظیمات داده‌های کامپوننت سفارشی
     const onChangeCustomData = new Subject();
     onChangeCustomData.subscribe((value) => {

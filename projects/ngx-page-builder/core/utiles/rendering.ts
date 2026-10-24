@@ -5,8 +5,8 @@
 export function waitForFontsToLoad(timeout = 5000): Promise<void> {
   return new Promise((resolve, reject) => {
     // اگر API پشتیبانی نشه، رد نشو — فقط ادامه بده
-    if (!('fonts' in document)) {
-      console.warn('document.fonts API not supported — skipping font load wait');
+    // on the server (Angular SSR) there is no global document / fonts API: nothing to wait for
+    if (typeof document === 'undefined' || !('fonts' in document)) {
       resolve();
       return;
     }
@@ -43,6 +43,7 @@ export function waitForFontsToLoad(timeout = 5000): Promise<void> {
  * یعنی بعد از دو فریم متوالی در requestAnimationFrame.
  */
 export function waitForRenderComplete(): Promise<void> {
+  if (typeof requestAnimationFrame === 'undefined') return Promise.resolve() as never; // server: there are no frames
   return new Promise((resolve) => {
     // مرورگر باید حداقل دو فریم بکشه تا DOM واقعاً render شه
     requestAnimationFrame(() => {

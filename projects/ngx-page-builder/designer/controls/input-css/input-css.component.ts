@@ -24,7 +24,7 @@ import { Dialog } from 'ngx-kit/dialog';
   ],
 })
 export class InputCssComponent implements OnInit, ControlValueAccessor {
-  type = input<CssValueType>('text');
+  type = input<CssValueType>('Text');
   title = input<string>('');
 
   value?: string;

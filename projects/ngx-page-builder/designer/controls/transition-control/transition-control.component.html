@@ -3,11 +3,21 @@
     <span class="trc-title">Transitions</span>
     <span class="trc-actions">
       @if (layers().length) {
-        <button type="button" class="trc-link" title="Remove all transition overrides of this state" (click)="clearAll()">
+        <button
+          type="button"
+          class="trc-link"
+          title="Remove all transition overrides of this state"
+          (click)="clearAll()">
           Reset
         </button>
       }
-      <button #addBtn type="button" class="trc-add" title="Add transition" aria-label="Add transition" (click)="add(addBtn)">
+      <button
+        #addBtn
+        type="button"
+        class="trc-add"
+        title="Add transition"
+        aria-label="Add transition"
+        (click)="add(addBtn)">
         <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
           <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
         </svg>
@@ -42,10 +52,20 @@
             <span class="trc-meta" [title]="r.meta">{{ r.meta }}</span>
           </span>
           <span class="trc-ops">
-            <button type="button" class="trc-icon" title="Duplicate" aria-label="Duplicate" (click)="duplicate($event, r.layer.uid)">
+            <button
+              type="button"
+              class="trc-icon"
+              title="Duplicate"
+              aria-label="Duplicate"
+              (click)="duplicate($event, r.layer.uid)">
               ⧉
             </button>
-            <button type="button" class="trc-icon del" title="Remove" aria-label="Remove" (click)="remove($event, r.layer.uid)">
+            <button
+              type="button"
+              class="trc-icon del"
+              title="Remove"
+              aria-label="Remove"
+              (click)="remove($event, r.layer.uid)">
               ✕
             </button>
           </span>
@@ -59,9 +79,11 @@
   @if (pop.isOpen() && selected(); as l) {
     @if (l.raw) {
       <p class="trc-warn">
-        <b>{{ l.raw }}</b
-        ><br />
-        contains a value the editor can't read (like <code>var()</code>). Changing anything below replaces it.
+        <b>{{ l.raw }}</b>
+        <br />
+        contains a value the editor can't read (like
+        <code>var()</code>
+        ). Changing anything below replaces it.
       </p>
     }
 
@@ -69,7 +91,9 @@
     <div class="trc-preview">
       <div #track class="trc-track"><span #dot class="trc-dot"></span></div>
       <button type="button" class="trc-replay" title="Replay" (click)="replay()">
-        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 3l9 5-9 5z" fill="currentColor" /></svg>
+        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+          <path d="M4 3l9 5-9 5z" fill="currentColor" />
+        </svg>
         Replay
       </button>
     </div>
@@ -111,7 +135,7 @@
         [sliderMin]="0"
         [sliderMax]="2000"
         [sliderStep]="10"
-        [varTypes]="['text', 'number']"
+        [varTypes]="['Text', 'Number']"
         [value]="l.duration"
         (valueChange)="setDuration(l.uid, $event)" />
 
