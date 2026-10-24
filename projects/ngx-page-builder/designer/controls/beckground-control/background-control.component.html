@@ -2,13 +2,19 @@
   <div class="bg-head">
     <span class="bg-title">Background</span>
     @if (hasAny()) {
-      <button type="button" class="bg-link" title="Remove all background overrides of this state" (click)="clearAll()">Reset</button>
+      <button type="button" class="bg-link" title="Remove all background overrides of this state" (click)="clearAll()">
+        Reset
+      </button>
     }
   </div>
 
   @if (legacy().unreadable) {
     <div class="bg-warn" role="note">
-      <b>Complex <code>background</code> shorthand</b>
+      <b>
+        Complex
+        <code>background</code>
+        shorthand
+      </b>
       <code class="bg-warn-code">{{ s().background }}</code>
       <span>The editor can't split it safely. Replace it to edit layers visually.</span>
       <button type="button" class="bg-btn" (click)="replaceShorthand()">Replace with editable layers</button>
@@ -18,15 +24,23 @@
   <!-- color -->
   <div class="bg-row">
     <span class="bg-lbl">Color</span>
-    <input-css type="color" title="Background color" [ngModel]="s().backgroundColor" (ngModelChange)="setColor($event)" />
+    <input-css
+      type="Color"
+      title="Background color"
+      [ngModel]="s().backgroundColor"
+      (ngModelChange)="setColor($event)" />
   </div>
 
   <!-- layers -->
   <div class="bg-subhead">
     <span class="bg-title">Images &amp; gradients</span>
     <span class="bg-add">
-      <button #addImg type="button" class="bg-chip" title="Add an image layer" (click)="addImage(addImg)">+ Image</button>
-      <button #addGrad type="button" class="bg-chip" title="Add a gradient layer" (click)="addGradient(addGrad)">+ Gradient</button>
+      <button #addImg type="button" class="bg-chip" title="Add an image layer" (click)="addImage(addImg)">
+        + Image
+      </button>
+      <button #addGrad type="button" class="bg-chip" title="Add a gradient layer" (click)="addGradient(addGrad)">
+        + Gradient
+      </button>
     </span>
   </div>
 
@@ -45,15 +59,40 @@
           (click)="toggleLayer(l.uid, row)"
           (keydown.enter)="toggleLayer(l.uid, row)"
           (keydown.space)="$event.preventDefault(); toggleLayer(l.uid, row)">
-          <span class="bg-thumb" aria-hidden="true"><span class="bg-thumb-in" [style.backgroundImage]="resolved(l.image)"></span></span>
+          <span class="bg-thumb" aria-hidden="true">
+            <span class="bg-thumb-in" [style.backgroundImage]="resolved(l.image)"></span>
+          </span>
           <span class="bg-text">
             <span class="bg-name">{{ title(l) }}</span>
             <span class="bg-meta" [title]="meta(l)">{{ meta(l) }}</span>
           </span>
           <span class="bg-ops">
-            <button type="button" class="bg-icon" [disabled]="first" title="Move up (above)" aria-label="Move up" (click)="moveBy($event, l.uid, -1)">↑</button>
-            <button type="button" class="bg-icon" [disabled]="last" title="Move down (below)" aria-label="Move down" (click)="moveBy($event, l.uid, 1)">↓</button>
-            <button type="button" class="bg-icon del" title="Remove" aria-label="Remove" (click)="remove($event, l.uid)">✕</button>
+            <button
+              type="button"
+              class="bg-icon"
+              [disabled]="first"
+              title="Move up (above)"
+              aria-label="Move up"
+              (click)="moveBy($event, l.uid, -1)">
+              ↑
+            </button>
+            <button
+              type="button"
+              class="bg-icon"
+              [disabled]="last"
+              title="Move down (below)"
+              aria-label="Move down"
+              (click)="moveBy($event, l.uid, 1)">
+              ↓
+            </button>
+            <button
+              type="button"
+              class="bg-icon del"
+              title="Remove"
+              aria-label="Remove"
+              (click)="remove($event, l.uid)">
+              ✕
+            </button>
           </span>
         </li>
       }
@@ -65,7 +104,13 @@
 
   <details class="bg-more" [open]="!!clipValue()">
     <summary>Clipping</summary>
-    <pb-seg ariaLabel="Background clip" [options]="clip" [value]="clipValue()" inherited="border-box" [columns]="4" (picked)="setClip($event)" />
+    <pb-seg
+      ariaLabel="Background clip"
+      [options]="clip"
+      [value]="clipValue()"
+      inherited="border-box"
+      [columns]="4"
+      (picked)="setClip($event)" />
     @if (clipsText()) {
       <p class="bg-note">
         Text clipping shows the background only through the letters, so the text color must be transparent.
@@ -80,7 +125,12 @@
 </div>
 
 <!-- ============ Layer editor ============ -->
-<pb-popover #pop [heading]="selected() ? title(selected()!) : 'Layer'" group="bg" [width]="300" (closed)="onPopupClosed()">
+<pb-popover
+  #pop
+  [heading]="selected() ? title(selected()!) : 'Layer'"
+  group="bg"
+  [width]="300"
+  (closed)="onPopupClosed()">
   @if (pop.isOpen() && selected(); as l) {
     @if (previewCss(); as pv) {
       <div class="bg-prev" aria-hidden="true">
@@ -130,7 +180,7 @@
 
       <div class="bg-field stack">
         <span class="bg-lbl">Edit</span>
-        <input-css type="gradient" title="Gradient" [ngModel]="l.image" (ngModelChange)="setGradient(l.uid, $event)" />
+        <input-css type="Gradient" title="Gradient" [ngModel]="l.image" (ngModelChange)="setGradient(l.uid, $event)" />
       </div>
       @if (angle() !== null) {
         <div class="bg-field stack">
@@ -164,28 +214,75 @@
       <summary>Size, position &amp; repeat</summary>
 
       <span class="bg-lbl block">Size</span>
-      <pb-seg ariaLabel="Background size" [options]="sizeModes" [value]="sizeModeValue()" [clearable]="false" [columns]="4" (picked)="setSizeMode(l.uid, $event)" />
+      <pb-seg
+        ariaLabel="Background size"
+        [options]="sizeModes"
+        [value]="sizeModeValue()"
+        [clearable]="false"
+        [columns]="4"
+        (picked)="setSizeMode(l.uid, $event)" />
       @if (sizeModeValue() === 'custom') {
         <div class="bg-wh">
-          <css-unit-field label="W" [units]="lengthUnits" [keywords]="['auto']" fallback="auto" [step]="1" [min]="0" [value]="sizeParts()[0]" (valueChange)="setSizeAxis(l.uid, 0, $event)" />
-          <css-unit-field label="H" [units]="lengthUnits" [keywords]="['auto']" fallback="auto" [step]="1" [min]="0" [value]="sizeParts()[1]" (valueChange)="setSizeAxis(l.uid, 1, $event)" />
+          <css-unit-field
+            label="W"
+            [units]="lengthUnits"
+            [keywords]="['auto']"
+            fallback="auto"
+            [step]="1"
+            [min]="0"
+            [value]="sizeParts()[0]"
+            (valueChange)="setSizeAxis(l.uid, 0, $event)" />
+          <css-unit-field
+            label="H"
+            [units]="lengthUnits"
+            [keywords]="['auto']"
+            fallback="auto"
+            [step]="1"
+            [min]="0"
+            [value]="sizeParts()[1]"
+            (valueChange)="setSizeAxis(l.uid, 1, $event)" />
         </div>
       }
 
       <span class="bg-lbl block">Position</span>
       @if (positionComplex()) {
-        <input class="bg-input" type="text" spellcheck="false" aria-label="Background position" [value]="l.position" (change)="setPositionText(l.uid, $event)" />
+        <input
+          class="bg-input"
+          type="text"
+          spellcheck="false"
+          aria-label="Background position"
+          [value]="l.position"
+          (change)="setPositionText(l.uid, $event)" />
       } @else {
-        <origin-pad ariaLabel="Background position" [x]="position().x" [y]="position().y" [isSet]="!!l.position" (changed)="setPosition(l.uid, $event)" />
+        <origin-pad
+          ariaLabel="Background position"
+          [x]="position().x"
+          [y]="position().y"
+          [isSet]="!!l.position"
+          (changed)="setPosition(l.uid, $event)" />
       }
 
       <span class="bg-lbl block">Repeat</span>
-      <pb-seg ariaLabel="Background repeat" [options]="repeat" [value]="l.repeat" inherited="repeat" [columns]="3" (picked)="setRepeat(l.uid, $event)" />
+      <pb-seg
+        ariaLabel="Background repeat"
+        [options]="repeat"
+        [value]="l.repeat"
+        inherited="repeat"
+        [columns]="3"
+        (picked)="setRepeat(l.uid, $event)" />
 
       <span class="bg-lbl block">Scroll</span>
-      <pb-seg ariaLabel="Background attachment" [options]="attachment" [value]="l.attachment" inherited="scroll" [columns]="3" (picked)="setAttachment(l.uid, $event)" />
+      <pb-seg
+        ariaLabel="Background attachment"
+        [options]="attachment"
+        [value]="l.attachment"
+        inherited="scroll"
+        [columns]="3"
+        (picked)="setAttachment(l.uid, $event)" />
 
-      <button type="button" class="bg-link reset" (click)="resetTiling(l.uid)">Reset size, position &amp; repeat</button>
+      <button type="button" class="bg-link reset" (click)="resetTiling(l.uid)">
+        Reset size, position &amp; repeat
+      </button>
     </details>
   }
 </pb-popover>

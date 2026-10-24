@@ -292,7 +292,7 @@ export class CssUnitFieldComponent {
   sliderMin = input<number>(0);
   sliderMax = input<number>(100);
   sliderStep = input<number | undefined>(undefined);
-  varTypes = input<CssValueType[]>(['text', 'number']);
+  varTypes = input<CssValueType[]>(['Text', 'Number']);
 
   /** مقدار CSS (دوطرفه): `[(value)]` */
   value = model<string>('');

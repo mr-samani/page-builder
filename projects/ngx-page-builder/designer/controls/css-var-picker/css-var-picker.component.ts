@@ -30,10 +30,10 @@ import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
               <div>{{ v.name }}</div>
               <div [title]="v.value">
                 @switch (v.type) {
-                  @case ('color') {
+                  @case ('Color') {
                     <span class="value" [style.backgroundColor]="v.value">{{ v.value }}</span>
                   }
-                  @case ('gradient') {
+                  @case ('Gradient') {
                     <span class="value" [style.background]="v.value">{{ v.value }}</span>
                   }
                   @default {
@@ -79,7 +79,7 @@ import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 })
 export class CssVarPickerComponent {
   /** فقط متغیرهای این نوع‌ها نمایش داده می‌شوند (مثلاً برای اندازه: text و number) */
-  types = input<CssValueType[]>(['text', 'number', 'color', 'gradient']);
+  types = input<CssValueType[]>(['Text', 'Number', 'Color', 'Gradient']);
   title = input<string>('');
   picked = output<string>();
 

@@ -14,7 +14,7 @@
     </span>
   } @else {
     @switch (type()) {
-      @case ('color') {
+      @case ('Color') {
         <input
           class="color"
           readonly
@@ -23,13 +23,13 @@
           [(ngModel)]="value"
           (ngModelChange)="onChange()" />
       }
-      @case ('gradient') {
+      @case ('Gradient') {
         <input class="color" ngxInputGradient [showSamples]="false" [(ngModel)]="value" (ngModelChange)="onChange()" />
       }
-      @case ('text') {
+      @case ('Text') {
         <input type="text" [(ngModel)]="value" (ngModelChange)="onChange()" />
       }
-      @case ('number') {
+      @case ('Number') {
         <input type="number" [(ngModel)]="value" (ngModelChange)="onChange()" />
       }
     }
@@ -60,13 +60,13 @@
         <div>{{ item.name }}</div>
         <div [title]="item.value">
           @switch (item.type) {
-            @case ('color') {
+            @case ('Color') {
               <span class="value" [style.backgroundColor]="item.value">{{ item.value }}</span>
             }
-            @case ('gradient') {
+            @case ('Gradient') {
               <span class="value" [style.background]="item.value">{{ item.value }}</span>
             }
-            @case ('number') {
+            @case ('Number') {
               <span class="value">{{ item.value | number }}</span>
             }
             @default {

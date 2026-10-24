@@ -45,7 +45,7 @@
         }
         <option [value]="customKey" [selected]="fontChoice() === customKey">Custom…</option>
       </select>
-      <css-var-picker [types]="['text']" title="Font variables" (picked)="onFontVar($event)"></css-var-picker>
+      <css-var-picker [types]="['Text']" title="Font variables" (picked)="onFontVar($event)"></css-var-picker>
     </div>
   </div>
   @if (fontChoice() === customKey) {
@@ -109,7 +109,7 @@
   <!-- color -->
   <div class="ty-row">
     <span class="ty-lbl">Color</span>
-    <input-css type="color" title="Text color" [ngModel]="s().color" (ngModelChange)="setProp('color', $event)" />
+    <input-css type="Color" title="Text color" [ngModel]="s().color" (ngModelChange)="setProp('color', $event)" />
   </div>
 
   <!-- alignment / style / decoration / case -->
