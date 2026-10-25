@@ -40,7 +40,7 @@ import {
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
-import { Dialog, NgxDialogModule } from 'ngx-kit/dialog';
+import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
 import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
 
@@ -116,6 +116,8 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   showPlugins = LibConsts.showPlugins;
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
+  protected readonly dialog = inject(NgxDialogService);
+
   isLoading = signal(false);
   constructor(
     private injector: Injector,
@@ -184,19 +186,21 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   async viewPlugins() {
     const { PluginsDialogComponent } = await import('./plugins-dialog/plugins-dialog.component');
-    Dialog.open(PluginsDialogComponent, {
-      minWidth: '85dvw',
-      height: '95dvh',
-      injector: this.injector,
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe((p) => {
-      if (p) {
-      }
-    });
+    this.dialog
+      .open(PluginsDialogComponent, {
+        minWidth: '85dvw',
+        height: '95dvh',
+        injector: this.injector,
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe((p) => {
+        if (p) {
+        }
+      });
   }
 
   /**

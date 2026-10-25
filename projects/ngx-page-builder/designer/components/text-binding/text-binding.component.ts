@@ -2,8 +2,6 @@ import {
   Component,
   EventEmitter,
   inject,
-  Inject,
-  Injector,
   Input,
   OnInit,
   Output,
@@ -21,7 +19,6 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
-import { Dialog } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
 import {
   DataSourceSetting,
@@ -30,6 +27,7 @@ import {
   DynamicDataStructure,
   PageItem,
 } from 'ngx-page-builder/core';
+import { NgxDialogService } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'text-binding',
@@ -58,10 +56,11 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
   imageUrl = '';
   private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
   private htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
-  constructor(
-    public dynamicDataService: DynamicDataService,
-    private renderer: Renderer2,
-  ) {
+  protected readonly renderer = inject(Renderer2);
+  protected readonly dynamicDataService = inject(DynamicDataService);
+  protected readonly dialog = inject(NgxDialogService);
+
+  constructor() {
     super();
     // dynamic data if is not item collection
     this.dsList = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => !x.list);
@@ -91,22 +90,24 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
         this.pb.writeItemValue(this.item);
       });
     } else {
-      Dialog.open(TextEditorComponent, {
-        data: this.item,
-        width: '80vw',
-        maxWidth: '100%',
-        height: '90vh',
-        header: {
-          showMaximizeButton: true,
-          showCloseButton: true,
-        },
-        panelClass: 'ngx-page-builder',
-      }).afterClosed.subscribe((result) => {
-        if (result && this.item) {
-          this.item.content = result;
-          this.pb.writeItemValue(this.item);
-        }
-      });
+      this.dialog
+        .open(TextEditorComponent, {
+          data: this.item,
+          width: '80vw',
+          maxWidth: '100%',
+          height: '90vh',
+          header: {
+            showMaximizeButton: true,
+            showCloseButton: true,
+          },
+          panelClass: 'ngx-page-builder',
+        })
+        .afterClosed.subscribe((result) => {
+          if (result && this.item) {
+            this.item.content = result;
+            this.pb.writeItemValue(this.item);
+          }
+        });
     }
   }
   onChangeKey(event: string[]) {

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnInit, Type, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, Injector, OnInit, Type, ViewChild, ChangeDetectionStrategy, inject } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
 import { EditLinkComponent } from '../edit-link/edit-link.component';
-import { Dialog } from 'ngx-kit/dialog';
+import { NgxDialogService } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'block-settings',
@@ -23,10 +23,12 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   collectionDsList: DynamicDataStructure[] = [];
 
   enableExportAsPlugin = LibConsts.enableExportAsPlugin;
-  constructor(
-    private injector: Injector,
-    private dynamicDataService: DynamicDataService,
-  ) {
+
+  protected readonly injector = inject(Injector);
+  protected readonly dialog = inject(NgxDialogService);
+  protected readonly dynamicDataService = inject(DynamicDataService);
+
+  constructor() {
     super();
     effect(async () => {
       this.item = this.pb.activeEl();
@@ -70,16 +72,15 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     if (!this.item) return;
     const { ExportPluginDialogComponent } =
       await import('../../lib/export-plugin-dialog/export-plugin-dialog.component');
-    Dialog.open(ExportPluginDialogComponent, {
+    this.dialog.open(ExportPluginDialogComponent, {
       data: this.item,
-      minWidth: '85dvw',
-      height: '95dvh',
-      injector: this.injector,
+      size: 'md',
       header: {
         showMaximizeButton: true,
         showCloseButton: true,
       },
       panelClass: 'ngx-page-builder',
+      injector: this.injector,
     });
   }
 }

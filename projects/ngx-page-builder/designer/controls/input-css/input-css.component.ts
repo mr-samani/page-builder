@@ -7,7 +7,7 @@ import { CssValueType, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { ClassManagerService } from '../../services/class-manager.service';
-import { Dialog } from 'ngx-kit/dialog';
+import { NgxDialogService } from 'ngx-kit/dialog';
 
 @Component({
   selector: 'input-css',
@@ -43,7 +43,9 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   thisIsVariable = false;
   variableName = '';
 
-  cls = inject(ClassManagerService);
+  protected readonly cls = inject(ClassManagerService);
+  protected readonly dialog = inject(NgxDialogService);
+
   constructor() {}
 
   ngOnInit() {
@@ -115,14 +117,16 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
     menuDialog.closeModal();
     const { CssVariablesDialogComponent } =
       await import('../../lib/css-variables-dialog/css-variables-dialog.component');
-    Dialog.open(CssVariablesDialogComponent, {
-      minWidth: '85dvw',
-      height: '95dvh',
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe(() => this.searchCssVariable());
+    this.dialog
+      .open(CssVariablesDialogComponent, {
+        minWidth: '85dvw',
+        height: '95dvh',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe(() => this.searchCssVariable());
   }
 }

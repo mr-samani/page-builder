@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, Injector, Input, OnInit } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
 import { ConfigDialogComponent } from '../config-dialog/config-dialog.component';
@@ -19,9 +19,9 @@ import {
   type Breakpoint,
 } from 'ngx-page-builder/core';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
-import { Dialog } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
 import { MSG } from 'ngx-kit/message';
+import { NgxDialogService } from 'ngx-kit/dialog';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',
@@ -38,13 +38,12 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   toolbarConfig = LibConsts.toolbarConfig;
 
   breakPoints = DEFAULT_BREAKPOINTS;
+  protected readonly exporter = inject(ExportHtmlService);
+  protected readonly history = inject(HistoryService);
+  protected readonly previewService = inject(PagePreviewService);
+  protected readonly dialog = inject(NgxDialogService);
 
-  constructor(
-    private exporter: ExportHtmlService,
-
-    public history: HistoryService,
-    private previewService: PagePreviewService,
-  ) {
+  constructor() {
     super();
     effect(() => {
       this.pageNumber = this.pb.currentPageIndex() + 1;
@@ -157,7 +156,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
   }
   async preview() {
     const data = await preparePageDataForSave(this.pb);
-    Dialog.open(PreviewDialogComponent, {
+    this.dialog.open(PreviewDialogComponent, {
       data: {
         data,
         dynamicData: this.dynamicDataService.dynamicData,
@@ -179,42 +178,46 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
     this.doc?.open('/preview');
   }
   sortPages() {
-    Dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {
+    this.dialog.open(SortPageListComponent).afterClosed.subscribe((result) => {
       if (result) {
         this.pb.reloadCurrentPage();
       }
     });
   }
   openConfigDialog() {
-    Dialog.open(ConfigDialogComponent, {
-      size: 'lg',
-      minHeight: '80dvh',
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe((r) => {
-      if (r) {
-        this.pb.onUpdateBaseConfig$.next(r);
-      }
-    });
+    this.dialog
+      .open(ConfigDialogComponent, {
+        size: 'lg',
+        minHeight: '80dvh',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe((r) => {
+        if (r) {
+          this.pb.onUpdateBaseConfig$.next(r);
+        }
+      });
   }
   openCssFileDialog() {
-    Dialog.open(CssFileDialogComponent, {
-      data: {
-        classes: {},
-      },
-      width: '80vw',
-      maxWidth: '100%',
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe((r) => {
-      this.chdRef.detectChanges();
-    });
+    this.dialog
+      .open(CssFileDialogComponent, {
+        data: {
+          classes: {},
+        },
+        width: '80vw',
+        maxWidth: '100%',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe((r) => {
+        this.chdRef.detectChanges();
+      });
   }
 
   async exportHtml() {
@@ -227,23 +230,25 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       Notify.error('Create page to import');
       return;
     }
-    Dialog.open(ImportDialogComponent, {
-      width: '80%',
-      minWidth: '80%',
-      maxWidth: '100%',
-      height: '95dvh',
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe(async (r?: PageItem[]) => {
-      if (r) {
-        this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);
-        r.map(async (item) => await this.pb.createBlockElement(true, item));
-        this.chdRef.detectChanges();
-      }
-    });
+    this.dialog
+      .open(ImportDialogComponent, {
+        width: '80%',
+        minWidth: '80%',
+        maxWidth: '100%',
+        height: '95dvh',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe(async (r?: PageItem[]) => {
+        if (r) {
+          this.pb.pageInfo.pages[pageIndex].bodyItems.push(...r);
+          r.map(async (item) => await this.pb.createBlockElement(true, item));
+          this.chdRef.detectChanges();
+        }
+      });
   }
 
   changeResponive(b: Breakpoint) {
