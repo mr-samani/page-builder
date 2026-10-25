@@ -1,0 +1,210 @@
+<div class="anc" data-pb-popover-group="anc">
+  <div class="anc-head">
+    <span class="anc-title">Animations</span>
+    <span class="anc-actions">
+      @if (layers().length) {
+        <button
+          type="button"
+          class="anc-link"
+          title="Remove all animation overrides of this state"
+          (click)="clearAll()">
+          Reset
+        </button>
+      }
+      <button
+        #addBtn
+        type="button"
+        class="anc-add"
+        title="Add animation"
+        aria-label="Add animation"
+        (click)="add(addBtn)">
+        <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
+          <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </button>
+    </span>
+  </div>
+
+  @if (layers().length === 0) {
+    <button type="button" class="anc-empty" (click)="add(addBtn)">
+      <span class="anc-empty-title">No animations</span>
+      <span class="anc-empty-sub">Fade, slide, bounce, spin… Click to add one.</span>
+    </button>
+  } @else {
+    <ul class="anc-list" role="list">
+      @for (r of rows(); track r.layer.uid) {
+        <li
+          #row
+          class="anc-row"
+          role="listitem"
+          tabindex="0"
+          [attr.data-uid]="r.layer.uid"
+          [class.on]="r.layer.uid === selectedUid()"
+          (click)="toggleLayer(r.layer.uid, row)"
+          (keydown.enter)="toggleLayer(r.layer.uid, row)"
+          (keydown.space)="$event.preventDefault(); toggleLayer(r.layer.uid, row)">
+          <svg class="anc-curve" viewBox="0 0 30 20" width="30" height="20" aria-hidden="true">
+            <rect x="3" y="3" width="24" height="14" class="anc-curve-box" />
+            <path [attr.d]="r.path" class="anc-curve-path" />
+          </svg>
+          <span class="anc-text">
+            <span class="anc-prop" [title]="r.title">{{ r.title }}</span>
+            <span class="anc-meta" [title]="r.meta">{{ r.meta }}</span>
+          </span>
+          <span class="anc-ops">
+            <button
+              type="button"
+              class="anc-icon"
+              title="Duplicate"
+              aria-label="Duplicate"
+              (click)="duplicate($event, r.layer.uid)">
+              ⧉
+            </button>
+            <button
+              type="button"
+              class="anc-icon del"
+              title="Remove"
+              aria-label="Remove"
+              (click)="remove($event, r.layer.uid)">
+              ✕
+            </button>
+          </span>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<pb-popover #pop [heading]="'Animation'" group="anc" [width]="300" (closed)="onPopupClosed()">
+  @if (pop.isOpen() && selected(); as l) {
+    @if (l.raw) {
+      <p class="anc-warn">
+        <b>{{ l.raw }}</b>
+        <br />
+        contains a value the editor can't read (like
+        <code>var()</code>
+        ). Changing anything below replaces it.
+      </p>
+    }
+
+    <!-- live preview -->
+    <div class="anc-preview">
+      <div class="anc-stage">
+        @if (canPreview()) {
+          <span #box class="anc-box"></span>
+        } @else {
+          <span class="anc-nopreview">Preview is available for built-in animations only</span>
+        }
+      </div>
+      <button type="button" class="anc-replay" title="Replay" [disabled]="!canPreview()" (click)="replay()">
+        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+          <path d="M4 3l9 5-9 5z" fill="currentColor" />
+        </svg>
+        Replay
+      </button>
+    </div>
+
+    <div class="anc-grid">
+      <label class="anc-lbl" for="ancName">Animation</label>
+      <div class="anc-propbox">
+        <select id="ancName" class="anc-select" (change)="onName(l.uid, $event)">
+          @for (g of groups; track g.label) {
+            <optgroup [label]="g.label">
+              @for (p of g.items; track p.id) {
+                <option [value]="p.name" [selected]="nameKey() === p.name">{{ p.label }}</option>
+              }
+            </optgroup>
+          }
+          <option [value]="customKey" [selected]="nameKey() === customKey">Custom keyframes…</option>
+        </select>
+        @if (nameKey() === customKey) {
+          <input
+            class="anc-input"
+            type="text"
+            spellcheck="false"
+            placeholder="name of your @keyframes"
+            [value]="l.name"
+            (change)="onCustomName(l.uid, $event)"
+            (keydown.enter)="onCustomName(l.uid, $event)" />
+        }
+      </div>
+
+      <span class="anc-lbl">Duration</span>
+      <css-unit-field
+        [units]="timeUnits"
+        [stepByUnit]="timeStep"
+        [unitFactors]="timeFactors"
+        [step]="10"
+        [min]="0"
+        fallback="600ms"
+        [slider]="true"
+        [sliderMin]="0"
+        [sliderMax]="3000"
+        [sliderStep]="10"
+        [varTypes]="['Text', 'Number']"
+        [value]="l.duration"
+        (valueChange)="setDuration(l.uid, $event)" />
+
+      <span class="anc-lbl">Delay</span>
+      <css-unit-field
+        [units]="timeUnits"
+        [stepByUnit]="timeStep"
+        [unitFactors]="timeFactors"
+        [step]="10"
+        [min]="0"
+        fallback="0ms"
+        [value]="l.delay"
+        (valueChange)="setDelay(l.uid, $event)" />
+
+      <span class="anc-lbl">Repeat</span>
+      <div class="anc-repeat">
+        <pb-seg
+          class="anc-repeat-seg"
+          ariaLabel="Iteration count"
+          [options]="iterationOptions"
+          [value]="l.iterations"
+          [clearable]="false"
+          (picked)="setIterations(l.uid, $event)" />
+        <input
+          class="anc-input anc-count"
+          type="number"
+          min="0"
+          step="1"
+          aria-label="Custom iteration count"
+          title="Custom number of repeats"
+          placeholder="n"
+          [value]="countValue(l)"
+          (change)="onCount(l.uid, $event)" />
+      </div>
+
+      <span class="anc-lbl">Direction</span>
+      <pb-seg
+        ariaLabel="Direction"
+        [options]="directionOptions"
+        [value]="l.direction"
+        [clearable]="false"
+        (picked)="setDirection(l.uid, $event)" />
+
+      <span class="anc-lbl" title="animation-fill-mode">Keep style</span>
+      <pb-seg
+        ariaLabel="Fill mode"
+        [options]="fillOptions"
+        [value]="l.fill"
+        [clearable]="false"
+        (picked)="setFill(l.uid, $event)" />
+
+      <span class="anc-lbl">State</span>
+      <pb-seg
+        ariaLabel="Play state"
+        [options]="playOptions"
+        [value]="l.playState"
+        [clearable]="false"
+        (picked)="setPlayState(l.uid, $event)" />
+    </div>
+
+    <div class="anc-easing">
+      <span class="anc-lbl">Easing</span>
+      <easing-editor [value]="l.easing" (changed)="setEasing(l.uid, $event)" />
+    </div>
+  }
+</pb-popover>

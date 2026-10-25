@@ -22,6 +22,7 @@ import {
   PseudoState,
 } from '../contracts/IStyleSheetFile';
 import { ICssVariable } from '../contracts/ICssVariable';
+import { keyframesCssFor } from './animation-keyframes';
 
 //==================================================================================
 // Types & constants
@@ -409,7 +410,8 @@ export function compileBlocksCss(
     const rules = sink.media.get(k)!;
     if (cond && rules.length) out += `@media ${cond}{${rules.join('')}}`;
   }
-  return out;
+  // @keyframes ی پریست‌های pb-* که در animation ها استفاده شده‌اند (هر نام یک‌بار) تا خروجی خودکفا باشد
+  return out + keyframesCssFor(out);
 }
 
 /** استایل کامل یک خروجی صفحه‌ساز (همه‌ی صفحات) + متغیرهای CSS */

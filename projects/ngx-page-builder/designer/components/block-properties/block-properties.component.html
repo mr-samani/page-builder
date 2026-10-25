@@ -81,6 +81,17 @@
         <transition-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transition-control>
       }
     </details>
+    <details name="block-properties" (toggle)="openPanel(animation)" #animation>
+      <summary>Animation</summary>
+      @if (animation.open) {
+        <p class="pb-hint">
+          Plays when the element appears. To play it on
+          <b>hover</b>
+          or another state, add it to that state instead.
+        </p>
+        <animation-control [(ngModel)]="style" (change)="onChangeStyle($event)"></animation-control>
+      }
+    </details>
     <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>
       <summary>Advanced</summary>
       @if (advanced.open) {

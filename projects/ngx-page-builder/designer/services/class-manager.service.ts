@@ -17,6 +17,7 @@ import {
   isBlockCssEmpty,
   isBlockClass,
   isSafeDecl,
+  keyframesRuleText,
   listContexts,
   mediaCondition,
   mediaRank,
@@ -26,6 +27,7 @@ import {
   resolveDecls,
   setChunkText,
   stringifyDecls,
+  usedAnimationPresets,
   type BreakPointKey,
 } from 'ngx-page-builder/core';
 
@@ -264,6 +266,7 @@ export class ClassManagerService {
     this.rootVarsRule = undefined;
     this.rulesMap.clear();
     this.nodeRefs.clear();
+    this.keyframesInserted.clear();
     this.cssFileData = [];
     this.isInitialized = false;
 
@@ -689,10 +692,31 @@ export class ClassManagerService {
     return isRoot ? container.cssRules.length - this.mediaRules.length : container.cssRules.length;
   }
 
+  /** نام @keyframes های pb-* که تا الان در استایل‌شیت کَنوَس ساخته شده‌اند */
+  private keyframesInserted = new Set<string>();
+
+  /**
+   * اگر متن declaration ها از انیمیشن آماده (pb-*) استفاده کرده باشد، @keyframes اش را (یک‌بار) در سطح بالای استایل‌شیت می‌سازد.
+   * خارج از لایه است تا هم با exportAllCSS هم با رندر کَنوَس بدون وابستگی به ترتیب لایه‌ها کار کند.
+   */
+  private ensureKeyframes(text: string): void {
+    if (!this.styleSheet || !text) return;
+    for (const p of usedAnimationPresets(text)) {
+      if (this.keyframesInserted.has(p.name)) continue;
+      try {
+        this.styleSheet.insertRule(keyframesRuleText(p), this.styleSheet.cssRules.length);
+        this.keyframesInserted.add(p.name);
+      } catch (e) {
+        console.warn(`Could not insert @keyframes ${p.name}:`, e);
+      }
+    }
+  }
+
   /** rule مربوط به یک context را با متن فعلی item.css هماهنگ می‌کند (ساخت / به‌روزرسانی / حذف) */
   private syncContext(item: PageItem, ctx: BlockCssContext): void {
     if (!this.blocksLayer) return;
     const text = getChunkText(normalizeBlockCss(item.css), this.setup, ctx);
+    this.ensureKeyframes(text);
     const isRoot = ctx.bp === this.setup.baseKey;
 
     const nodeRefs = this.getRefs(item.id);

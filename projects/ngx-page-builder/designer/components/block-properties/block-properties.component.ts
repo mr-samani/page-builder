@@ -9,6 +9,7 @@ import { TextCssControlComponent } from '../../controls/textcss-control/textcss-
 import { SizeControlComponent } from '../../controls/size-control/size-control.component';
 import { TransformControlComponent } from '../../controls/transform-control/transform-control.component';
 import { TransitionControlComponent } from '../../controls/transition-control/transition-control.component';
+import { AnimationControlComponent } from '../../controls/animation-control/animation-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
@@ -45,6 +46,7 @@ const TYPO_KEYS = [
     NgxShadowBox,
     TransformControlComponent,
     TransitionControlComponent,
+    AnimationControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
