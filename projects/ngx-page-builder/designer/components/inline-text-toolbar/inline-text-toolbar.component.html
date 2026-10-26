@@ -1,0 +1,219 @@
+<div
+  #bar
+  class="bar"
+  role="toolbar"
+  aria-label="Text formatting"
+  [style.transform]="transform()"
+  [style.visibility]="visible() ? 'visible' : 'hidden'"
+  (keydown)="$event.stopPropagation()">
+  <!-- font -->
+  <select class="font" title="Font" aria-label="Font family" (change)="setFamily.emit($any($event.target).value)">
+    <option value="" [selected]="!state().fontFamily">Font…</option>
+    @for (g of groups(); track g.label) {
+      <optgroup [label]="g.label">
+        @for (f of g.items; track f.value) {
+          <option [value]="f.value" [selected]="f.value === state().fontFamily">{{ f.label }}</option>
+        }
+      </optgroup>
+    }
+  </select>
+  <input
+    #size
+    class="size"
+    type="number"
+    min="1"
+    max="400"
+    step="1"
+    title="Font size (px)"
+    aria-label="Font size in pixels"
+    [value]="state().fontSize"
+    (change)="submitSize(size)"
+    (keydown.enter)="$event.preventDefault(); submitSize(size)" />
+
+  <span class="sep"></span>
+
+  <!-- B I U S -->
+  <button
+    type="button"
+    class="b"
+    title="Bold (Ctrl+B)"
+    aria-label="Bold"
+    [class.on]="state().bold"
+    [attr.aria-pressed]="state().bold"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('bold')">
+    B
+  </button>
+  <button
+    type="button"
+    class="i"
+    title="Italic (Ctrl+I)"
+    aria-label="Italic"
+    [class.on]="state().italic"
+    [attr.aria-pressed]="state().italic"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('italic')">
+    I
+  </button>
+  <button
+    type="button"
+    class="u"
+    title="Underline (Ctrl+U)"
+    aria-label="Underline"
+    [class.on]="state().underline"
+    [attr.aria-pressed]="state().underline"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('underline')">
+    U
+  </button>
+  <button
+    type="button"
+    class="s"
+    title="Strikethrough"
+    aria-label="Strikethrough"
+    [class.on]="state().strike"
+    [attr.aria-pressed]="state().strike"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('strikeThrough')">
+    S
+  </button>
+
+  <span class="sep"></span>
+
+  <!-- colors -->
+  <label class="clr" title="Text color" (mousedown)="saveSelection.emit()">
+    <span class="glyph">A</span>
+    <span class="swatch" [style.background]="state().color"></span>
+    <input
+      type="color"
+      ngxInputColor
+      [simpleMode]="true"
+      aria-label="Text color"
+      [value]="state().color"
+      (change)="setTextColor.emit($event)" />
+  </label>
+  <label class="clr" title="Highlight color" (mousedown)="saveSelection.emit()">
+    <span class="glyph">ab</span>
+    <span class="swatch" [style.background]="state().hasBackground ? state().background : 'transparent'"></span>
+    <input
+      type="color"
+      ngxInputColor
+      [simpleMode]="true"
+      aria-label="Highlight color"
+      [value]="state().background"
+      (change)="setHighlight.emit($event)" />
+  </label>
+  <button
+    type="button"
+    title="Remove highlight"
+    aria-label="Remove highlight"
+    (mousedown)="$event.preventDefault()"
+    (click)="setHighlight.emit(null)">
+    ⌀
+  </button>
+
+  <span class="sep"></span>
+
+  <button
+    type="button"
+    title="Subscript"
+    aria-label="Subscript"
+    [class.on]="state().sub"
+    [attr.aria-pressed]="state().sub"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('subscript')">
+    x₂
+  </button>
+  <button
+    type="button"
+    title="Superscript"
+    aria-label="Superscript"
+    [class.on]="state().sup"
+    [attr.aria-pressed]="state().sup"
+    (mousedown)="$event.preventDefault()"
+    (click)="format.emit('superscript')">
+    x²
+  </button>
+
+  <!-- link -->
+  @if (allowLink()) {
+    <button
+      type="button"
+      title="Link"
+      aria-label="Link"
+      [class.on]="state().linkHref !== null"
+      (mousedown)="$event.preventDefault()"
+      (click)="toggleLink()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </svg>
+    </button>
+    @if (linkOpen()) {
+      <span class="link-row">
+        <input
+          class="href"
+          type="text"
+          spellcheck="false"
+          placeholder="https://… or mailto:"
+          aria-label="Link address"
+          [class.invalid]="linkInvalid()"
+          [value]="linkHref()"
+          (input)="linkHref.set($any($event.target).value); linkInvalid.set(false)"
+          (keydown.enter)="$event.preventDefault(); submitLink()"
+          (keydown.escape)="$event.preventDefault(); linkOpen.set(false)" />
+        <label class="chk" title="Open in a new tab">
+          <input type="checkbox" [checked]="linkNewTab()" (change)="linkNewTab.set($any($event.target).checked)" />
+          New tab
+        </label>
+        <button
+          type="button"
+          class="ok"
+          title="Apply link"
+          aria-label="Apply link"
+          (mousedown)="$event.preventDefault()"
+          (click)="submitLink()">
+          ✓
+        </button>
+        <button
+          type="button"
+          title="Remove link"
+          aria-label="Remove link"
+          (mousedown)="$event.preventDefault()"
+          (click)="removeLinkClick()">
+          Unlink
+        </button>
+      </span>
+    }
+  }
+
+  <button
+    type="button"
+    title="Clear formatting"
+    aria-label="Clear formatting"
+    (mousedown)="$event.preventDefault()"
+    (click)="clearFormat.emit()">
+    Tₓ
+  </button>
+
+  <span class="sep"></span>
+
+  <button
+    type="button"
+    class="ok"
+    title="Save (Ctrl+Enter)"
+    aria-label="Save"
+    (mousedown)="$event.preventDefault()"
+    (click)="commit.emit()">
+    ✓
+  </button>
+  <button
+    type="button"
+    class="no"
+    title="Cancel (Esc)"
+    aria-label="Cancel"
+    (mousedown)="$event.preventDefault()"
+    (click)="cancel.emit()">
+    ✕
+  </button>
+</div>
