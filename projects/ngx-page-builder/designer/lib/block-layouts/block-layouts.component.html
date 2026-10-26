@@ -1,46 +1,91 @@
-<div class="pb-inner" ngxDropListGroup>
+<div class="pb-inner" ngxDropListGroup role="tree" aria-label="Page layers">
+  <div class="tools">
+    <button type="button" title="Expand all" aria-label="Expand all" (click)="expandAll()">Expand all</button>
+    <button type="button" title="Collapse all" aria-label="Collapse all" (click)="collapseAll()">Collapse all</button>
+    <span class="tip" title="Drag the grip, use the arrows, or Alt + arrow keys on a focused row">Alt + ↑ ↓ ← →</span>
+  </div>
+
   @if (viewMode == 'PrintPage') {
     <div class="title">Header</div>
-    <ng-container
-      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageHeaderItems, isOpen: true }"></ng-container>
+    <ng-container *ngTemplateOutlet="treeLayout; context: { $implicit: header, zone: 'header' }"></ng-container>
 
     <div class="title">Body</div>
-    <ng-container
-      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
+    <ng-container *ngTemplateOutlet="treeLayout; context: { $implicit: body, zone: 'body' }"></ng-container>
 
     <div class="title">Footer</div>
-    <ng-container
-      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageFooterItems, isOpen: true }"></ng-container>
+    <ng-container *ngTemplateOutlet="treeLayout; context: { $implicit: footer, zone: 'footer' }"></ng-container>
   } @else {
-    <ng-container
-      *ngTemplateOutlet="treeLayout; context: { $implicit: currentPageBodyItems, isOpen: true }"></ng-container>
+    <ng-container *ngTemplateOutlet="treeLayout; context: { $implicit: body, zone: 'body' }"></ng-container>
   }
 </div>
 
-<ng-template #treeLayout let-list let-isOpen="isOpen" let-parent="parent">
-  <ul class="tree-list" [class.is-open]="isOpen" ngxDropList (drop)="onDrop($event, parent)" [data]="list">
-    @for (item of list; track $index) {
-      <li class="list-item" [class.active]="pb.activeEl() == item" ngxDraggable dragHandle=".drag-hanlde">
-        <div>
-          <span class="drag-hanlde">
-            <svg Icon="assets/icons/grip-dots.svg"></svg>
-          </span>
-          @if (item.children && item.children.length > 0) {
-            <button type="button" (click)="item.isOpen = !item.isOpen">
-              @if (item.isOpen) {
+<ng-template #treeLayout let-list let-parent="parent" let-zone="zone">
+  <ul
+    class="tree-list"
+    [class.root]="!parent"
+    [class.empty]="list.length === 0"
+    role="group"
+    ngxDropList
+    [data]="list"
+    (drop)="onDrop($event, parent, zone)">
+    @for (item of list; track item.id) {
+      @let d = describe(item);
+      <li class="list-item" role="treeitem" [attr.aria-expanded]="canNest(item) ? isOpen(item) : null" [class.active]="pb.activeEl() === item" ngxDraggable dragHandle=".drag-handle">
+        <div
+          class="row"
+          tabindex="0"
+          [attr.data-id]="item.id"
+          [attr.aria-selected]="pb.activeEl() === item"
+          [title]="d.hint ? d.name + ' · ' + d.hint : d.name"
+          (click)="select($event, item)"
+          (keydown)="onKeydown($event, item)">
+          @if (item.disableMovement) {
+            <span class="drag-spacer"></span>
+          } @else {
+            <span class="drag-handle" title="Drag to move">
+              <svg Icon="assets/icons/grip-dots.svg"></svg>
+            </span>
+          }
+
+          @if (canNest(item)) {
+            <button type="button" class="chevron" tabindex="-1" [attr.aria-label]="isOpen(item) ? 'Collapse' : 'Expand'" (click)="toggle($event, item)">
+              @if (isOpen(item)) {
                 <svg Icon="assets/icons/chevron-down.svg"></svg>
               } @else {
                 <svg Icon="assets/icons/chevron-right.svg"></svg>
               }
             </button>
+          } @else {
+            <span class="chevron-spacer"></span>
           }
-          <span (click)="onSelectBlock($event, item)">{{ item.tag || item.el?.tagName }}</span>
+
+          <span class="name">{{ d.name }}</span>
+          @if (d.hint) {
+            <span class="hint">{{ d.hint }}</span>
+          }
+          @if (canNest(item) && item.children.length > 0 && !isOpen(item)) {
+            <span class="count" title="Child blocks">{{ item.children.length }}</span>
+          }
+
+          <span class="actions">
+            <button type="button" tabindex="-1" title="Move up (Alt+↑)" aria-label="Move up" [disabled]="!canMove(item, 'up')" (click)="moveBy($event, item, 'up')">
+              <svg viewBox="0 0 16 16"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" /></svg>
+            </button>
+            <button type="button" tabindex="-1" title="Move down (Alt+↓)" aria-label="Move down" [disabled]="!canMove(item, 'down')" (click)="moveBy($event, item, 'down')">
+              <svg viewBox="0 0 16 16"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" /></svg>
+            </button>
+            <button type="button" tabindex="-1" title="Move out of parent (Alt+←)" aria-label="Move out of parent" [disabled]="!canMove(item, 'out')" (click)="moveBy($event, item, 'out')">
+              <svg viewBox="0 0 16 16"><path d="M13 8H3M7.5 3.5 3 8l4.5 4.5" /></svg>
+            </button>
+            <button type="button" tabindex="-1" title="Move into previous block (Alt+→)" aria-label="Move into previous block" [disabled]="!canMove(item, 'in')" (click)="moveBy($event, item, 'in')">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" /></svg>
+            </button>
+          </span>
         </div>
-        <ng-container
-          *ngTemplateOutlet="
-            treeLayout;
-            context: { $implicit: item.children, isOpen: item.isOpen, parent: item }
-          "></ng-container>
+
+        @if (canNest(item) && isOpen(item)) {
+          <ng-container *ngTemplateOutlet="treeLayout; context: { $implicit: item.children, parent: item, zone: zone }"></ng-container>
+        }
       </li>
     }
   </ul>

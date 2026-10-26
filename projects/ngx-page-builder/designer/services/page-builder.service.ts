@@ -24,6 +24,15 @@ import { ClassManagerService } from '../services/class-manager.service';
 import { Notify } from 'ngx-kit/notify';
 import { IDropEvent } from 'ngx-kit/drag-resize';
 
+/** بخش‌های صفحه: header / footer فقط در حالت PrintPage وجود دارند */
+export type PageZone = 'header' | 'body' | 'footer';
+
+/** مقصد جابجایی: یا داخل یک بلاک (parent) یا مستقیماً ریشه‌ی یکی از بخش‌های صفحه (zone) */
+export interface MoveTarget {
+  parent?: PageItem;
+  zone?: PageZone;
+}
+
 export interface PageItemChange {
   item: PageItem | null;
   parent?: PageItem[];
@@ -212,6 +221,144 @@ export class PageBuilderService implements OnDestroy {
       return item.parent;
     }
     return this.getParentTemplate(item.parent);
+  }
+
+  //---------------------------------- جابجایی بلاک (درخت Layouts / دکمه‌های Move) ----------------------------------
+
+  /** آرایه‌ی ریشه‌ی یک بخش از صفحه‌ی فعلی (همان آرایه‌ی واقعی، نه کپی) */
+  getZoneList(zone: PageZone): PageItem[] | undefined {
+    const page = this.currentPage;
+    if (!page) return undefined;
+    return zone === 'header' ? page.headerItems : zone === 'footer' ? page.footerItems : page.bodyItems;
+  }
+
+  /** بلاک داخل کدام بخش از صفحه است؟ */
+  getItemZone(item: PageItem): PageZone | undefined {
+    const page = this.currentPage;
+    if (!page) return undefined;
+    let root = item;
+    while (root.parent) root = root.parent;
+    const has = (list: PageItem[]) => list.some((i) => i === root || i.id === root.id);
+    if (has(page.bodyItems)) return 'body';
+    if (has(page.headerItems)) return 'header';
+    if (has(page.footerItems)) return 'footer';
+    return undefined;
+  }
+
+  private zoneEl(zone: PageZone): HTMLElement | undefined {
+    return zone === 'header' ? this.pageHeaderEl : zone === 'footer' ? this.pageFooterEl : this.pageBodyEl;
+  }
+
+  /** آیا `ancestor` پدر (مستقیم یا غیرمستقیم) `item` است؟ */
+  private isAncestorOf(ancestor: PageItem, item: PageItem): boolean {
+    for (let p = item.parent; p; p = p.parent) if (p === ancestor || p.id === ancestor.id) return true;
+    return false;
+  }
+
+  /**
+   * آیا این جابجایی مجاز است؟
+   * @returns null اگر مجاز است؛ وگرنه متن دلیل (برای نمایش به کاربر)
+   */
+  checkMove(item: PageItem, target: MoveTarget): string | null {
+    if (item.disableMovement) return 'This block cannot be moved.';
+    const parent = target.parent;
+    if (parent) {
+      if (parent === item || parent.id === item.id || this.isAncestorOf(item, parent)) {
+        return 'A block cannot be moved into itself.';
+      }
+      if (!parent.canHaveChild || parent.customComponent) return `<${parent.tag}> cannot contain other blocks.`;
+    } else if (!this.getZoneList(target.zone ?? 'body')) {
+      return 'The destination is not available.';
+    }
+    // آیتم‌های کالکشن فقط داخل خودِ قالب خودشان جابجا می‌شوند
+    const tpl = this.getParentTemplate(item);
+    if (tpl?.lockMoveInnerChild) {
+      let inside = false;
+      for (let p = parent; p; p = p.parent) {
+        if (p === tpl || p.id === tpl.id) {
+          inside = true;
+          break;
+        }
+      }
+      if (!inside) return 'This item can only be moved inside its own list.';
+    }
+    return null;
+  }
+
+  /**
+   * بلاک را به مقصد جدید می‌برد (المنت، لیست‌ها، CSS، history و رویداد MoveBlock را هماهنگ نگه می‌دارد).
+   * @param index موقعیت «نهایی» بلاک در لیست مقصد (بعد از برداشتن از جای قبلی)، مثل moveItemInArray
+   * @returns true اگر واقعاً جابجا شد
+   */
+  async moveBlock(item: PageItem, target: MoveTarget, index: number): Promise<boolean> {
+    const reason = this.checkMove(item, target);
+    if (reason) {
+      Notify.warning(reason);
+      return false;
+    }
+
+    const fromParent = item.parent;
+    const fromList = fromParent?.children ?? this.findRootParentItem(item);
+    const fromZone = this.getItemZone(item);
+    const toZone = target.parent ? this.getItemZone(target.parent) : (target.zone ?? 'body');
+    const toList = target.parent ? target.parent.children : this.getZoneList(toZone!);
+    const toEl = target.parent ? target.parent.el : this.zoneEl(toZone!);
+    if (!fromList || !fromZone || !toZone || !toList || !toEl) {
+      Notify.warning('The destination is not available.');
+      return false;
+    }
+
+    const fromIndex = fromList.indexOf(item);
+    if (fromIndex < 0) return false;
+    const sameList = fromList === toList;
+    const toIndex = Math.min(Math.max(0, index), sameList ? toList.length - 1 : toList.length);
+    if (sameList && toIndex === fromIndex) return false;
+
+    const fromEl = fromParent ? fromParent.el : this.zoneEl(fromZone);
+    this.flushStyleChange();
+    this.activeEl.set(undefined);
+
+    // برداشتن از جای قبلی (مثل removeBlock ولی بدون history ی «delete» و بدون چک disableDelete)
+    fromList.splice(fromIndex, 1);
+    await this.dynamicElementService.destroy(item);
+    await this.cls.removeBlockCss(item);
+
+    try {
+      item.parent = target.parent;
+      const el = await this.createBlockElement(true, item, toEl, toIndex);
+      if (el) item.el = el;
+      toList.splice(toIndex, 0, item);
+    } catch (e) {
+      // بازگرداندن به جای قبلی تا بلاک از مدل گم نشود
+      console.error('moveBlock failed, rolling back', e);
+      item.parent = fromParent;
+      if (!fromList.includes(item)) fromList.splice(fromIndex, 0, item);
+      try {
+        const el = await this.createBlockElement(true, item, fromEl, fromIndex);
+        if (el) item.el = el;
+      } catch (e2) {
+        console.error('rollback failed', e2);
+      }
+      Notify.error('Moving the block failed.');
+      return false;
+    }
+
+    this.updateChangeDetection({ item, parent: toList, type: 'MoveBlock' });
+    // history فقط روی bodyItems کار می‌کند (undo/redo ی toolbar)؛ جابجایی از/به header و footer ثبت نمی‌شود
+    if (fromZone === 'body' && toZone === 'body') {
+      this.history.saveMove(
+        item.id,
+        fromParent?.id,
+        fromIndex,
+        target.parent?.id,
+        toIndex,
+        item,
+        `Move block '${item.id}' from: '${fromParent?.id ?? 'body'}' to: '${target.parent?.id ?? 'body'}'`,
+      );
+    }
+    this.onPageChange$.next(this.currentPage);
+    this.selectBlock(item);
+    return true;
   }
 
   async addPage(): Promise<number> {
