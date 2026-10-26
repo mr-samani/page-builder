@@ -1,0 +1,1 @@
+import{u as n}from"./main-APQQTI6J.js";var e=class extends n{useDynamicData=!1};export{e as t};

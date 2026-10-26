@@ -1,1 +1,0 @@
-import{u as n}from"./main-ULX75BPX.js";var e=class extends n{useDynamicData=!1};export{e as t};
