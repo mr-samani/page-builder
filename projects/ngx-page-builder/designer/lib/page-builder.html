@@ -1,4 +1,8 @@
-<div class="page-builder-container ngx-page-builder" dir="ltr" ngxDropListGroup>
+<div
+  class="page-builder-container ngx-page-builder"
+  dir="ltr"
+  ngxDropListGroup
+  [style.--side-config-width.px]="sideConfigSize()">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
   <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="false">
     <div class="tool" (click)="toggleLayoutPanel()" title="Layouts" [class.active]="openLayout()">
@@ -16,10 +20,16 @@
     }
   </div>
   <div class="page-container" (click)="pb.deSelectBlock()">
-    <inner-content></inner-content>
+    <inner-content #innerContent></inner-content>
   </div>
 
-  <side-config class="side-config"></side-config>
+  <side-config
+    class="side-config"
+    ngxResizable
+    [minWidth]="200"
+    [maxWidth]="800"
+    [directions]="['w']"
+    (resizeMove)="onResizeSideConfig($event)"></side-config>
 
   @if(openLayout()){
   <div class="pb-panel">

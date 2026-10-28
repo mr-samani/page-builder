@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -42,7 +43,7 @@ import { ClassManagerService } from '../services/class-manager.service';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
 import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
+import { NgxDraggable, NgxDropList, NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/drag-resize';
 
 @Component({
   standalone: true,
@@ -59,13 +60,15 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
     NgxDialogModule,
     BlockLayoutsComponent,
     NgxDropListGroup,
+    NgxResizable,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [],
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
-  openLayout = signal(false);
+  readonly innerContent = viewChild<InnerContentComponent>('innerContent');
+  readonly openLayout = signal(false);
 
   readonly data = input<IPage[]>();
 
@@ -119,6 +122,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   protected readonly dialog = inject(NgxDialogService);
 
   isLoading = signal(false);
+  sideConfigSize = signal<number>(270);
   constructor(
     private injector: Injector,
     private cls: ClassManagerService,
@@ -182,6 +186,11 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
       Notify.error('Error loading page data: ' + error);
       this.isLoading.set(false);
     }
+  }
+
+  onResizeSideConfig(ev: IResizableOutput) {
+    this.sideConfigSize.set(ev.width);
+    this.innerContent()?.updateScale();
   }
 
   async viewPlugins() {
