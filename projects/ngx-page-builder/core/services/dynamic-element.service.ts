@@ -13,6 +13,7 @@ import {
   Inject,
   DOCUMENT,
   ComponentRef,
+  Provider,
   inject,
 } from '@angular/core';
 import 'reflect-metadata';
@@ -147,10 +148,13 @@ export class DynamicElementService {
     //  - RendererFactory2 باید مال application ی iframe باشد تا استایل کامپوننت در <head> ی iframe نوشته شود
     //    (Angular ریندرر را از elementInjector می‌گیرد، نه از environmentInjector، پس باید اینجا override شود)
     // change detection مثل قبل با application اصلی (appRef) انجام می‌شود.
+    // نکته: این override ها فقط برای خودِ بلاک (داخل iframe) هستند؛ پنل تنظیمات بلاک در app اصلی
+    // رندر می‌شود و از compInjector استفاده می‌کند، پس نباید این‌ها را داخل compInjector بگذاریم.
+    const renderOverrides: Provider[] = [];
     if (isForeignDoc) {
-      p.push({ provide: DOCUMENT, useValue: targetDoc });
+      renderOverrides.push({ provide: DOCUMENT, useValue: targetDoc });
       if (targetEnv) {
-        p.push({ provide: RendererFactory2, useValue: targetEnv.get(RendererFactory2) });
+        renderOverrides.push({ provide: RendererFactory2, useValue: targetEnv.get(RendererFactory2) });
       }
     }
 
@@ -160,12 +164,18 @@ export class DynamicElementService {
       parent: this.envInjector,
     });
 
+    // این injector برای پنل تنظیمات (app اصلی) استفاده می‌شود → بدون override
     item.customComponent!.compInjector = componentInjector;
 
+    // injector ی خودِ بلاک: روی componentInjector، با DOCUMENT / RendererFactory2 ی iframe
+    const blockInjector = renderOverrides.length
+      ? Injector.create({ providers: renderOverrides, parent: componentInjector })
+      : componentInjector;
+
     // ساخت component
-    const compRef: ComponentRef<any> = runInInjectionContext(componentInjector, () =>
+    const compRef: ComponentRef<any> = runInInjectionContext(blockInjector, () =>
       createComponent(component, {
-        elementInjector: componentInjector,
+        elementInjector: blockInjector,
         environmentInjector: this.envInjector,
       }),
     );
