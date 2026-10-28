@@ -6,6 +6,7 @@ import {
   ElementRef,
   importProvidersFrom,
   inject,
+  DOCUMENT,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -82,6 +83,10 @@ export class PreviewDialogComponent implements AfterViewInit, OnDestroy {
     // ۳. ساخت یک Angular Application جدید داخل iframe
     this.iframeApp = await createApplication({
       providers: [
+        // DOCUMENT را document ی iframe قرار می‌دهیم تا Angular استایل کامپوننت‌ها
+        // (از جمله بلاک‌های سفارشی که lazy لود می‌شوند) را مستقیم داخل <head> ی iframe بنویسد.
+        // بدون این، همه‌ی استایل‌ها در document اصلی می‌ماندند و فقط یک‌بار (copyDynamicStyles) کپی می‌شدند.
+        { provide: DOCUMENT, useValue: iframeDoc },
         // اینجا provider های مورد نیازت رو اضافه کن
         importProvidersFrom(CommonModule),
         // اگه service های خاصی نیاز داری:

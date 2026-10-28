@@ -6,13 +6,17 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
   template: `
     <div class="input-range">
       <input type="range" [value]="value" (input)="onInput($event)" />
-      <span>range:{{ value }}</span>
+      <span class="range-value">range:{{ value }}</span>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
       display: block;
+    }
+    .range-value {
+      padding: 15px;
+      color: orangered;
     }
   `,
 })

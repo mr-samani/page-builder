@@ -32,12 +32,34 @@ export class DynamicElementService {
   private renderer!: Renderer2;
 
   private readonly doc = inject(DOCUMENT);
+
+  /**
+   * هر document ی (مثلاً iframe بوم ادیتور) که یک Angular Application جداگانه دارد.
+   * Angular استایل هر کامپوننت را از طریق RendererFactory2 در <head> ی همان document می‌نویسد؛
+   * پس بلاکی که داخل iframe نمایش داده می‌شود باید RendererFactory2 (و DOCUMENT) همان iframe را بگیرد،
+   * وگرنه استایل‌هایش در document اصلی می‌مانند و به iframe نمی‌رسند.
+   */
+  private readonly documentInjectors = new WeakMap<Document, EnvironmentInjector>();
+
   constructor(
     rendererFactory: RendererFactory2,
     private appRef: ApplicationRef,
     private envInjector: EnvironmentInjector,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
+  }
+
+  /**
+   * معرفی Angular Application ی که یک document جداگانه (iframe) را مدیریت می‌کند.
+   * بلاک‌هایی که داخل این document ساخته می‌شوند، رندرر / استایل / DOCUMENT همان document را می‌گیرند.
+   * باید قبل از ساخت اولین بلاک صدا زده شود.
+   */
+  registerDocument(doc: Document, injector: EnvironmentInjector): void {
+    this.documentInjectors.set(doc, injector);
+  }
+
+  unregisterDocument(doc: Document): void {
+    this.documentInjectors.delete(doc);
   }
 
   /**
@@ -99,6 +121,14 @@ export class DynamicElementService {
       throw new Error('Not exist custom component');
     }
 
+    const parentEl: HTMLElement = container instanceof ViewContainerRef ? container.element.nativeElement : container;
+
+    // document ی که بلاک قرار است در آن نمایش داده شود (در ادیتور: iframe بوم)
+    const targetDoc: Document = parentEl.ownerDocument ?? this.doc;
+    const isForeignDoc = targetDoc !== this.doc;
+    // Application ی که آن document را مدیریت می‌کند (اگر ثبت نشده باشد، رفتار قبلی)
+    const targetEnv = isForeignDoc ? this.documentInjectors.get(targetDoc) : undefined;
+
     const p = [...(item.customComponent?.providers ?? [])];
     // دریافت تغییرات  تنظیمات داده‌های کامپوننت سفارشی
     const onChangeCustomData = new Subject();
@@ -112,6 +142,17 @@ export class DynamicElementService {
     };
 
     p.push({ provide: COMPONENT_DATA, useValue: context });
+    // داخل iframe:
+    //  - inject(DOCUMENT) و @HostListener('document:...') باید به document ی iframe اشاره کنند
+    //  - RendererFactory2 باید مال application ی iframe باشد تا استایل کامپوننت در <head> ی iframe نوشته شود
+    //    (Angular ریندرر را از elementInjector می‌گیرد، نه از environmentInjector، پس باید اینجا override شود)
+    // change detection مثل قبل با application اصلی (appRef) انجام می‌شود.
+    if (isForeignDoc) {
+      p.push({ provide: DOCUMENT, useValue: targetDoc });
+      if (targetEnv) {
+        p.push({ provide: RendererFactory2, useValue: targetEnv.get(RendererFactory2) });
+      }
+    }
 
     // ✅ ساخت Injector اختصاصی با DestroyRef
     const componentInjector = Injector.create({
@@ -131,8 +172,6 @@ export class DynamicElementService {
     this.appRef.attachView(compRef.hostView);
 
     let element = compRef.location.nativeElement as HTMLElement;
-
-    const parentEl = container instanceof ViewContainerRef ? container.element.nativeElement : container;
 
     if (index != null && index >= 0) {
       const refNode = parentEl.children[index] || null;
