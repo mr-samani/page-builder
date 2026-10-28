@@ -1,0 +1,1 @@
+import{u as n}from"./main-JHM77V5E.js";var e=class extends n{useDynamicData=!1};export{e as t};

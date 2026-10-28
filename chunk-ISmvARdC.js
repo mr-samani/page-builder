@@ -1,1 +1,0 @@
-import{u as n}from"./main-GBMS3EMC.js";var e=class extends n{useDynamicData=!1};export{e as t};
