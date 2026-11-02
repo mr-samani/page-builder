@@ -27,6 +27,14 @@ import { Directive, SourceItem } from '../models/SourceItem';
 import { IPageItem } from '../contracts/IPageItem';
 import { CMSPageQueryString } from '../models/CMSPage';
 
+// prettier-ignore
+const BOOLEAN_HTML_ATTRIBUTES = new Set([
+  'allowfullscreen', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer',
+  'disabled', 'formnovalidate', 'hidden', 'inert', 'ismap', 'itemscope', 'loop', 'multiple',
+  'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed',
+  'selected',
+]);
+
 @Injectable({ providedIn: 'root' })
 export class DynamicElementService {
   public dynamicData?: DynamicDataStructure;
@@ -232,7 +240,14 @@ export class DynamicElementService {
   private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
     if (item.options?.attributes) {
       for (const [k, v] of Object.entries(item.options.attributes)) {
-        this.renderer.setAttribute(element, k, v);
+        // HTML boolean attributes are enabled by presence; data/custom attributes keep literal values.
+        if (v === null || v === undefined || (BOOLEAN_HTML_ATTRIBUTES.has(k.toLowerCase()) && v === false)) {
+          this.renderer.removeAttribute(element, k);
+        } else if (BOOLEAN_HTML_ATTRIBUTES.has(k.toLowerCase()) && v === true) {
+          this.renderer.setAttribute(element, k, '');
+        } else {
+          this.renderer.setAttribute(element, k, String(v));
+        }
       }
     }
 

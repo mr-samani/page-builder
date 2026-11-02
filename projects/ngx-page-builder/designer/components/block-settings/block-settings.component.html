@@ -15,8 +15,8 @@
       <ng-container
         [ngComponentOutlet]="settingComponent"
         [ngComponentOutletInjector]="item.customComponent.compInjector"></ng-container>
-    } @else {
-      <!-- <p>No settings available.</p> -->
+    } @else if (sourceSettings.length) {
+      <generic-block-settings [item]="item" [fields]="sourceSettings"></generic-block-settings>
     }
 
     @if (item.isLink) {

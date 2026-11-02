@@ -147,8 +147,7 @@ export class PageBuilderService implements OnDestroy {
       // انتقال از یک container به container دیگه
       const sourceItem = event.previousContainer.data[event.previousIndex] as unknown as SourceItem;
       if (!sourceItem) return;
-      const source = new PageItem(sourceItem, parent);
-      source.children = []; // very important to create reference to droplist data
+      const source = this.createPageItemFromSource(sourceItem, parent);
       await this.createBlockElement(true, source, containerEl, event.currentIndex);
 
       event.container.data.splice(event.currentIndex, 0, source);
@@ -193,10 +192,21 @@ export class PageBuilderService implements OnDestroy {
     this.onPageChange$.next(this.currentPage);
   }
 
+  /** Build a fresh PageItem tree from a source definition, including useful starter children. */
+  private createPageItemFromSource(source: SourceItem, parent?: PageItem): PageItem {
+    const item = new PageItem(source, parent);
+    // Source definitions are registry singletons: never let an inserted block mutate their shared metadata.
+    item.options = cloneDeep(source.options);
+    item.classList = [...(source.classList ?? [])];
+    item.css = cloneDeep(source.css);
+    item.customComponent = cloneDeep(source.customComponent);
+    item.children = (source.initialChildren ?? []).map((child) => this.createPageItemFromSource(child, item));
+    return item;
+  }
+
   public async addBlockToBody(item: SourceItem) {
     if (!this.currentPage) return;
-    const source = new PageItem(item);
-    source.children = []; // very important to create reference to droplist data
+    const source = this.createPageItemFromSource(item);
     await this.createBlockElement(true, source);
     this.selectBlock(source);
     this.updateChangeDetection({ item: source, type: 'AddBlock' });

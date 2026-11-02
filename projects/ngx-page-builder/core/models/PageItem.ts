@@ -8,6 +8,8 @@ import { BlockCss } from '../contracts/IStyleSheetFile';
 
 export class PageItem implements IPageItem {
   id: string = '';
+  /** Registry key of the source definition used to create this block. */
+  sourceId?: string;
   dataSource?: DataSourceSetting;
   parent?: PageItem;
   el?: HTMLElement | null;

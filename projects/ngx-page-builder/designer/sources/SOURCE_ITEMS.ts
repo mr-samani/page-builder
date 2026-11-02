@@ -2,7 +2,8 @@ import { CollectionItemSource } from './collection-item/definition';
 import { HeroTableSource } from './hero-table/definition';
 import { PageBreakSource } from './page-break/definition';
 import { ColumnSource } from './column/definition';
-import { SourceItem, randomNumber } from 'ngx-page-builder/core';
+import { randomNumber } from 'ngx-page-builder/core';
+import type { SourceItem, SourceSettingField } from 'ngx-page-builder/core';
 
 type SourceOverrides = Partial<Omit<SourceItem, 'tag' | 'title' | 'icon'>>;
 
@@ -19,6 +20,7 @@ function htmlBlock(
   overrides: SourceOverrides = {},
 ): SourceItem {
   return {
+    sourceId: `source:${category}:${tag}:${title}`,
     tag,
     title,
     category,
@@ -38,11 +40,249 @@ function inputBlock(title: string, type: string, description: string): SourceIte
   }
   if (type === 'checkbox' || type === 'radio') attributes['value'] = '1';
   if (type === 'submit') attributes['value'] = 'Submit';
+  if (type === 'number' || type === 'range') {
+    attributes['min'] = '0';
+    attributes['max'] = '100';
+    attributes['step'] = '1';
+    attributes['value'] = type === 'range' ? '50' : '1';
+  }
+  if (type === 'color') attributes['value'] = '#2563eb';
 
   return htmlBlock('input', title, 'forms', 'input', description, {
     options: { attributes },
+    settings: INPUT_SETTINGS,
   });
 }
+
+const INPUT_SETTINGS: SourceSettingField[] = [
+  {
+    name: 'type',
+    title: 'Input type',
+    type: 'select',
+    group: 'General',
+    options: [
+      { label: 'Text', value: 'text' },
+      { label: 'Email', value: 'email' },
+      { label: 'Password', value: 'password' },
+      { label: 'Number', value: 'number' },
+      { label: 'Telephone', value: 'tel' },
+      { label: 'Date', value: 'date' },
+      { label: 'Range', value: 'range' },
+      { label: 'Color', value: 'color' },
+      { label: 'Search', value: 'search' },
+      { label: 'File', value: 'file' },
+      { label: 'Checkbox', value: 'checkbox' },
+      { label: 'Radio', value: 'radio' },
+      { label: 'Submit', value: 'submit' },
+      { label: 'Reset', value: 'reset' },
+    ],
+  },
+  { name: 'name', title: 'Name', type: 'text', group: 'General', placeholder: 'field-name' },
+  {
+    name: 'value',
+    title: 'Value',
+    type: 'text',
+    group: 'General',
+    visibleWhen: {
+      attribute: 'type',
+      equals: ['text', 'email', 'password', 'tel', 'date', 'color', 'search', 'checkbox', 'radio', 'submit', 'reset'],
+    },
+  },
+  {
+    name: 'numericValue',
+    title: 'Value',
+    attribute: 'value',
+    type: 'number',
+    group: 'General',
+    visibleWhen: { attribute: 'type', equals: ['number', 'range'] },
+    minAttribute: 'min',
+    maxAttribute: 'max',
+    step: 0.1,
+  },
+  {
+    name: 'placeholder',
+    title: 'Placeholder',
+    type: 'text',
+    group: 'General',
+    visibleWhen: { attribute: 'type', equals: ['text', 'email', 'password', 'number', 'tel', 'search'] },
+  },
+  {
+    name: 'min',
+    title: 'Minimum',
+    type: 'number',
+    group: 'Validation',
+    step: 1,
+    maxAttribute: 'max',
+    visibleWhen: { attribute: 'type', equals: ['number', 'range'] },
+  },
+  {
+    name: 'max',
+    title: 'Maximum',
+    type: 'number',
+    group: 'Validation',
+    step: 1,
+    minAttribute: 'min',
+    visibleWhen: { attribute: 'type', equals: ['number', 'range'] },
+  },
+  {
+    name: 'step',
+    title: 'Step',
+    type: 'number',
+    group: 'Validation',
+    min: 0,
+    step: 0.1,
+    visibleWhen: { attribute: 'type', equals: ['number', 'range'] },
+  },
+  { name: 'required', title: 'Required', type: 'checkbox', group: 'Validation' },
+  { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'Validation' },
+  {
+    name: 'checked',
+    title: 'Checked by default',
+    type: 'checkbox',
+    group: 'Validation',
+    visibleWhen: { attribute: 'type', equals: ['checkbox', 'radio'] },
+  },
+  {
+    name: 'multiple',
+    title: 'Allow multiple files',
+    type: 'checkbox',
+    group: 'Advanced',
+    visibleWhen: { attribute: 'type', equals: 'file' },
+  },
+  {
+    name: 'accept',
+    title: 'Accepted file types',
+    type: 'text',
+    group: 'Advanced',
+    placeholder: '.pdf,image/*',
+    visibleWhen: { attribute: 'type', equals: 'file' },
+  },
+  { name: 'autocomplete', title: 'Autocomplete', type: 'text', group: 'Advanced' },
+];
+
+const METER_SETTINGS: SourceSettingField[] = [
+  {
+    name: 'value',
+    title: 'Current value',
+    type: 'number',
+    group: 'Value',
+    minAttribute: 'min',
+    maxAttribute: 'max',
+    step: 0.1,
+  },
+  { name: 'min', title: 'Minimum', type: 'number', group: 'Range', maxAttribute: 'max', step: 0.1 },
+  { name: 'max', title: 'Maximum', type: 'number', group: 'Range', minAttribute: 'min', min: 0.1, step: 0.1 },
+  { name: 'low', title: 'Low threshold', type: 'number', group: 'Thresholds', step: 0.1 },
+  { name: 'high', title: 'High threshold', type: 'number', group: 'Thresholds', step: 0.1 },
+  { name: 'optimum', title: 'Optimal value', type: 'number', group: 'Thresholds', step: 0.1 },
+];
+
+const PROGRESS_SETTINGS: SourceSettingField[] = [
+  { name: 'value', title: 'Current value', type: 'number', group: 'Value', min: 0, maxAttribute: 'max', step: 1 },
+  { name: 'max', title: 'Maximum', type: 'number', group: 'Value', min: 1, step: 1 },
+];
+
+const createListStarterItems = (): SourceItem[] =>
+  ['First list item', 'Second list item', 'Third list item'].map((content) =>
+    htmlBlock('li', 'List Item', 'data', 'collection', 'An editable list item.', { content }),
+  );
+
+const FIGURE_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('img', 'Image', 'media', 'img', 'Image inside the figure.', {
+    options: { attributes: { src: 'assets/default-image.png', alt: 'Figure image', loading: 'lazy' } },
+    classList: ['img'],
+  }),
+  htmlBlock('figcaption', 'Figure Caption', 'media', 'paragraph', 'A caption for this image.', {
+    content: 'Add a caption for this image.',
+  }),
+];
+
+const DISCLOSURE_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('summary', 'Disclosure Summary', 'actions', 'paragraph', 'The visible heading for a disclosure element.', {
+    content: 'More information',
+  }),
+  htmlBlock('p', 'Paragraph', 'typography', 'paragraph', 'Disclosure body content.', {
+    content: 'Add the expandable content here.',
+  }),
+];
+
+const FORM_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('label', 'Label', 'forms', 'paragraph', 'Label for the example field.', {
+    content: 'Your name',
+    options: { attributes: { for: 'name' } },
+  }),
+  htmlBlock('input', 'Text Input', 'forms', 'input', 'Example form field.', {
+    options: {
+      attributes: {
+        type: 'text',
+        name: 'name',
+        id: 'name',
+        placeholder: 'Enter your name',
+      },
+    },
+    settings: INPUT_SETTINGS,
+  }),
+  htmlBlock('button', 'Submit Button', 'actions', 'rectangle-fill', 'Submit this form.', {
+    content: 'Submit',
+    options: { attributes: { type: 'submit' } },
+  }),
+];
+
+const SELECT_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'Placeholder choice.', {
+    content: 'Choose an option',
+    options: { attributes: { value: '' } },
+  }),
+  htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'First available choice.', {
+    content: 'Option One',
+    options: { attributes: { value: 'one' } },
+  }),
+  htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'Second available choice.', {
+    content: 'Option Two',
+    options: { attributes: { value: 'two' } },
+  }),
+];
+
+const TABLE_HEADER_CELLS = ['Name', 'Role', 'Status'].map((content) =>
+  htmlBlock('th', 'Header Cell', 'data', 'table', 'Column heading.', { content }),
+);
+
+const TABLE_BODY_ROWS = [
+  ['Alex Morgan', 'Designer', 'Active'],
+  ['Jamie Lee', 'Developer', 'Pending'],
+].map((cells) =>
+  htmlBlock('tr', 'Table Row', 'data', 'table', 'Sample data row.', {
+    canHaveChild: true,
+    initialChildren: cells.map((content) => htmlBlock('td', 'Table Cell', 'data', 'table', 'Table data.', { content })),
+  }),
+);
+
+const TABLE_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('thead', 'Table Head', 'data', 'table', 'Column headings.', {
+    canHaveChild: true,
+    initialChildren: [
+      htmlBlock('tr', 'Table Row', 'data', 'table', 'Header row.', {
+        canHaveChild: true,
+        initialChildren: TABLE_HEADER_CELLS,
+      }),
+    ],
+  }),
+  htmlBlock('tbody', 'Table Body', 'data', 'table', 'Sample data rows.', {
+    canHaveChild: true,
+    initialChildren: TABLE_BODY_ROWS,
+  }),
+];
+
+const DESCRIPTION_LIST_STARTER_CHILDREN: SourceItem[] = [
+  htmlBlock('dt', 'Description Term', 'data', 'paragraph', 'The term being defined.', { content: 'First term' }),
+  htmlBlock('dd', 'Description Details', 'data', 'paragraph', 'The definition for this term.', {
+    content: 'Describe the first term here.',
+  }),
+  htmlBlock('dt', 'Description Term', 'data', 'paragraph', 'The term being defined.', { content: 'Second term' }),
+  htmlBlock('dd', 'Description Details', 'data', 'paragraph', 'The definition for this term.', {
+    content: 'Describe the second term here.',
+  }),
+];
 
 export const SOURCE_ITEMS: SourceItem[] = [
   // Layout & semantic structure
@@ -106,6 +346,16 @@ export const SOURCE_ITEMS: SourceItem[] = [
   htmlBlock('time', 'Time', 'typography', 'paragraph', 'A machine-readable date or time.', {
     content: '2026-11-02',
     options: { attributes: { datetime: '2026-11-02' } },
+    settings: [
+      {
+        name: 'datetime',
+        title: 'Machine-readable date/time',
+        type: 'text',
+        group: 'Time',
+        placeholder: '2026-11-02 or 2026-11-02T09:30',
+        description: 'The value used by browsers and assistive technology.',
+      },
+    ],
   }),
   htmlBlock(
     'abbr',
@@ -116,6 +366,9 @@ export const SOURCE_ITEMS: SourceItem[] = [
     {
       content: 'HTML',
       options: { attributes: { title: 'HyperText Markup Language' } },
+      settings: [
+        { name: 'title', title: 'Expanded description', type: 'text', group: 'Accessibility', fullWidth: true },
+      ],
     },
   ),
   htmlBlock('sub', 'Subscript', 'typography', 'paragraph', 'Subscript inline text.', { content: '2' }),
@@ -136,6 +389,33 @@ export const SOURCE_ITEMS: SourceItem[] = [
   // Media
   htmlBlock('img', 'Image', 'media', 'img', 'Responsive-ready image with lazy loading and alt text.', {
     options: { attributes: { src: 'assets/default-image.png', alt: 'Image description', loading: 'lazy' } },
+    settings: [
+      { name: 'src', title: 'Image URL', type: 'url', group: 'Image', fullWidth: true },
+      { name: 'alt', title: 'Alternative text', type: 'text', group: 'Image', fullWidth: true },
+      { name: 'width', title: 'Width', type: 'text', group: 'Dimensions', placeholder: '100%' },
+      { name: 'height', title: 'Height', type: 'text', group: 'Dimensions', placeholder: 'auto' },
+      {
+        name: 'loading',
+        title: 'Loading',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Lazy', value: 'lazy' },
+          { label: 'Eager', value: 'eager' },
+        ],
+      },
+      {
+        name: 'decoding',
+        title: 'Decoding',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Async', value: 'async' },
+          { label: 'Sync', value: 'sync' },
+          { label: 'Auto', value: 'auto' },
+        ],
+      },
+    ],
     classList: ['img'],
   }),
   htmlBlock(
@@ -148,8 +428,17 @@ export const SOURCE_ITEMS: SourceItem[] = [
   ),
   htmlBlock('source', 'Media Source', 'media', 'img', 'A media source used inside picture, audio or video.', {
     options: { attributes: { src: '', type: 'image/webp' } },
+    settings: [
+      { name: 'src', title: 'Source URL', type: 'url', group: 'Source', fullWidth: true },
+      { name: 'type', title: 'MIME type', type: 'text', group: 'Source', placeholder: 'image/webp' },
+      { name: 'media', title: 'Media query', type: 'text', group: 'Advanced', placeholder: '(min-width: 800px)' },
+      { name: 'srcset', title: 'Source set', type: 'text', group: 'Advanced', fullWidth: true },
+    ],
   }),
-  htmlBlock('figure', 'Figure', 'media', 'img', 'A media item with an optional caption.', { canHaveChild: true }),
+  htmlBlock('figure', 'Figure', 'media', 'img', 'A media item with an optional caption.', {
+    canHaveChild: true,
+    initialChildren: FIGURE_STARTER_CHILDREN,
+  }),
   htmlBlock('figcaption', 'Figure Caption', 'media', 'paragraph', 'A caption for a figure.', {
     content: 'Figure caption',
     canHaveChild: true,
@@ -157,31 +446,121 @@ export const SOURCE_ITEMS: SourceItem[] = [
   htmlBlock('video', 'Video', 'media', 'img', 'An HTML video player with native controls.', {
     canHaveChild: true,
     options: { attributes: { controls: true, preload: 'metadata', playsinline: true } },
+    settings: [
+      { name: 'src', title: 'Video URL', type: 'url', group: 'Source', fullWidth: true },
+      { name: 'poster', title: 'Poster image', type: 'url', group: 'Source', fullWidth: true },
+      { name: 'controls', title: 'Show controls', type: 'checkbox', group: 'Playback' },
+      { name: 'autoplay', title: 'Autoplay', type: 'checkbox', group: 'Playback' },
+      { name: 'muted', title: 'Muted', type: 'checkbox', group: 'Playback' },
+      { name: 'loop', title: 'Loop', type: 'checkbox', group: 'Playback' },
+      { name: 'playsinline', title: 'Play inline', type: 'checkbox', group: 'Playback' },
+      {
+        name: 'preload',
+        title: 'Preload',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Metadata', value: 'metadata' },
+          { label: 'Auto', value: 'auto' },
+          { label: 'None', value: 'none' },
+        ],
+      },
+    ],
   }),
   htmlBlock('audio', 'Audio', 'media', 'img', 'An HTML audio player with native controls.', {
     canHaveChild: true,
     options: { attributes: { controls: true, preload: 'metadata' } },
+    settings: [
+      { name: 'src', title: 'Audio URL', type: 'url', group: 'Source', fullWidth: true },
+      { name: 'controls', title: 'Show controls', type: 'checkbox', group: 'Playback' },
+      { name: 'autoplay', title: 'Autoplay', type: 'checkbox', group: 'Playback' },
+      { name: 'muted', title: 'Muted', type: 'checkbox', group: 'Playback' },
+      { name: 'loop', title: 'Loop', type: 'checkbox', group: 'Playback' },
+      {
+        name: 'preload',
+        title: 'Preload',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Metadata', value: 'metadata' },
+          { label: 'Auto', value: 'auto' },
+          { label: 'None', value: 'none' },
+        ],
+      },
+    ],
   }),
   htmlBlock('iframe', 'Embedded Content', 'media', 'layout', 'An isolated frame for embedding external content.', {
     options: {
       attributes: { src: 'about:blank', title: 'Embedded content', loading: 'lazy', width: '100%', height: '320' },
     },
+    settings: [
+      { name: 'src', title: 'Embed URL', type: 'url', group: 'Source', fullWidth: true },
+      { name: 'title', title: 'Accessible title', type: 'text', group: 'Source', fullWidth: true },
+      { name: 'width', title: 'Width', type: 'text', group: 'Dimensions', placeholder: '100%' },
+      { name: 'height', title: 'Height', type: 'text', group: 'Dimensions', placeholder: '320' },
+      {
+        name: 'loading',
+        title: 'Loading',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Lazy', value: 'lazy' },
+          { label: 'Eager', value: 'eager' },
+        ],
+      },
+      { name: 'allowfullscreen', title: 'Allow fullscreen', type: 'checkbox', group: 'Advanced' },
+    ],
   }),
 
   // Links & actions
   htmlBlock('a', 'Link', 'actions', 'link', 'A navigational link.', {
     content: 'Link text',
-    options: { attributes: { href: '#' } },
+    options: { attributes: { href: '#', target: '_self' } },
+    settings: [
+      { name: 'href', title: 'Destination URL', type: 'url', group: 'Link', fullWidth: true },
+      {
+        name: 'target',
+        title: 'Open in',
+        type: 'select',
+        group: 'Link',
+        options: [
+          { label: 'Same tab', value: '_self' },
+          { label: 'New tab', value: '_blank' },
+        ],
+      },
+      { name: 'rel', title: 'Relationship', type: 'text', group: 'Advanced', placeholder: 'noopener noreferrer' },
+      { name: 'download', title: 'Download link', type: 'checkbox', group: 'Advanced' },
+    ],
   }),
   htmlBlock('button', 'Button', 'actions', 'rectangle-fill', 'An actionable button.', {
     content: 'Button',
     canHaveChild: true,
+    options: { attributes: { type: 'button' } },
+    settings: [
+      {
+        name: 'type',
+        title: 'Button type',
+        type: 'select',
+        group: 'Behavior',
+        options: [
+          { label: 'Button', value: 'button' },
+          { label: 'Submit', value: 'submit' },
+          { label: 'Reset', value: 'reset' },
+        ],
+      },
+      { name: 'name', title: 'Name', type: 'text', group: 'Behavior' },
+      { name: 'value', title: 'Value', type: 'text', group: 'Behavior' },
+      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'Behavior' },
+      { name: 'form', title: 'Form ID', type: 'text', group: 'Advanced' },
+    ],
   }),
   htmlBlock('dialog', 'Dialog', 'actions', 'layout', 'A native dialog surface for modal or non-modal content.', {
     canHaveChild: true,
   }),
   htmlBlock('details', 'Disclosure', 'actions', 'layout', 'Expandable content using native disclosure behavior.', {
     canHaveChild: true,
+    initialChildren: DISCLOSURE_STARTER_CHILDREN,
+    settings: [{ name: 'open', title: 'Open by default', type: 'checkbox', group: 'Behavior' }],
   }),
   htmlBlock('summary', 'Disclosure Summary', 'actions', 'paragraph', 'The visible heading for a disclosure element.', {
     content: 'Show details',
@@ -192,13 +571,65 @@ export const SOURCE_ITEMS: SourceItem[] = [
   htmlBlock('form', 'Form', 'forms', 'input', 'A form container for user input controls.', {
     canHaveChild: true,
     options: { attributes: { action: '#', method: 'get' } },
+    initialChildren: FORM_STARTER_CHILDREN,
+    settings: [
+      { name: 'action', title: 'Submit URL', type: 'url', group: 'Submission', fullWidth: true },
+      {
+        name: 'method',
+        title: 'Method',
+        type: 'select',
+        group: 'Submission',
+        options: [
+          { label: 'GET', value: 'get' },
+          { label: 'POST', value: 'post' },
+        ],
+      },
+      {
+        name: 'enctype',
+        title: 'Encoding',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'URL encoded', value: 'application/x-www-form-urlencoded' },
+          { label: 'Multipart', value: 'multipart/form-data' },
+          { label: 'Plain text', value: 'text/plain' },
+        ],
+      },
+      {
+        name: 'autocomplete',
+        title: 'Autocomplete',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'On', value: 'on' },
+          { label: 'Off', value: 'off' },
+        ],
+      },
+      { name: 'novalidate', title: 'Disable browser validation', type: 'checkbox', group: 'Advanced' },
+    ],
   }),
   htmlBlock('label', 'Label', 'forms', 'paragraph', 'An accessible label for a form control.', {
     content: 'Field label',
     canHaveChild: true,
     options: { attributes: { for: '' } },
+    settings: [
+      {
+        name: 'for',
+        title: 'Control ID',
+        type: 'text',
+        group: 'Accessibility',
+        description: 'Must match the id of the related input.',
+      },
+    ],
   }),
-  htmlBlock('fieldset', 'Fieldset', 'forms', 'input', 'Groups related form controls.', { canHaveChild: true }),
+  htmlBlock('fieldset', 'Fieldset', 'forms', 'input', 'Groups related form controls.', {
+    canHaveChild: true,
+    settings: [
+      { name: 'name', title: 'Name', type: 'text', group: 'General' },
+      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'General' },
+      { name: 'form', title: 'Form ID', type: 'text', group: 'Advanced' },
+    ],
+  }),
   htmlBlock('legend', 'Fieldset Legend', 'forms', 'paragraph', 'A caption for a fieldset.', { content: 'Group title' }),
   htmlBlock('output', 'Form Output', 'forms', 'input', 'Displays the result of a calculation or user action.', {
     content: 'Result',
@@ -219,26 +650,108 @@ export const SOURCE_ITEMS: SourceItem[] = [
   inputBlock('Reset Button', 'reset', 'A form reset control.'),
   htmlBlock('textarea', 'Text Area', 'forms', 'input', 'A multi-line text field.', {
     options: { attributes: { name: `message-${randomNumber(4)}`, rows: '4', placeholder: 'Write your message' } },
+    settings: [
+      { name: 'name', title: 'Name', type: 'text', group: 'General' },
+      { name: 'placeholder', title: 'Placeholder', type: 'text', group: 'General', fullWidth: true },
+      { name: 'rows', title: 'Rows', type: 'number', group: 'Dimensions', min: 1, max: 30, step: 1 },
+      { name: 'cols', title: 'Columns', type: 'number', group: 'Dimensions', min: 1, step: 1 },
+      { name: 'minlength', title: 'Minimum length', type: 'number', group: 'Validation', min: 0 },
+      { name: 'maxlength', title: 'Maximum length', type: 'number', group: 'Validation', min: 1 },
+      { name: 'required', title: 'Required', type: 'checkbox', group: 'Validation' },
+      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'Validation' },
+      { name: 'readonly', title: 'Read only', type: 'checkbox', group: 'Validation' },
+      {
+        name: 'wrap',
+        title: 'Text wrapping',
+        type: 'select',
+        group: 'Advanced',
+        options: [
+          { label: 'Soft', value: 'soft' },
+          { label: 'Hard', value: 'hard' },
+          { label: 'Off', value: 'off' },
+        ],
+      },
+    ],
   }),
-  htmlBlock('select', 'Select', 'forms', 'input', 'A dropdown selection control.', { canHaveChild: true }),
+  htmlBlock('select', 'Select', 'forms', 'input', 'A dropdown selection control.', {
+    canHaveChild: true,
+    initialChildren: SELECT_STARTER_CHILDREN,
+    settings: [
+      { name: 'name', title: 'Name', type: 'text', group: 'General' },
+      { name: 'required', title: 'Required', type: 'checkbox', group: 'General' },
+      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'General' },
+      { name: 'multiple', title: 'Allow multiple', type: 'checkbox', group: 'Advanced' },
+      { name: 'size', title: 'Visible options', type: 'number', group: 'Advanced', min: 1, step: 1 },
+    ],
+  }),
   htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'An option inside a select control.', {
     content: 'Option',
     options: { attributes: { value: 'option' } },
+    settings: [
+      { name: 'value', title: 'Submitted value', type: 'text', group: 'Option' },
+      { name: 'label', title: 'Display label', type: 'text', group: 'Option' },
+      { name: 'selected', title: 'Selected by default', type: 'checkbox', group: 'State' },
+      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'State' },
+    ],
   }),
 
   // Lists & data
-  htmlBlock('ul', 'Unordered List', 'data', 'collection', 'A bulleted list.', { canHaveChild: true }),
-  htmlBlock('ol', 'Ordered List', 'data', 'collection', 'A numbered list.', { canHaveChild: true }),
+  htmlBlock('ul', 'Unordered List', 'data', 'collection', 'A ready-to-edit bulleted list with three starter items.', {
+    canHaveChild: true,
+    initialChildren: createListStarterItems(),
+  }),
+  htmlBlock('ol', 'Ordered List', 'data', 'collection', 'A ready-to-edit numbered list with three starter items.', {
+    canHaveChild: true,
+    initialChildren: createListStarterItems(),
+    settings: [
+      { name: 'start', title: 'Start number', type: 'number', group: 'Numbering', step: 1 },
+      { name: 'reversed', title: 'Reverse numbering', type: 'checkbox', group: 'Numbering' },
+      {
+        name: 'type',
+        title: 'Number style',
+        type: 'select',
+        group: 'Numbering',
+        options: [
+          { label: 'Numbers', value: '1' },
+          { label: 'Uppercase letters', value: 'A' },
+          { label: 'Lowercase letters', value: 'a' },
+          { label: 'Uppercase Roman', value: 'I' },
+          { label: 'Lowercase Roman', value: 'i' },
+        ],
+      },
+    ],
+  }),
   htmlBlock('li', 'List Item', 'data', 'collection', 'An item inside an ordered or unordered list.', {
     content: 'List item',
     canHaveChild: true,
+    settings: [
+      {
+        name: 'value',
+        title: 'Number override',
+        type: 'number',
+        group: 'Numbering',
+        step: 1,
+        description: 'Only applies to items inside an ordered list.',
+      },
+    ],
   }),
-  htmlBlock('dl', 'Description List', 'data', 'collection', 'A list of terms and their descriptions.', {
-    canHaveChild: true,
-  }),
+  htmlBlock(
+    'dl',
+    'Description List',
+    'data',
+    'collection',
+    'A definition list with editable term and description pairs.',
+    {
+      canHaveChild: true,
+      initialChildren: DESCRIPTION_LIST_STARTER_CHILDREN,
+    },
+  ),
   htmlBlock('dt', 'Description Term', 'data', 'paragraph', 'A term in a description list.', { content: 'Term' }),
   htmlBlock('dd', 'Description Details', 'data', 'paragraph', 'A description for a term.', { content: 'Description' }),
-  htmlBlock('table', 'Table', 'data', 'table', 'A semantic data table.', { canHaveChild: true }),
+  htmlBlock('table', 'Table', 'data', 'table', 'A semantic table pre-populated with a header and sample rows.', {
+    canHaveChild: true,
+    initialChildren: TABLE_STARTER_CHILDREN,
+  }),
   htmlBlock('thead', 'Table Head', 'data', 'table', 'The header section of a table.', { canHaveChild: true }),
   htmlBlock('tbody', 'Table Body', 'data', 'table', 'The body section of a table.', { canHaveChild: true }),
   htmlBlock('tr', 'Table Row', 'data', 'table', 'A row inside a table.', { canHaveChild: true }),
@@ -256,13 +769,32 @@ export const SOURCE_ITEMS: SourceItem[] = [
   htmlBlock('colgroup', 'Column Group', 'data', 'table', 'Groups columns in a table.', { canHaveChild: true }),
   htmlBlock('col', 'Table Column', 'data', 'table', 'Defines column-level table styling.', {
     options: { attributes: { span: '1' } },
+    settings: [
+      { name: 'span', title: 'Number of columns', type: 'number', group: 'Column', min: 1, max: 100, step: 1 },
+    ],
   }),
-  htmlBlock('progress', 'Progress', 'data', 'collection', 'A native progress indicator.', {
-    options: { attributes: { value: '60', max: '100' } },
-  }),
-  htmlBlock('meter', 'Meter', 'data', 'collection', 'A scalar measurement within a known range.', {
-    options: { attributes: { value: '0.6', min: '0', max: '1' } },
-  }),
+  htmlBlock(
+    'progress',
+    'Progress',
+    'data',
+    'collection',
+    'A native progress indicator with editable value and maximum.',
+    {
+      options: { attributes: { value: '60', max: '100' } },
+      settings: PROGRESS_SETTINGS,
+    },
+  ),
+  htmlBlock(
+    'meter',
+    'Meter',
+    'data',
+    'collection',
+    'A scalar measurement with configurable value, range and quality thresholds.',
+    {
+      options: { attributes: { value: '0.6', min: '0', max: '1', low: '0.25', high: '0.75', optimum: '0.5' } },
+      settings: METER_SETTINGS,
+    },
+  ),
   CollectionItemSource,
   HeroTableSource,
 

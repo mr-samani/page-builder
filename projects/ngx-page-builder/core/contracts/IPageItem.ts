@@ -5,6 +5,8 @@ import { BlockCss } from './IStyleSheetFile';
 
 export interface IPageItem {
   id?: string;
+  /** Registry key of the source definition used to create this block. */
+  sourceId?: string;
   dataSource?: DataSourceSetting;
   parent?: IPageItem;
   el?: HTMLElement | null;

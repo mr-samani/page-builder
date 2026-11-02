@@ -15,6 +15,7 @@ export * from './contracts/ICssVariable';
 
 // Models
 export * from './models/SourceItem';
+export * from './models/SourceSettingField';
 export * from './models/PageBuilderConfiguration';
 export * from './models/PagePreviewConfiguration';
 export * from './models/PageBuilderDto';

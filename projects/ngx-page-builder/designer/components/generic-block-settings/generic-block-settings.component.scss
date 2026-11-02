@@ -1,0 +1,107 @@
+:host {
+  display: block;
+}
+.native-settings {
+  display: grid;
+  gap: 14px;
+  padding: 12px 0;
+  color: var(--pb-text, #dbe4ef);
+}
+.settings-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.settings-group h4 {
+  margin: 0 0 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--pb-border, #293747);
+  color: var(--pb-muted, #9eacbc);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.settings-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 11px 9px;
+}
+.setting-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+.setting-field.full-width {
+  grid-column: 1 / -1;
+}
+.field-heading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--pb-label, #c6d1df);
+  font-weight: 600;
+}
+.required-mark {
+  color: #f87171;
+}
+.setting-field input:not([type='checkbox']),
+.setting-field textarea,
+.setting-field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--pb-border, #344457);
+  border-radius: 7px;
+  outline: none;
+  background: var(--pb-input-bg, #111c29);
+  color: var(--pb-text, #e5edf6);
+  padding: 8px 9px;
+  font: inherit;
+}
+.setting-field input:focus,
+.setting-field textarea:focus,
+.setting-field select:focus {
+  border-color: var(--pb-accent, #5798f2);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pb-accent, #5798f2) 18%, transparent);
+}
+.setting-field input[type='color'] {
+  height: 36px;
+  padding: 3px;
+}
+.setting-field input[type='range'] {
+  padding: 5px 0;
+  accent-color: var(--pb-accent, #5798f2);
+}
+.setting-field textarea {
+  resize: vertical;
+}
+.setting-field small {
+  color: var(--pb-muted, #8797aa);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.checkbox-control {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  color: var(--pb-muted, #9eacbc);
+}
+.checkbox-control input {
+  accent-color: var(--pb-accent, #5798f2);
+}
+@media (max-width: 360px) {
+  .settings-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .setting-field.full-width {
+    grid-column: auto;
+  }
+}
+
+.setting-field .field-error {
+  color: #f87171;
+}

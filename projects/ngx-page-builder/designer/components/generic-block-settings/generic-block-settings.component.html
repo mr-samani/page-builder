@@ -1,0 +1,69 @@
+<div class="native-settings" aria-label="Block settings">
+  @for (group of groupedFields(); track trackGroup($index, group)) {
+    <section class="settings-group">
+      <h4>{{ group.name }}</h4>
+      <div class="settings-fields">
+        @for (field of group.fields; track trackField($index, field)) {
+          <label
+            class="setting-field"
+            [class.full-width]="field.fullWidth || field.type === 'textarea' || field.type === 'checkbox'">
+            <span class="field-heading">
+              <span>{{ field.title }}</span>
+              @if (field.required) {
+                <span class="required-mark" aria-hidden="true">*</span>
+              }
+            </span>
+
+            @switch (field.type) {
+              @case ('textarea') {
+                <textarea
+                  [rows]="field.rows || 3"
+                  [placeholder]="field.placeholder || ''"
+                  [ngModel]="readValue(field)"
+                  (ngModelChange)="updateField(field, $event)"></textarea>
+              }
+              @case ('checkbox') {
+                <span class="checkbox-control">
+                  <input type="checkbox" [ngModel]="readValue(field)" (ngModelChange)="updateField(field, $event)" />
+                  <span>{{ field.description || 'Enabled' }}</span>
+                </span>
+              }
+              @case ('select') {
+                <select [ngModel]="readValue(field)" (ngModelChange)="updateField(field, $event)">
+                  @for (option of field.options || []; track option.value) {
+                    <option [ngValue]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+              }
+              @case ('color') {
+                <input
+                  [type]="field.type"
+                  ngxInputColor
+                  [placeholder]="field.placeholder || ''"
+                  [required]="field.required || false"
+                  [ngModel]="readValue(field)"
+                  (ngModelChange)="updateField(field, $event)" />
+              }
+              @default {
+                <input
+                  [type]="field.type"
+                  [min]="inputMin(field)"
+                  [max]="inputMax(field)"
+                  [step]="field.step ?? null"
+                  [placeholder]="field.placeholder || ''"
+                  [required]="field.required || false"
+                  [ngModel]="readValue(field)"
+                  (ngModelChange)="updateField(field, $event)" />
+              }
+            }
+            @if (validationErrors.get(field.name); as error) {
+              <small class="field-error">{{ error }}</small>
+            } @else if (field.description && field.type !== 'checkbox') {
+              <small>{{ field.description }}</small>
+            }
+          </label>
+        }
+      </div>
+    </section>
+  }
+</div>

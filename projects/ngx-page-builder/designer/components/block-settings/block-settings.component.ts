@@ -3,8 +3,10 @@ import { Component, effect, Injector, OnInit, Type, ViewChild, ChangeDetectionSt
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
 import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
+import type { SourceSettingField } from 'ngx-page-builder/core';
 import { EditLinkComponent } from '../edit-link/edit-link.component';
 import { NgxDialogService } from 'ngx-kit/dialog';
+import { GenericBlockSettingsComponent } from '../generic-block-settings/generic-block-settings.component';
 
 @Component({
   selector: 'block-settings',
@@ -12,11 +14,12 @@ import { NgxDialogService } from 'ngx-kit/dialog';
   styleUrls: ['./block-settings.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TextBindingComponent, EditLinkComponent],
+  imports: [CommonModule, TextBindingComponent, EditLinkComponent, GenericBlockSettingsComponent],
 })
 export class BlockSettingsComponent extends BaseComponent implements OnInit {
   item?: PageItem;
   settingComponent?: Type<any>;
+  sourceSettings: SourceSettingField[] = [];
   @ViewChild('settingsContainer', { static: true }) settingsContainer!: HTMLElement;
 
   parentCollection?: PageItem;
@@ -36,11 +39,27 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
 
       if (this.item && this.item.customComponent && typeof this.item.customComponent.componentSettings === 'function') {
         this.settingComponent = await this.item.customComponent.componentSettings();
+        this.sourceSettings = [];
       } else {
         this.settingComponent = undefined;
+        this.sourceSettings = this.resolveSourceSettings(this.item);
       }
       this.chdRef.detectChanges();
     });
+  }
+
+  private resolveSourceSettings(item?: PageItem): SourceSettingField[] {
+    if (!item) return [];
+    const source = this.pb.sources.find((candidate) => {
+      if (!candidate.settings?.length) return false;
+      if (item.sourceId && candidate.sourceId) return candidate.sourceId === item.sourceId;
+      if (candidate.tag !== item.tag) return false;
+      if (candidate.customComponent?.componentKey || item.customComponent?.componentKey) {
+        return candidate.customComponent?.componentKey === item.customComponent?.componentKey;
+      }
+      return true;
+    });
+    return source?.settings ?? [];
   }
 
   ngOnInit() {}
