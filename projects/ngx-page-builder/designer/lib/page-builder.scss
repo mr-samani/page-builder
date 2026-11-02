@@ -23,16 +23,20 @@
 }
 .components {
   border: none var(--tools-border);
-  flex-shrink: 0;
-  max-height: calc(100vh - var(--topbar-height));
   overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
-
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .space {
+    flex: auto;
+  }
   .tool {
     padding: 6px;
     border: 0;
-    border-bottom: var(--tools-border);
+    // border-bottom: var(--tools-border);
     border-radius: 0;
     height: 40px;
     width: 40px;

@@ -45,6 +45,7 @@ import { Notify } from 'ngx-kit/notify';
 import { NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/drag-resize';
 import { PanelService } from '../panels/panel.service';
 import { NgComponentOutlet } from '@angular/common';
+import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 
 @Component({
   standalone: true,
@@ -68,6 +69,7 @@ import { NgComponentOutlet } from '@angular/common';
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   readonly innerContent = viewChild<InnerContentComponent>('innerContent');
 
+  toolbarConfig = LibConsts.toolbarConfig;
   readonly data = input<IPage[]>();
 
   @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
@@ -187,7 +189,23 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     this.sideConfigSize.set(ev.width);
     this.innerContent()?.updateScale();
   }
-
+  openConfigDialog() {
+    this.dialog
+      .open(ConfigDialogComponent, {
+        size: 'lg',
+        minHeight: '80dvh',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe((r) => {
+        if (r) {
+          this.pb.onUpdateBaseConfig$.next(r);
+        }
+      });
+  }
   /**
    * ✅ Register all page builder shortcuts
    */

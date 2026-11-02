@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, Injector, Input, OnInit } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
-import { ConfigDialogComponent } from '../config-dialog/config-dialog.component';
 import { SortPageListComponent } from '../sort-page-list/sort-page-list.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
@@ -184,23 +183,7 @@ export class ToolbarComponent extends PageBuilderBaseComponent implements OnInit
       }
     });
   }
-  openConfigDialog() {
-    this.dialog
-      .open(ConfigDialogComponent, {
-        size: 'lg',
-        minHeight: '80dvh',
-        header: {
-          showMaximizeButton: true,
-          showCloseButton: true,
-        },
-        panelClass: 'ngx-page-builder',
-      })
-      .afterClosed.subscribe((r) => {
-        if (r) {
-          this.pb.onUpdateBaseConfig$.next(r);
-        }
-      });
-  }
+
   openCssFileDialog() {
     this.dialog
       .open(CssFileDialogComponent, {
