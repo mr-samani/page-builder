@@ -4,19 +4,18 @@
   ngxDropListGroup
   [style.--side-config-width.px]="sideConfigSize()">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
-  <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="false">
-    <div class="tool" (click)="toggleLayoutPanel()" title="Layouts" [class.active]="openLayout()">
+  <div class="components">
+    <button type="button" class="tool" (click)="toggleLayoutPanel()" title="Layouts" aria-label="Layouts" [class.active]="openLayout()">
       <svg Icon="assets/icons/layout.svg"></svg>
-    </div>
+    </button>
+    <button type="button" class="tool" (click)="toggleBlockLibrary()" title="Blocks" aria-label="Blocks" [class.active]="openBlockLibrary()">
+      <svg Icon="assets/icons/blocks.svg"></svg>
+    </button>
 
     @if (showPlugins) {
-    <div class="tool" (click)="viewPlugins()" title="Plugins">
-      <svg Icon="assets/icons/hexagon-plus.svg"></svg>
-    </div>
-    } @for (item of pb.sources; track $index) {
-    <div class="tool" ngxDraggable [title]="item.title" (dblclick)="addItem(item)">
-      <svg [Icon]="item.icon"></svg>
-    </div>
+      <button type="button" class="tool" (click)="viewPlugins()" title="Plugins" aria-label="Plugins">
+        <svg Icon="assets/icons/hexagon-plus.svg"></svg>
+      </button>
     }
   </div>
   <div class="page-container" (click)="pb.deSelectBlock()">
@@ -32,16 +31,31 @@
     (resizeMove)="onResizeSideConfig($event)"></side-config>
 
   @if(openLayout()){
-  <div class="pb-panel">
-    <div class="pb-panel-header">
-      <span>Layouts</span>
-      <button type="button" (click)="toggleLayoutPanel()" class="pb-btn">
-        <svg Icon="assets/icons/xmark.svg"></svg>
-      </button>
+    <div class="pb-panel">
+      <div class="pb-panel-header">
+        <span>Layouts</span>
+        <button type="button" (click)="toggleLayoutPanel()" class="pb-btn" aria-label="Close layouts">
+          <svg Icon="assets/icons/xmark.svg"></svg>
+        </button>
+      </div>
+      <block-layouts></block-layouts>
     </div>
-    <block-layouts></block-layouts>
-  </div>
-  } @if(isLoading()){
+  }
+  @if(openBlockLibrary()){
+    <div class="pb-panel block-library-panel">
+      <div class="pb-panel-header">
+        <div class="panel-heading">
+          <strong>Block Library</strong>
+          <small>Explore and insert page elements</small>
+        </div>
+        <button type="button" (click)="toggleBlockLibrary()" class="pb-btn" aria-label="Close block library">
+          <svg Icon="assets/icons/xmark.svg"></svg>
+        </button>
+      </div>
+      <block-library></block-library>
+    </div>
+  }
+  @if(isLoading()){
   <div class="ngx-page-builder-loading">loading...</div>
   }
 </div>

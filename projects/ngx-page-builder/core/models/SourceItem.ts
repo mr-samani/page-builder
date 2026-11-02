@@ -61,6 +61,12 @@ export class SourceItem {
    * @example 'My Chart'
    * */
   title?: string;
+  /** Stable library category id used by the block library UI. */
+  category?: string = undefined;
+  /** Short explanation shown in the block library. */
+  description?: string = undefined;
+  /** Additional searchable terms for discovery. */
+  keywords?: string[] = undefined;
   /**
    * Block icon
    * @example <svg>...</svg>

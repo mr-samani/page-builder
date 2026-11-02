@@ -25,10 +25,12 @@
   overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
+
   .tool {
     padding: 6px;
+    border: 0;
     border-bottom: var(--tools-border);
-    border-radius: 0px;
+    border-radius: 0;
     height: 40px;
     width: 40px;
     margin: 1px;
@@ -37,12 +39,15 @@
     justify-content: center;
     z-index: 1;
     overflow: hidden;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
     user-select: none;
-    transition: transform 0.2s ease;
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-    }
+    transition: transform 0.2s ease, background .15s ease;
+
+    &:hover { transform: scale(1.06); }
+    &.active { background: color-mix(in srgb, var(--active-button, #4b8bff) 18%, transparent); }
+    svg { width: 22px; height: 22px; }
   }
 }
 .page-container {
@@ -92,13 +97,35 @@
   border-radius: 5px;
   border: 1px solid #2b2f34;
   height: calc(100% - var(--topbar-height));
-  z-index: 1;
+  z-index: 20;
+  box-shadow: 0 12px 36px #0005;
+
   .pb-panel-header {
+    min-height: 36px;
     border-bottom: 1px #2b2f34 solid;
-    padding: 5px 10px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .panel-heading { display: grid; gap: 2px; }
+  .panel-heading strong { font-size: 12px; }
+  .panel-heading small { color: color-mix(in srgb, currentColor 55%, transparent); font-size: 9px; }
+
+  .pb-btn {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    svg { width: 16px; height: 16px; }
+    &:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
   }
 }
 
@@ -112,3 +139,5 @@
   z-index: 200;
   backdrop-filter: blur(2px);
 }
+
+.block-library-panel { width: 390px; }

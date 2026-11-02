@@ -145,7 +145,9 @@ export class PageBuilderService implements OnDestroy {
     this.activeEl.set(undefined);
     if (event.previousContainer.el.id == 'blockSourceList') {
       // انتقال از یک container به container دیگه
-      const source = new PageItem(this.sources[event.previousIndex], parent);
+      const sourceItem = event.previousContainer.data[event.previousIndex] as unknown as SourceItem;
+      if (!sourceItem) return;
+      const source = new PageItem(sourceItem, parent);
       source.children = []; // very important to create reference to droplist data
       await this.createBlockElement(true, source, containerEl, event.currentIndex);
 
