@@ -22,7 +22,7 @@ import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';
-import { PageBuilderService, PageItemChange } from '../services/page-builder.service';
+import { PageItemChange } from '../services/page-builder.service';
 
 import {
   DynamicDataStructure,
@@ -40,11 +40,12 @@ import {
   SourceItem,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
-import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
-import { BlockLibraryComponent } from '../components/block-library/block-library.component';
 import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/drag-resize';
+import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxDropList, NgxDraggable } from 'ngx-kit/drag-resize';
+import { PanelService } from '../panels/panel.service';
+import { NgComponentOutlet } from '@angular/common';
+import { BlockLibraryComponent } from '../panels/block-library/block-library.component';
 
 @Component({
   standalone: true,
@@ -57,19 +58,19 @@ import { NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/d
     SideConfigComponent,
     SvgIconDirective,
     NgxDialogModule,
-    BlockLayoutsComponent,
-    BlockLibraryComponent,
     NgxDropListGroup,
     NgxResizable,
+    NgComponentOutlet,
+    BlockLibraryComponent,
+    NgxDropList,
+    NgxDraggable,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
+  providers: [PanelService],
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
   readonly innerContent = viewChild<InnerContentComponent>('innerContent');
-  readonly openLayout = signal(false);
-  readonly openBlockLibrary = signal(false);
 
   readonly data = input<IPage[]>();
 
@@ -121,6 +122,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
   protected readonly dialog = inject(NgxDialogService);
+  readonly panelService = inject(PanelService);
 
   isLoading = signal(false);
   sideConfigSize = signal<number>(270);
@@ -158,18 +160,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
     this.unregisterShortcuts();
-  }
-
-  toggleLayoutPanel() {
-    const next = !this.openLayout();
-    this.openLayout.set(next);
-    if (next) this.openBlockLibrary.set(false);
-  }
-
-  toggleBlockLibrary() {
-    const next = !this.openBlockLibrary();
-    this.openBlockLibrary.set(next);
-    if (next) this.openLayout.set(false);
   }
 
   private async loadPageData(data: Page[]) {

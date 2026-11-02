@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { NgxDraggable, NgxDropList } from 'ngx-kit/drag-resize';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { NgxDraggable, NgxDropList, type IPosition } from 'ngx-kit/drag-resize';
 import { SourceItem } from 'ngx-page-builder/core';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
+import { PanelService } from 'ngx-page-builder/designer/panels/panel.service';
+import { PbPanel } from '../panel.layout';
 
 interface BlockCategory {
   id: string;
@@ -70,12 +72,15 @@ const CATEGORIES: BlockCategory[] = [
 @Component({
   selector: 'block-library',
   standalone: true,
-  imports: [CommonModule, SvgIconDirective, NgxDropList, NgxDraggable],
+  imports: [CommonModule, SvgIconDirective, NgxDropList, NgxDraggable, PbPanel],
   templateUrl: './block-library.component.html',
   styleUrls: ['./block-library.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockLibraryComponent extends PageBuilderBaseComponent {
+  readonly isDragging = signal<boolean>(false);
+
+  readonly panelService = inject(PanelService);
   readonly searchTerm = signal('');
   readonly openCategories = signal<ReadonlySet<string>>(new Set(['layout']));
   readonly query = computed(() => this.searchTerm().trim().toLocaleLowerCase());
@@ -109,13 +114,7 @@ export class BlockLibraryComponent extends PageBuilderBaseComponent {
           const itemCategory = item.category || 'custom';
           if (itemCategory !== category.id) return false;
           if (!query) return true;
-          const haystack = [
-            item.title,
-            item.tag,
-            item.description,
-            ...(item.keywords ?? []),
-            category.title,
-          ]
+          const haystack = [item.title, item.tag, item.description, ...(item.keywords ?? []), category.title]
             .filter(Boolean)
             .join(' ')
             .toLocaleLowerCase();
@@ -126,9 +125,6 @@ export class BlockLibraryComponent extends PageBuilderBaseComponent {
       .filter((group) => group.items.length > 0);
   });
 
-  readonly visibleSources = computed(() =>
-    this.groups().flatMap((group) => (this.isCategoryOpen(group.id) ? group.items : [])),
-  );
   readonly totalCount = computed(() => this.groups().reduce((count, group) => count + group.items.length, 0));
   readonly isSearching = computed(() => this.query().length > 0);
 
@@ -173,8 +169,6 @@ export class BlockLibraryComponent extends PageBuilderBaseComponent {
   }
 
   private categoryTitle(id: string): string {
-    return id
-      .replace(/[-_]/g, ' ')
-      .replace(/\b\w/g, (letter) => letter.toLocaleUpperCase());
+    return id.replace(/[-_]/g, ' ').replace(/\b\w/g, (letter) => letter.toLocaleUpperCase());
   }
 }

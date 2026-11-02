@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, effect, inject, signal, untracked } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  effect,
+  inject,
+  signal,
+  untracked,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgxDraggable, NgxDropList, NgxDropListGroup, type IDropEvent } from 'ngx-kit/drag-resize';
 import { Notify } from 'ngx-kit/notify';
@@ -7,7 +16,9 @@ import { PageItem } from 'ngx-page-builder/core';
 import { auditTime, merge } from 'rxjs';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { MoveTarget, PageZone } from '../../services/page-builder.service';
-import { PageBuilderBaseComponent } from '../page-builder-base-component';
+import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
+import { PanelService } from 'ngx-page-builder/designer/panels/panel.service';
+import { PbPanel } from '../panel.layout';
 
 export type MoveDirection = 'up' | 'down' | 'out' | 'in';
 
@@ -33,9 +44,11 @@ const NO_ITEMS: PageItem[] = [];
   styleUrls: ['./block-layouts.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SvgIconDirective, NgxDropListGroup, NgxDraggable, NgxDropList],
+  imports: [CommonModule, SvgIconDirective, NgxDropListGroup, NgxDraggable, NgxDropList, PbPanel],
 })
 export class BlockLayoutsComponent extends PageBuilderBaseComponent {
+  readonly panelService = inject(PanelService);
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -75,7 +88,11 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent {
     const name = item.tag || item.el?.tagName.toLowerCase() || 'block';
     const cls = item.classList?.find((c) => c && !c.startsWith('block-item'));
     if (cls) return { name, hint: `.${cls}` };
-    const text = (item.content ?? '').slice(0, 160).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const text = (item.content ?? '')
+      .slice(0, 160)
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
     return { name, hint: text.length > 26 ? `${text.slice(0, 26)}…` : text };
   }
 
@@ -213,7 +230,9 @@ export class BlockLayoutsComponent extends PageBuilderBaseComponent {
     if ((ev.target as HTMLElement).closest('button') && (ev.key === 'Enter' || ev.key === ' ')) return;
 
     if (ev.altKey) {
-      const dir = ({ ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'out', ArrowRight: 'in' } as Record<string, MoveDirection>)[ev.key];
+      const dir = (
+        { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'out', ArrowRight: 'in' } as Record<string, MoveDirection>
+      )[ev.key];
       if (dir) {
         ev.preventDefault();
         void this.moveBy(ev, item, dir);

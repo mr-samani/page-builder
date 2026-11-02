@@ -2,21 +2,37 @@
   class="page-builder-container ngx-page-builder"
   dir="ltr"
   ngxDropListGroup
-  [style.--side-config-width.px]="sideConfigSize()">
+  [style.--side-config-width.px]="sideConfigSize()"
+  [style.--panel-width.px]="panelService.panelSize()">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
   <div class="components">
-    <button type="button" class="tool" (click)="toggleLayoutPanel()" title="Layouts" aria-label="Layouts" [class.active]="openLayout()">
+    <button
+      type="button"
+      class="tool"
+      (click)="panelService.toggle('layout')"
+      title="Layouts"
+      aria-label="Layouts"
+      [class.active]="panelService.activePanel() == 'layout' ">
       <svg Icon="assets/icons/layout.svg"></svg>
     </button>
-    <button type="button" class="tool" (click)="toggleBlockLibrary()" title="Blocks" aria-label="Blocks" [class.active]="openBlockLibrary()">
+    <button
+      type="button"
+      class="tool"
+      (click)="panelService.toggle('block-library')"
+      title="Blocks"
+      aria-label="Blocks"
+      [class.active]="panelService.activePanel() == 'block-library'">
       <svg Icon="assets/icons/blocks.svg"></svg>
     </button>
 
     @if (showPlugins) {
-      <button type="button" class="tool" (click)="viewPlugins()" title="Plugins" aria-label="Plugins">
-        <svg Icon="assets/icons/hexagon-plus.svg"></svg>
-      </button>
+    <button type="button" class="tool" (click)="viewPlugins()" title="Plugins" aria-label="Plugins">
+      <svg Icon="assets/icons/hexagon-plus.svg"></svg>
+    </button>
     }
+  </div>
+  <div class="pb-panel-container">
+    <ng-container [ngComponentOutlet]="panelService.panelComponent()"></ng-container>
   </div>
   <div class="page-container" (click)="pb.deSelectBlock()">
     <inner-content #innerContent></inner-content>
@@ -30,31 +46,7 @@
     [directions]="['w']"
     (resizeMove)="onResizeSideConfig($event)"></side-config>
 
-  @if(openLayout()){
-    <div class="pb-panel">
-      <div class="pb-panel-header">
-        <span>Layouts</span>
-        <button type="button" (click)="toggleLayoutPanel()" class="pb-btn" aria-label="Close layouts">
-          <svg Icon="assets/icons/xmark.svg"></svg>
-        </button>
-      </div>
-      <block-layouts></block-layouts>
-    </div>
-  }
-  @if(openBlockLibrary()){
-    <div class="pb-panel block-library-panel">
-      <div class="pb-panel-header">
-        <div class="panel-heading">
-          <strong>Block Library</strong>
-          <small>Explore and insert page elements</small>
-        </div>
-        <button type="button" (click)="toggleBlockLibrary()" class="pb-btn" aria-label="Close block library">
-          <svg Icon="assets/icons/xmark.svg"></svg>
-        </button>
-      </div>
-      <block-library></block-library>
-    </div>
-  }
+  <!-- loading -->
   @if(isLoading()){
   <div class="ngx-page-builder-loading">loading...</div>
   }

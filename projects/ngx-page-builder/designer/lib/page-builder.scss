@@ -1,15 +1,18 @@
 .page-builder-container {
   display: grid;
-  grid-template-columns: var(--toolbar-width) minmax(0, 1fr) var(--side-config-width);
+  grid-template-columns: var(--toolbar-width) minmax(0, var(--panel-width)) minmax(0, 1fr) var(--side-config-width);
   grid-template-rows: var(--topbar-height) auto;
   gap: 0px 5px;
-  min-height: 100vh;
+  height: 100dvh;
   background: #0b0e13;
   color: #fff;
 
   * {
     box-sizing: border-box;
   }
+}
+.pb-panel-container {
+  min-height: 0;
 }
 .side-config {
   border: none var(--tools-border);
@@ -43,11 +46,20 @@
     color: inherit;
     cursor: pointer;
     user-select: none;
-    transition: transform 0.2s ease, background .15s ease;
+    transition:
+      transform 0.2s ease,
+      background 0.15s ease;
 
-    &:hover { transform: scale(1.06); }
-    &.active { background: color-mix(in srgb, var(--active-button, #4b8bff) 18%, transparent); }
-    svg { width: 22px; height: 22px; }
+    &:hover {
+      transform: scale(1.06);
+    }
+    &.active {
+      background: color-mix(in srgb, var(--active-button, #4b8bff) 18%, transparent);
+    }
+    svg {
+      width: 22px;
+      height: 22px;
+    }
   }
 }
 .page-container {
@@ -85,50 +97,6 @@
   top: var(--topbar-height);
 }
 
-///--------------------
-/// Panel
-///--------------------
-.pb-panel {
-  position: fixed;
-  top: var(--topbar-height);
-  left: var(--toolbar-width);
-  background-color: var(--panel-bg);
-  width: 340px;
-  border-radius: 5px;
-  border: 1px solid #2b2f34;
-  height: calc(100% - var(--topbar-height));
-  z-index: 20;
-  box-shadow: 0 12px 36px #0005;
-
-  .pb-panel-header {
-    min-height: 36px;
-    border-bottom: 1px #2b2f34 solid;
-    padding: 6px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .panel-heading { display: grid; gap: 2px; }
-  .panel-heading strong { font-size: 12px; }
-  .panel-heading small { color: color-mix(in srgb, currentColor 55%, transparent); font-size: 9px; }
-
-  .pb-btn {
-    display: grid;
-    place-items: center;
-    width: 26px;
-    height: 26px;
-    padding: 4px;
-    border: 0;
-    border-radius: 5px;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    svg { width: 16px; height: 16px; }
-    &:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
-  }
-}
-
 .ngx-page-builder-loading {
   position: absolute;
   inset: 0;
@@ -139,5 +107,3 @@
   z-index: 200;
   backdrop-filter: blur(2px);
 }
-
-.block-library-panel { width: 390px; }

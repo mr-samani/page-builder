@@ -143,7 +143,7 @@ export class PageBuilderService implements OnDestroy {
     }
 
     this.activeEl.set(undefined);
-    if (event.previousContainer.el.id == 'blockSourceList') {
+    if (event.previousContainer.el.classList.contains('blockSourceList')) {
       // انتقال از یک container به container دیگه
       const sourceItem = event.previousContainer.data[event.previousIndex] as unknown as SourceItem;
       if (!sourceItem) return;
