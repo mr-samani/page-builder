@@ -2,62 +2,47 @@
   display: flex;
   flex-direction: column;
 }
-.search-bar {
-  display: flex;
-  border: 1px #b8b8b8 solid;
-  border-radius: 4px;
-  height: 32px;
-  margin: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  transition: all 300ms;
-  &:hover {
-    border-color: var(--active-button);
-  }
-  input {
-    all: unset;
-    flex: auto;
-    padding: 10px;
-  }
-  button {
-    all: unset;
-    width: 32px;
-    background-color: var(--active-button);
-    color: var(--active-button-fg);
-    cursor: pointer;
-    padding: 4px;
-    text-align: center;
-    svg {
-      fill: var(--active-button-fg);
-      width: 20px;
-    }
-  }
+
+details.category {
+  margin-top: 20px;
 }
 
 .list-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 0px;
-  flex: auto;
-
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 0 8px 9px;
   .plugin-box {
-    width: 200px;
-    height: 200px;
-    box-shadow: 0 0 10px #58585854;
-    border-radius: 5px;
-    overflow: hidden;
-    transition: all 300ms;
     position: relative;
+    gap: 7px;
+    min-width: 0;
+    min-height: 54px;
+    padding: 7px;
+    border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--panel-bg, #171b22), #fff 3%);
+    cursor: grab;
+    user-select: none;
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease,
+      transform 0.15s ease;
+
     &:hover {
-      box-shadow: 0 0 12px #0162fff7;
-      cursor: pointer;
+      border-color: color-mix(in srgb, var(--active-button, #4b8bff) 55%, transparent);
+      background: color-mix(in srgb, var(--active-button, #4b8bff) 8%, var(--panel-bg, #171b22));
+      transform: translateY(-1px);
+    }
+    &:active {
+      cursor: grabbing;
+    }
+    &:focus-visible {
+      outline: 2px solid var(--active-button, #4b8bff);
+      outline-offset: 2px;
     }
     .screenshot-container {
       height: 150px;
-      background: #c0c0c0;
+      background: #c0c0c046;
       width: 100%;
       display: flex;
       align-items: center;
@@ -78,7 +63,7 @@
 
     .options {
       position: absolute;
-      background: #3232365e;
+      background: #323236c1;
       top: 100%;
       bottom: 0;
       width: 100%;

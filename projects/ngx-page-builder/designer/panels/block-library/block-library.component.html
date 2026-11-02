@@ -1,6 +1,6 @@
 <pb-panel label="Block Library" description="Explore and insert page elements" [class.is-dragging]="isDragging()">
   <div class="block-library">
-    <div class="library-search">
+    <div class="search-field">
       <svg Icon="assets/icons/search.svg" aria-hidden="true"></svg>
       <input
         type="search"
@@ -21,45 +21,43 @@
     </div>
 
     @if (groups().length) {
-      <div class="category-list">
-        @for (group of groups(); track trackCategory($index, group)) {
-          <details class="category" [open]="isCategoryOpen(group.id)" (toggle)="onCategoryToggle($event, group.id)">
-            <summary class="category-summary">
-              <span class="category-icon"><svg [Icon]="group.icon"></svg></span>
-              <span class="category-copy">
-                <span class="category-title">{{ group.title }}</span>
-                <span class="category-description">{{ group.description }}</span>
-              </span>
-              <span class="category-count">{{ group.items.length }}</span>
-              <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
-            </summary>
+      @for (group of groups(); track trackCategory($index, group)) {
+        <details class="category" [open]="isCategoryOpen(group.id)" (toggle)="onCategoryToggle($event, group.id)">
+          <summary>
+            <span class="category-icon"><svg [Icon]="group.icon"></svg></span>
+            <span class="category-copy">
+              <span class="category-title">{{ group.title }}</span>
+              <span class="category-description">{{ group.description }}</span>
+            </span>
+            <span class="category-count">{{ group.items.length }}</span>
+            <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+          </summary>
 
-            @if (isCategoryOpen(group.id)) {
-              <div class="block-grid blockSourceList" ngxDropList [data]="group.items" [disableSort]="true">
-                @for (item of group.items; track trackSource($index, item)) {
-                  <div
-                    class="block-card"
-                    ngxDraggable
-                    role="button"
-                    tabindex="0"
-                    [title]="(item.title || item.tag) + ' — drag to canvas or click to insert'"
-                    (keydown)="onCardKeydown($event, item)"
-                    (dblclick)="addBlock(item)"
-                    (dragStart)="isDragging.set(true)"
-                    (dragEnd)="isDragging.set(false)">
-                    <span class="block-icon"><svg [Icon]="item.icon"></svg></span>
-                    <span class="block-copy">
-                      <span class="block-title">{{ item.title || item.tag }}</span>
-                      <span class="block-description">{{ item.description || item.tag }}</span>
-                    </span>
-                    <span class="insert-indicator" aria-hidden="true">+</span>
-                  </div>
-                }
-              </div>
-            }
-          </details>
-        }
-      </div>
+          @if (isCategoryOpen(group.id)) {
+            <div class="block-grid blockSourceList" ngxDropList [data]="group.items" [disableSort]="true">
+              @for (item of group.items; track trackSource($index, item)) {
+                <div
+                  class="block-card"
+                  ngxDraggable
+                  role="button"
+                  tabindex="0"
+                  [title]="(item.title || item.tag) + ' — drag to canvas or click to insert'"
+                  (keydown)="onCardKeydown($event, item)"
+                  (dblclick)="addBlock(item)"
+                  (dragStart)="isDragging.set(true)"
+                  (dragEnd)="isDragging.set(false)">
+                  <span class="block-icon"><svg [Icon]="item.icon"></svg></span>
+                  <span class="block-copy">
+                    <span class="block-title">{{ item.title || item.tag }}</span>
+                    <span class="block-description">{{ item.description || item.tag }}</span>
+                  </span>
+                  <span class="insert-indicator" aria-hidden="true">+</span>
+                </div>
+              }
+            </div>
+          }
+        </details>
+      }
     } @else {
       <div class="empty-state">
         <svg Icon="assets/icons/search.svg"></svg>

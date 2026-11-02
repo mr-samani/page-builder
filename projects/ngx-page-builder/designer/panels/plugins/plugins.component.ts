@@ -5,18 +5,18 @@ import { LoadingComponent } from '../../controls/loading/loading.component';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { CommonModule } from '@angular/common';
 import { IPlugin, LibConsts } from 'ngx-page-builder/core';
-import { NgxDialogModule, DIALOG_REF } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
+import { PbPanel } from '../panel.layout';
 
 @Component({
-  selector: 'app-plugins-dialog',
-  templateUrl: './plugins-dialog.component.html',
-  styleUrls: ['./plugins-dialog.component.scss'],
-  imports: [FormsModule, NgxDialogModule, LoadingComponent, SvgIconDirective, CommonModule],
+  selector: 'app-plugins',
+  templateUrl: './plugins.component.html',
+  styleUrls: ['./plugins.component.scss'],
+  imports: [FormsModule, LoadingComponent, SvgIconDirective, CommonModule, PbPanel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [PBPluginService],
 })
-export class PluginsDialogComponent implements OnInit {
+export class PluginsComponent implements OnInit {
   plugins: IPlugin[] = [];
   loading = true;
   search = '';
@@ -29,8 +29,6 @@ export class PluginsDialogComponent implements OnInit {
   selectedPage = 0;
 
   canDeletePlugin = LibConsts.canDeletePlugin;
-  private dialogRef = inject(DIALOG_REF);
-
   constructor(
     private pluginService: PBPluginService,
     private chdr: ChangeDetectorRef,
@@ -53,7 +51,6 @@ export class PluginsDialogComponent implements OnInit {
       })
       .catch((error) => {
         Notify.error(error);
-        this.dialogRef.close();
       });
   }
 
@@ -66,7 +63,6 @@ export class PluginsDialogComponent implements OnInit {
   ok(plugin: IPlugin) {
     if (!plugin) return;
     this.pluginService.addToForm(plugin).catch((err) => Notify.error(err));
-    this.dialogRef.close(true);
   }
 
   updatePagination() {
@@ -96,9 +92,5 @@ export class PluginsDialogComponent implements OnInit {
       .catch((error) => {
         Notify.error(error);
       });
-  }
-
-  cancel() {
-    this.dialogRef.close();
   }
 }

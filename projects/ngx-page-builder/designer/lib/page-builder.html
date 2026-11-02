@@ -26,7 +26,13 @@
     </button>
 
     @if (showPlugins) {
-    <button type="button" class="tool" (click)="viewPlugins()" title="Plugins" aria-label="Plugins">
+    <button
+      type="button"
+      class="tool"
+      title="Plugins"
+      aria-label="Plugins"
+      (click)="panelService.toggle('plugins')"
+      [class.active]="panelService.activePanel() == 'plugins'">
       <svg Icon="assets/icons/hexagon-plus.svg"></svg>
     </button>
     }

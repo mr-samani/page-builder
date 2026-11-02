@@ -42,10 +42,9 @@ import {
 import { ClassManagerService } from '../services/class-manager.service';
 import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxDropList, NgxDraggable } from 'ngx-kit/drag-resize';
+import { NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/drag-resize';
 import { PanelService } from '../panels/panel.service';
 import { NgComponentOutlet } from '@angular/common';
-import { BlockLibraryComponent } from '../panels/block-library/block-library.component';
 
 @Component({
   standalone: true,
@@ -61,9 +60,6 @@ import { BlockLibraryComponent } from '../panels/block-library/block-library.com
     NgxDropListGroup,
     NgxResizable,
     NgComponentOutlet,
-    BlockLibraryComponent,
-    NgxDropList,
-    NgxDraggable,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -190,25 +186,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   onResizeSideConfig(ev: IResizableOutput) {
     this.sideConfigSize.set(ev.width);
     this.innerContent()?.updateScale();
-  }
-
-  async viewPlugins() {
-    const { PluginsDialogComponent } = await import('./plugins-dialog/plugins-dialog.component');
-    this.dialog
-      .open(PluginsDialogComponent, {
-        minWidth: '85dvw',
-        height: '95dvh',
-        injector: this.injector,
-        header: {
-          showMaximizeButton: true,
-          showCloseButton: true,
-        },
-        panelClass: 'ngx-page-builder',
-      })
-      .afterClosed.subscribe((p) => {
-        if (p) {
-        }
-      });
   }
 
   /**

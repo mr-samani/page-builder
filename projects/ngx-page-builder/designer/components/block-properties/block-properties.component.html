@@ -14,89 +14,140 @@
       }
     </div>
 
-    <details name="block-properties" (toggle)="openPanel(display)" #display>
-      <summary>Display</summary>
-      @if (display.open) {
-        <display-control
-          [(ngModel)]="style"
-          [computedDisplay]="computedDisplay"
-          [parentDisplay]="parentDisplay"
-          [parentFlexDirection]="parentFlexDirection"
-          (change)="onChangeStyle($event)"></display-control>
-      }
-    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(display)" #display>
+      <summary>
+        <span class="title">Display</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
 
-    <details name="block-properties" (toggle)="openPanel(size)" #size>
-      <summary>Size</summary>
-      @if (size.open) {
-        <size-control [(ngModel)]="style" (change)="onChangeStyle($event)"></size-control>
-      }
-    </details>
-
-    <details name="block-properties" (toggle)="openPanel(spacing)" #spacing>
-      <summary>Spacing</summary>
-      @if (spacing.open) {
-        <spacing-control [(ngModel)]="style" (change)="onChangeStyle($event)"></spacing-control>
-      }
-    </details>
-    <details name="block-properties" (toggle)="openPanel(typography)" #typography>
-      <summary>Typography</summary>
-      @if (typography.open) {
-        <typography-control
-          [(ngModel)]="style"
-          [computedStyle]="computedTypography"
-          (change)="onChangeStyle($event)"></typography-control>
-      }
-    </details>
-    <details name="block-properties" (toggle)="openPanel(background)" #background>
-      <summary>Background</summary>
-      @if (background.open) {
-        <background-control [(ngModel)]="style" (change)="onChangeStyle($event)"></background-control>
-      }
-    </details>
-    <details name="block-properties" (toggle)="openPanel(shadow)" #shadow>
-      <summary>Shadow</summary>
-      @if (shadow.open) {
-        <ngx-box-shadow [(ngModel)]="style.boxShadow" (shadowChange)="onShadowChange($event)"></ngx-box-shadow>
-      }
-    </details>
-    <details name="block-properties" (toggle)="openPanel(transform)" #transform>
-      <summary>Transform</summary>
-      @if (transform.open) {
-        <transform-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transform-control>
-      }
-    </details>
-    <details name="block-properties" (toggle)="openPanel(transition)" #transition>
-      <summary>Transition</summary>
-      @if (transition.open) {
-        @if (cssPseudoState() !== 'none') {
-          <p class="pb-hint">
-            Tip: put the transition on the
-            <b>Normal</b>
-            state, so the element animates both into and out of
-            <b>{{ cssPseudoState() }}</b>
-            .
-          </p>
+      <div class="details-inner">
+        @if (display.open) {
+          <display-control
+            [(ngModel)]="style"
+            [computedDisplay]="computedDisplay"
+            [parentDisplay]="parentDisplay"
+            [parentFlexDirection]="parentFlexDirection"
+            (change)="onChangeStyle($event)"></display-control>
         }
-        <transition-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transition-control>
-      }
+      </div>
     </details>
-    <details name="block-properties" (toggle)="openPanel(animation)" #animation>
-      <summary>Animation</summary>
-      @if (animation.open) {
-        <p class="pb-hint">
-          Plays when the element appears. To play it on
-          <b>hover</b>
-          or another state, add it to that state instead.
-        </p>
-        <animation-control [(ngModel)]="style" (change)="onChangeStyle($event)"></animation-control>
-      }
+
+    <details class="category" name="block-properties" (toggle)="openPanel(size)" #size>
+      <summary>
+        <span class="title">Size</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (size.open) {
+          <size-control [(ngModel)]="style" (change)="onChangeStyle($event)"></size-control>
+        }
+      </div>
     </details>
-    <details name="block-properties" (toggle)="openPanel(advanced)" #advanced>
-      <summary>Advanced</summary>
-      @if (advanced.open) {
-        <textcss-control [(ngModel)]="style" (change)="onChangeStyle($event)"></textcss-control>
-      }
+
+    <details class="category" name="block-properties" (toggle)="openPanel(spacing)" #spacing>
+      <summary>
+        <span class="title">Spacing</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (spacing.open) {
+          <spacing-control [(ngModel)]="style" (change)="onChangeStyle($event)"></spacing-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(typography)" #typography>
+      <summary>
+        <span class="title">Typography</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (typography.open) {
+          <typography-control
+            [(ngModel)]="style"
+            [computedStyle]="computedTypography"
+            (change)="onChangeStyle($event)"></typography-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(background)" #background>
+      <summary>
+        <span class="title">Background</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (background.open) {
+          <background-control [(ngModel)]="style" (change)="onChangeStyle($event)"></background-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(shadow)" #shadow>
+      <summary>
+        <span class="title">Shadow</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (shadow.open) {
+          <ngx-box-shadow [(ngModel)]="style.boxShadow" (shadowChange)="onShadowChange($event)"></ngx-box-shadow>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(transform)" #transform>
+      <summary>
+        <span class="title">Transform</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (transform.open) {
+          <transform-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transform-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(transition)" #transition>
+      <summary>
+        <span class="title">Transition</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (transition.open) {
+          @if (cssPseudoState() !== 'none') {
+            <p class="pb-hint">
+              Tip: put the transition on the
+              <b>Normal</b>
+              state, so the element animates both into and out of
+              <b>{{ cssPseudoState() }}</b>
+              .
+            </p>
+          }
+          <transition-control [(ngModel)]="style" (change)="onChangeStyle($event)"></transition-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(animation)" #animation>
+      <summary>
+        <span class="title">Animation</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (animation.open) {
+          <p class="pb-hint">
+            Plays when the element appears. To play it on
+            <b>hover</b>
+            or another state, add it to that state instead.
+          </p>
+          <animation-control [(ngModel)]="style" (change)="onChangeStyle($event)"></animation-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(advanced)" #advanced>
+      <summary>
+        <span class="title">Advanced</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (advanced.open) {
+          <textcss-control [(ngModel)]="style" (change)="onChangeStyle($event)"></textcss-control>
+        }
+      </div>
     </details>
   } @else {
     <p>None selected block.</p>

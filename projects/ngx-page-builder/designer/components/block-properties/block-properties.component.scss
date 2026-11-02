@@ -1,9 +1,11 @@
 .pb-inner {
-  padding: 10px;
+  padding: 10px 0;
   height: calc(100vh - var(--topbar-height) - 31px);
   overflow: auto;
 }
-
+.details-inner {
+  padding: 8px;
+}
 /*----------------------------------*/
 .properties-table {
   border-collapse: collapse;
@@ -15,22 +17,6 @@
   }
 }
 
-summary {
-  padding: 6px;
-  background: #1e2227;
-  margin: 2px 0;
-  border-radius: 5px;
-  border: 1px transparent solid;
-  transition: all 300ms;
-  &:hover {
-    background: #0e1012;
-  }
-}
-details[open] {
-  summary {
-    background: #3e4b5b;
-  }
-}
 /*-------------------------------------------------------------------------------*/
 .properties {
   // Control Group

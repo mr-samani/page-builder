@@ -165,3 +165,57 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
     padding: 2rem;
   }
 }
+
+//----------------------------------------------
+// Seach field
+//-----------------------------------------------
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, currentColor 17%, transparent);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--panel-bg, #171b22), #fff 4%);
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    opacity: 0.65;
+  }
+
+  input {
+    min-width: 0;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 12px;
+  }
+
+  input::placeholder {
+    color: color-mix(in srgb, currentColor 48%, transparent);
+  }
+
+  .clear-search {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.7;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

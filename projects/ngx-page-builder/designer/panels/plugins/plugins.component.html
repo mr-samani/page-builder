@@ -1,0 +1,69 @@
+<pb-panel label="Plugins" description="">
+  <div class="search-field">
+    <svg Icon="assets/icons/search.svg" aria-hidden="true"></svg>
+    <input
+      type="search"
+      aria-label="Search plugins"
+      placeholder="Search plugins..."
+      [(ngModel)]="search"
+      (keydown.enter)="filterList()" />
+    @if (search) {
+      <button type="button" class="clear-search" aria-label="Clear search" (click)="search = ''">
+        <svg Icon="assets/icons/xmark.svg"></svg>
+      </button>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <loading [loading]="loading"></loading>
+    </div>
+  }
+  <details class="category" open>
+    <summary>
+      <span class="title">Category</span>
+      <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+    </summary>
+
+    <div class="list-container">
+      @for (item of plugins; track $index; let i = $index) {
+        <div class="plugin-box" [title]="item.name">
+          <div class="screenshot-container">
+            @if (item.image) {
+              <img [src]="item.image" [alt]="item.name" class="screenshot" />
+            } @else {
+              <img src="assets/default-image.png" alt="no-image" class="screenshot" />
+            }
+          </div>
+          <div class="name">{{ item.name }}</div>
+
+          <div class="options">
+            <button class="pb-btn" type="button" (click)="ok(item)">
+              <svg Icon="assets/icons/plus.svg"></svg>
+            </button>
+            @if (canDeletePlugin) {
+              <button class="pb-btn" type="button" (click)="deleteItem(item, i)">
+                <svg Icon="assets/icons/trash.svg"></svg>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      @if (plugins.length == 0 && !loading) {
+        <p>Not exist any plugins!</p>
+      }
+    </div>
+  </details>
+
+  <div class="pagination-container">
+    <span>Page {{ selectedPage + 1 | number }} from {{ total | number }}</span>
+    <ul class="pagination">
+      @for (p of pagination; track $index) {
+        <li (click)="changePage(p)" [class.active]="p == selectedPage">
+          {{ p + 1 }}
+        </li>
+      }
+    </ul>
+  </div>
+</pb-panel>

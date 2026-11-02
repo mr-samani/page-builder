@@ -1,8 +1,9 @@
 import { computed, Service, signal, type Type } from '@angular/core';
 import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
 import { BlockLibraryComponent } from './block-library/block-library.component';
+import { PluginsComponent } from './plugins/plugins.component';
 
-export type PanelType = 'layout' | 'block-library' | null;
+export type PanelType = 'layout' | 'block-library' | 'plugins' | null;
 
 @Service()
 export class PanelService {
@@ -15,7 +16,8 @@ export class PanelService {
 
       case 'block-library':
         return BlockLibraryComponent;
-
+      case 'plugins':
+        return PluginsComponent;
       default:
         return null;
     }
