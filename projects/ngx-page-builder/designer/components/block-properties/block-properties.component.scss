@@ -19,7 +19,6 @@
 
 /*-------------------------------------------------------------------------------*/
 .properties {
-  // Control Group
   .control-group {
     margin-bottom: 16px;
 
@@ -82,7 +81,7 @@
   }
 }
 
-// Dark Mode Support (Optional)
+/* Dark Mode Support (Optional)*/
 @media (prefers-color-scheme: dark) {
   .properties {
     .section-label {

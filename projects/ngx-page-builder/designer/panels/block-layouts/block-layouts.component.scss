@@ -52,7 +52,7 @@ ul.tree-list {
     padding-left: 0;
   }
 
-  // لیست خالی: جایی برای انداختن بلاک داخلش
+  /* لیست خالی: جایی برای انداختن بلاک داخلش*/
   &.empty {
     min-height: 24px;
     margin: 2px 0;
@@ -160,7 +160,7 @@ li.list-item {
   font-size: 10px;
 }
 
-// دکمه‌های جابجایی فقط روی hover / focus دیده می‌شوند
+/* دکمه‌های جابجایی فقط روی hover / focus دیده می‌شوند*/
 .actions {
   display: none;
   flex: none;

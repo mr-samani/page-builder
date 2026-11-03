@@ -4,7 +4,7 @@ import { NgxDraggable, NgxDropList, type IPosition } from 'ngx-kit/drag-resize';
 import { SourceItem } from 'ngx-page-builder/core';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
-import { PanelService } from 'ngx-page-builder/designer/panels/panel.service';
+import { PanelService } from '../../panels/panel.service';
 import { PbPanel } from '../panel.layout';
 
 interface BlockCategory {

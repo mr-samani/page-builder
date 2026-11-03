@@ -17,7 +17,7 @@ import { auditTime, merge } from 'rxjs';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { MoveTarget, PageZone } from '../../services/page-builder.service';
 import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
-import { PanelService } from 'ngx-page-builder/designer/panels/panel.service';
+import { PanelService } from '../../panels/panel.service';
 import { PbPanel } from '../panel.layout';
 
 export type MoveDirection = 'up' | 'down' | 'out' | 'in';

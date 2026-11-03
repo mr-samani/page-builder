@@ -193,7 +193,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     this.dialog
       .open(ConfigDialogComponent, {
         size: 'lg',
-        minHeight: '80dvh',
         header: {
           showMaximizeButton: true,
           showCloseButton: true,

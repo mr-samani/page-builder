@@ -99,12 +99,12 @@
       box-shadow 140ms ease,
       transform 100ms ease;
 
-    // Hover
+    /* Hover*/
     &:hover {
       background: var(--radio-hover);
     }
 
-    // Selected
+    /* Selected*/
     &:has(input:checked) {
       background: var(--radio-active);
       color: var(--radio-active-fg);
@@ -114,13 +114,13 @@
         inset 0 1px 0 rgb(255 255 255 / 0.06);
     }
 
-    // Keyboard focus
+    /* Keyboard focus*/
     &:has(input:focus-visible) {
       outline: 2px solid color-mix(in srgb, var(--radio-active) 65%, white);
       outline-offset: -2px;
     }
 
-    // Click feedback
+    /* Click feedback*/
     &:active {
       transform: scale(0.96);
     }

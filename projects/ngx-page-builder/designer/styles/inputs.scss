@@ -1,7 +1,7 @@
 /**
-// ---------------------------------------------------
+ ---------------------------------------------------
 AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
-// ---------------------------------------------------
+ ---------------------------------------------------
 **/
 
 .ngx-page-builder {
@@ -115,10 +115,12 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       max-height: 15px;
       fill: inherit;
     }
-    // &:has(svg) {
-    //   padding: 2px 5px;
-    //   line-height: 0;
-    // }
+    /*
+     &:has(svg) {
+       padding: 2px 5px;
+       line-height: 0;
+     }
+       */
   }
 
   /*--------------group buttons------------------------------*/
@@ -166,9 +168,9 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   }
 }
 
-//----------------------------------------------
-// Seach field
-//-----------------------------------------------
+/*----------------------------------------------
+ Seach field
+-----------------------------------------------*/
 .search-field {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 .ngx-page-builder {
   /* page sizes */
   --a4-width: 210mm;
-  --a4-height: 290mm; // 297mm;
+  --a4-height: 290mm; /*297mm;*/
   --a5-width: 148mm;
   --a5-height: 210mm;
   --letter-width: 216mm;
@@ -98,15 +98,16 @@ table.ngx-page-table {
   border: 0;
   margin: 0;
   padding: 0;
-  // height: 100%;
+  /* height: 100%;*/
   th.repeatable-header {
     text-align: start;
     max-height: 270px; /* maximum browser page header */
     overflow: hidden;
     display: block;
-    // img {
-    //   max-height: 270px;
-    // }
+    /* img {
+       max-height: 270px;
+     }
+    */
   }
 }
 @media print {

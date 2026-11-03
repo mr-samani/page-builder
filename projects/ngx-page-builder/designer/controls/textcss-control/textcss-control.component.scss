@@ -37,9 +37,9 @@
     color: transparent;
     pointer-events: none;
     z-index: 100;
-    // overflow: hidden;
+    /* overflow: hidden;*/
 
-    // Syntax highlighting colors
+    /* Syntax highlighting colors*/
     .css-property {
       color: #9cdcfe;
     }
@@ -122,7 +122,7 @@
     }
   }
 
-  // Scrollbar styling
+  /* Scrollbar styling*/
   .css-highlight-layer::-webkit-scrollbar,
   .css-textarea-layer::-webkit-scrollbar {
     width: 10px;

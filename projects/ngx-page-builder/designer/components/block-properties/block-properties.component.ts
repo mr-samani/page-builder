@@ -15,7 +15,7 @@ import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
-import { SvgIconDirective } from 'ngx-page-builder/designer/directives/svg-icon.directive';
+import { SvgIconDirective } from '../../directives/svg-icon.directive';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
 const TYPO_KEYS = [
