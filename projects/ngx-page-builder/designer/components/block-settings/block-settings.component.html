@@ -23,8 +23,8 @@
       <edit-link [item]="item" [parentCollection]="parentCollection" [collectionDsList]="collectionDsList"></edit-link>
     }
     @if (enableExportAsPlugin) {
-      <div>
-        <button type="button" class="btn export-as-plugin" (click)="exportBlockAsPlugin()">Export as plugin</button>
+      <div class="export-as-plugin">
+        <button type="button" class="pb-btn" (click)="exportBlockAsPlugin()">Export as plugin</button>
       </div>
     }
   }

@@ -2,6 +2,7 @@
   padding: 10px 0;
   height: calc(100vh - var(--topbar-height) - 31px);
   overflow: auto;
+  position: relative;
 }
 .details-inner {
   padding: 8px;

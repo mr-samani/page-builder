@@ -135,23 +135,6 @@
 .block-description {
   font-size: 8px;
 }
-.insert-indicator {
-  display: grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  flex: none;
-  border-radius: 5px;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  font-size: 15px;
-  line-height: 1;
-  opacity: 0.55;
-}
-.block-card:hover .insert-indicator {
-  background: var(--active-button, #4b8bff);
-  color: var(--active-button-fg, #fff);
-  opacity: 1;
-}
 
 .empty-state {
   display: grid;
