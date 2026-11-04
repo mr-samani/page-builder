@@ -52,13 +52,16 @@
     <inner-content #innerContent></inner-content>
   </div>
 
-  <side-config
+  <div
     class="side-config"
     ngxResizable
     [minWidth]="200"
     [maxWidth]="800"
     [directions]="['w']"
-    (resizeMove)="onResizeSideConfig($event)"></side-config>
+    (resizeMove)="onResizeSideConfig($event)">
+    <side-config></side-config>
+    <div class="ngx-resize-handler" ngxResizeHandle="end"></div>
+  </div>
 
   <!-- loading -->
   @if(isLoading()){

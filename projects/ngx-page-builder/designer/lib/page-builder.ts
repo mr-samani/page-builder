@@ -42,7 +42,7 @@ import {
 import { ClassManagerService } from '../services/class-manager.service';
 import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDropListGroup, NgxResizable, type IResizableOutput } from 'ngx-kit/drag-resize';
+import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxResizeHandle } from 'ngx-kit/drag-resize';
 import { PanelService } from '../panels/panel.service';
 import { NgComponentOutlet } from '@angular/common';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
@@ -61,6 +61,7 @@ import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
     NgxDropListGroup,
     NgxResizable,
     NgComponentOutlet,
+    NgxResizeHandle,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
