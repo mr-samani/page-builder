@@ -100,7 +100,10 @@
               property.
             </p>
           }
-          <corner-control [(ngModel)]="style" [inherits]="inheritsContext" (change)="onChangeStyle($event)"></corner-control>
+          <corner-control
+            [(ngModel)]="style"
+            [inherits]="inheritsContext"
+            (change)="onChangeStyle($event)"></corner-control>
         }
       </div>
     </details>
@@ -115,6 +118,22 @@
         }
       </div>
     </details>
+
+    <details class="category" name="block-properties" (toggle)="openPanel(filter)" #filter>
+      <summary>
+        <span class="title">Filter</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (filter.open) {
+          <filter-control
+            [(ngModel)]="style"
+            [inherits]="inheritsContext"
+            (change)="onChangeStyle($event)"></filter-control>
+        }
+      </div>
+    </details>
+
     <details class="category" name="block-properties" (toggle)="openPanel(transform)" #transform>
       <summary>
         <span class="title">Transform</span>

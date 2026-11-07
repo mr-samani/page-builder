@@ -1,0 +1,162 @@
+<div class="fc">
+  <!-- ============ Presets ============ -->
+  <div class="fc-head">
+    <span class="fc-title">{{ isBackdrop() ? 'Backdrop filter' : 'Filter' }}</span>
+    @if (hasAny()) {
+      <button type="button" class="fc-link" title="Remove all filters of this state" (click)="reset()">Reset</button>
+    }
+  </div>
+
+  <div class="fc-presets" role="group" aria-label="Filter presets">
+    @for (p of presets; track p.id) {
+      <button
+        type="button"
+        class="fc-preset"
+        [class.on]="activePreset() === p.id"
+        [title]="p.label"
+        [attr.aria-pressed]="activePreset() === p.id"
+        (click)="applyPreset(p)">
+        <span class="fc-thumb" aria-hidden="true">
+          <span class="fc-thumb-scene" [style.filter]="isBackdrop() ? null : p.css || null">
+            <span class="fc-thumb-dot a"></span>
+            <span class="fc-thumb-dot b"></span>
+            @if (isBackdrop()) {
+              <span class="fc-thumb-glass" [style.backdrop-filter]="p.css || null"></span>
+            }
+          </span>
+        </span>
+        <span class="fc-preset-label">{{ p.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- ============ Live preview ============ -->
+  <div class="fc-stage" aria-hidden="true">
+    @if (isBackdrop()) {
+      <div class="fc-scene">
+        <span class="fc-dot a"></span>
+        <span class="fc-dot b"></span>
+        <span class="fc-dot c"></span>
+        <div class="fc-glass" [attr.style]="previewCss()">Glass</div>
+      </div>
+    } @else {
+      <div class="fc-scene" [attr.style]="previewCss()">
+        <span class="fc-dot a"></span>
+        <span class="fc-dot b"></span>
+        <span class="fc-dot c"></span>
+        <span class="fc-card">Aa</span>
+      </div>
+    }
+  </div>
+  @if (previewCss()) {
+    <code class="fc-code">{{ previewCss() }}</code>
+  }
+
+  <!-- ============ Applied filters ============ -->
+  <div class="fc-head sub">
+    <span class="fc-title">Applied · order matters</span>
+  </div>
+
+  @if (!hasAny()) {
+    <p class="fc-note">No filters yet. Pick a preset or add one below.</p>
+  } @else {
+    <ul class="fc-list" role="list">
+      @for (it of items(); track it.id; let idx = $index; let first = $first; let last = $last) {
+        <li class="fc-item" [class.raw]="it.kind === 'raw'">
+          <div class="fc-item-head">
+            <span class="fc-name">{{ label(it) }}</span>
+            <span class="fc-actions">
+              <button type="button" class="fc-ib" [disabled]="first" [attr.aria-label]="'Move ' + label(it) + ' up'" title="Move up" (click)="move(it.id, -1)">
+                <svg viewBox="0 0 16 16" width="12" height="12" class="fc-ico" aria-hidden="true"><path d="M4 10l4-4 4 4" /></svg>
+              </button>
+              <button type="button" class="fc-ib" [disabled]="last" [attr.aria-label]="'Move ' + label(it) + ' down'" title="Move down" (click)="move(it.id, 1)">
+                <svg viewBox="0 0 16 16" width="12" height="12" class="fc-ico" aria-hidden="true"><path d="M4 6l4 4 4-4" /></svg>
+              </button>
+              <button type="button" class="fc-ib del" [attr.aria-label]="'Remove ' + label(it)" title="Remove" (click)="remove(it.id)">
+                <svg viewBox="0 0 16 16" width="12" height="12" class="fc-ico" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+              </button>
+            </span>
+          </div>
+
+          @if (it.kind === 'raw') {
+            <code class="fc-raw" title="This function isn't editable here; it is kept as-is">{{ it.raw }}</code>
+          } @else if (it.fn === 'drop-shadow') {
+            <div class="fc-shadow">
+              @for (f of ['x', 'y', 'blur']; track f) {
+                <label class="fc-mini">
+                  <span>{{ f === 'blur' ? 'Blur' : f.toUpperCase() }}</span>
+                  <input
+                    type="number"
+                    [attr.min]="f === 'blur' ? 0 : null"
+                    step="1"
+                    [value]="shadowVal(it, f)"
+                    (change)="setShadow(it.id, $any(f), $any($event.target).value)" />
+                </label>
+              }
+            </div>
+            <div class="fc-shadow-color">
+              <input
+                type="color"
+                class="fc-color"
+                aria-label="Shadow color"
+                [value]="shadowOf(it).color"
+                (input)="setShadowColor(it.id, $any($event.target).value)" />
+              <input
+                type="range"
+                class="fc-range"
+                min="0"
+                max="100"
+                step="1"
+                aria-label="Shadow opacity"
+                [value]="shadowOf(it).alpha * 100"
+                (input)="setShadowAlpha(it.id, $any($event.target).value)" />
+              <span class="fc-unit-val">{{ (shadowOf(it).alpha * 100) | number: '1.0-0' }}%</span>
+            </div>
+          } @else {
+            <div class="fc-slider">
+              <input
+                type="range"
+                class="fc-range"
+                [attr.aria-label]="label(it)"
+                [min]="metaOf(it).min"
+                [max]="metaOf(it).max"
+                [step]="metaOf(it).step"
+                [value]="it.value"
+                (input)="setValue(it.id, $any($event.target).value)"
+                (dblclick)="resetItem(it.id)"
+                title="Double-click to reset" />
+              <span class="fc-num">
+                <input
+                  type="number"
+                  [attr.aria-label]="label(it) + ' value'"
+                  [min]="metaOf(it).min"
+                  [step]="metaOf(it).step"
+                  [value]="displayValue(it)"
+                  (change)="setValue(it.id, $any($event.target).value)" />
+                <span class="fc-u">{{ metaOf(it).unit }}</span>
+              </span>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  <!-- ============ Add ============ -->
+  <div class="fc-head sub">
+    <span class="fc-title">Add</span>
+  </div>
+  <div class="fc-add" role="group" aria-label="Add filter">
+    @for (fn of addable(); track fn) {
+      <button type="button" class="fc-chip" (click)="add(fn)">+ {{ meta[fn].label }}</button>
+    }
+  </div>
+
+  @if (isBackdrop()) {
+    <p class="fc-note">Backdrop filter blurs what is behind the block; the block needs a translucent background to show it.</p>
+  } @else {
+    <p class="fc-note">
+      Filter also affects the block's content. Use Backdrop filter to blur only what's behind it.
+    </p>
+  }
+</div>

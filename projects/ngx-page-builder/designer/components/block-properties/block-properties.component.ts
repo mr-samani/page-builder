@@ -17,6 +17,7 @@ import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { FilterControlComponent } from 'ngx-page-builder/designer/controls/filter-control/filter-control.component';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
 const TYPO_KEYS = [
@@ -50,6 +51,7 @@ const TYPO_KEYS = [
     TransitionControlComponent,
     AnimationControlComponent,
     CornerControlComponent,
+    FilterControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -166,6 +168,7 @@ export class BlockPropertiesComponent extends BaseComponent {
   onShadowChange(ev: string) {
     this.onChangeStyle(this.style);
   }
+
   /**
    * هر کنترل با هر تغییر، کل شیء style را emit می‌کند.
    * فقط تفاوت با مقدار لودشده روی item.css (در breakpoint/state فعال) نوشته می‌شود:

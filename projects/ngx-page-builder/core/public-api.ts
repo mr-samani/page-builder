@@ -49,6 +49,7 @@ export * from './utiles/parseBackground';
 export * from './utiles/randomNumber';
 export * from './utiles/rendering';
 export * from './utiles/sequentialGUID';
+export * from './utiles/filter-model';
 
 // Consts
 export * from './consts/ViewMode';
