@@ -62,7 +62,8 @@
           type="button"
           class="cc-handle"
           [class]="'corner c-' + k"
-          [class.invert]="corner(k).mode === 'invert'"
+          [class.invert]="corner(k).mode === 'scoop'"
+          [class.cut]="corner(k).mode === 'cut'"
           [class.on]="active() === k"
           [style]="handleStyle(k)"
           [attr.aria-label]="cornerLabel[k] + ' corner size. Arrow keys change it, Shift ×10'"
@@ -95,33 +96,116 @@
 
   <div class="cc-corners">
     @for (k of cornerKeys; track k) {
-      <div class="cc-corner" [class.on]="active() === k" [class.invert]="corner(k).mode === 'invert'">
-        <button
-          type="button"
-          class="cc-mode"
-          [class]="'r-' + k"
-          [class.invert]="corner(k).mode === 'invert'"
-          [attr.aria-label]="cornerLabel[k] + ': ' + (corner(k).mode === 'invert' ? 'inverted, click for round' : 'round, click for inverted')"
-          [title]="(corner(k).mode === 'invert' ? 'Inverted corner' : 'Round corner') + ' · click to switch'"
-          (click)="toggleMode(k)">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" class="cc-ico">
-            @if (corner(k).mode === 'invert') {
-              <path d="M14 2.500H8.500A5.500 5.500 0 0 1 2.500 8.500V14" />
-            } @else {
-              <path d="M14 2.500H8.500A5.500 5.500 0 0 0 2.500 8.500V14" />
+      <div class="cc-corner" [class.on]="active() === k" [class.invert]="corner(k).mode !== 'round'">
+        <div class="cc-corner-row">
+          <button
+            type="button"
+            class="cc-mode"
+            [class]="'r-' + k"
+            [class.invert]="corner(k).mode !== 'round'"
+            [attr.aria-label]="cornerLabel[k] + ': ' + modeLabel(corner(k).mode) + ', click to switch'"
+            [title]="modeLabel(corner(k).mode) + ' · click to switch (Round → Scoop → Cut-out)'"
+            (click)="toggleMode(k)">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" class="cc-ico">
+              @switch (corner(k).mode) {
+                @case ('round') {
+                  <path d="M14 2.500H8.500A5.500 5.500 0 0 0 2.500 8.500V14" />
+                }
+                @case ('scoop') {
+                  <path d="M14 2.500H8.500A5.500 5.500 0 0 1 2.500 8.500V14" />
+                }
+                @default {
+                  <path d="M14 2.500H9.500Q8 2.500 8 4V5Q8 6.500 6.500 6.500H4Q2.500 6.500 2.500 8V14" />
+                }
+              }
+            </svg>
+          </button>
+          <span class="cc-cname">{{ cornerLabel[k] }}</span>
+          @if (corner(k).mode !== 'cut') {
+            <css-unit-field
+              [units]="unitsFor(k)"
+              fallback="0px"
+              [min]="0"
+              [step]="1"
+              [title]="cornerLabel[k] + (corner(k).mode === 'scoop' ? ' · scoop size' : ' · radius')"
+              [value]="corner(k).size"
+              (valueChange)="setSize(k, $event)"
+              (focusin)="active.set(k)" />
+          } @else {
+            <span class="cc-off">Cut-out</span>
+          }
+        </div>
+
+        @if (corner(k).mode === 'cut') {
+          <div class="cc-cut">
+            <div class="cc-frow">
+              <span class="cc-fname">Width</span>
+              <css-unit-field
+                [units]="cutUnits"
+                fallback="0px"
+                [min]="0"
+                title="Width of the cut-out measured from this corner"
+                [value]="corner(k).cut.w"
+                (valueChange)="setCut(k, 'w', $event)"
+                (focusin)="active.set(k)" />
+            </div>
+            <div class="cc-frow">
+              <span class="cc-fname">Height</span>
+              <css-unit-field
+                [units]="cutUnits"
+                fallback="0px"
+                [min]="0"
+                title="Height of the cut-out measured from this corner"
+                [value]="corner(k).cut.h"
+                (valueChange)="setCut(k, 'h', $event)"
+                (focusin)="active.set(k)" />
+            </div>
+            <div class="cc-frow">
+              <span class="cc-fname">Radius</span>
+              <css-unit-field
+                [units]="['px']"
+                fallback="0px"
+                [min]="0"
+                [title]="corner(k).cut.linked ? 'Radius of all three vertices of the cut-out' : 'Convex vertex on the horizontal edge'"
+                [value]="corner(k).cut.r1 + 'px'"
+                (valueChange)="setCutRadius(k, 'r1', $event)"
+                (focusin)="active.set(k)" />
+              <button
+                type="button"
+                class="cc-link"
+                [class.on]="!corner(k).cut.linked"
+                [attr.aria-pressed]="!corner(k).cut.linked"
+                title="Set each of the three radii separately"
+                (click)="toggleCutSplit(k)">
+                Split
+              </button>
+            </div>
+            @if (!corner(k).cut.linked) {
+              <div class="cc-frow">
+                <span class="cc-fname">Inner</span>
+                <css-unit-field
+                  [units]="['px']"
+                  fallback="0px"
+                  [min]="0"
+                  title="Concave inner vertex"
+                  [value]="corner(k).cut.r2 + 'px'"
+                  (valueChange)="setCutRadius(k, 'r2', $event)"
+                  (focusin)="active.set(k)" />
+              </div>
+              <div class="cc-frow">
+                <span class="cc-fname">Edge 2</span>
+                <css-unit-field
+                  [units]="['px']"
+                  fallback="0px"
+                  [min]="0"
+                  title="Convex vertex on the vertical edge"
+                  [value]="corner(k).cut.r3 + 'px'"
+                  (valueChange)="setCutRadius(k, 'r3', $event)"
+                  (focusin)="active.set(k)" />
+              </div>
             }
-          </svg>
-        </button>
-        <span class="cc-cname">{{ cornerLabel[k] }}</span>
-        <css-unit-field
-          [units]="unitsFor(k)"
-          fallback="0px"
-          [min]="0"
-          [step]="1"
-          [title]="cornerLabel[k] + (corner(k).mode === 'invert' ? ' · inverted size' : ' · radius')"
-          [value]="corner(k).size"
-          (valueChange)="setSize(k, $event)"
-          (focusin)="active.set(k)" />
+          </div>
+        }
       </div>
     }
   </div>
@@ -150,6 +234,13 @@
         </div>
         @if (notch(e).on) {
           <div class="cc-notch-fields">
+          <div class="cc-frow">
+            <span class="cc-fname">Shape</span>
+            <div class="cc-seg" role="group" aria-label="Notch shape">
+              <button type="button" [class.on]="notch(e).shape === 'rect'" [attr.aria-pressed]="notch(e).shape === 'rect'" (click)="setNotchShape(e, 'rect')">Rect</button>
+              <button type="button" [class.on]="notch(e).shape === 'round'" [attr.aria-pressed]="notch(e).shape === 'round'" (click)="setNotchShape(e, 'round')">Round</button>
+            </div>
+          </div>
           <div class="cc-frow">
             <span class="cc-fname">Width</span>
             <css-unit-field
@@ -181,6 +272,28 @@
               [value]="notch(e).pos + '%'"
               (valueChange)="setNotch(e, 'pos', $event)" />
           </div>
+          @if (notch(e).shape === 'rect') {
+            <div class="cc-frow">
+              <span class="cc-fname">Radius</span>
+              <css-unit-field
+                title="Radius of the two bottom corners of the notch"
+                [units]="['px']"
+                fallback="0px"
+                [min]="0"
+                [value]="notch(e).radius + 'px'"
+                (valueChange)="setNotch(e, 'radius', $event)" />
+            </div>
+          }
+          <div class="cc-frow">
+            <span class="cc-fname">Flare</span>
+            <css-unit-field
+              title="Rounds the two sharp vertices where the notch meets the edge"
+              [units]="['px']"
+              fallback="0px"
+              [min]="0"
+              [value]="notch(e).flare + 'px'"
+              (valueChange)="setNotch(e, 'flare', $event)" />
+          </div>
         </div>
         }
       </li>
@@ -194,11 +307,11 @@
   @if (usesMask()) {
     @if (shadowSet()) {
       <p class="cc-warn">
-        Box-shadow is cut along inverted corners and notches. To keep a shadow, put this block inside a container and give
+        Box-shadow is cut along cut-outs, scoops and notches. To keep a shadow, put this block inside a container and give
         the container a drop-shadow filter.
       </p>
     } @else {
-      <p class="cc-note">Borders and shadows are cut along inverted corners and notches.</p>
+      <p class="cc-note">Output is an SVG mask: radii stay exact in px at any element size. Borders and shadows are cut along cut-outs, scoops and notches.</p>
     }
   }
 </div>

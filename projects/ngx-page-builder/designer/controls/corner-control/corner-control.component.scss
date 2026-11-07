@@ -185,6 +185,10 @@ button {
     outline: 2px solid #fff;
     outline-offset: 2px;
   }
+  &.cut {
+    border-color: #ff7ab8;
+    border-radius: 3px;
+  }
   &.invert {
     border-color: #ffb454;
     &:hover,
@@ -288,7 +292,7 @@ button {
 }
 .cc-corner {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 6px;
   padding: 4px;
   border-radius: 6px;
@@ -341,6 +345,53 @@ button {
   }
   &.r-bl .cc-ico {
     transform: rotate(270deg);
+  }
+}
+
+.cc-corner-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  css-unit-field {
+    flex: 1;
+    min-width: 0;
+  }
+}
+.cc-cut {
+  display: grid;
+  gap: 5px;
+  padding: 2px 4px 4px 34px;
+  .cc-link.on {
+    color: #ffb454;
+  }
+}
+.cc-seg {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 5px;
+  background: #1f1f24;
+  button {
+    all: unset;
+    box-sizing: border-box;
+    flex: 1;
+    text-align: center;
+    padding: 3px 0;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #a8a8b2;
+    cursor: pointer;
+    &:hover {
+      background: #30303a;
+    }
+    &.on {
+      background: #243153;
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: 2px solid #4b8bff;
+    }
   }
 }
 

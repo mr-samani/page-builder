@@ -19,17 +19,22 @@ import {
   CORNER_PRESETS,
   CornerKey,
   CornerModel,
+  CornerMode,
   CornerPreset,
+  CutValue,
+  DEFAULT_CUT,
   DEFAULT_INVERT_SIZE,
   DEFAULT_NOTCH,
   DEFAULT_ROUND_SIZE,
   EDGE_KEYS,
   EdgeKey,
+  NotchShape,
   NotchValue,
   cloneModel,
   createModel,
   declsToCssText,
   parseCornerModel,
+  parseLen,
   pxOf,
   serializeCornerModel,
 } from 'ngx-page-builder/core';
@@ -37,7 +42,10 @@ import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { BaseControl } from '../base-control';
 import { CssUnitFieldComponent } from '../css-unit-field/css-unit-field.component';
 
-type NotchField = 'width' | 'depth' | 'pos';
+type NotchField = 'width' | 'depth' | 'pos' | 'radius' | 'flare';
+type CutField = 'w' | 'h';
+
+const NEXT_MODE: Record<CornerMode, CornerMode> = { round: 'scoop', scoop: 'cut', cut: 'round' };
 
 interface PresetView {
   id: string;
@@ -48,20 +56,21 @@ interface PresetView {
 }
 
 const ROUND_UNITS = ['px', '%', 'em', 'rem'] as const;
-/** گوشه‌ی وارونه با radial-gradient ساخته می‌شود، پس فقط طول مطلق معنی دارد (٪ نسبت به طول پرتو است نه المنت) */
-const INVERT_UNITS = ['px', 'em', 'rem', 'vw', 'vh'] as const;
+/** scoop: شعاع مطلق (px) ؛ cut: عرض/ارتفاع برش می‌تواند px یا ٪ باشد (شعاع‌ها همیشه px) */
+const SCOOP_UNITS = ['px'] as const;
+const CUT_UNITS = ['px', '%'] as const;
 
 /** اندازه‌ی ثابت stage برای محاسبه‌ی handle ها (پیش‌نمایش ۱:۱ بر حسب px) */
 const STAGE_H = 108;
 
 /**
  * کنترل «Corners»:
- *  - هر گوشه: Round (border-radius) یا Inverted (گوشه‌ی فرورفته) + اندازه
- *  - Notch وسط هر لبه با عرض / عمق / موقعیت
+ *  - هر گوشه: Round (border-radius) / Scoop (ربع‌دایره‌ی فرورفته) / Cut-out (برش مستطیلی با سه شعاع مستقل، مثل corner-inverter)
+ *  - Notch روی هر لبه (مستطیلی یا نیم‌بیضی) با عرض / عمق / موقعیت / شعاع / نرمی ورودی
  *  - پیش‌نمایش زنده با handle های قابل کشیدن (گوشه‌ها: کشیدن به داخل = بزرگ‌تر؛ notch: عمودی = عمق، افقی = موقعیت)
  *  - Preset ها، قفل گوشه‌ها (Linked)، و کلیدهای جهتی روی handle ها
  *
- * خروجی: `border-radius`، متغیرهای `--pb-ci-*` / `--pb-cn-*` و `mask-image` (به corner-model.ts نگاه کنید).
+ * خروجی: `border-radius` + `mask-image` (SVG data-URI، دقیق px روی هر اندازه) + `--pb-corners` برای بازیابی مدل (به corner-model.ts نگاه کنید).
  */
 @Component({
   selector: 'corner-control',
@@ -90,7 +99,7 @@ export class CornerControlComponent extends BaseControl {
   protected readonly cornerKeys = CORNER_KEYS;
   protected readonly edgeKeys = EDGE_KEYS;
   protected readonly roundUnits = ROUND_UNITS;
-  protected readonly invertUnits = INVERT_UNITS;
+  protected readonly cutUnits = CUT_UNITS;
   protected readonly stageH = STAGE_H;
   protected readonly edgeLabel: Record<EdgeKey, string> = { t: 'Top', r: 'Right', b: 'Bottom', l: 'Left' };
   protected readonly cornerLabel: Record<CornerKey, string> = {
@@ -117,14 +126,14 @@ export class CornerControlComponent extends BaseControl {
     const m = this.model();
     return (
       this.elliptical() ||
-      CORNER_KEYS.some((k) => m.corners[k].mode === 'invert' || !this.isZero(m.corners[k].size)) ||
+      CORNER_KEYS.some((k) => m.corners[k].mode !== 'round' || !this.isZero(m.corners[k].size)) ||
       EDGE_KEYS.some((e) => m.notches[e].on)
     );
   });
 
   protected readonly usesMask = computed(() => {
     const m = this.model();
-    return CORNER_KEYS.some((k) => m.corners[k].mode === 'invert') || EDGE_KEYS.some((e) => m.notches[e].on);
+    return CORNER_KEYS.some((k) => m.corners[k].mode !== 'round') || EDGE_KEYS.some((e) => m.notches[e].on);
   });
 
   protected readonly elliptical = computed(() => this.model().elliptical);
@@ -186,7 +195,11 @@ export class CornerControlComponent extends BaseControl {
   }
 
   protected unitsFor(k: CornerKey): readonly string[] {
-    return this.corner(k).mode === 'invert' ? INVERT_UNITS : ROUND_UNITS;
+    return this.corner(k).mode === 'scoop' ? SCOOP_UNITS : ROUND_UNITS;
+  }
+
+  protected modeLabel(mode: CornerMode): string {
+    return mode === 'round' ? 'Round' : mode === 'scoop' ? 'Scoop (inverted arc)' : 'Cut-out (inverted step)';
   }
 
   protected setSize(k: CornerKey, size: string): void {
@@ -196,20 +209,61 @@ export class CornerControlComponent extends BaseControl {
     });
   }
 
+  /** round → scoop → cut → round */
   protected toggleMode(k: CornerKey): void {
+    this.setMode(k, NEXT_MODE[this.corner(k).mode]);
+  }
+
+  protected setMode(k: CornerKey, to: CornerMode): void {
     this.update((m) => {
       m.elliptical = false;
-      const to = m.corners[k].mode === 'round' ? 'invert' : 'round';
+      const src = m.corners[k];
       for (const key of this.targets(k)) {
         const c = m.corners[key];
         c.mode = to;
-        if (to === 'invert') {
-          // ٪ و صفر برای گوشه‌ی وارونه بی‌معنی/نامرئی است؛ مقدار آغازین دیدنی می‌دهیم
-          if (this.isZero(c.size) || c.size.includes('%')) c.size = DEFAULT_INVERT_SIZE;
-        } else if (this.isZero(c.size)) c.size = DEFAULT_ROUND_SIZE;
+        if (to === 'scoop') {
+          // ٪ و صفر برای scoop بی‌معنی/نامرئی است؛ مقدار آغازین دیدنی می‌دهیم
+          if (this.isZero(c.size) || !/px$/i.test(c.size.trim())) c.size = DEFAULT_INVERT_SIZE;
+        } else if (to === 'round') {
+          if (this.isZero(c.size) || !/px$/i.test(c.size.trim())) c.size = DEFAULT_ROUND_SIZE;
+        } else if (key === k || !this.linked()) {
+          c.cut = c.cut && !this.isZero(c.cut.w) ? c.cut : { ...DEFAULT_CUT };
+        } else {
+          c.cut = { ...src.cut };
+        }
       }
     });
     this.active.set(k);
+  }
+
+  protected setCut(k: CornerKey, field: CutField, value: string): void {
+    this.update((m) => {
+      for (const key of this.targets(k)) m.corners[key].cut = { ...m.corners[key].cut, [field]: value || '0px' };
+    });
+  }
+
+  protected setCutRadius(k: CornerKey, which: 'r1' | 'r2' | 'r3', raw: string): void {
+    const n = parseFloat(raw);
+    const v = Number.isFinite(n) ? Math.max(0, n) : 0;
+    this.update((m) => {
+      for (const key of this.targets(k)) {
+        const cut = { ...m.corners[key].cut };
+        if (cut.linked) cut.r1 = cut.r2 = cut.r3 = v;
+        else cut[which] = v;
+        m.corners[key].cut = cut;
+      }
+    });
+  }
+
+  protected toggleCutSplit(k: CornerKey): void {
+    this.update((m) => {
+      for (const key of this.targets(k)) {
+        const cut: CutValue = { ...m.corners[key].cut };
+        cut.linked = !cut.linked;
+        if (cut.linked) cut.r2 = cut.r3 = cut.r1;
+        m.corners[key].cut = cut;
+      }
+    });
   }
 
   protected toggleLinked(): void {
@@ -220,7 +274,7 @@ export class CornerControlComponent extends BaseControl {
       const src = this.active() ?? 'tl';
       this.update((m) => {
         const s = { ...m.corners[src] };
-        for (const k of CORNER_KEYS) m.corners[k] = { ...s };
+        for (const k of CORNER_KEYS) m.corners[k] = { ...s, cut: { ...s.cut } };
       });
     }
   }
@@ -253,6 +307,12 @@ export class CornerControlComponent extends BaseControl {
     });
   }
 
+  protected setNotchShape(e: EdgeKey, shape: NotchShape): void {
+    this.update((m) => {
+      m.notches[e] = { ...m.notches[e], shape };
+    });
+  }
+
   protected setNotch(e: EdgeKey, field: NotchField, raw: string): void {
     const n = parseFloat(raw);
     const v = Number.isFinite(n) ? Math.max(0, n) : 0;
@@ -262,6 +322,18 @@ export class CornerControlComponent extends BaseControl {
   }
 
   //---------------------------------- stage: handles ----------------------------------
+
+  /** ابعاد واقعی frame (برای تبدیل ٪ به px) */
+  private frameSize(): { W: number; H: number } {
+    const el = this.frame?.nativeElement;
+    return { W: el?.clientWidth || 240, H: el?.clientHeight || STAGE_H };
+  }
+
+  /** طول px یا ٪ را نسبت به مرجع به px تبدیل می‌کند */
+  private lenPx(v: string, ref: number): number {
+    const l = parseLen(v);
+    return (l.pct / 100) * ref + l.px;
+  }
 
   /** اندازه‌ی گوشه بر حسب px برای جای handle (٪ به‌صورت تقریبی نسبت به ضلع کوچک) */
   private cornerPx(k: CornerKey): number {
@@ -275,10 +347,20 @@ export class CornerControlComponent extends BaseControl {
   }
 
   protected handleStyle(k: CornerKey): Record<string, string> {
-    const s = Math.min(this.cornerPx(k), STAGE_H / 2) + 'px';
+    const c = this.corner(k);
+    let sx: number;
+    let sy: number;
+    if (c.mode === 'cut') {
+      // handle روی راس داخلی برش (w, h)
+      const { W, H } = this.frameSize();
+      sx = Math.min(this.lenPx(c.cut.w, W), W);
+      sy = Math.min(this.lenPx(c.cut.h, H), H);
+    } else {
+      sx = sy = Math.min(this.cornerPx(k), STAGE_H / 2);
+    }
     return {
-      [k[1] === 'l' ? 'left' : 'right']: s,
-      [k[0] === 't' ? 'top' : 'bottom']: s,
+      [k[1] === 'l' ? 'left' : 'right']: sx + 'px',
+      [k[0] === 't' ? 'top' : 'bottom']: sy + 'px',
     };
   }
 
@@ -327,6 +409,19 @@ export class CornerControlComponent extends BaseControl {
     if (d.type === 'corner') {
       const dx = d.k[1] === 'l' ? px : W - px;
       const dy = d.k[0] === 't' ? py : H - py;
+      if (this.corner(d.k).mode === 'cut') {
+        const clampN = (v: number, hi: number) => Math.round(Math.max(0, Math.min(hi, v)));
+        this.update((m) => {
+          for (const key of ev.shiftKey || this.linked() ? CORNER_KEYS : [d.k]) {
+            const cut = m.corners[key].cut;
+            // اگر واحد فعلی ٪ بود، ٪ بماند
+            const toUnit = (cur: string, v: number, ref: number) =>
+              parseLen(cur).pct ? `${Math.round((v / ref) * 100)}%` : `${clampN(v, ref)}px`;
+            m.corners[key].cut = { ...cut, w: toUnit(cut.w, dx, W), h: toUnit(cut.h, dy, H) };
+          }
+        });
+        return;
+      }
       const max = Math.min(W, H) / 2;
       const s = Math.round(Math.max(0, Math.min(max, (dx + dy) / 2)));
       const all = ev.shiftKey;
@@ -362,6 +457,15 @@ export class CornerControlComponent extends BaseControl {
     const dir = ev.key === 'ArrowRight' || ev.key === 'ArrowDown' ? 1 : ev.key === 'ArrowLeft' || ev.key === 'ArrowUp' ? -1 : 0;
     if (!dir) return;
     ev.preventDefault();
+    if (this.corner(k).mode === 'cut') {
+      const { W, H } = this.frameSize();
+      const w = Math.max(0, Math.round(this.lenPx(this.corner(k).cut.w, W) + dir * step));
+      const h = Math.max(0, Math.round(this.lenPx(this.corner(k).cut.h, H) + dir * step));
+      this.update((m) => {
+        for (const key of this.targets(k)) m.corners[key].cut = { ...m.corners[key].cut, w: `${w}px`, h: `${h}px` };
+      });
+      return;
+    }
     const s = Math.max(0, Math.round(this.cornerPx(k) + dir * step));
     this.setSize(k, `${s}px`);
   }
@@ -378,14 +482,22 @@ export class CornerControlComponent extends BaseControl {
 
   private allSame(m: CornerModel): boolean {
     const a = m.corners.tl;
-    return CORNER_KEYS.every((k) => m.corners[k].mode === a.mode && m.corners[k].size === a.size);
+    return CORNER_KEYS.every(
+      (k) => m.corners[k].mode === a.mode && m.corners[k].size === a.size && JSON.stringify(m.corners[k].cut) === JSON.stringify(a.cut),
+    );
   }
 
   /** ساختار قابل مقایسه‌ی مدل (برای تشخیص preset فعال) */
   private signature(m: CornerModel) {
     return {
-      c: CORNER_KEYS.map((k) => [m.corners[k].mode, pxOf(m.corners[k].size) ?? m.corners[k].size]),
-      n: EDGE_KEYS.map((e) => (m.notches[e].on ? [m.notches[e].width, m.notches[e].depth, m.notches[e].pos] : 0)),
+      c: CORNER_KEYS.map((k) => {
+        const c = m.corners[k];
+        return c.mode === 'cut' ? ['cut', c.cut.w, c.cut.h, c.cut.r1, c.cut.r2, c.cut.r3] : [c.mode, pxOf(c.size) ?? c.size];
+      }),
+      n: EDGE_KEYS.map((e) => {
+        const n = m.notches[e];
+        return n.on ? [n.shape, n.width, n.depth, n.pos, n.radius, n.flare] : 0;
+      }),
     };
   }
 
@@ -393,13 +505,29 @@ export class CornerControlComponent extends BaseControl {
   private thumbCss(m: CornerModel): string {
     const t = cloneModel(m);
     const k = 0.45;
+    const sc = (v: string) => {
+      const l = parseLen(v);
+      return l.pct ? `${l.pct}%` : `${Math.min(l.px * k, 30)}px`;
+    };
     for (const key of CORNER_KEYS) {
-      const px = pxOf(t.corners[key].size);
-      t.corners[key].size = px != null ? `${Math.min(px * k, 12)}px` : '4px';
+      const c = t.corners[key];
+      const px = pxOf(c.size);
+      c.size = px != null ? `${Math.min(px * k, 12)}px` : '4px';
+      c.cut = {
+        ...c.cut,
+        w: sc(c.cut.w),
+        h: sc(c.cut.h),
+        r1: c.cut.r1 * k,
+        r2: c.cut.r2 * k,
+        r3: c.cut.r3 * k,
+      };
     }
     for (const e of EDGE_KEYS) {
-      t.notches[e].width = t.notches[e].width * k;
-      t.notches[e].depth = Math.min(t.notches[e].depth * k, 8);
+      const n = t.notches[e];
+      n.width *= k;
+      n.depth = Math.min(n.depth * k, 8);
+      n.radius = Math.min(n.radius * k, n.depth);
+      n.flare *= k;
     }
     return declsToCssText(serializeCornerModel(t, { loaded: {}, inherits: false }));
   }

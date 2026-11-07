@@ -1,54 +1,24 @@
 /**
- * مدل «Corners»: گوشه‌ی گرد (border-radius) + گوشه‌ی وارونه (inverted / concave corner) + فرورفتگی وسط لبه‌ها (notch).
+ * corner-model.ts  (v2)
  *
- * منطق خالص (بدون Angular/DOM) تا designer، preview و publish یکسان رفتار کنند.
+ * مدل شکل گوشه‌ها و Notch ها + تبدیل به CSS.
  *
- * ── چطور کار می‌کند ─────────────────────────────────────────────────────────────
- *  - گوشه‌ی گرد   → `border-radius` معمولی.
- *  - گوشه‌ی وارونه → یک لایه‌ی `mask-image` با radial-gradient که یک ربع‌دایره‌ی شفاف در گوشه می‌اندازد.
- *  - notch         → یک قطعه‌ی دایره (circular segment) که از لبه به داخل بُریده می‌شود؛ با عرض/عمق/موقعیت.
- *  - لایه‌ها با `mask-composite: intersect` ترکیب می‌شوند، پس هر تعداد گوشه/notch کنار هم کار می‌کنند.
- *  - اندازه‌ها در custom property های `--pb-ci-*` / `--pb-cn-*` نگه‌داری می‌شوند (منبع حقیقت، پارس ساده)
- *    و با `@property` ثبت می‌شوند تا در hover/transition/animation نرم تغییر کنند.
+ * روش خروجی: «mask-image با SVG data-URI» (روش ۳ سایت corner-inverter) ولی ارتقا‌یافته:
+ *   - SVG اندازه‌ی ذاتی ندارد و با `mask-size: 100% 100%` دقیقاً روی المنت کشیده می‌شود،
+ *   - هر قطعه‌ی هندسی (گوشه / notch) با <svg x y overflow=visible> به گوشه یا لبه‌ی خودش «لنگر» می‌شود
+ *     و داخلش مختصات px مطلق است؛ پس شعاع‌ها روی هر اندازه‌ی المنت دقیقاً px می‌مانند (بدون aspect-ratio و بدون کشیدگی)،
+ *   - عرض/ارتفاع برش‌ها می‌تواند px یا % باشد.
  *
- * محدودیت‌های ذاتی mask: box-shadow و border در ناحیه‌ی بُریده‌شده دیده نمی‌شوند
- * (برای سایه، بلاک را داخل یک container با `filter: drop-shadow()` بگذارید).
+ * گوشه‌ی ساده‌ی گرد (round) همچنان با `border-radius` ساخته می‌شود.
  */
 
 export type CornerKey = 'tl' | 'tr' | 'br' | 'bl';
 export type EdgeKey = 't' | 'r' | 'b' | 'l';
-export type CornerMode = 'round' | 'invert';
+export type CornerMode = 'round' | 'scoop' | 'cut';
+export type NotchShape = 'rect' | 'round';
 
 export const CORNER_KEYS: readonly CornerKey[] = ['tl', 'tr', 'br', 'bl'];
 export const EDGE_KEYS: readonly EdgeKey[] = ['t', 'r', 'b', 'l'];
-
-export interface CornerValue {
-  mode: CornerMode;
-  /** طول CSS مثل `24px` / `50%` (٪ فقط در حالت round) */
-  size: string;
-}
-
-export interface NotchValue {
-  on: boolean;
-  /** عرض دهانه روی لبه (px) */
-  width: number;
-  /** عمق (px) */
-  depth: number;
-  /** موقعیت وسط notch روی لبه (٪) */
-  pos: number;
-}
-
-export interface CornerModel {
-  corners: Record<CornerKey, CornerValue>;
-  notches: Record<EdgeKey, NotchValue>;
-  /** border-radius بیضوی (`a / b`) که این کنترل نمی‌تواند به‌طور کامل نشان بدهد؛ تا وقتی کاربر دست نزده دست‌نخورده می‌ماند */
-  elliptical: boolean;
-}
-
-//==================================================================================
-// Names
-//==================================================================================
-
 export const INVERT_PROP: Record<CornerKey, string> = {
   tl: '--pb-ci-tl',
   tr: '--pb-ci-tr',
@@ -62,14 +32,23 @@ export const NOTCH_PROP: Record<EdgeKey, { r: string; d: string; x: string }> = 
   b: { r: '--pb-cn-b-r', d: '--pb-cn-b-d', x: '--pb-cn-b-x' },
   l: { r: '--pb-cn-l-r', d: '--pb-cn-l-d', x: '--pb-cn-l-x' },
 };
+export const DEFAULT_ROUND_SIZE = '12px';
+/** اندازه‌ی آغازین گوشه‌ی scoop */
+export const DEFAULT_INVERT_SIZE = '16px';
 
-const RADIUS_LONGHAND: Record<CornerKey, string> = {
-  tl: 'border-top-left-radius',
-  tr: 'border-top-right-radius',
-  br: 'border-bottom-right-radius',
-  bl: 'border-bottom-left-radius',
-};
-
+/** برش مستطیلی در گوشه (مثل خروجی corner-inverter). w / h به px یا % ؛ شعاع‌ها px */
+export interface CutValue {
+  w: string;
+  h: string;
+  /** شعاع راس روی لبه‌ی افقی (محدب) */
+  r1: number;
+  /** شعاع راس داخلی (مقعر) */
+  r2: number;
+  /** شعاع راس روی لبه‌ی عمودی (محدب) */
+  r3: number;
+  /** وقتی true باشد r1=r2=r3 و فقط r1 ویرایش می‌شود */
+  linked: boolean;
+}
 /** همه‌ی property هایی که این کنترل می‌نویسد (برای لیست transition و پاک‌سازی) */
 export const CORNER_TRANSITION_PROPS: readonly string[] = [
   'border-radius',
@@ -77,252 +56,35 @@ export const CORNER_TRANSITION_PROPS: readonly string[] = [
   ...EDGE_KEYS.flatMap((e) => [NOTCH_PROP[e].r, NOTCH_PROP[e].d, NOTCH_PROP[e].x]),
 ];
 
-const AA = '.75px'; // نرمی لبه‌ی ماسک (anti-alias)
-const CORNER_AT: Record<CornerKey, string> = { tl: '0 0', tr: '100% 0', br: '100% 100%', bl: '0 100%' };
-
-//==================================================================================
-// Defaults / factories
-//==================================================================================
-
-export const DEFAULT_INVERT_SIZE = '24px';
-export const DEFAULT_ROUND_SIZE = '16px';
-export const DEFAULT_NOTCH: NotchValue = { on: true, width: 72, depth: 28, pos: 50 };
-export const OFF_NOTCH: NotchValue = { on: false, width: 72, depth: 28, pos: 50 };
-
-export function createModel(): CornerModel {
-  return {
-    corners: {
-      tl: { mode: 'round', size: '0px' },
-      tr: { mode: 'round', size: '0px' },
-      br: { mode: 'round', size: '0px' },
-      bl: { mode: 'round', size: '0px' },
-    },
-    notches: { t: { ...OFF_NOTCH }, r: { ...OFF_NOTCH }, b: { ...OFF_NOTCH }, l: { ...OFF_NOTCH } },
-    elliptical: false,
-  };
+export interface CornerValue {
+  mode: CornerMode;
+  /** round: شعاع border-radius ؛ scoop: شعاع دایره‌ی فرورفته */
+  size: string;
+  cut: CutValue;
 }
 
-export function cloneModel(m: CornerModel): CornerModel {
-  return {
-    corners: {
-      tl: { ...m.corners.tl },
-      tr: { ...m.corners.tr },
-      br: { ...m.corners.br },
-      bl: { ...m.corners.bl },
-    },
-    notches: { t: { ...m.notches.t }, r: { ...m.notches.r }, b: { ...m.notches.b }, l: { ...m.notches.l } },
-    elliptical: m.elliptical,
-  };
+export interface NotchValue {
+  on: boolean;
+  shape: NotchShape;
+  /** px */
+  width: number;
+  /** px */
+  depth: number;
+  /** ٪ در امتداد لبه */
+  pos: number;
+  /** شعاع دو گوشه‌ی ته notch (فقط shape=rect) */
+  radius: number;
+  /** شعاع دو راس محدب روی لبه (نرم کردن ورودی notch) */
+  flare: number;
 }
 
-//==================================================================================
-// Small helpers
-//==================================================================================
-
-/** تقسیم روی فاصله‌ی سطح‌بالا (داخل پرانتز مثل calc(1px + 2px) تقسیم نمی‌شود) */
-function splitSpaces(text: string): string[] {
-  const out: string[] = [];
-  let depth = 0;
-  let buf = '';
-  for (const ch of text) {
-    if (ch === '(') depth++;
-    else if (ch === ')' && depth > 0) depth--;
-    if (/\s/.test(ch) && depth === 0) {
-      if (buf) out.push(buf);
-      buf = '';
-    } else buf += ch;
-  }
-  if (buf) out.push(buf);
-  return out;
+export interface CornerModel {
+  corners: Record<CornerKey, CornerValue>;
+  notches: Record<EdgeKey, NotchValue>;
+  /** border-radius بیضوی (a / b) که در Advanced تنظیم شده؛ دست‌نخورده حفظ می‌شود */
+  elliptical: boolean;
+  ellipticalRaw: string;
 }
-
-/** `border-radius: a b c d` (۱ تا ۴ مقدار) → [tl, tr, br, bl] */
-function expandBox(tokens: string[]): [string, string, string, string] | null {
-  switch (tokens.length) {
-    case 1:
-      return [tokens[0], tokens[0], tokens[0], tokens[0]];
-    case 2:
-      return [tokens[0], tokens[1], tokens[0], tokens[1]];
-    case 3:
-      return [tokens[0], tokens[1], tokens[2], tokens[1]];
-    case 4:
-      return [tokens[0], tokens[1], tokens[2], tokens[3]];
-    default:
-      return null;
-  }
-}
-
-/** عدد px از `12px` / `12` / `0`؛ برای مقدارهای دیگر (var، calc، rem …) null */
-export function pxOf(value: string | undefined | null): number | null {
-  if (value == null) return null;
-  const m = /^\s*(-?\d*\.?\d+)\s*(px)?\s*$/i.exec(value);
-  return m ? parseFloat(m[1]) : null;
-}
-
-function normLen(v: string): string {
-  const t = (v ?? '').trim();
-  if (!t) return '0px';
-  return /^-?\d*\.?\d+$/.test(t) ? `${+t}px` : t;
-}
-
-function isZero(v: string): boolean {
-  const t = v.trim();
-  return !t || /^0+(\.0+)?[a-z%]*$/i.test(t);
-}
-
-const r2 = (n: number) => +n.toFixed(2);
-
-/** شعاع دایره‌ای که از دو سر دهانه‌ی `width` می‌گذرد و عمقش `depth` است */
-export function notchRadius(width: number, depth: number): number {
-  if (width <= 0 || depth <= 0) return 0;
-  return (width * width / 4 + depth * depth) / (2 * depth);
-}
-
-/** عکس notchRadius: عرض دهانه از شعاع و عمق */
-export function notchWidth(radius: number, depth: number): number {
-  const v = 2 * radius * depth - depth * depth;
-  return v > 0 ? 2 * Math.sqrt(v) : 0;
-}
-
-//==================================================================================
-// Parse: declarations (kebab-case, مقدار «مؤثر») → model
-//==================================================================================
-
-export function parseCornerModel(decls: Record<string, string>): CornerModel {
-  const m = createModel();
-
-  // --- border-radius (shorthand سپس longhand ها)
-  const radii: Record<CornerKey, string> = { tl: '0px', tr: '0px', br: '0px', bl: '0px' };
-  const sh = (decls['border-radius'] ?? '').trim();
-  if (sh) {
-    const [h] = sh.split('/');
-    if (sh.includes('/')) m.elliptical = true;
-    const box = expandBox(splitSpaces(h));
-    if (box) CORNER_KEYS.forEach((k, i) => (radii[k] = normLen(box[i])));
-  }
-  for (const k of CORNER_KEYS) {
-    const lh = (decls[RADIUS_LONGHAND[k]] ?? '').trim();
-    if (lh) radii[k] = normLen(lh.split(/\s+/)[0]);
-  }
-
-  for (const k of CORNER_KEYS) {
-    const inv = (decls[INVERT_PROP[k]] ?? '').trim();
-    m.corners[k] = inv ? { mode: 'invert', size: normLen(inv) } : { mode: 'round', size: radii[k] };
-  }
-
-  // --- notches
-  for (const e of EDGE_KEYS) {
-    const p = NOTCH_PROP[e];
-    const dRaw = decls[p.d];
-    if (dRaw === undefined || !dRaw.trim()) continue;
-    const d = pxOf(dRaw) ?? 0;
-    const r = pxOf(decls[p.r]) ?? 0;
-    const x = parseFloat(decls[p.x] ?? '');
-    m.notches[e] = { on: true, depth: d, width: r2(notchWidth(r, d)), pos: Number.isFinite(x) ? x : 50 };
-  }
-  return m;
-}
-
-//==================================================================================
-// Serialize: model → declarations
-//==================================================================================
-
-export interface SerializeOptions {
-  /** مقدار «مؤثر» هنگام لود (kebab-case) */
-  loaded: Record<string, string>;
-  /** آیا context فعلی از جای دیگری ارث می‌برد (breakpoint کوچک‌تر یا state)؟ */
-  inherits: boolean;
-  /** مقدار فعلی style (شامل ویرایش‌های همین نشست) — برای تشخیص mask ای که همین کنترل نوشته و باید پاک شود */
-  current?: Record<string, string>;
-}
-
-/** لایه‌های ماسک به ترتیب ثابت: ۴ گوشه، سپس ۴ لبه */
-export function buildMaskLayers(m: CornerModel): string[] {
-  const layers: string[] = [];
-  for (const k of CORNER_KEYS) {
-    if (m.corners[k].mode !== 'invert') continue;
-    const s = `var(${INVERT_PROP[k]},0px)`;
-    layers.push(`radial-gradient(circle at ${CORNER_AT[k]},transparent ${s},#000 calc(${s} + ${AA}))`);
-  }
-  for (const e of EDGE_KEYS) {
-    if (!m.notches[e].on) continue;
-    const p = NOTCH_PROP[e];
-    const r = `var(${p.r},0px)`;
-    const d = `var(${p.d},0px)`;
-    const x = `var(${p.x},50%)`;
-    // مرکز دایره بیرون از لبه است؛ فاصله‌ی مرکز تا لبه = r − d
-    const at =
-      e === 't'
-        ? `${x} calc(${d} - ${r})`
-        : e === 'b'
-          ? `${x} calc(100% - ${d} + ${r})`
-          : e === 'l'
-            ? `calc(${d} - ${r}) ${x}`
-            : `calc(100% - ${d} + ${r}) ${x}`;
-    layers.push(`radial-gradient(circle at ${at},transparent ${r},#000 calc(${r} + ${AA}))`);
-  }
-  return layers;
-}
-
-export function serializeCornerModel(m: CornerModel, opts: SerializeOptions): Record<string, string> {
-  const out: Record<string, string> = {};
-  const loaded = opts.loaded;
-  /** «خاموش» کردن: اگر مقدار از بالادست ارث رسیده، با override صفر خنثی‌اش می‌کنیم؛ وگرنه حذف */
-  const off = (prop: string) => (opts.inherits && (loaded[prop] ?? '') !== '' ? '0px' : '');
-
-  // --- radius
-  if (!m.elliptical) {
-    const vals = CORNER_KEYS.map((k) => (m.corners[k].mode === 'round' ? normLen(m.corners[k].size) : '0'));
-    const hadRadius = !!loaded['border-radius'] || CORNER_KEYS.some((k) => !!loaded[RADIUS_LONGHAND[k]]);
-    if (vals.every(isZero)) out['border-radius'] = hadRadius && opts.inherits ? '0px' : '';
-    else out['border-radius'] = vals.every((v) => v === vals[0]) ? vals[0] : vals.join(' ');
-    for (const k of CORNER_KEYS) if (loaded[RADIUS_LONGHAND[k]]) out[RADIUS_LONGHAND[k]] = '';
-  }
-
-  // --- inverted corners
-  for (const k of CORNER_KEYS) {
-    out[INVERT_PROP[k]] = m.corners[k].mode === 'invert' ? normLen(m.corners[k].size) : off(INVERT_PROP[k]);
-  }
-
-  // --- notches
-  for (const e of EDGE_KEYS) {
-    const n = m.notches[e];
-    const p = NOTCH_PROP[e];
-    if (n.on) {
-      const d = Math.max(0, r2(n.depth));
-      out[p.d] = `${d}px`;
-      out[p.r] = `${r2(notchRadius(Math.max(0, n.width), d))}px`;
-      out[p.x] = `${r2(n.pos)}%`;
-    } else {
-      out[p.d] = off(p.d);
-      out[p.r] = off(p.r);
-      out[p.x] = '';
-    }
-  }
-
-  // --- mask
-  const layers = buildMaskLayers(m);
-  const ownedMask = /--pb-c[in]-/.test(loaded['mask-image'] ?? '') || /--pb-c[in]-/.test(opts.current?.['mask-image'] ?? '');
-  if (layers.length) {
-    out['mask-image'] = layers.join(',');
-    out['mask-composite'] = 'intersect';
-  } else if (ownedMask) {
-    out['mask-image'] = opts.inherits ? 'none' : '';
-    out['mask-composite'] = '';
-  }
-  return out;
-}
-
-/** شیء declaration → متن CSS (برای پیش‌نمایش) */
-export function declsToCssText(d: Record<string, string>): string {
-  let s = '';
-  for (const k of Object.keys(d)) if (d[k]) s += `${k}:${d[k]};`;
-  return s;
-}
-
-//==================================================================================
-// Presets
-//==================================================================================
 
 export interface CornerPreset {
   id: string;
@@ -330,55 +92,436 @@ export interface CornerPreset {
   build: () => CornerModel;
 }
 
-function all(m: CornerModel, mode: CornerMode, size: string): CornerModel {
-  for (const k of CORNER_KEYS) m.corners[k] = { mode, size };
+export interface SerializeOptions {
+  /** مقدار مؤثر هنگام لود (شامل ارث‌بری) */
+  loaded: Record<string, string>;
+  /** آیا context فعلی از جای دیگری ارث می‌برد؟ */
+  inherits: boolean;
+  current?: Record<string, string>;
+}
+
+export const PROP_MODEL = '--pb-corners';
+const LEGACY_PREFIXES = ['--pb-ci-', '--pb-cn-'];
+
+//---------------------------------- factories ----------------------------------
+
+export const DEFAULT_CUT: CutValue = { w: '40px', h: '24px', r1: 8, r2: 8, r3: 8, linked: true };
+
+export const DEFAULT_NOTCH: NotchValue = {
+  on: true,
+  shape: 'rect',
+  width: 64,
+  depth: 20,
+  pos: 50,
+  radius: 8,
+  flare: 8,
+};
+
+export function createCorner(): CornerValue {
+  return { mode: 'round', size: '0px', cut: { ...DEFAULT_CUT } };
+}
+
+export function createModel(): CornerModel {
+  const corners = {} as Record<CornerKey, CornerValue>;
+  for (const k of CORNER_KEYS) corners[k] = createCorner();
+  const notches = {} as Record<EdgeKey, NotchValue>;
+  for (const e of EDGE_KEYS) notches[e] = { ...DEFAULT_NOTCH, on: false };
+  return { corners, notches, elliptical: false, ellipticalRaw: '' };
+}
+
+export function cloneModel(m: CornerModel): CornerModel {
+  const n = createModel();
+  for (const k of CORNER_KEYS) n.corners[k] = { ...m.corners[k], cut: { ...m.corners[k].cut } };
+  for (const e of EDGE_KEYS) n.notches[e] = { ...m.notches[e] };
+  n.elliptical = m.elliptical;
+  n.ellipticalRaw = m.ellipticalRaw;
+  return n;
+}
+
+//---------------------------------- units ----------------------------------
+
+export function pxOf(v: string | null | undefined): number | null {
+  const m = /^\s*(-?\d*\.?\d+)\s*(px)?\s*$/i.exec(v ?? '');
+  return m ? parseFloat(m[1]) : null;
+}
+
+export interface Len {
+  /** سهم درصدی */
+  pct: number;
+  /** سهم px */
+  px: number;
+}
+
+/** فقط px و % برای هندسه‌ی SVG معنی دارد؛ بقیه‌ی واحدها px فرض می‌شوند */
+export function parseLen(v: string): Len {
+  const s = (v ?? '').trim();
+  const p = /^(-?\d*\.?\d+)%$/.exec(s);
+  if (p) return { pct: parseFloat(p[1]), px: 0 };
+  const n = parseFloat(s);
+  return { pct: 0, px: Number.isFinite(n) ? n : 0 };
+}
+
+const num = (n: number) => String(Math.round(n * 1000) / 1000);
+const isZero = (v: string) => !v.trim() || /^0+(\.0+)?[a-z%]*$/i.test(v.trim());
+
+//---------------------------------- SVG geometry ----------------------------------
+
+/**
+ * مختصات یک محور: `a%` + `b px` از لبه‌ی «خودِ» گوشه به سمت داخل.
+ * خروجی: ویژگی‌ی x/y برای <svg> لنگر + translate داخلی.
+ */
+function anchorAxis(len: Len, farSide: boolean): { at: string; shift: number } {
+  return farSide ? { at: `${num(100 - len.pct)}%`, shift: -len.px } : { at: `${num(len.pct)}%`, shift: len.px };
+}
+
+/**
+ * محتوای `content` را در نقطه‌ی (fx, fy) (از گوشه‌ی corner به سمت داخل) قرار می‌دهد.
+ * مختصات محلی: +x به سمت داخل (برای گوشه‌های راست آینه می‌شود)، +y به سمت پایین/بالا مشابه.
+ */
+function placeAtCorner(c: CornerKey, fx: Len, fy: Len, content: string, mirror = true): string {
+  const farX = c[1] === 'r';
+  const farY = c[0] === 'b';
+  const ax = anchorAxis(fx, farX);
+  const ay = anchorAxis(fy, farY);
+  const sx = mirror && farX ? -1 : 1;
+  const sy = mirror && farY ? -1 : 1;
+  return (
+    `<svg x='${ax.at}' y='${ay.at}' overflow='visible'>` +
+    `<g transform='translate(${num(ax.shift)} ${num(ay.shift)}) scale(${sx} ${sy})'>${content}</g></svg>`
+  );
+}
+
+const ZERO: Len = { pct: 0, px: 0 };
+
+/** برش مستطیلی گوشه (مختصات محلی گوشه‌ی بالا-چپ) */
+function cutShapes(c: CornerKey, cut: CutValue): string {
+  const w = parseLen(cut.w);
+  const h = parseLen(cut.h);
+  const r1 = Math.max(0, cut.r1);
+  const r2 = Math.max(0, cut.linked ? cut.r1 : cut.r2);
+  const r3 = Math.max(0, cut.linked ? cut.r1 : cut.r3);
+  const widthAttr = w.pct ? `${num(w.pct)}%` : num(w.px);
+  const heightAttr = h.pct ? `${num(h.pct)}%` : num(h.px);
+  const rect = `<rect x='0' y='0' width='${widthAttr}' height='${heightAttr}'/>`;
+
+  const body = placeAtCorner(c, ZERO, ZERO, rect);
+
+  // راس‌ها (patch). هرکدام با 1px هم‌پوشانی با مستطیل تا درز AA نیفتد.
+  let patches = '';
+  if (r1 > 0) {
+    patches += placeAtCorner(
+      c,
+      { pct: w.pct, px: w.px },
+      ZERO,
+      `<path d='M-1 0H${num(r1)}A${num(r1)} ${num(r1)} 0 0 0 0 ${num(r1)}H-1Z'/>`,
+    );
+  }
+  if (r3 > 0) {
+    patches += placeAtCorner(
+      c,
+      ZERO,
+      { pct: h.pct, px: h.px },
+      `<path d='M0 -1H${num(r3)}V0A${num(r3)} ${num(r3)} 0 0 0 0 ${num(r3)}Z'/>`,
+    );
+  }
+  // پرکننده‌ی مقعر: ماده‌ی شکل را برمی‌گرداند (سفید)
+  let fillet = '';
+  if (r2 > 0) {
+    fillet = placeAtCorner(
+      c,
+      { pct: w.pct, px: w.px },
+      { pct: h.pct, px: h.px },
+      `<path fill='#fff' d='M0 0H${num(-r2)}A${num(r2)} ${num(r2)} 0 0 0 0 ${num(-r2)}Z'/>`,
+    );
+  }
+  return `<g fill='#000'>${body}${patches}</g>${fillet}`;
+}
+
+/** scoop: ربع‌دایره‌ی فرورفته در گوشه */
+function scoopShapes(c: CornerKey, size: string): string {
+  const s = Math.max(0, parseLen(size).px);
+  if (!s) return '';
+  return `<g fill='#000'>${placeAtCorner(c, ZERO, ZERO, `<path d='M0 0H${num(s)}A${num(s)} ${num(s)} 0 0 1 0 ${num(s)}Z'/>`)}</g>`;
+}
+
+/** notch روی یک لبه. مختصات محلی: مبدأ وسط notch روی لبه، +y به سمت داخل */
+function notchShapes(e: EdgeKey, n: NotchValue): string {
+  const w = Math.max(0, n.width);
+  const d = Math.max(0, n.depth);
+  if (!w || !d) return '';
+  const pos = Math.min(100, Math.max(0, n.pos));
+  const hw = w / 2;
+  const flare = Math.max(0, n.flare);
+  const ri = Math.min(Math.max(0, n.radius), hw, d);
+
+  let pocket: string;
+  if (n.shape === 'round') {
+    pocket = `<path d='M${num(-hw)} -1V0A${num(hw)} ${num(d)} 0 0 0 ${num(hw)} 0V-1Z'/>`;
+  } else {
+    pocket =
+      `<path d='M${num(-hw)} -1V${num(d - ri)}` +
+      (ri
+        ? `A${num(ri)} ${num(ri)} 0 0 0 ${num(-hw + ri)} ${num(d)}H${num(hw - ri)}A${num(ri)} ${num(ri)} 0 0 0 ${num(hw)} ${num(d - ri)}`
+        : `H${num(hw)}`) +
+      `V-1Z'/>`;
+  }
+  let flares = '';
+  if (flare > 0) {
+    const f = num(flare);
+    flares =
+      `<path d='M1 0H${num(-flare)}A${f} ${f} 0 0 1 0 ${f}H1Z' transform='translate(${num(-hw)} 0)'/>` +
+      `<path d='M-1 0H${f}A${f} ${f} 0 0 0 0 ${f}H-1Z' transform='translate(${num(hw)} 0)'/>`;
+  }
+  const inner = `<g fill='#000'>${pocket}${flares}</g>`;
+
+  // لنگر: برای لبه‌های t/b موقعیت در امتداد x ؛ برای l/r در امتداد y
+  const horizontal = e === 't' || e === 'b';
+  const far = e === 'b' || e === 'r';
+  const along = `${num(pos)}%`;
+  const edgeAt = far ? '100%' : '0%';
+  // نگاشت محلی (x در امتداد لبه، +y به داخل) → سراسری
+  const rot = {
+    t: '',
+    b: "transform='matrix(1 0 0 -1 0 0)'",
+    l: "transform='matrix(0 1 1 0 0 0)'",
+    r: "transform='matrix(0 1 -1 0 0 0)'",
+  }[e];
+  const x = horizontal ? along : edgeAt;
+  const y = horizontal ? edgeAt : along;
+  return `<svg x='${x}' y='${y}' overflow='visible'><g ${rot}>${inner}</g></svg>`;
+}
+
+/** SVG کامل ماسک (فقط ناحیه‌های خالی با رنگ مشکی روی زمینه‌ی سفید) */
+export function buildMaskSvg(m: CornerModel): string {
+  let voids = '';
+  for (const k of CORNER_KEYS) {
+    const c = m.corners[k];
+    if (c.mode === 'cut') voids += cutShapes(k, c.cut);
+    else if (c.mode === 'scoop') voids += scoopShapes(k, c.size);
+  }
+  for (const e of EDGE_KEYS) if (m.notches[e].on) voids += notchShapes(e, m.notches[e]);
+
+  return (
+    `<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>` +
+    `<mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='100%' height='100%'>` +
+    `<rect width='100%' height='100%' fill='#fff'/>${voids}</mask>` +
+    `<rect width='100%' height='100%' fill='#000' mask='url(#m)'/></svg>`
+  );
+}
+
+function svgToUrl(svg: string): string {
+  const enc = svg
+    .replace(/%/g, '%25')
+    .replace(/</g, '%3C')
+    .replace(/>/g, '%3E')
+    .replace(/#/g, '%23')
+    .replace(/"/g, "'");
+  return `url("data:image/svg+xml,${enc}")`;
+}
+
+//---------------------------------- persistence ----------------------------------
+
+const CK = { round: 'r', scoop: 's', cut: 'c' } as const;
+const CK_REV: Record<string, CornerMode> = { r: 'round', s: 'scoop', c: 'cut' };
+
+/** قالب فشرده: v2;tl=r:12px;tr=c:70px,20px,4,4,4,1;...;t=n:r,64,20,50,8,8 */
+export function encodeModel(m: CornerModel): string {
+  const parts = ['v2'];
+  for (const k of CORNER_KEYS) {
+    const c = m.corners[k];
+    if (c.mode === 'cut') {
+      const u = c.cut;
+      parts.push(`${k}=c:${u.w},${u.h},${num(u.r1)},${num(u.r2)},${num(u.r3)},${u.linked ? 1 : 0}`);
+    } else parts.push(`${k}=${CK[c.mode]}:${c.size}`);
+  }
+  for (const e of EDGE_KEYS) {
+    const n = m.notches[e];
+    if (n.on)
+      parts.push(
+        `${e}=n:${n.shape === 'round' ? 'o' : 'r'},${num(n.width)},${num(n.depth)},${num(n.pos)},${num(n.radius)},${num(n.flare)}`,
+      );
+  }
+  return parts.join(';');
+}
+
+export function decodeModel(src: string): CornerModel | null {
+  const s = src.trim().replace(/^["']|["']$/g, '');
+  if (!s.startsWith('v2')) return null;
+  const m = createModel();
+  for (const part of s.split(';').slice(1)) {
+    const [key, rest] = part.split('=');
+    if (!rest) continue;
+    const [kind, payload = ''] = rest.split(':');
+    const a = payload.split(',');
+    if ((CORNER_KEYS as readonly string[]).includes(key)) {
+      const c = m.corners[key as CornerKey];
+      c.mode = CK_REV[kind] ?? 'round';
+      if (c.mode === 'cut') {
+        c.cut = {
+          w: a[0] || '0px',
+          h: a[1] || '0px',
+          r1: +a[2] || 0,
+          r2: +a[3] || 0,
+          r3: +a[4] || 0,
+          linked: a[5] === '1',
+        };
+        c.size = DEFAULT_INVERT_SIZE;
+      } else c.size = payload || '0px';
+    } else if ((EDGE_KEYS as readonly string[]).includes(key) && kind === 'n') {
+      m.notches[key as EdgeKey] = {
+        on: true,
+        shape: a[0] === 'o' ? 'round' : 'rect',
+        width: +a[1] || 0,
+        depth: +a[2] || 0,
+        pos: a[3] === undefined ? 50 : +a[3],
+        radius: +a[4] || 0,
+        flare: +a[5] || 0,
+      };
+    }
+  }
   return m;
 }
 
-export const CORNER_PRESETS: readonly CornerPreset[] = [
-  { id: 'sharp', label: 'Sharp', build: () => createModel() },
-  { id: 'soft', label: 'Soft', build: () => all(createModel(), 'round', '14px') },
-  { id: 'pill', label: 'Pill', build: () => all(createModel(), 'round', '999px') },
-  { id: 'coupon', label: 'Coupon', build: () => all(createModel(), 'invert', '14px') },
+/** border-radius (۱ تا ۴ مقدار) → چهار گوشه [tl, tr, br, bl] */
+function expandRadius(v: string): string[] | null {
+  const t = v.trim().split(/\s+/).filter(Boolean);
+  if (!t.length || t.length > 4) return null;
+  const [a, b = a, c = a, d = b] = t;
+  return [a, b, c, d];
+}
+
+export function parseCornerModel(decls: Record<string, string>): CornerModel {
+  const fromVar = decodeModel(decls[PROP_MODEL] ?? '');
+  const m = fromVar ?? createModel();
+  const br = (decls['border-radius'] ?? '').trim();
+  if (br.includes('/')) {
+    m.elliptical = true;
+    m.ellipticalRaw = br;
+  } else if (!fromVar && br) {
+    const q = expandRadius(br);
+    if (q) CORNER_KEYS.forEach((k, i) => (m.corners[k].size = q[i]));
+  } else if (fromVar && br) {
+    // مقادیر border-radius جدیدتر از Advanced را برای گوشه‌های round بپذیر
+    const q = expandRadius(br);
+    if (q) CORNER_KEYS.forEach((k, i) => m.corners[k].mode === 'round' && (m.corners[k].size = q[i]));
+  }
+  return m;
+}
+
+//---------------------------------- serialize ----------------------------------
+
+const MASK_PROPS = ['mask-image', 'mask-size', 'mask-repeat', 'mask-position'] as const;
+
+/** مقدارهایی که اگر مدل خالی بود باید پاک (یا در حالت ارث‌بری «خنثی») شوند */
+export function serializeCornerModel(m: CornerModel, opt: SerializeOptions): Record<string, string> {
+  const out: Record<string, string> = {};
+  const loaded = opt.loaded ?? {};
+
+  // --- border-radius ---
+  if (m.elliptical) {
+    out['border-radius'] = m.ellipticalRaw;
+  } else {
+    const vals = CORNER_KEYS.map((k) => {
+      const c = m.corners[k];
+      return c.mode === 'round' && !isZero(c.size) ? c.size : '0px';
+    });
+    const any = vals.some((v) => !isZero(v));
+    if (any) {
+      const [a, b, c, d] = vals;
+      out['border-radius'] = a === b && b === c && c === d ? a : `${a} ${b} ${c} ${d}`;
+    } else
+      out['border-radius'] = opt.inherits && loaded['border-radius'] && !isZero(loaded['border-radius']) ? '0px' : '';
+  }
+
+  // --- mask ---
+  const usesMask = CORNER_KEYS.some((k) => m.corners[k].mode !== 'round') || EDGE_KEYS.some((e) => m.notches[e].on);
+  if (usesMask) {
+    out['mask-image'] = svgToUrl(buildMaskSvg(m));
+    out['mask-size'] = '100% 100%';
+    out['mask-repeat'] = 'no-repeat';
+    out['mask-position'] = '0 0';
+    out[PROP_MODEL] = `"${encodeModel(m)}"`;
+  } else {
+    const hadMask = !!loaded['mask-image'] && loaded['mask-image'] !== 'none';
+    for (const p of MASK_PROPS) out[p] = '';
+    if (opt.inherits && hadMask) out['mask-image'] = 'none';
+    out[PROP_MODEL] = '';
+  }
+  // پاک‌سازی متغیرهای نسخه‌ی قدیمی (--pb-ci-* / --pb-cn-*) و mask قدیمی
+  for (const key of Object.keys(loaded)) if (LEGACY_PREFIXES.some((p) => key.startsWith(p))) out[key] = '';
+  return out;
+}
+
+/** decls → متن CSS (مقدارهای خالی نادیده گرفته می‌شوند) */
+export function declsToCssText(d: Record<string, string>): string {
+  return Object.entries(d)
+    .filter(([, v]) => v !== '' && v != null)
+    .map(([k, v]) => `${k}:${v}`)
+    .join(';');
+}
+
+//---------------------------------- presets ----------------------------------
+
+const rnd = (px: number): CornerValue => ({ ...createCorner(), mode: 'round', size: `${px}px` });
+const scoop = (px: number): CornerValue => ({ ...createCorner(), mode: 'scoop', size: `${px}px` });
+const cut = (w: string, h: string, r: number | [number, number, number]): CornerValue => {
+  const [r1, r2, r3] = Array.isArray(r) ? r : [r, r, r];
+  return {
+    ...createCorner(),
+    mode: 'cut',
+    size: DEFAULT_INVERT_SIZE,
+    cut: { w, h, r1, r2, r3, linked: r1 === r2 && r2 === r3 },
+  };
+};
+const model = (f: (m: CornerModel) => void): CornerModel => {
+  const m = createModel();
+  f(m);
+  return m;
+};
+
+export const CORNER_PRESETS: CornerPreset[] = [
+  { id: 'none', label: 'None', build: () => createModel() },
+  { id: 'round', label: 'Round', build: () => model((m) => CORNER_KEYS.forEach((k) => (m.corners[k] = rnd(16)))) },
+  { id: 'pill', label: 'Pill', build: () => model((m) => CORNER_KEYS.forEach((k) => (m.corners[k] = rnd(999)))) },
+  { id: 'scoop', label: 'Scoop', build: () => model((m) => CORNER_KEYS.forEach((k) => (m.corners[k] = scoop(18)))) },
   {
     id: 'ticket',
     label: 'Ticket',
-    build: () => {
-      const m = all(createModel(), 'round', '12px');
-      m.notches.l = { on: true, width: 36, depth: 18, pos: 50 };
-      m.notches.r = { on: true, width: 36, depth: 18, pos: 50 };
-      return m;
-    },
+    build: () =>
+      model((m) => {
+        CORNER_KEYS.forEach((k) => (m.corners[k] = rnd(8)));
+        m.notches.l = { ...DEFAULT_NOTCH, shape: 'round', width: 24, depth: 12, pos: 50, radius: 0, flare: 0 };
+        m.notches.r = { ...DEFAULT_NOTCH, shape: 'round', width: 24, depth: 12, pos: 50, radius: 0, flare: 0 };
+      }),
   },
   {
-    id: 'diagonal',
-    label: 'Diagonal',
-    build: () => {
-      const m = createModel();
-      m.corners.tl = { mode: 'round', size: '28px' };
-      m.corners.br = { mode: 'round', size: '28px' };
-      m.corners.tr = { mode: 'invert', size: '28px' };
-      m.corners.bl = { mode: 'invert', size: '28px' };
-      return m;
-    },
+    id: 'tab',
+    label: 'Tab',
+    build: () =>
+      model((m) => {
+        m.corners.tl = rnd(10);
+        m.corners.bl = rnd(10);
+        m.corners.br = rnd(10);
+        m.corners.tr = cut('60%', '22px', 8);
+      }),
   },
   {
-    id: 'scoop',
-    label: 'Scoop',
-    build: () => {
-      const m = all(createModel(), 'round', '20px');
-      m.corners.tl = { mode: 'invert', size: '44px' };
-      return m;
-    },
+    id: 'bite',
+    label: 'Bite',
+    build: () =>
+      model((m) => {
+        CORNER_KEYS.forEach((k) => (m.corners[k] = rnd(10)));
+        m.corners.br = cut('36px', '28px', [8, 10, 8]);
+      }),
   },
   {
-    id: 'cutout',
-    label: 'Cut-out',
-    build: () => {
-      const m = all(createModel(), 'round', '20px');
-      m.notches.b = { on: true, width: 96, depth: 30, pos: 50 };
-      return m;
-    },
+    id: 'island',
+    label: 'Island',
+    build: () =>
+      model((m) => {
+        CORNER_KEYS.forEach((k) => (m.corners[k] = rnd(14)));
+        m.notches.t = { ...DEFAULT_NOTCH, width: 72, depth: 18, pos: 50, radius: 9, flare: 10 };
+      }),
   },
 ];
 
@@ -400,7 +543,6 @@ const PROP_DEFS: readonly PropDef[] = [
     { name: NOTCH_PROP[e].x, syntax: '<percentage>', initial: '50%' },
   ]),
 ];
-
 export function cornerPropertyRuleText(p: PropDef | string): string {
   const d = typeof p === 'string' ? PROP_DEFS.find((x) => x.name === p)! : p;
   return `@property ${d.name}{syntax:'${d.syntax}';inherits:false;initial-value:${d.initial}}`;
@@ -409,7 +551,9 @@ export function cornerPropertyRuleText(p: PropDef | string): string {
 /** `@property` های لازم برای متن CSS داده‌شده (هر نام یک‌بار) */
 export function usedCornerProperties(cssText: string | null | undefined): string[] {
   if (!cssText || !cssText.includes('--pb-c')) return [];
-  return PROP_DEFS.filter((d) => cssText.includes(d.name + ':') || cssText.includes(`var(${d.name}`)).map((d) => d.name);
+  return PROP_DEFS.filter((d) => cssText.includes(d.name + ':') || cssText.includes(`var(${d.name}`)).map(
+    (d) => d.name,
+  );
 }
 
 export function cornerPropertyCssFor(cssText: string | null | undefined): string {
