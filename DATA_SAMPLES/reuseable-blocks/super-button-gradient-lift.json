@@ -1,0 +1,5 @@
+{
+  "name": "Super Button — Gradient Lift",
+  "image": "",
+  "plugin": "{\"sanitized\":{\"id\":\"btn01\",\"tag\":\"a\",\"canHaveChild\":false,\"content\":\"Get started  →\",\"options\":{\"attributes\":{\"href\":\"#\",\"role\":\"button\"}},\"children\":[],\"classList\":[\"blk-btn01\",\"button-primary\"]},\"style\":\".blk-btn01{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-width:180px;padding:15px 24px;border-radius:13px;background:linear-gradient(110deg,#2563eb,#06b6d4);color:#fff;text-decoration:none;font-size:14px;font-weight:800;letter-spacing:.2px;box-shadow:0 10px 24px #2563eb40;transition:transform .2s,box-shadow .2s,filter .2s}\\n.blk-btn01:hover{transform:translateY(-3px);box-shadow:0 16px 32px #2563eb55;filter:saturate(1.15)}\\n.blk-btn01:active{transform:translateY(0) scale(.98)}\\n.blk-btn01:focus-visible{outline:3px solid #93c5fd;outline-offset:4px}\"}"
+}

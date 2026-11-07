@@ -1,0 +1,36 @@
+{
+  "format": "ngx-page-builder Export as Plugin",
+  "repository": "https://github.com/mr-samani/page-builder",
+  "count": 24,
+  "importShape": {
+    "sanitized": "IPageItem",
+    "style": "CSS string"
+  },
+  "note": "Each file is an IPlugin object with name, image and plugin; plugin is JSON text containing sanitized PageItem and style.",
+  "blocks": [
+    "Category Card — Hover Reveal",
+    "CTA — Luminous Banner",
+    "FAQ — Native Accordion",
+    "Feature Card — Gradient Icon",
+    "Feature Grid — Numbered Outline",
+    "Form Field — Icon / Hint / Error",
+    "Gallery — Editorial Mosaic",
+    "Hero — Split Editorial",
+    "Instagram Stories — Avatar Rings",
+    "Logo Cloud — Monochrome",
+    "Newsletter — Inline Dark",
+    "Pricing — Glass Highlight",
+    "Product Card — Modern Commerce",
+    "Product Image List — Horizontal",
+    "Quote — Serif Banner",
+    "Review Summary — Rating Panel",
+    "Stats — Dark Metrics Row",
+    "Super Button — Gradient Lift",
+    "Super Checkbox — Soft Check",
+    "Super Radio Group — Pricing Choice",
+    "Team — Portrait Minimal",
+    "Testimonial — Editorial Quote",
+    "Timeline — Vertical Steps",
+    "Trend Mask — Organic Shape"
+  ]
+}
