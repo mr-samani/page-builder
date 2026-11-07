@@ -1,6 +1,5 @@
 import {
   ApplicationRef,
-  ElementRef,
   EnvironmentInjector,
   Injectable,
   Injector,
@@ -9,11 +8,12 @@ import {
   ViewContainerRef,
   runInInjectionContext,
   createComponent,
-  EventEmitter,
-  Inject,
   DOCUMENT,
   ComponentRef,
   Provider,
+  Component,
+  inputBinding,
+  outputBinding,
   inject,
 } from '@angular/core';
 import 'reflect-metadata';
@@ -34,6 +34,12 @@ const BOOLEAN_HTML_ATTRIBUTES = new Set([
   'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed',
   'selected',
 ]);
+
+/**
+ * Host component used to let Angular instantiate dynamic directives on an existing element.
+ */
+@Component({ standalone: true, template: '' })
+class DynamicDirectiveHostComponent {}
 
 @Injectable({ providedIn: 'root' })
 export class DynamicElementService {
@@ -181,13 +187,16 @@ export class DynamicElementService {
       : componentInjector;
 
     // ساخت component
+    const targetAppRef = targetEnv?.get(ApplicationRef, this.appRef) ?? this.appRef;
+
     const compRef: ComponentRef<any> = runInInjectionContext(blockInjector, () =>
       createComponent(component, {
         elementInjector: blockInjector,
-        environmentInjector: this.envInjector,
+        environmentInjector: targetEnv ?? this.envInjector,
+        directives: this.buildDirectiveBindings(item.options?.directives),
       }),
     );
-    this.appRef.attachView(compRef.hostView);
+    targetAppRef.attachView(compRef.hostView);
 
     let element = compRef.location.nativeElement as HTMLElement;
 
@@ -201,32 +210,53 @@ export class DynamicElementService {
     (element as any).__componentRef__ = compRef;
 
     const instance = compRef.instance;
-    // set default propery pageItem
-    if ('pageItem' in instance) {
-      instance['pageItem'] = item;
-    }
-    if ('editMode' in instance) {
-      instance['editMode'] = editMode;
-    }
 
-    // ✅ Inputs
-    if (item.options && item.options.inputs) {
-      for (const [key, val] of Object.entries(item.options.inputs)) {
-        instance[key] = val;
+    // Angular inputs must be written through ComponentRef.setInput.
+    this.setComponentValue(compRef, 'pageItem', item);
+    this.setComponentValue(compRef, 'editMode', editMode);
+
+    if (item.options?.inputs) {
+      for (const [key, value] of Object.entries(item.options.inputs)) {
+        this.setComponentValue(compRef, key, value);
       }
     }
 
-    // ✅ Outputs
+    // Supports both EventEmitter and output() because both expose subscribe().
     if (item.options?.outputs) {
+      const cleanups: Array<() => void> = [];
       for (const [key, handler] of Object.entries(item.options.outputs)) {
-        const emitter = (instance as any)[key];
-        if (emitter instanceof EventEmitter) {
-          emitter.subscribe((value: any) => handler(value));
+        const output = (instance as any)[key];
+        if (output && typeof output.subscribe === 'function') {
+          const subscription = output.subscribe((value: any) => (handler as any)(value));
+          cleanups.push(() => subscription?.unsubscribe?.());
         } else {
-          console.warn(`⚠️ '${key}' is not an EventEmitter on ${component.name}`);
+          console.warn(`'${key}' is not an Angular output on ${component.name}`);
         }
       }
+      if (cleanups.length) {
+        compRef.onDestroy(() => cleanups.forEach((cleanup) => cleanup()));
+      }
     }
+
+    // A manually created view does not run its first lifecycle pass merely because it
+    // was attached. Run the first CD pass now, after inputs are set and the host is in DOM.
+    // This guarantees ngOnChanges (when applicable), ngOnInit and ngAfterViewInit run.
+    compRef.changeDetectorRef.detectChanges();
+
+    // Destroy the manually-created injectors and custom-data stream with this component.
+    compRef.onDestroy(() => {
+      onChangeCustomData.complete();
+      if (blockInjector !== componentInjector) {
+        (blockInjector as Injector & { destroy?: () => void }).destroy?.();
+      }
+      (componentInjector as Injector & { destroy?: () => void }).destroy?.();
+      if (item.customComponent?.compInjector === componentInjector) {
+        item.customComponent.compInjector = undefined as any;
+      }
+    });
+
+    (element as any).__viewApplicationRef__ = targetAppRef;
+
     return element;
   }
 
@@ -251,32 +281,20 @@ export class DynamicElementService {
       }
     }
 
-    // ✅ Attach کردن directive‌ها
-    const directiveInstances: any[] = [];
-    let directiveInjector: Injector | undefined;
-
-    if (item.options && item.options.directives?.length) {
-      // ساخت یه injector مشترک برای همه directive‌ها
-      directiveInjector = Injector.create({
-        providers: [
-          { provide: ElementRef, useValue: new ElementRef(element) },
-          { provide: Renderer2, useValue: this.renderer },
-        ],
-        parent: this.envInjector,
-      });
-
-      for (const DirType of item.options.directives) {
-        const dirInstance = this.attachDirective(element, DirType, directiveInjector);
-
-        if (dirInstance) {
-          directiveInstances.push(dirInstance);
-        }
-      }
+    // For plain HTML elements, create an Angular host view for dynamic directives.
+    // Custom component directives were attached during createComponent above.
+    if (item.options?.directives?.length && !(element as any).__componentRef__) {
+      this.attachDirectivesToElement(element, item.options.directives);
     }
 
     if (item.options?.events) {
+      const eventCleanups: Array<() => void> = [];
       for (const [k, v] of Object.entries(item.options.events)) {
-        this.renderer.listen(element, k, v);
+        const cleanup = this.renderer.listen(element, k, v as (event: Event) => void);
+        if (typeof cleanup === 'function') eventCleanups.push(cleanup);
+      }
+      if (eventCleanups.length) {
+        (element as any).__eventCleanups__ = eventCleanups;
       }
     }
 
@@ -328,107 +346,113 @@ export class DynamicElementService {
     return element;
   }
 
-  private attachDirective<T>(element: HTMLElement, directive: Directive, dirInjector: Injector): any {
-    const DirType = directive.directive;
-    const { inputs, outputs } = directive;
-    if (!DirType) return null;
+  /**
+   * Build Angular bindings for directives. Angular applies Signal Inputs,
+   * Input transforms, lifecycle hooks and output subscriptions itself.
+   */
+  private buildDirectiveBindings(directives?: Directive[]): any[] {
+    if (!directives?.length) return [];
 
-    // خواندن metadata پارامترهای سازنده
-    let paramTypes: any[] = [];
-    try {
-      paramTypes = Reflect.getMetadata('design:paramtypes', DirType) || [];
-    } catch {
-      paramTypes = [];
-    }
-
-    // ساخت instance
-    let dirInstance: any;
-    try {
-      dirInstance = runInInjectionContext(dirInjector, () => {
-        if (paramTypes && paramTypes.length) {
-          const deps = paramTypes.map((p: any) => {
-            try {
-              return dirInjector.get(p);
-            } catch (err) {
-              console.warn('Could not resolve dependency:', p, err);
-              return undefined;
-            }
-          });
-          return new (DirType as any)(...deps);
-        } else {
-          return new (DirType as any)(new ElementRef(element));
+    return directives
+      .filter((directive) => !!directive?.directive)
+      .map((directive) => {
+        const DirType = directive.directive;
+        const bindings: any[] = [];
+        for (const [propertyName, value] of Object.entries(directive.inputs ?? {})) {
+          const publicName = this.getPublicInputName(DirType, propertyName);
+          bindings.push(inputBinding(publicName, () => value));
         }
+
+        for (const [propertyName, handler] of Object.entries(directive.outputs ?? {})) {
+          const publicName = this.getPublicOutputName(DirType, propertyName);
+          bindings.push(outputBinding(publicName, (value: any) => (handler as any)(value)));
+        }
+
+        return { type: DirType, bindings };
       });
-    } catch (err) {
-      console.error('Error creating directive instance:', err);
-      dirInstance = new (DirType as any)(new ElementRef(element));
+  }
+
+  /**
+   * Attach directives to a normal HTMLElement through an Angular-managed host view.
+   */
+  private attachDirectivesToElement(element: HTMLElement, directives: Directive[]): void {
+    if (!directives?.length || (element as any).__directiveHostRef__) return;
+
+    const targetDoc = element.ownerDocument ?? this.doc;
+    const targetEnv = targetDoc !== this.doc ? this.documentInjectors.get(targetDoc) : undefined;
+
+    const targetAppRef = targetEnv?.get(ApplicationRef, this.appRef) ?? this.appRef;
+    const directiveHostRef = createComponent(DynamicDirectiveHostComponent, {
+      hostElement: element,
+      environmentInjector: targetEnv ?? this.envInjector,
+      directives: this.buildDirectiveBindings(directives),
+    });
+
+    targetAppRef.attachView(directiveHostRef.hostView);
+    (element as any).__directiveHostRef__ = directiveHostRef;
+    (element as any).__viewApplicationRef__ = targetAppRef;
+
+    // Run the initial CD pass explicitly so directive lifecycle hooks are not deferred.
+    directiveHostRef.changeDetectorRef.detectChanges();
+  }
+
+  /**
+   * Use ComponentRef.setInput for declared Angular inputs. This correctly handles
+   * ngOnChanges, Signal Inputs and input transforms. Non-input legacy properties
+   * (for example pageItem when it is not declared as an input) retain assignment fallback.
+   */
+  private setComponentValue(componentRef: ComponentRef<any>, propertyOrPublicName: string, value: any): void {
+    const publicName = this.getPublicInputName(componentRef.componentType, propertyOrPublicName, true);
+    if (publicName) {
+      componentRef.setInput(publicName, value);
+      return;
     }
 
-    // ✅ Inputs
-    if (inputs) {
-      for (const [key, val] of Object.entries(inputs)) {
-        dirInstance[key] = val;
+    if (propertyOrPublicName in componentRef.instance) {
+      componentRef.instance[propertyOrPublicName] = value;
+    }
+  }
+
+  /**
+   * Resolve a declared input's public name from Angular definition metadata.
+   * Metadata is internal Angular API; keep this isolated for easier version adaptation.
+   */
+  private getPublicInputName(type: any, propertyOrPublicName: string, allowMissing = false): string {
+    const inputs = type?.ɵdir?.inputs ?? type?.ɵcmp?.inputs;
+    if (!inputs) return allowMissing ? '' : propertyOrPublicName;
+
+    for (const [privateName, metadata] of Object.entries(inputs) as Array<[string, any]>) {
+      const publicName = Array.isArray(metadata)
+        ? typeof metadata[0] === 'string'
+          ? metadata[0]
+          : privateName
+        : typeof metadata === 'string'
+          ? metadata
+          : privateName;
+
+      if (privateName === propertyOrPublicName || publicName === propertyOrPublicName) {
+        return publicName;
       }
     }
 
-    // ✅ Outputs
-    if (outputs) {
-      for (const [key, handler] of Object.entries(outputs)) {
-        const emitter = (dirInstance as any)[key];
-        if (emitter instanceof EventEmitter) {
-          emitter.subscribe((value: any) => handler(value));
-        } else {
-          console.warn(`⚠️ '${key}' is not an EventEmitter on ${DirType.name}`);
-        }
+    return allowMissing ? '' : propertyOrPublicName;
+  }
+
+  private getPublicOutputName(type: any, propertyName: string): string {
+    const outputs = type?.ɵdir?.outputs ?? type?.ɵcmp?.outputs;
+    if (!outputs) return propertyName;
+
+    const metadata = outputs[propertyName];
+    if (typeof metadata === 'string') return metadata;
+    if (Array.isArray(metadata) && typeof metadata[0] === 'string') return metadata[0];
+
+    for (const [privateName, value] of Object.entries(outputs) as Array<[string, any]>) {
+      if (value === propertyName || (Array.isArray(value) && value[0] === propertyName)) {
+        return privateName;
       }
     }
 
-    const selectorName = (DirType as any).ɵdir?.selectors?.[0]?.find((x: any) => x !== '');
-    if (selectorName) {
-      element.setAttribute(selectorName, '');
-    }
-    // ✅ فراخوانی ngOnInit
-    if (typeof dirInstance.ngOnInit === 'function') {
-      try {
-        dirInstance.ngOnInit();
-      } catch (err) {
-        console.error('ngOnInit error:', err);
-      }
-    }
-
-    // ✅ فراخوانی ngAfterViewInit بعد از اضافه شدن به DOM
-    setTimeout(() => {
-      if (typeof dirInstance.ngAfterViewInit === 'function') {
-        try {
-          dirInstance.ngAfterViewInit();
-        } catch (err) {
-          console.error('ngAfterViewInit error:', err);
-        }
-      }
-    }, 0);
-
-    const cleanupFns: (() => void)[] = [];
-
-    // wrap ngOnDestroy
-    const originalDestroy = dirInstance.ngOnDestroy?.bind(dirInstance);
-    dirInstance.ngOnDestroy = () => {
-      try {
-        cleanupFns.forEach((f) => f());
-      } catch {}
-      if (originalDestroy) {
-        try {
-          originalDestroy();
-        } catch {}
-      }
-    };
-
-    // ذخیره برای fallback
-    if (!(element as any).__ngDirectives__) {
-      (element as any).__ngDirectives__ = [];
-    }
-    (element as any).__ngDirectives__.push(dirInstance);
-
-    return dirInstance;
+    return propertyName;
   }
 
   /**
@@ -447,23 +471,43 @@ export class DynamicElementService {
         }
       }
 
-      // Manual cleanup قبل از حذف
-      // component
-      const compRef = (item.el as any).__componentRef__;
-      if (compRef) {
-        this.appRef.detachView(compRef.hostView);
-        compRef.destroy();
-        delete (item.el as any).__componentRef__;
+      // Angular invokes ngOnDestroy and DestroyRef callbacks automatically.
+      const refs: ComponentRef<any>[] = [];
+      const componentRef = (item.el as any).__componentRef__ as ComponentRef<any> | undefined;
+      const directiveHostRef = (item.el as any).__directiveHostRef__ as ComponentRef<any> | undefined;
+      if (componentRef) refs.push(componentRef);
+      if (directiveHostRef) refs.push(directiveHostRef);
+
+      const owningAppRef = (item.el as any).__viewApplicationRef__ as ApplicationRef | undefined;
+      const appRef = owningAppRef ?? this.appRef;
+
+      for (const ref of refs) {
+        try {
+          appRef.detachView(ref.hostView);
+        } catch {
+          // The view may already have been detached.
+        }
+        try {
+          ref.destroy();
+        } catch (error) {
+          console.warn('Angular dynamic view destroy failed:', error);
+        }
       }
-      // directive
-      const directiveInstances = (item.el as any).__ngDirectives__;
-      if (Array.isArray(directiveInstances)) {
-        for (const d of directiveInstances) {
-          if (d && typeof d.ngOnDestroy === 'function') {
-            d.ngOnDestroy?.();
+
+      delete (item.el as any).__componentRef__;
+      delete (item.el as any).__directiveHostRef__;
+      delete (item.el as any).__viewApplicationRef__;
+
+      const eventCleanups = (item.el as any).__eventCleanups__ as Array<() => void> | undefined;
+      if (eventCleanups) {
+        for (const cleanup of eventCleanups) {
+          try {
+            cleanup();
+          } catch (error) {
+            console.warn('Event listener cleanup failed:', error);
           }
         }
-        delete (item.el as any).__ngDirectives__;
+        delete (item.el as any).__eventCleanups__;
       }
 
       // حذف از DOM
