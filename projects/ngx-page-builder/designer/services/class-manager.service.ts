@@ -13,6 +13,7 @@ import {
   DEFAULT_BREAKPOINT_SETUP,
   PseudoState,
   compileBlocksCss,
+  cornerPropertyRuleText,
   getChunkText,
   isBlockCssEmpty,
   isBlockClass,
@@ -28,6 +29,7 @@ import {
   setChunkText,
   stringifyDecls,
   usedAnimationPresets,
+  usedCornerProperties,
   type BreakPointKey,
 } from 'ngx-page-builder/core';
 
@@ -701,6 +703,7 @@ export class ClassManagerService {
    */
   private ensureKeyframes(text: string): void {
     if (!this.styleSheet || !text) return;
+    this.ensureCornerProperties(text);
     for (const p of usedAnimationPresets(text)) {
       if (this.keyframesInserted.has(p.name)) continue;
       try {
@@ -708,6 +711,27 @@ export class ClassManagerService {
         this.keyframesInserted.add(p.name);
       } catch (e) {
         console.warn(`Could not insert @keyframes ${p.name}:`, e);
+      }
+    }
+  }
+
+  /** نام @property های گوشه/notch که تا الان در استایل‌شیت کَنوَس ثبت شده‌اند */
+  private cornerPropsInserted = new Set<string>();
+
+  /**
+   * اندازه‌ی گوشه‌های وارونه و notch ها (--pb-ci-* / --pb-cn-*) با `@property` ثبت می‌شوند تا در hover/transition نرم تغییر کنند.
+   * مثل @keyframes در سطح بالای استایل‌شیت و خارج از لایه‌هاست (یک‌بار برای هر نام).
+   */
+  private ensureCornerProperties(text: string): void {
+    if (!this.styleSheet) return;
+    for (const name of usedCornerProperties(text)) {
+      if (this.cornerPropsInserted.has(name)) continue;
+      try {
+        this.styleSheet.insertRule(cornerPropertyRuleText(name), this.styleSheet.cssRules.length);
+        this.cornerPropsInserted.add(name);
+      } catch (e) {
+        // قبلاً ثبت شده یا مرورگر @property را پشتیبانی نمی‌کند؛ ظاهر درست می‌ماند، فقط انیمیشن نرم نیست
+        this.cornerPropsInserted.add(name);
       }
     }
   }

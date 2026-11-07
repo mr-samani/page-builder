@@ -23,6 +23,7 @@ import {
 } from '../contracts/IStyleSheetFile';
 import { ICssVariable } from '../contracts/ICssVariable';
 import { keyframesCssFor } from './animation-keyframes';
+import { cornerPropertyCssFor } from './corner-model';
 
 //==================================================================================
 // Types & constants
@@ -411,7 +412,8 @@ export function compileBlocksCss(
     if (cond && rules.length) out += `@media ${cond}{${rules.join('')}}`;
   }
   // @keyframes ی پریست‌های pb-* که در animation ها استفاده شده‌اند (هر نام یک‌بار) تا خروجی خودکفا باشد
-  return out + keyframesCssFor(out);
+  // @property ی اندازه‌ی گوشه‌ها/notch ها (--pb-ci-* / --pb-cn-*) تا در transition و animation نرم تغییر کنند
+  return out + keyframesCssFor(out) + cornerPropertyCssFor(out);
 }
 
 /** استایل کامل یک خروجی صفحه‌ساز (همه‌ی صفحات) + متغیرهای CSS */

@@ -10,6 +10,7 @@ import { SizeControlComponent } from '../../controls/size-control/size-control.c
 import { TransformControlComponent } from '../../controls/transform-control/transform-control.component';
 import { TransitionControlComponent } from '../../controls/transition-control/transition-control.component';
 import { AnimationControlComponent } from '../../controls/animation-control/animation-control.component';
+import { CornerControlComponent } from '../../controls/corner-control/corner-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
@@ -48,6 +49,7 @@ const TYPO_KEYS = [
     TransformControlComponent,
     TransitionControlComponent,
     AnimationControlComponent,
+    CornerControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -101,6 +103,15 @@ export class BlockPropertiesComponent extends BaseComponent {
   /** breakpoint و state فعلی */
   private get ctx(): BlockCssContext {
     return { bp: this.pb.responsive().key, state: this.cssPseudoState() };
+  }
+
+  /**
+   * آیا context فعلی از جای دیگری ارث می‌برد (state مثل hover، یا breakpoint غیرپایه)؟
+   * کنترل Corners با این می‌فهمد «خاموش کردن» یک گوشه‌ی ارث‌بری‌شده باید override صفر بنویسد نه حذف.
+   */
+  get inheritsContext(): boolean {
+    const c = this.ctx;
+    return c.state !== 'none' || c.bp !== this.cls.breakpointSetup.baseKey;
   }
 
   get contextLabel(): string {

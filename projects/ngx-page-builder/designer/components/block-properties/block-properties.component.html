@@ -80,6 +80,30 @@
         }
       </div>
     </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(corners)" #corners>
+      <summary>
+        <span class="title">Corners</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (corners.open) {
+          @if (cssPseudoState() !== 'none') {
+            <p class="pb-hint">
+              Tip: to animate corners on
+              <b>{{ cssPseudoState() }}</b>
+              , enable the corner in the
+              <b>Normal</b>
+              state too (size 0px), then use a size in this state and add a
+              <b>Transition</b>
+              on its
+              <b>--pb-ci-*</b>
+              property.
+            </p>
+          }
+          <corner-control [(ngModel)]="style" [inherits]="inheritsContext" (change)="onChangeStyle($event)"></corner-control>
+        }
+      </div>
+    </details>
     <details class="category" name="block-properties" (toggle)="openPanel(shadow)" #shadow>
       <summary>
         <span class="title">Shadow</span>

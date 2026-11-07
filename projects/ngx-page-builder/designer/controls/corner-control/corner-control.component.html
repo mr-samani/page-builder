@@ -1,0 +1,204 @@
+<div class="cc">
+  <!-- ============ Presets ============ -->
+  <div class="cc-head">
+    <span class="cc-title">Shape</span>
+    @if (hasAny()) {
+      <button type="button" class="cc-link" title="Remove all corner overrides of this state" (click)="reset()">Reset</button>
+    }
+  </div>
+
+  <div class="cc-presets" role="group" aria-label="Corner presets">
+    @for (p of presets; track p.id) {
+      <button
+        type="button"
+        class="cc-preset"
+        [class.on]="activePreset() === p.id"
+        [title]="p.label"
+        [attr.aria-pressed]="activePreset() === p.id"
+        (click)="applyPreset(p)">
+        <span class="cc-thumb" aria-hidden="true">
+          <span class="cc-thumb-shape" [attr.style]="p.thumbCss"></span>
+        </span>
+        <span class="cc-preset-label">{{ p.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- ============ Live stage ============ -->
+  <div class="cc-stage">
+    <div class="cc-stage-grid" aria-hidden="true"></div>
+    <div #frame class="cc-frame" [style.height.px]="stageH">
+      <div class="cc-shape" [attr.style]="previewCss()" aria-hidden="true"></div>
+
+      <!-- notch handles / ghost "+" -->
+      @for (e of edgeKeys; track e) {
+        @if (notch(e).on) {
+          <button
+            type="button"
+            class="cc-handle notch"
+            [class]="'e-' + e"
+            [style]="notchHandleStyle(e)"
+            [attr.aria-label]="edgeLabel[e] + ' notch: drag to change depth and position'"
+            (pointerdown)="onNotchDown($event, e)"
+            (pointermove)="onMove($event)"
+            (pointerup)="onUp($event)"
+            (pointercancel)="onUp($event)"></button>
+        } @else {
+          <button
+            type="button"
+            class="cc-ghost"
+            [class]="'e-' + e"
+            [attr.aria-label]="'Add ' + edgeLabel[e].toLowerCase() + ' notch'"
+            [title]="'Add ' + edgeLabel[e].toLowerCase() + ' notch'"
+            (click)="addNotch(e)">
+            +
+          </button>
+        }
+      }
+
+      <!-- corner handles -->
+      @for (k of cornerKeys; track k) {
+        <button
+          type="button"
+          class="cc-handle"
+          [class]="'corner c-' + k"
+          [class.invert]="corner(k).mode === 'invert'"
+          [class.on]="active() === k"
+          [style]="handleStyle(k)"
+          [attr.aria-label]="cornerLabel[k] + ' corner size. Arrow keys change it, Shift ×10'"
+          (pointerdown)="onCornerDown($event, k)"
+          (pointermove)="onMove($event)"
+          (pointerup)="onUp($event)"
+          (pointercancel)="onUp($event)"
+          (keydown)="onCornerKey($event, k)"></button>
+      }
+    </div>
+    <span class="cc-stage-note">Preview is 1:1 in px. Drag the dots.</span>
+  </div>
+
+  <!-- ============ Corners ============ -->
+  <div class="cc-head sub">
+    <span class="cc-title">Corners</span>
+    <button
+      type="button"
+      class="cc-link lock"
+      [class.on]="linked()"
+      [attr.aria-pressed]="linked()"
+      title="Edit all four corners together"
+      (click)="toggleLinked()">
+      <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" class="cc-ico">
+        <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.700l1-1" />
+      </svg>
+      {{ linked() ? 'Linked' : 'Link' }}
+    </button>
+  </div>
+
+  <div class="cc-corners">
+    @for (k of cornerKeys; track k) {
+      <div class="cc-corner" [class.on]="active() === k" [class.invert]="corner(k).mode === 'invert'">
+        <button
+          type="button"
+          class="cc-mode"
+          [class]="'r-' + k"
+          [class.invert]="corner(k).mode === 'invert'"
+          [attr.aria-label]="cornerLabel[k] + ': ' + (corner(k).mode === 'invert' ? 'inverted, click for round' : 'round, click for inverted')"
+          [title]="(corner(k).mode === 'invert' ? 'Inverted corner' : 'Round corner') + ' · click to switch'"
+          (click)="toggleMode(k)">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" class="cc-ico">
+            @if (corner(k).mode === 'invert') {
+              <path d="M14 2.500H8.500A5.500 5.500 0 0 1 2.500 8.500V14" />
+            } @else {
+              <path d="M14 2.500H8.500A5.500 5.500 0 0 0 2.500 8.500V14" />
+            }
+          </svg>
+        </button>
+        <span class="cc-cname">{{ cornerLabel[k] }}</span>
+        <css-unit-field
+          [units]="unitsFor(k)"
+          fallback="0px"
+          [min]="0"
+          [step]="1"
+          [title]="cornerLabel[k] + (corner(k).mode === 'invert' ? ' · inverted size' : ' · radius')"
+          [value]="corner(k).size"
+          (valueChange)="setSize(k, $event)"
+          (focusin)="active.set(k)" />
+      </div>
+    }
+  </div>
+
+  <!-- ============ Notches ============ -->
+  <div class="cc-head sub">
+    <span class="cc-title">Notches</span>
+  </div>
+  <ul class="cc-notches" role="list">
+    @for (e of edgeKeys; track e) {
+      <li class="cc-notch" [class.on]="notch(e).on">
+        <div class="cc-notch-row">
+          <button
+            type="button"
+            class="cc-switch"
+            role="switch"
+            [attr.aria-checked]="notch(e).on"
+            [attr.aria-label]="edgeLabel[e] + ' notch'"
+            (click)="toggleNotch(e)">
+            <span class="cc-knob"></span>
+          </button>
+          <span class="cc-edge">{{ edgeLabel[e] }}</span>
+          @if (!notch(e).on) {
+            <span class="cc-off">Off</span>
+          }
+        </div>
+        @if (notch(e).on) {
+          <div class="cc-notch-fields">
+          <div class="cc-frow">
+            <span class="cc-fname">Width</span>
+            <css-unit-field
+              title="Width of the opening on the edge"
+              [units]="['px']"
+              fallback="0px"
+              [min]="0"
+              [value]="notch(e).width + 'px'"
+              (valueChange)="setNotch(e, 'width', $event)" />
+          </div>
+          <div class="cc-frow">
+            <span class="cc-fname">Depth</span>
+            <css-unit-field
+              title="How far the notch cuts into the block"
+              [units]="['px']"
+              fallback="0px"
+              [min]="0"
+              [value]="notch(e).depth + 'px'"
+              (valueChange)="setNotch(e, 'depth', $event)" />
+          </div>
+          <div class="cc-frow">
+            <span class="cc-fname">Position</span>
+            <css-unit-field
+              title="Position of the notch along the edge"
+              [units]="['%']"
+              fallback="50%"
+              [min]="0"
+              [max]="100"
+              [value]="notch(e).pos + '%'"
+              (valueChange)="setNotch(e, 'pos', $event)" />
+          </div>
+        </div>
+        }
+      </li>
+    }
+  </ul>
+
+  <!-- ============ Hints ============ -->
+  @if (elliptical()) {
+    <p class="cc-note">An elliptical radius (a / b) is set in Advanced. Editing a round corner here replaces it.</p>
+  }
+  @if (usesMask()) {
+    @if (shadowSet()) {
+      <p class="cc-warn">
+        Box-shadow is cut along inverted corners and notches. To keep a shadow, put this block inside a container and give
+        the container a drop-shadow filter.
+      </p>
+    } @else {
+      <p class="cc-note">Borders and shadows are cut along inverted corners and notches.</p>
+    }
+  }
+</div>

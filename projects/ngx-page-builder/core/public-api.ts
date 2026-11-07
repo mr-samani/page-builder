@@ -37,6 +37,7 @@ export * from './services/dynamic-element.service';
 // Utils
 export * from './utiles/animation-keyframes';
 export * from './utiles/block-css';
+export * from './utiles/corner-model';
 export * from './utiles/clone-deep';
 export * from './utiles/collection-helper';
 export * from './utiles/css-parser';

@@ -512,3 +512,12 @@ Extra requirements:            (e.g. add a pricing toggle look, a stats strip, a
 ```
 
 Now generate the JSON document for my request, following every rule above.
+
+## Corners (inverted corners & notches)
+
+Block `css` can use the built-in corner feature (written by the Corners panel). Use these declarations **together**:
+
+- Inverted (concave) corner: custom property `--pb-ci-tl|tr|br|bl: <length>` (e.g. `--pb-ci-tl:24px;`). Round corners are plain `border-radius`.
+- Edge notch: `--pb-cn-<t|r|b|l>-r` (circle radius, px), `--pb-cn-<edge>-d` (depth, px), `--pb-cn-<edge>-x` (position along the edge, %).
+- `mask-image` with one `radial-gradient(...)` layer per used corner/notch and `mask-composite:intersect` — copy the exact layers from `buildMaskLayers()` in `core/utiles/corner-model.ts` (or build the block in the designer and export it).
+- Box-shadow and borders are clipped by the mask; wrap the block in a container with `filter:drop-shadow(...)` if a shadow is needed.
