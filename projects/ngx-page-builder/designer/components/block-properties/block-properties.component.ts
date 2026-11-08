@@ -17,6 +17,8 @@ import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { BorderControlComponent } from '../../controls/border-control/border-control.component';
+import { PositionControlComponent } from '../../controls/position-control/position-control.component';
 import { FilterControlComponent } from 'ngx-page-builder/designer/controls/filter-control/filter-control.component';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
@@ -52,6 +54,8 @@ const TYPO_KEYS = [
     AnimationControlComponent,
     CornerControlComponent,
     FilterControlComponent,
+    BorderControlComponent,
+    PositionControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
@@ -78,6 +82,7 @@ export class BlockPropertiesComponent extends BaseComponent {
    * کنترل Display از این‌ها می‌فهمد المان واقعاً flex/grid است (حتی با `.d-flex`) و کدام تنظیمات فرزند معنی دارد.
    */
   computedDisplay = '';
+  computedPosition = '';
   parentDisplay: string | undefined = undefined;
   parentFlexDirection = 'row';
   /** مقدارهای محاسبه‌شده‌ی تایپوگرافی؛ فیلدهای ست‌نشده با آن‌ها placeholder و پیش‌نمایش درست می‌گیرند */
@@ -143,6 +148,7 @@ export class BlockPropertiesComponent extends BaseComponent {
   /** یک‌بار هنگام لود (نه در مسیر داغ ویرایش) */
   private readLayoutContext(item: PageItem | undefined) {
     this.computedDisplay = '';
+    this.computedPosition = '';
     this.parentDisplay = undefined;
     this.parentFlexDirection = 'row';
     this.computedTypography = {};
@@ -152,6 +158,7 @@ export class BlockPropertiesComponent extends BaseComponent {
       if (own?.ownerDocument?.defaultView) {
         const cs = own.ownerDocument.defaultView.getComputedStyle(own);
         this.computedDisplay = cs.display;
+        this.computedPosition = cs.position;
         const t: Record<string, string> = {};
         for (const k of TYPO_KEYS) t[k] = cs[k];
         this.computedTypography = t;

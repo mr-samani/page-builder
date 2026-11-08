@@ -55,6 +55,21 @@
         }
       </div>
     </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(position)" #position>
+      <summary>
+        <span class="title">Position</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (position.open) {
+          <position-control
+            [(ngModel)]="style"
+            [computedPosition]="computedPosition"
+            [inherits]="inheritsContext"
+            (change)="onChangeStyle($event)"></position-control>
+        }
+      </div>
+    </details>
     <details class="category" name="block-properties" (toggle)="openPanel(typography)" #typography>
       <summary>
         <span class="title">Typography</span>
@@ -77,6 +92,17 @@
       <div class="details-inner">
         @if (background.open) {
           <background-control [(ngModel)]="style" (change)="onChangeStyle($event)"></background-control>
+        }
+      </div>
+    </details>
+    <details class="category" name="block-properties" (toggle)="openPanel(border)" #border>
+      <summary>
+        <span class="title">Border</span>
+        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      </summary>
+      <div class="details-inner">
+        @if (border.open) {
+          <border-control [(ngModel)]="style" [inherits]="inheritsContext" (change)="onChangeStyle($event)"></border-control>
         }
       </div>
     </details>
