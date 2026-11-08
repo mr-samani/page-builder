@@ -11,6 +11,7 @@ export const CustomSources: SourceItem[] = [
     options: {
       inputs: {
         value: 20,
+        name: 'nader',
       },
       outputs: {
         valueChange: (ev: number) => {

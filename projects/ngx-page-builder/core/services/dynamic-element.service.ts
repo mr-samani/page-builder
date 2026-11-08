@@ -359,8 +359,10 @@ export class DynamicElementService {
         const DirType = directive.directive;
         const bindings: any[] = [];
         for (const [propertyName, value] of Object.entries(directive.inputs ?? {})) {
-          const publicName = this.getPublicInputName(DirType, propertyName);
-          bindings.push(inputBinding(publicName, () => value));
+          const publicName = this.getInputMetadata(DirType, propertyName);
+          if (publicName) {
+            bindings.push(inputBinding(publicName.publicName, () => value));
+          }
         }
 
         for (const [propertyName, handler] of Object.entries(directive.outputs ?? {})) {
@@ -397,29 +399,50 @@ export class DynamicElementService {
   }
 
   /**
-   * Use ComponentRef.setInput for declared Angular inputs. This correctly handles
-   * ngOnChanges, Signal Inputs and input transforms. Non-input legacy properties
-   * (for example pageItem when it is not declared as an input) retain assignment fallback.
+   * Set Angular inputs supporting:
+   * - @Input()
+   * - input()
+   * - input.required()
+   * - model()
+   * - Legacy component properties
+   *
+   * Works with components created using inputBinding/twoWayBinding.
    */
   private setComponentValue(componentRef: ComponentRef<any>, propertyOrPublicName: string, value: any): void {
-    const publicName = this.getPublicInputName(componentRef.componentType, propertyOrPublicName, true);
-    if (publicName) {
-      componentRef.setInput(publicName, value);
+    const input = this.getInputMetadata(componentRef.componentType, propertyOrPublicName);
+    debugger;
+    if (!input) {
+      if (propertyOrPublicName in componentRef.instance) {
+        componentRef.instance[propertyOrPublicName] = value;
+      }
       return;
     }
 
-    if (propertyOrPublicName in componentRef.instance) {
-      componentRef.instance[propertyOrPublicName] = value;
+    const currentValue = componentRef.instance[input.privateName];
+
+    // Signal Input / Model Input
+    if (typeof currentValue === 'function' && typeof currentValue.set === 'function') {
+      currentValue.set(value);
+      return;
     }
+
+    // Classic @Input()
+    componentRef.instance[input.privateName] = value;
   }
 
   /**
-   * Resolve a declared input's public name from Angular definition metadata.
-   * Metadata is internal Angular API; keep this isolated for easier version adaptation.
+   * Resolve Angular input metadata.
    */
-  private getPublicInputName(type: any, propertyOrPublicName: string, allowMissing = false): string {
-    const inputs = type?.ɵdir?.inputs ?? type?.ɵcmp?.inputs;
-    if (!inputs) return allowMissing ? '' : propertyOrPublicName;
+  private getInputMetadata(
+    type: any,
+    propertyOrPublicName: string,
+  ): {
+    privateName: string;
+    publicName: string;
+  } | null {
+    const inputs = type?.ɵcmp?.inputs ?? type?.ɵdir?.inputs;
+
+    if (!inputs) return null;
 
     for (const [privateName, metadata] of Object.entries(inputs) as Array<[string, any]>) {
       const publicName = Array.isArray(metadata)
@@ -431,11 +454,14 @@ export class DynamicElementService {
           : privateName;
 
       if (privateName === propertyOrPublicName || publicName === propertyOrPublicName) {
-        return publicName;
+        return {
+          privateName,
+          publicName,
+        };
       }
     }
 
-    return allowMissing ? '' : propertyOrPublicName;
+    return null;
   }
 
   private getPublicOutputName(type: any, propertyName: string): string {
