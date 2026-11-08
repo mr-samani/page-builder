@@ -15,7 +15,7 @@ export interface DynamicDataStructure<ValueType = any> {
   /**
    * Fill in this field when the data result is a sample json
    */
-  values?: DynamicDataStructure<ValueType>[];
+  values?: DynamicDataStructure<ValueType>[] | null;
 
   /**
    * Fill in this field when the data result is a collection of records (list or array).
@@ -28,7 +28,7 @@ export interface DynamicDataStructure<ValueType = any> {
    */
   value?: ValueType | string | number | boolean | Date | null | undefined;
 
-  inputData?: DynamicDataInputParameter[];
+  inputData?: DynamicDataInputParameter[] | null;
 }
 
 declare type ObservableDynamicDataList = (pramaters: DynamicDataInput) => Observable<DynamicDataStructure[][]>;

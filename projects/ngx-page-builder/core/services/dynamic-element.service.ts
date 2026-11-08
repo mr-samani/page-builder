@@ -12,9 +12,11 @@ import {
   ComponentRef,
   Provider,
   Component,
+  Type,
   inputBinding,
   outputBinding,
   inject,
+  isSignal,
 } from '@angular/core';
 import 'reflect-metadata';
 import { Subject } from 'rxjs';
@@ -35,6 +37,13 @@ const BOOLEAN_HTML_ATTRIBUTES = new Set([
   'selected',
 ]);
 
+interface MemberInfo {
+  /** نام عمومی (alias) که Angular در template / binding استفاده می‌کند */
+  publicName: string;
+  /** نام property در کلاس */
+  privateName: string;
+}
+
 /**
  * Host component used to let Angular instantiate dynamic directives on an existing element.
  */
@@ -51,8 +60,7 @@ export class DynamicElementService {
   /**
    * هر document ی (مثلاً iframe بوم ادیتور) که یک Angular Application جداگانه دارد.
    * Angular استایل هر کامپوننت را از طریق RendererFactory2 در <head> ی همان document می‌نویسد؛
-   * پس بلاکی که داخل iframe نمایش داده می‌شود باید RendererFactory2 (و DOCUMENT) همان iframe را بگیرد،
-   * وگرنه استایل‌هایش در document اصلی می‌مانند و به iframe نمی‌رسند.
+   * پس بلاکی که داخل iframe نمایش داده می‌شود باید RendererFactory2 (و DOCUMENT) همان iframe را بگیرد.
    */
   private readonly documentInjectors = new WeakMap<Document, EnvironmentInjector>();
 
@@ -66,7 +74,6 @@ export class DynamicElementService {
 
   /**
    * معرفی Angular Application ی که یک document جداگانه (iframe) را مدیریت می‌کند.
-   * بلاک‌هایی که داخل این document ساخته می‌شوند، رندرر / استایل / DOCUMENT همان document را می‌گیرند.
    * باید قبل از ساخت اولین بلاک صدا زده شود.
    */
   registerDocument(doc: Document, injector: EnvironmentInjector): void {
@@ -89,7 +96,7 @@ export class DynamicElementService {
     item: PageItem,
   ): Promise<HTMLElement> {
     let element: HTMLElement;
-    const parentEl: HTMLElement = container instanceof ViewContainerRef ? container.element.nativeElement : container;
+    const parentEl = this.getParentElement(container);
 
     if (item.customComponent) {
       element = await this.createComponentElement(sourceItemList, editMode, container, item, index);
@@ -97,20 +104,15 @@ export class DynamicElementService {
       if (!item.tag) {
         item.tag = 'div';
       }
-      element = this.renderer.createElement(item.tag);
-
-      if (index != null && index >= 0) {
-        const refNode = parentEl.children[index] || null;
-        this.renderer.insertBefore(parentEl, element, refNode);
-      } else {
-        this.renderer.appendChild(parentEl, element);
-      }
+      element = this.createElementIn(parentEl.ownerDocument ?? this.doc, item.tag);
+      this.insertAt(parentEl, element, index);
     }
 
-    // Bind options و directives
+    // Bind options و directives (باید بعد از قرار گرفتن در DOM صدا زده شود)
     element = this.bindOptions(element, item);
 
-    if (item.content) {
+    // innerHTML روی host یک کامپوننت، view رندر شده‌ی خود کامپوننت را پاک می‌کند
+    if (item.content && !item.customComponent) {
       this.renderer.setProperty(element, 'innerHTML', item.content);
     }
 
@@ -119,6 +121,7 @@ export class DynamicElementService {
   }
 
   updateElementContent(data: PageItem) {
+    if (!data.el) return data.el;
     this.renderer.setProperty(data.el, 'innerHTML', data.content);
     return data.el;
   }
@@ -136,136 +139,138 @@ export class DynamicElementService {
       throw new Error('Not exist custom component');
     }
 
-    const parentEl: HTMLElement = container instanceof ViewContainerRef ? container.element.nativeElement : container;
+    const customComponent = item.customComponent!;
+    const parentEl = this.getParentElement(container);
 
     // document ی که بلاک قرار است در آن نمایش داده شود (در ادیتور: iframe بوم)
     const targetDoc: Document = parentEl.ownerDocument ?? this.doc;
-    const isForeignDoc = targetDoc !== this.doc;
-    // Application ی که آن document را مدیریت می‌کند (اگر ثبت نشده باشد، رفتار قبلی)
-    const targetEnv = isForeignDoc ? this.documentInjectors.get(targetDoc) : undefined;
+    const targetEnv = targetDoc !== this.doc ? this.documentInjectors.get(targetDoc) : undefined;
+    const targetAppRef = this.getAppRef(targetEnv);
 
-    const p = [...(item.customComponent?.providers ?? [])];
-    // دریافت تغییرات  تنظیمات داده‌های کامپوننت سفارشی
-    const onChangeCustomData = new Subject();
+    // دریافت تغییرات تنظیمات داده‌های کامپوننت سفارشی
+    const onChangeCustomData = new Subject<any>();
     onChangeCustomData.subscribe((value) => {
-      item.customComponent!.componentData = value;
+      customComponent.componentData = value;
     });
 
     const context: ComponentDataContext = {
-      data: item.customComponent?.componentData,
+      data: customComponent.componentData,
       onChange: onChangeCustomData,
     };
 
-    p.push({ provide: COMPONENT_DATA, useValue: context });
-    // داخل iframe:
-    //  - inject(DOCUMENT) و @HostListener('document:...') باید به document ی iframe اشاره کنند
-    //  - RendererFactory2 باید مال application ی iframe باشد تا استایل کامپوننت در <head> ی iframe نوشته شود
-    //    (Angular ریندرر را از elementInjector می‌گیرد، نه از environmentInjector، پس باید اینجا override شود)
-    // change detection مثل قبل با application اصلی (appRef) انجام می‌شود.
-    // نکته: این override ها فقط برای خودِ بلاک (داخل iframe) هستند؛ پنل تنظیمات بلاک در app اصلی
-    // رندر می‌شود و از compInjector استفاده می‌کند، پس نباید این‌ها را داخل compInjector بگذاریم.
-    const renderOverrides: Provider[] = [];
-    if (isForeignDoc) {
-      renderOverrides.push({ provide: DOCUMENT, useValue: targetDoc });
-      if (targetEnv) {
-        renderOverrides.push({ provide: RendererFactory2, useValue: targetEnv.get(RendererFactory2) });
+    const providers: Provider[] = [...(customComponent.providers ?? []), { provide: COMPONENT_DATA, useValue: context }];
+
+    // Injector اختصاصی کامپوننت (برای پنل تنظیمات در app اصلی هم استفاده می‌شود → بدون override)
+    const componentInjector = Injector.create({ providers, parent: this.envInjector });
+    customComponent.compInjector = componentInjector;
+
+    // injector ی خودِ بلاک: DOCUMENT / RendererFactory2 ی iframe (در صورت لزوم)
+    const blockInjector = this.createDocumentInjector(componentInjector, targetDoc, targetEnv) ?? componentInjector;
+
+    let disposed = false;
+    const disposeResources = () => {
+      if (disposed) return;
+      disposed = true;
+      onChangeCustomData.complete();
+      if (blockInjector !== componentInjector) this.destroyInjector(blockInjector);
+      this.destroyInjector(componentInjector);
+      if (customComponent.compInjector === componentInjector) {
+        customComponent.compInjector = undefined as any;
       }
-    }
+    };
 
-    // ✅ ساخت Injector اختصاصی با DestroyRef
-    const componentInjector = Injector.create({
-      providers: p,
-      parent: this.envInjector,
-    });
-
-    // این injector برای پنل تنظیمات (app اصلی) استفاده می‌شود → بدون override
-    item.customComponent!.compInjector = componentInjector;
-
-    // injector ی خودِ بلاک: روی componentInjector، با DOCUMENT / RendererFactory2 ی iframe
-    const blockInjector = renderOverrides.length
-      ? Injector.create({ providers: renderOverrides, parent: componentInjector })
-      : componentInjector;
-
-    // ساخت component
-    const targetAppRef = targetEnv?.get(ApplicationRef, this.appRef) ?? this.appRef;
-
-    const compRef: ComponentRef<any> = runInInjectionContext(blockInjector, () =>
-      createComponent(component, {
-        elementInjector: blockInjector,
-        environmentInjector: targetEnv ?? this.envInjector,
-        directives: this.buildDirectiveBindings(item.options?.directives),
-      }),
-    );
-    targetAppRef.attachView(compRef.hostView);
-
-    let element = compRef.location.nativeElement as HTMLElement;
-
-    if (index != null && index >= 0) {
-      const refNode = parentEl.children[index] || null;
-      this.renderer.insertBefore(parentEl, element, refNode);
-    } else {
-      this.renderer.appendChild(parentEl, element);
-    }
-    // ذخیره برای cleanup
-    (element as any).__componentRef__ = compRef;
-
-    const instance = compRef.instance;
-
-    // Angular inputs must be written through ComponentRef.setInput.
-    this.setComponentValue(compRef, 'pageItem', item);
-    this.setComponentValue(compRef, 'editMode', editMode);
-
-    if (item.options?.inputs) {
-      for (const [key, value] of Object.entries(item.options.inputs)) {
-        this.setComponentValue(compRef, key, value);
-      }
-    }
-
-    // Supports both EventEmitter and output() because both expose subscribe().
-    if (item.options?.outputs) {
-      const cleanups: Array<() => void> = [];
-      for (const [key, handler] of Object.entries(item.options.outputs)) {
-        const output = (instance as any)[key];
-        if (output && typeof output.subscribe === 'function') {
-          const subscription = output.subscribe((value: any) => (handler as any)(value));
-          cleanups.push(() => subscription?.unsubscribe?.());
+    let compRef: ComponentRef<any> | undefined;
+    let element: HTMLElement | undefined;
+    try {
+      // ⚠️ Angular اجازه نمی‌دهد در یک ComponentRef که inputBinding دارد (مثلاً به‌خاطر directive های دارای binding)
+      // از setInput استفاده شود (NG0317). پس ورودی‌های خودِ کامپوننت را هم با inputBinding می‌دهیم
+      // تا همه‌ی حالت‌ها (با/بدون directive) یکسان کار کنند.
+      const componentInputs: Array<[string, any]> = [
+        ['pageItem', item],
+        ['editMode', editMode],
+        ...Object.entries(item.options?.inputs ?? {}),
+      ];
+      const componentBindings: any[] = [];
+      const legacyValues: Array<[string, any, boolean]> = [];
+      for (const [name, value] of componentInputs) {
+        const info = this.getInputInfo(component, name);
+        if (info) {
+          componentBindings.push(inputBinding(info.publicName, () => value));
         } else {
-          console.warn(`'${key}' is not an Angular output on ${component.name}`);
+          // pageItem / editMode ممکن است ورودی تعریف‌شده نباشند؛ فقط برای ورودی‌های کاربر warn می‌دهیم
+          legacyValues.push([name, value, name !== 'pageItem' && name !== 'editMode']);
         }
       }
-      if (cleanups.length) {
-        compRef.onDestroy(() => cleanups.forEach((cleanup) => cleanup()));
+
+      compRef = runInInjectionContext(blockInjector, () =>
+        createComponent(component, {
+          elementInjector: blockInjector,
+          environmentInjector: targetEnv ?? this.envInjector,
+          bindings: componentBindings,
+          directives: this.buildDirectiveBindings(item.options?.directives),
+        }),
+      );
+      targetAppRef.attachView(compRef.hostView);
+      compRef.onDestroy(disposeResources);
+
+      element = compRef.location.nativeElement as HTMLElement;
+      (element as any).__componentRef__ = compRef;
+      (element as any).__viewApplicationRef__ = targetAppRef;
+      this.insertAt(parentEl, element, index);
+
+      // ورودی‌های تعریف‌شده با inputBinding داده شدند؛ فقط property های قدیمی (غیر input) اینجا ست می‌شوند
+      for (const [name, value, warn] of legacyValues) {
+        this.assignLegacyProperty(compRef, name, value, warn);
       }
+
+      // Outputs: EventEmitter / output() / model() همگی subscribe دارند
+      if (item.options?.outputs) {
+        const instance = compRef.instance;
+        for (const [key, handler] of Object.entries(item.options.outputs)) {
+          const info = this.getOutputInfo(component, key);
+          const emitter = instance[info?.privateName ?? key];
+          if (emitter && typeof emitter.subscribe === 'function') {
+            const subscription = emitter.subscribe((value: any) => (handler as any)(value));
+            compRef.onDestroy(() => {
+              try {
+                subscription?.unsubscribe?.();
+              } catch {
+                /* output may already be destroyed */
+              }
+            });
+          } else {
+            console.warn(`'${key}' is not an Angular output on ${component.name}`);
+          }
+        }
+      }
+
+      // اولین چرخه‌ی change detection: ngOnChanges / ngOnInit / ngAfterViewInit
+      // (هم برای کامپوننت و هم برای directive های متصل به آن)
+      compRef.changeDetectorRef.detectChanges();
+
+      return element;
+    } catch (error) {
+      if (compRef) {
+        try {
+          targetAppRef.detachView(compRef.hostView);
+        } catch {
+          /* ignore */
+        }
+        try {
+          compRef.destroy();
+        } catch {
+          /* ignore */
+        }
+      }
+      element?.parentNode?.removeChild(element);
+      disposeResources();
+      throw error;
     }
-
-    // A manually created view does not run its first lifecycle pass merely because it
-    // was attached. Run the first CD pass now, after inputs are set and the host is in DOM.
-    // This guarantees ngOnChanges (when applicable), ngOnInit and ngAfterViewInit run.
-    compRef.changeDetectorRef.detectChanges();
-
-    // Destroy the manually-created injectors and custom-data stream with this component.
-    compRef.onDestroy(() => {
-      onChangeCustomData.complete();
-      if (blockInjector !== componentInjector) {
-        (blockInjector as Injector & { destroy?: () => void }).destroy?.();
-      }
-      (componentInjector as Injector & { destroy?: () => void }).destroy?.();
-      if (item.customComponent?.compInjector === componentInjector) {
-        item.customComponent.compInjector = undefined as any;
-      }
-    });
-
-    (element as any).__viewApplicationRef__ = targetAppRef;
-
-    return element;
   }
 
   //--------------------------------------------------------------------------------------------------------------
   /**
    * ## Must be call after insert to dom
-   * @param element
-   * @param item
-   * @returns
    */
   private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
     if (item.options?.attributes) {
@@ -282,7 +287,7 @@ export class DynamicElementService {
     }
 
     // For plain HTML elements, create an Angular host view for dynamic directives.
-    // Custom component directives were attached during createComponent above.
+    // Custom component directives were attached during createComponent.
     if (item.options?.directives?.length && !(element as any).__componentRef__) {
       this.attachDirectivesToElement(element, item.options.directives);
     }
@@ -307,7 +312,7 @@ export class DynamicElementService {
       if (!link.includes('?')) {
         link += '?';
       }
-      for (let q of item.options.customData.queryString as CMSPageQueryString[]) {
+      for (const q of item.options.customData.queryString as CMSPageQueryString[]) {
         if (!link.endsWith('?')) {
           link += '&';
         }
@@ -319,27 +324,10 @@ export class DynamicElementService {
       }
       element.setAttribute('href', link);
     }
-    // if (
-    //   element.tagName == 'INPUT' ||
-    //   element.tagName == 'TEXTAREA' ||
-    //   element.tagName == 'SELECT'
-    // ) {
-    //   element.setAttribute('readonly', 'true');
-    // }
 
     element.dataset['id'] = item.id;
 
-    // if (item.options?.text && element.innerText !== item.options.text) {
-    //   this.renderer.appendChild(element, this.renderer.createText(item.options.text));
-    // }
-    // if (this.isContentEditable(tag)) {
-    //   element.contentEditable = 'true';
-    // }
-    // if (item.style) {
-    //   element.style.cssText = item.style;
-    // }
-
-    if (item.classList) {
+    if (item.classList?.length) {
       element.classList.add(...item.classList);
     }
 
@@ -347,8 +335,9 @@ export class DynamicElementService {
   }
 
   /**
-   * Build Angular bindings for directives. Angular applies Signal Inputs,
-   * Input transforms, lifecycle hooks and output subscriptions itself.
+   * Build Angular bindings for directives. Angular applies Signal Inputs, model(),
+   * decorator @Input (+ ngOnChanges), input transforms, lifecycle hooks and outputs itself.
+   * ورودی‌ها/خروجی‌ها هم با نام property و هم با نام alias قابل تعریف هستند.
    */
   private buildDirectiveBindings(directives?: Directive[]): any[] {
     if (!directives?.length) return [];
@@ -358,16 +347,23 @@ export class DynamicElementService {
       .map((directive) => {
         const DirType = directive.directive;
         const bindings: any[] = [];
-        for (const [propertyName, value] of Object.entries(directive.inputs ?? {})) {
-          const publicName = this.getInputMetadata(DirType, propertyName);
-          if (publicName) {
-            bindings.push(inputBinding(publicName.publicName, () => value));
+
+        for (const [name, value] of Object.entries(directive.inputs ?? {})) {
+          const info = this.getInputInfo(DirType, name);
+          if (info) {
+            bindings.push(inputBinding(info.publicName, () => value));
+          } else {
+            console.warn(`'${name}' is not an input of directive ${DirType?.name}`);
           }
         }
 
-        for (const [propertyName, handler] of Object.entries(directive.outputs ?? {})) {
-          const publicName = this.getPublicOutputName(DirType, propertyName);
-          bindings.push(outputBinding(publicName, (value: any) => (handler as any)(value)));
+        for (const [name, handler] of Object.entries(directive.outputs ?? {})) {
+          const info = this.getOutputInfo(DirType, name);
+          if (info) {
+            bindings.push(outputBinding(info.publicName, (value: any) => (handler as any)(value)));
+          } else {
+            console.warn(`'${name}' is not an output of directive ${DirType?.name}`);
+          }
         }
 
         return { type: DirType, bindings };
@@ -382,185 +378,183 @@ export class DynamicElementService {
 
     const targetDoc = element.ownerDocument ?? this.doc;
     const targetEnv = targetDoc !== this.doc ? this.documentInjectors.get(targetDoc) : undefined;
+    const targetAppRef = this.getAppRef(targetEnv);
+    const parentInjector: Injector = targetEnv ?? this.envInjector;
+    const elementInjector = this.createDocumentInjector(parentInjector, targetDoc, targetEnv);
 
-    const targetAppRef = targetEnv?.get(ApplicationRef, this.appRef) ?? this.appRef;
+    // createComponent({hostElement}) محتوای المنت را پاک می‌کند؛ پس فرزندان را نگه می‌داریم و برمی‌گردانیم.
+    const preservedNodes = Array.from(element.childNodes);
+
     const directiveHostRef = createComponent(DynamicDirectiveHostComponent, {
       hostElement: element,
       environmentInjector: targetEnv ?? this.envInjector,
+      ...(elementInjector ? { elementInjector } : {}),
       directives: this.buildDirectiveBindings(directives),
     });
 
-    targetAppRef.attachView(directiveHostRef.hostView);
+    for (const node of preservedNodes) {
+      element.appendChild(node);
+    }
+
     (element as any).__directiveHostRef__ = directiveHostRef;
     (element as any).__viewApplicationRef__ = targetAppRef;
+    directiveHostRef.onDestroy(() => elementInjector && this.destroyInjector(elementInjector));
 
-    // Run the initial CD pass explicitly so directive lifecycle hooks are not deferred.
-    directiveHostRef.changeDetectorRef.detectChanges();
+    targetAppRef.attachView(directiveHostRef.hostView);
+
+    try {
+      // Run the initial CD pass explicitly so directive lifecycle hooks (ngOnChanges, ngOnInit, ...) are not deferred.
+      directiveHostRef.changeDetectorRef.detectChanges();
+    } catch (error) {
+      this.releaseElement(element);
+      throw error;
+    }
   }
 
   /**
-   * Set Angular inputs supporting:
-   * - @Input()
-   * - input()
-   * - input.required()
-   * - model()
-   * - Legacy component properties
-   *
-   * Works with components created using inputBinding/twoWayBinding.
+   * Set a non-input property on a component instance (declared inputs are handled by inputBinding):
+   *  - writable signal property → .set()
+   *  - plain property → assignment
    */
-  private setComponentValue(componentRef: ComponentRef<any>, propertyOrPublicName: string, value: any): void {
-    const input = this.getInputMetadata(componentRef.componentType, propertyOrPublicName);
-    debugger;
-    if (!input) {
-      if (propertyOrPublicName in componentRef.instance) {
-        componentRef.instance[propertyOrPublicName] = value;
-      }
-      return;
-    }
-
-    const currentValue = componentRef.instance[input.privateName];
-
-    // Signal Input / Model Input
-    if (typeof currentValue === 'function' && typeof currentValue.set === 'function') {
-      currentValue.set(value);
-      return;
-    }
-
-    // Classic @Input()
-    componentRef.instance[input.privateName] = value;
-  }
-
-  /**
-   * Resolve Angular input metadata.
-   */
-  private getInputMetadata(
-    type: any,
+  private assignLegacyProperty(
+    componentRef: ComponentRef<any>,
     propertyOrPublicName: string,
-  ): {
-    privateName: string;
-    publicName: string;
-  } | null {
-    const inputs = type?.ɵcmp?.inputs ?? type?.ɵdir?.inputs;
-
-    if (!inputs) return null;
-
-    for (const [privateName, metadata] of Object.entries(inputs) as Array<[string, any]>) {
-      const publicName = Array.isArray(metadata)
-        ? typeof metadata[0] === 'string'
-          ? metadata[0]
-          : privateName
-        : typeof metadata === 'string'
-          ? metadata
-          : privateName;
-
-      if (privateName === propertyOrPublicName || publicName === propertyOrPublicName) {
-        return {
-          privateName,
-          publicName,
-        };
+    value: any,
+    warnIfMissing: boolean,
+  ): void {
+    const instance = componentRef.instance;
+    if (instance && propertyOrPublicName in instance) {
+      const current = instance[propertyOrPublicName];
+      if (isSignal(current) && typeof (current as any).set === 'function') {
+        (current as any).set(value);
+      } else if (!isSignal(current)) {
+        instance[propertyOrPublicName] = value;
       }
+      return;
     }
 
+    if (warnIfMissing) {
+      console.warn(`'${propertyOrPublicName}' is not an input of ${componentRef.componentType?.name}`);
+    }
+  }
+
+  /**
+   * Angular def format (ɵcmp / ɵdir):  inputs = { [publicName]: privateName | [privateName, flags, ...] }
+   * (کلید = نام عمومی، مقدار = نام property در کلاس). این API داخلی Angular است و در یک نقطه جمع شده.
+   */
+  private getInputInfo(type: any, name: string): MemberInfo | null {
+    return this.lookupMember((type?.ɵcmp ?? type?.ɵdir)?.inputs, name);
+  }
+
+  /** outputs = { [publicName]: privateName } */
+  private getOutputInfo(type: any, name: string): MemberInfo | null {
+    return this.lookupMember((type?.ɵcmp ?? type?.ɵdir)?.outputs, name);
+  }
+
+  private lookupMember(map: Record<string, any> | undefined, name: string): MemberInfo | null {
+    if (!map) return null;
+    const toPrivate = (meta: any): string => (Array.isArray(meta) ? meta[0] : meta);
+
+    if (Object.prototype.hasOwnProperty.call(map, name)) {
+      return { publicName: name, privateName: toPrivate(map[name]) };
+    }
+    for (const [publicName, meta] of Object.entries(map)) {
+      if (toPrivate(meta) === name) {
+        return { publicName, privateName: name };
+      }
+    }
     return null;
   }
 
-  private getPublicOutputName(type: any, propertyName: string): string {
-    const outputs = type?.ɵdir?.outputs ?? type?.ɵcmp?.outputs;
-    if (!outputs) return propertyName;
+  //--------------------------------------------------------------------------------------------------------------
 
-    const metadata = outputs[propertyName];
-    if (typeof metadata === 'string') return metadata;
-    if (Array.isArray(metadata) && typeof metadata[0] === 'string') return metadata[0];
+  /**
+   * ⚠️ Destroy element (children first, then own directives/component, then DOM)
+   * ngOnDestroy و DestroyRef callback ها توسط Angular صدا زده می‌شوند.
+   */
+  public async destroy(item: IPageItem): Promise<boolean> {
+    const el = item.el;
+    if (!el) return false;
 
-    for (const [privateName, value] of Object.entries(outputs) as Array<[string, any]>) {
-      if (value === propertyName || (Array.isArray(value) && value[0] === propertyName)) {
-        return privateName;
+    if (item.children && item.children.length > 0) {
+      for (const child of [...item.children]) {
+        await this.destroy(child);
       }
     }
 
-    return propertyName;
+    this.releaseElement(el);
+
+    if (el.parentNode) {
+      this.renderer.removeChild(el.parentNode, el);
+    }
+    return true;
   }
 
   /**
-   * ⚠️ Destroy element
+   * Destroy component / directive host / event listeners attached to one element (not its children, not the DOM node).
    */
-  public destroy(item: IPageItem): Promise<boolean> {
-    return new Promise<boolean>(async (resolve, reject) => {
-      if (!item.el) {
-        resolve(false);
-        return;
+  private releaseElement(el: HTMLElement): void {
+    const refs: ComponentRef<any>[] = [];
+    const componentRef = (el as any).__componentRef__ as ComponentRef<any> | undefined;
+    const directiveHostRef = (el as any).__directiveHostRef__ as ComponentRef<any> | undefined;
+    if (componentRef) refs.push(componentRef);
+    if (directiveHostRef) refs.push(directiveHostRef);
+
+    const appRef = ((el as any).__viewApplicationRef__ as ApplicationRef | undefined) ?? this.appRef;
+
+    // قبل از destroy، property ها را پاک می‌کنیم تا destroy مجدد باعث دوبار صدا خوردن hook ها نشود
+    delete (el as any).__componentRef__;
+    delete (el as any).__directiveHostRef__;
+    delete (el as any).__viewApplicationRef__;
+
+    for (const ref of refs) {
+      try {
+        appRef.detachView(ref.hostView);
+      } catch {
+        // The view may already have been detached.
       }
-
-      if (item.children && item.children.length > 0) {
-        for (let child of item.children) {
-          await this.destroy(child);
-        }
+      try {
+        ref.destroy();
+      } catch (error) {
+        console.warn('Angular dynamic view destroy failed:', error);
       }
+    }
 
-      // Angular invokes ngOnDestroy and DestroyRef callbacks automatically.
-      const refs: ComponentRef<any>[] = [];
-      const componentRef = (item.el as any).__componentRef__ as ComponentRef<any> | undefined;
-      const directiveHostRef = (item.el as any).__directiveHostRef__ as ComponentRef<any> | undefined;
-      if (componentRef) refs.push(componentRef);
-      if (directiveHostRef) refs.push(directiveHostRef);
-
-      const owningAppRef = (item.el as any).__viewApplicationRef__ as ApplicationRef | undefined;
-      const appRef = owningAppRef ?? this.appRef;
-
-      for (const ref of refs) {
+    const eventCleanups = (el as any).__eventCleanups__ as Array<() => void> | undefined;
+    if (eventCleanups) {
+      for (const cleanup of eventCleanups) {
         try {
-          appRef.detachView(ref.hostView);
-        } catch {
-          // The view may already have been detached.
-        }
-        try {
-          ref.destroy();
+          cleanup();
         } catch (error) {
-          console.warn('Angular dynamic view destroy failed:', error);
+          console.warn('Event listener cleanup failed:', error);
         }
       }
-
-      delete (item.el as any).__componentRef__;
-      delete (item.el as any).__directiveHostRef__;
-      delete (item.el as any).__viewApplicationRef__;
-
-      const eventCleanups = (item.el as any).__eventCleanups__ as Array<() => void> | undefined;
-      if (eventCleanups) {
-        for (const cleanup of eventCleanups) {
-          try {
-            cleanup();
-          } catch (error) {
-            console.warn('Event listener cleanup failed:', error);
-          }
-        }
-        delete (item.el as any).__eventCleanups__;
-      }
-
-      // حذف از DOM
-      if (item.el.parentNode) {
-        this.renderer.removeChild(item.el.parentNode, item.el);
-      }
-      resolve(true);
-    });
+      delete (el as any).__eventCleanups__;
+    }
   }
 
   async destroyBatch(items: PageItem[]) {
-    for (let item of items) {
+    for (const item of items) {
       await this.destroy(item);
     }
   }
 
   isContentEditable(tag: string): boolean {
     const editableTags = ['div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-    return editableTags.indexOf(tag.toLowerCase()) > 0;
+    return editableTags.indexOf(tag.toLowerCase()) >= 0;
   }
 
   /**
-   * تغییر تگ المنت
+   * تغییر تگ المنت. فرزندان (DOM nodeها) منتقل می‌شوند و destroy نمی‌شوند؛
+   * directive ها / event ها‌ی المنت قدیمی destroy و روی المنت جدید دوباره ساخته می‌شوند.
    */
   public async changeElementTagName(item: PageItem, newTagName: string): Promise<HTMLElement | null> {
     if (!item.el || !newTagName) {
       console.warn('Element or new tag name is missing');
+      return null;
+    }
+    if (item.customComponent) {
+      console.warn('Cannot change tag name of a custom component');
       return null;
     }
 
@@ -572,25 +566,69 @@ export class DynamicElementService {
       return null;
     }
 
-    // ساخت المنت جدید
-    let newElement = this.renderer.createElement(newTagName);
-
-    //  کپی innerHTML
-    const innerContent = oldElement.innerHTML;
-    if (innerContent) {
-      this.renderer.setProperty(newElement, 'innerHTML', innerContent);
-    }
-
-    //  جایگزینی در DOM
+    const newElement = this.createElementIn(oldElement.ownerDocument ?? this.doc, newTagName);
     this.renderer.insertBefore(parent, newElement, oldElement);
 
-    await this.destroy(item);
-    //  به‌روزرسانی مرجع در item
+    // destroy فقط خودِ المنت (ngOnDestroy ی directive ها)، نه فرزندان
+    this.releaseElement(oldElement);
+
+    while (oldElement.firstChild) {
+      this.renderer.appendChild(newElement, oldElement.firstChild);
+    }
+    this.renderer.removeChild(parent, oldElement);
+
     item.el = newElement;
     item.tag = newTagName;
-    // Bind options و directives
-    newElement = this.bindOptions(newElement, item);
 
-    return newElement;
+    return this.bindOptions(newElement, item);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------
+
+  private getParentElement(container: HTMLElement | ViewContainerRef): HTMLElement {
+    return container instanceof ViewContainerRef ? container.element.nativeElement : container;
+  }
+
+  private getAppRef(targetEnv?: EnvironmentInjector): ApplicationRef {
+    return targetEnv?.get(ApplicationRef, this.appRef) ?? this.appRef;
+  }
+
+  private createElementIn(doc: Document, tag: string): HTMLElement {
+    // داخل iframe، المنت را مستقیم در همان document (و realm) می‌سازیم
+    return doc === this.doc ? this.renderer.createElement(tag) : doc.createElement(tag);
+  }
+
+  private insertAt(parentEl: HTMLElement, element: HTMLElement, index: number | null | undefined): void {
+    if (index != null && index >= 0) {
+      const refNode = parentEl.children[index] || null;
+      this.renderer.insertBefore(parentEl, element, refNode);
+    } else {
+      this.renderer.appendChild(parentEl, element);
+    }
+  }
+
+  /**
+   * برای document های خارجی (iframe) injector ای می‌سازد که DOCUMENT و RendererFactory2 همان document را برمی‌گرداند.
+   * Angular ریندرر را از elementInjector می‌گیرد (قبل از environmentInjector)، پس باید اینجا override شود.
+   */
+  private createDocumentInjector(
+    parent: Injector,
+    targetDoc: Document,
+    targetEnv: EnvironmentInjector | undefined,
+  ): Injector | undefined {
+    if (targetDoc === this.doc) return undefined;
+    const providers: Provider[] = [{ provide: DOCUMENT, useValue: targetDoc }];
+    if (targetEnv) {
+      providers.push({ provide: RendererFactory2, useValue: targetEnv.get(RendererFactory2) });
+    }
+    return Injector.create({ providers, parent });
+  }
+
+  private destroyInjector(injector: Injector): void {
+    try {
+      (injector as Injector & { destroy?: () => void }).destroy?.();
+    } catch {
+      /* already destroyed */
+    }
   }
 }

@@ -10,6 +10,7 @@ import {
   OnDestroy,
   createComponent,
   inject,
+  ElementRef,
 } from '@angular/core';
 import { NgxDraggable } from 'ngx-kit/drag-resize';
 import { LibConsts, PageItem } from 'ngx-page-builder/core';
@@ -33,8 +34,8 @@ import { PageBuilderService } from '../services/page-builder.service';
  * پایان ویرایش: کلیک بیرون / Ctrl+Enter / ✓ → ذخیره؛  Esc / ✕ → انصراف.
  * Enter = شکست خط (<br>) تا div/p ی تو در تو ساخته نشود.
  *
- * نکته: directive ها در DynamicElementService دستی ساخته می‌شوند (نه با DI ی ویوی Angular)،
- * پس سرویس‌های وابسته را lazy و از طریق Injector می‌گیریم.
+ * نکته: DOCUMENT ی inject شده در این directive، document ی همان جایی است که بلاک در آن ساخته شده
+ * (داخل ادیتور = document ی iframe بوم). document ی اصلی ادیتور (پنل‌ها) از طریق window.parent گرفته می‌شود.
  */
 @Directive({
   selector: '[InlineEditText]',
@@ -44,14 +45,15 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
   /** نوار ابزار قالب‌بندی را نشان بده؟ */
   @Input() toolbar = true;
 
-  private readonly hostDoc = inject(DOCUMENT);
+  /** document ی بلاک (در ادیتور: iframe) */
+  private readonly canvasDoc = inject(DOCUMENT);
   private readonly injector = inject(Injector);
   private readonly fonts: FontOption[] = [
     ...(inject(NGX_PAGE_BUILDER_FONTS, { optional: true }) ?? []),
     ...DEFAULT_FONTS.filter((f) => f.value !== 'inherit'),
   ];
 
-  private el?: HTMLElement;
+  private el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
   private dragDir?: NgxDraggable;
   private editing = false;
   private startHtml = '';
@@ -63,18 +65,19 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
   } | null = null;
 
   private fmt?: InlineTextFormatter;
-  private bar?: { ref: ComponentRef<InlineTextToolbarComponent>; host: HTMLElement };
+  private bar?: { ref: ComponentRef<InlineTextToolbarComponent>; host: HTMLElement; injector: Injector };
   private raf = 0;
+  /** document ی بیرون از iframe (پنل‌های ادیتور)؛ اگر بلاک داخل iframe نباشد undefined */
+  private outerDoc?: Document;
 
   //---------------------------------- lifecycle ----------------------------------
 
   ngAfterViewInit(): void {
-    this.el = this.pageItem?.el ?? undefined;
-    this.el?.addEventListener('dblclick', this.onDblclick);
+    this.el.nativeElement.addEventListener('dblclick', this.onDblclick);
   }
 
   ngOnDestroy(): void {
-    this.el?.removeEventListener('dblclick', this.onDblclick);
+    this.el.nativeElement.removeEventListener('dblclick', this.onDblclick);
     // اگر وسط ویرایش حذف شدیم المنت دیگر وجود ندارد؛ فقط تمیزکاری
     if (this.editing) this.teardown();
   }
@@ -85,10 +88,21 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
 
   private onDblclick = (): void => this.startEdit();
 
+  /** document ی والد (خارج از iframe). cross-origin یا بدون iframe → undefined */
+  private resolveOuterDoc(doc: Document): Document | undefined {
+    try {
+      const win = doc.defaultView;
+      if (win && win.parent && win.parent !== win) return win.parent.document;
+    } catch {
+      /* cross-origin */
+    }
+    return undefined;
+  }
+
   //---------------------------------- start / stop ----------------------------------
 
   startEdit(): void {
-    const el = this.el;
+    const el = this.el.nativeElement;
     if (!el || this.editing) return;
     const doc = el.ownerDocument;
 
@@ -117,16 +131,21 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     el.addEventListener('paste', this.onPaste);
     el.addEventListener('click', this.onClick);
     for (const t of ['mousedown', 'pointerdown', 'touchstart'] as const) el.addEventListener(t, this.stop);
+
+    // add و remove باید دقیقاً با یک تابع و یک مقدار capture انجام شوند، وگرنه listener حذف نمی‌شود
     doc.addEventListener('pointerdown', this.onOutside, true);
     doc.addEventListener('selectionchange', this.onSelectionChange);
-    this.hostDoc.addEventListener('pointerdown', this.onHostPointerDown, true);
+
+    // کلیک روی پنل‌های ادیتور (بیرون iframe)
+    this.outerDoc = this.resolveOuterDoc(doc);
+    this.outerDoc?.addEventListener('pointerdown', this.onOutside, true);
 
     if (this.toolbar) this.mountToolbar(doc);
   }
 
   /** @param save true → ذخیره؛ false → برگرداندن به متن قبل از ویرایش */
   stopEdit(save: boolean): void {
-    const el = this.el;
+    const el = this.el.nativeElement;
     if (!el || !this.editing) return;
 
     if (!save) {
@@ -167,7 +186,7 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
   }
 
   private teardown(): void {
-    const el = this.el;
+    const el = this.el.nativeElement;
     this.editing = false;
     cancelAnimationFrame(this.raf);
     this.raf = 0;
@@ -195,7 +214,8 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
       }
       doc.getSelection()?.removeAllRanges();
     }
-    this.hostDoc.removeEventListener('pointerdown', this.onHostPointerDown, true);
+    this.outerDoc?.removeEventListener('pointerdown', this.onOutside, true);
+    this.outerDoc = undefined;
     this.dragDir?.disabled.set(false);
     this.unmountToolbar();
     this.fmt = undefined;
@@ -210,15 +230,25 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     host.setAttribute('data-pb-inline-toolbar', '');
     doc.body.appendChild(host);
 
+    // نوار ابزار داخل document ی iframe رندر می‌شود؛ کامپوننت‌های داخلش (مثل ngx-input-color)
+    // که inject(DOCUMENT) می‌کنند و روی document به pointermove/pointerup/keydown گوش می‌دهند،
+    // باید همان document ی iframe را بگیرند، نه document ی اصلی.
+    const envInjector = this.injector.get(EnvironmentInjector);
+    const toolbarInjector = Injector.create({
+      providers: [{ provide: DOCUMENT, useValue: doc }],
+      parent: envInjector,
+    });
+
     const ref = createComponent(InlineTextToolbarComponent, {
-      environmentInjector: this.injector.get(EnvironmentInjector),
+      environmentInjector: envInjector,
+      elementInjector: toolbarInjector,
       hostElement: host,
     });
     this.injector.get(ApplicationRef).attachView(ref.hostView);
-    this.bar = { ref, host };
+    this.bar = { ref, host, injector: toolbarInjector };
 
     ref.setInput('fonts', this.fonts);
-    ref.setInput('allowLink', this.el!.tagName !== 'A');
+    ref.setInput('allowLink', this.el.nativeElement.tagName !== 'A');
 
     // هر فرمان: اعمال روی selection → بازخوانی state ی نوار ابزار
     const act =
@@ -253,10 +283,16 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
 
   private unmountToolbar(): void {
     if (!this.bar) return;
-    this.injector.get(ApplicationRef).detachView(this.bar.ref.hostView);
-    this.bar.ref.destroy();
-    this.bar.host.remove();
+    const { ref, host, injector } = this.bar;
     this.bar = undefined;
+    this.injector.get(ApplicationRef).detachView(ref.hostView);
+    ref.destroy();
+    host.remove();
+    try {
+      (injector as Injector & { destroy?: () => void }).destroy?.();
+    } catch {
+      /* already destroyed */
+    }
   }
 
   private refreshToolbar(): void {
@@ -270,7 +306,8 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     if (this.raf) return;
     this.raf = requestAnimationFrame(() => {
       this.raf = 0;
-      if (this.editing && this.el && this.bar) this.bar.ref.instance.place(this.el.getBoundingClientRect());
+      if (this.editing && this.el && this.bar)
+        this.bar.ref.instance.place(this.el.nativeElement.getBoundingClientRect());
     });
   };
 
@@ -283,19 +320,30 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     if ((ev.target as HTMLElement | null)?.closest?.('a')) ev.preventDefault();
   };
 
-  /** کلیک بیرون از المنت و نوار ابزار، داخل iframe */
-  private onOutside = (ev: Event): void => {
+  /**
+   * آیا این رویداد داخل UI ی ویرایش است؟ (خود المنت، نوار ابزار، پنل رنگ و ...)
+   * ⚠️ از instanceof Element استفاده نمی‌کنیم: node های iframe از realm دیگری هستند.
+   */
+  private isInsideEditorUi(ev: Event): boolean {
     const path = ev.composedPath();
-    if (path.includes(this.el!) || (this.bar && path.includes(this.bar.host))) return;
+    if (path.includes(this.el.nativeElement)) return true;
+    if (this.bar && path.includes(this.bar.host)) return true;
+    return path.some((n) => {
+      const node = n as Element;
+      if (node.nodeType !== 1) return false;
+      return (
+        node.tagName === 'NGX-INPUT-COLOR' ||
+        node.hasAttribute?.('data-pb-keep-editing') ||
+        node.classList?.contains('cdk-overlay-pane')
+      );
+    });
+  }
+
+  /** کلیک بیرون از المنت و نوار ابزار — هم داخل iframe و هم پنل‌های ادیتور (بیرون iframe) */
+  private onOutside = (ev: Event): void => {
+    if (this.isInsideEditorUi(ev)) return;
     this.stopEdit(true);
   };
-
-  /** کلیک بیرون از iframe (پنل‌های ادیتور) */
-  private onHostPointerDown(ev: Event) {
-    const tagPaths = ev.composedPath().map((m: any) => m.tagName);
-    if (tagPaths.includes('NGX-INPUT-COLOR')) return;
-    this.stopEdit(true);
-  }
 
   private onSelectionChange = (): void => {
     this.fmt?.saveSelection();
@@ -315,12 +363,12 @@ export class InlineEditTextDirective implements AfterViewInit, OnDestroy {
     } else if (ev.key === 'Enter' && !ev.isComposing) {
       // به‌جای <div>/<p> ی تو در تو، فقط شکست خط
       ev.preventDefault();
-      this.el!.ownerDocument.execCommand('insertLineBreak');
+      this.el.nativeElement.ownerDocument.execCommand('insertLineBreak');
     }
   };
 
   private onPaste = (ev: ClipboardEvent): void => {
-    const doc = this.el!.ownerDocument;
+    const doc = this.el.nativeElement.ownerDocument;
     const data = ev.clipboardData;
     if (!data) return;
     ev.preventDefault();
