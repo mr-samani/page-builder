@@ -19,7 +19,7 @@ import { NgxShadowBox } from 'ngx-kit/box-shadow';
 import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { BorderControlComponent } from '../../controls/border-control/border-control.component';
 import { PositionControlComponent } from '../../controls/position-control/position-control.component';
-import { FilterControlComponent } from 'ngx-page-builder/designer/controls/filter-control/filter-control.component';
+import { FilterControlComponent } from '../../controls/filter-control/filter-control.component';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
 const TYPO_KEYS = [
