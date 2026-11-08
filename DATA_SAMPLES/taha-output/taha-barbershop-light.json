@@ -1,0 +1,1303 @@
+{
+  "config": {
+    "title": "آرایشگاه مردانه طاها",
+    "description": "طراحی سایت آرایشگاه مردانه طاها",
+    "size": "A4",
+    "orientation": "Portrait",
+    "direction": "rtl"
+  },
+  "data": [
+    {
+      "headerItems": [
+        {
+          "id": "85407e31-3de4-4caa-975c-a1c489769660",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "2b25f4fb-2719-4813-be1a-8030b6e44843",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "56f09df7-c70c-4838-9d8c-c29c8655f1b9",
+                  "tag": "nav",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "1ff4c1b9-2441-4fb0-89ff-356afce5bd68",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-logo"
+                      ],
+                      "content": "طاها",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "433fd8bd-03ae-4e43-a458-86e6da4396b8",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "614f6e74-8c8c-41a2-9d57-bd39e3ccb7a3",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "خانه",
+                          "css": {
+                            "base": {
+                              "href": "#home"
+                            }
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "e7ba872f-faa0-4ba1-a6f7-ded8cdeca874",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "خدمات",
+                          "css": {
+                            "base": {
+                              "href": "#services"
+                            }
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "84a1718a-6c67-4f4e-9abc-dbaa4a902c7a",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "درباره ما",
+                          "css": {
+                            "base": {
+                              "href": "#about"
+                            }
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "dd90f93d-52e5-47eb-9c80-0b0f9794fae0",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "گالری",
+                          "css": {
+                            "base": {
+                              "href": "#gallery"
+                            }
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "0c8d0762-4fe6-4d76-89ec-4a7933e287bb",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "تماس",
+                          "css": {
+                            "base": {
+                              "href": "#contact"
+                            }
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-links"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "2966f1df-92de-414b-a47f-6d184ec73737",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-button"
+                      ],
+                      "content": "رزرو نوبت",
+                      "css": {
+                        "base": {
+                          "href": "#contact"
+                        }
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-nav"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-header"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        }
+      ],
+      "bodyItems": [
+        {
+          "id": "4bc0783d-a199-45be-8adf-af4631eccaaf",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "e3ac7f4a-f4b9-4fe1-a780-0309c28ea60a",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "9bc4a819-66d5-4468-8944-df58300f3eb5",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [
+                    "taha-eyebrow"
+                  ],
+                  "content": "TAHA MEN'S GROOMING",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "880f766b-1980-4d90-9c52-ddcb2fad7e58",
+                  "tag": "h1",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "استایل متفاوت،<br>شخصیت ماندگار",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "058f43c3-961b-42a2-8db3-cbd344fdd084",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "در آرایشگاه مردانه طاها، جزئیات اهمیت دارند. تجربه‌ای حرفه‌ای از اصلاح، پیرایش و آراستگی را تجربه کنید.",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "97477477-62ac-45c8-8b58-d8c986a244a1",
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [
+                    "taha-button"
+                  ],
+                  "content": "رزرو نوبت",
+                  "css": {
+                    "base": {
+                      "href": "#contact"
+                    }
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-hero"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        },
+        {
+          "id": "71b991cd-013e-4889-b000-351fde0f4c4f",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "64ad6d21-70ec-4f27-8f90-5754768f5377",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "65603efb-5ec6-4b58-a005-5b79ee38f93d",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "9027bf79-37a4-42bd-914b-4a8da220b34b",
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "۱۰+",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "950acf76-a276-4414-872b-027bca757d01",
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "سال تجربه حرفه‌ای",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-intro-item"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "e5fc3694-9d12-4e62-a260-f0c4b6f4ca64",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "4479db0f-3dde-45a8-b8f1-b7a97cdbbce2",
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "۱۰۰۰+",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "a63d270a-035a-46a9-85bc-7b1be9473147",
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "مشتری راضی",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-intro-item"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "33768eb5-30a8-4986-ab4a-e07f1854d07a",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "0b9fc614-e394-4496-babb-d9e9921cc98d",
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "۱۰۰٪",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "7750f395-9e0d-4cae-971b-0dbd966c6922",
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "توجه به جزئیات",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-intro-item"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-intro"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-container"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        },
+        {
+          "id": "1fe25da0-f2a0-43e3-b862-9dc9b68fa223",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "2c65e648-eb70-4855-a379-103e1a1cb82f",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "6b9883a2-47ea-4253-a9c0-a2dd29afe9b9",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "54b2ee6a-4083-4ea2-bf73-61e7859e5746",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "خدمات ما",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "f2f05f1f-e244-4a1d-8ff8-948f51047602",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "برای آراستگی شما، بهترین‌ها را آماده کرده‌ایم.",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-section-heading"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "502703b9-30c7-48e7-a239-e301cba1f7b4",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "89629d68-2a9b-4c6b-985b-b73e1d6ba8b9",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "3c70b13d-3462-49d4-b483-66265fcaca12",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [
+                            "taha-service-icon"
+                          ],
+                          "content": "✂",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "688a1e19-32d4-4e49-b84b-a5600e45649b",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "اصلاح و کوتاهی مو",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "5b5ae8a3-ad76-4cfd-9199-2f33e24c1135",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "کوتاهی حرفه‌ای متناسب با فرم چهره و سلیقه شما.",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-service"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "8f68f36f-e402-4863-8ac6-0d00044ac505",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "4dd11399-9eea-4982-b796-77d8720ce74e",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [
+                            "taha-service-icon"
+                          ],
+                          "content": "◈",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "59767df7-4314-456b-89b5-24e25e8c99e6",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "اصلاح و فرم‌دهی ریش",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "fc2e4189-ca12-4779-9582-b45645f9750a",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "طراحی و مرتب‌سازی ریش با دقت و ظرافت.",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-service"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "bfc672a1-a8e2-4524-b8e1-c354110de65c",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "3af5aac0-9ae9-4814-bea1-0ecbe7048179",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [
+                            "taha-service-icon"
+                          ],
+                          "content": "✧",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "3c740a19-edea-400e-a889-07e6c33873a8",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "پاکسازی و مراقبت پوست",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "da1bb1db-64b3-4d59-a9ed-27cd10dc0dfa",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "تجربه‌ای آرامش‌بخش برای مراقبت و شادابی پوست.",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-service"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "63f8ae08-5b8d-4617-9faf-f362175fc10b",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "04efe2ac-afcb-49aa-80a8-329633479238",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [
+                            "taha-service-icon"
+                          ],
+                          "content": "◇",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "f734fe30-f1c0-4254-8233-aac530d1773f",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "استایل و پیرایش",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "c5d5e720-95f2-4803-aac4-f1550916f448",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "classList": [],
+                          "content": "تکمیل ظاهر شما با توجه به آخرین سبک‌های روز.",
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-service"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-services"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-section"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        },
+        {
+          "id": "b2cbba3f-5bca-423c-9b26-58e8e0a9d52a",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "29d53799-68e0-4d0c-8b92-6d799065851c",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "6923ee14-5870-4f8e-a2a7-db600671df45",
+                  "tag": "section",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "d63ea78b-ba3f-4dad-985c-241610de7490",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "196dd267-f53f-4995-bc7c-74597ca3c826",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "2e1911b8-60ea-44b0-94c0-89b9fa152931",
+                              "tag": "div",
+                              "canHaveChild": false,
+                              "children": [],
+                              "classList": [],
+                              "content": "TAHA",
+                              "css": {
+                                "base": {}
+                              },
+                              "options": {
+                                "attributes": {}
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "taha-about-visual"
+                          ],
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        },
+                        {
+                          "id": "6cf9c755-bb28-4610-9b39-af18f078c3da",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "9850b8a2-ac94-46a4-9a29-e6cebe822445",
+                              "tag": "h2",
+                              "canHaveChild": false,
+                              "children": [],
+                              "classList": [],
+                              "content": "درباره آرایشگاه طاها",
+                              "css": {
+                                "base": {}
+                              },
+                              "options": {
+                                "attributes": {}
+                              }
+                            },
+                            {
+                              "id": "4e6f3671-ac16-4f5b-850b-6a66bb845e27",
+                              "tag": "p",
+                              "canHaveChild": false,
+                              "children": [],
+                              "classList": [],
+                              "content": "ما باور داریم آراستگی فقط یک ظاهر نیست؛ بخشی از شخصیت و اعتمادبه‌نفس شماست. در طاها تلاش می‌کنیم با محیطی حرفه‌ای، ابزارهای مناسب و توجه به سلیقه هر فرد، تجربه‌ای متفاوت خلق کنیم.",
+                              "css": {
+                                "base": {}
+                              },
+                              "options": {
+                                "attributes": {}
+                              }
+                            },
+                            {
+                              "id": "45a080fc-3122-44e7-a5d9-ec4d8f179601",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "children": [],
+                              "classList": [
+                                "taha-button"
+                              ],
+                              "content": "بیشتر با ما آشنا شوید",
+                              "css": {
+                                "base": {
+                                  "href": "#contact"
+                                }
+                              },
+                              "options": {
+                                "attributes": {}
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "taha-about-copy"
+                          ],
+                          "css": {
+                            "base": {}
+                          },
+                          "options": {
+                            "attributes": {}
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "taha-container",
+                        "taha-about"
+                      ],
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-section"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container",
+                "taha-about"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-section"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        },
+        {
+          "id": "ea05dfb3-96f9-4dad-8679-309ef06a909e",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "3a504df9-525e-47f9-ba86-83fc2e249651",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "5fa85e91-c66f-4c22-8222-992332ce1497",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "882dcfe7-6a00-4d9c-86f4-7eda0fd249e1",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "گالری سبک و استایل",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "8d449910-2430-4361-8daf-3dea6f08b87f",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "نمونه‌ای از فضای حرفه‌ای و دنیای آراستگی طاها",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-section-heading"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "43f384cd-31c2-4028-9bb9-7d9c6b52a34c",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "a32efd34-a6e6-448d-a03c-7bf9583d3976",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-gallery-item"
+                      ],
+                      "content": "HAIR STYLE",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "b6007138-8799-4041-8c54-df0e28cd1b26",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-gallery-item"
+                      ],
+                      "content": "BEARD STYLE",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "63816038-f11f-4d5d-be0d-715c31fa72db",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-gallery-item"
+                      ],
+                      "content": "GROOMING",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-gallery"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-section"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        },
+        {
+          "id": "8f6c3bbd-2c72-4181-8dcd-552a0c69ea9a",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "d5b82456-129a-46aa-bcc9-2b8feb650822",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "be1984be-13b6-480a-bf62-d18c33fb85f5",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "8c755294-a724-44e6-a160-9482f39dc888",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "وقتشه استایل خودت رو بسازی",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "e78bf08c-69c0-4ab0-87a8-48aa343b2825",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [],
+                      "content": "برای رزرو نوبت و دریافت اطلاعات بیشتر با ما تماس بگیرید.",
+                      "css": {
+                        "base": {}
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    },
+                    {
+                      "id": "e0fa9b37-213d-43d6-960c-fbd1f85b6970",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "children": [],
+                      "classList": [
+                        "taha-button"
+                      ],
+                      "content": "تماس با ما",
+                      "css": {
+                        "base": {
+                          "href": "tel:00000000000"
+                        }
+                      },
+                      "options": {
+                        "attributes": {}
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "taha-cta"
+                  ],
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-section"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        }
+      ],
+      "footerItems": [
+        {
+          "id": "7150baa5-3eac-47cd-b4bb-ccc2bb3a5dcf",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "39189738-04ff-4db9-9e18-0433911fb34e",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "503548f5-ba19-4013-8d40-6d30ecb17cf3",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "آرایشگاه مردانه طاها",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "57111377-9195-40ec-9f62-c81dd2cae53c",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "آدرس: آدرس آرایشگاه را اینجا وارد کنید",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "21bd795e-d1d5-49b1-9eb4-8811096c4806",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "تلفن: ۰۹۱۲۱۲۳۴۵۶۷",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                },
+                {
+                  "id": "0ce847b5-b420-45a7-9dc3-58a58d47c0f1",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "children": [],
+                  "classList": [],
+                  "content": "© تمامی حقوق برای آرایشگاه طاها محفوظ است.",
+                  "css": {
+                    "base": {}
+                  },
+                  "options": {
+                    "attributes": {}
+                  }
+                }
+              ],
+              "classList": [
+                "taha-container"
+              ],
+              "css": {
+                "base": {}
+              },
+              "options": {
+                "attributes": {}
+              }
+            }
+          ],
+          "classList": [
+            "taha-footer"
+          ],
+          "css": {
+            "base": {}
+          },
+          "options": {
+            "attributes": {}
+          }
+        }
+      ],
+      "config": {
+        "title": "خانه",
+        "description": "صفحه اصلی آرایشگاه مردانه طاها"
+      }
+    }
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "data": "\n@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');\n\n* {\n    box-sizing: border-box;\n}\n\nhtml {\n    scroll-behavior: smooth;\n}\n\nbody {\n    margin: 0;\n    background: #F7F5F0;\n    color: #24211D;\n    font-family: 'Vazirmatn', sans-serif;\n    direction: rtl;\n}\n\n.taha-page {\n    width: 100%;\n    overflow: hidden;\n    background: #F7F5F0;\n    color: #24211D;\n}\n\n.taha-container {\n    width: min(1160px, calc(100% - 48px));\n    margin: 0 auto;\n}\n\n.taha-header {\n    padding: 22px 0;\n    border-bottom: 1px solid #E4DED3;\n}\n\n.taha-nav {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    gap: 24px;\n}\n\n.taha-logo {\n    color: #9B713B;\n    font-size: 30px;\n    font-weight: 800;\n}\n\n.taha-links {\n    display: flex;\n    gap: 30px;\n    align-items: center;\n}\n\n.taha-links a {\n    color: #777168;\n    text-decoration: none;\n    font-size: 14px;\n}\n\n.taha-button {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    padding: 13px 25px;\n    border-radius: 4px;\n    background: #9B713B;\n    color: #17130D;\n    text-decoration: none;\n    font-weight: 700;\n}\n\n.taha-hero {\n    padding: 105px 0 95px;\n    text-align: center;\n    background:\n        radial-gradient(ellipse at 50% 0%, #EEEAE2, transparent 70%);\n}\n\n.taha-eyebrow {\n    color: #9B713B;\n    font-size: 14px;\n    letter-spacing: 2px;\n    margin-bottom: 20px;\n}\n\n.taha-hero h1 {\n    font-size: clamp(38px, 6vw, 68px);\n    line-height: 1.5;\n    margin: 0 auto 20px;\n    max-width: 850px;\n    font-weight: 800;\n}\n\n.taha-hero p {\n    max-width: 620px;\n    margin: 0 auto 32px;\n    color: #777168;\n    font-size: 16px;\n    line-height: 2.2;\n}\n\n.taha-intro {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    background: #FFFFFF;\n    border: 1px solid #E4DED3;\n    margin-top: -1px;\n}\n\n.taha-intro-item {\n    text-align: center;\n    padding: 28px 15px;\n    border-left: 1px solid #E4DED3;\n}\n\n.taha-intro-item:last-child {\n    border-left: 0;\n}\n\n.taha-intro-item strong {\n    display: block;\n    color: #9B713B;\n    font-size: 24px;\n    margin-bottom: 8px;\n}\n\n.taha-intro-item span {\n    color: #777168;\n    font-size: 13px;\n}\n\n.taha-section {\n    padding: 90px 0;\n}\n\n.taha-section-heading {\n    text-align: center;\n    margin-bottom: 45px;\n}\n\n.taha-section-heading h2 {\n    font-size: 34px;\n    margin: 0 0 12px;\n}\n\n.taha-section-heading p {\n    color: #777168;\n    line-height: 2;\n}\n\n.taha-services {\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    gap: 18px;\n}\n\n.taha-service {\n    padding: 30px 22px;\n    min-height: 220px;\n    background: #FFFFFF;\n    border: 1px solid #E4DED3;\n    transition: transform .25s, border-color .25s;\n}\n\n.taha-service:hover {\n    transform: translateY(-6px);\n    border-color: #9B713B;\n}\n\n.taha-service-icon {\n    color: #9B713B;\n    font-size: 30px;\n    margin-bottom: 22px;\n}\n\n.taha-service h3 {\n    font-size: 18px;\n    margin: 0 0 12px;\n}\n\n.taha-service p {\n    color: #777168;\n    font-size: 13px;\n    line-height: 2;\n    margin: 0;\n}\n\n.taha-about {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 55px;\n    align-items: center;\n}\n\n.taha-about-visual {\n    min-height: 390px;\n    background:\n        linear-gradient(145deg, #EEEAE2, #FFFFFF);\n    border: 1px solid #E4DED3;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    color: #9B713B;\n    font-size: 38px;\n    font-weight: 800;\n}\n\n.taha-about-copy h2 {\n    font-size: 34px;\n    line-height: 1.7;\n}\n\n.taha-about-copy p {\n    color: #777168;\n    line-height: 2.4;\n}\n\n.taha-gallery {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 16px;\n}\n\n.taha-gallery-item {\n    min-height: 230px;\n    background: linear-gradient(145deg, #EEEAE2, #FFFFFF);\n    border: 1px solid #E4DED3;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    color: #9B713B;\n    font-size: 20px;\n}\n\n.taha-cta {\n    padding: 65px 30px;\n    text-align: center;\n    background: #FFFFFF;\n    border: 1px solid #E4DED3;\n}\n\n.taha-cta h2 {\n    font-size: 32px;\n    margin: 0 0 15px;\n}\n\n.taha-cta p {\n    color: #777168;\n    margin-bottom: 28px;\n}\n\n.taha-footer {\n    padding: 45px 0;\n    border-top: 1px solid #E4DED3;\n    color: #777168;\n    text-align: center;\n    font-size: 13px;\n}\n\n@media (max-width: 900px) {\n    .taha-services {\n        grid-template-columns: repeat(2, 1fr);\n    }\n\n    .taha-about {\n        grid-template-columns: 1fr;\n    }\n\n    .taha-about-visual {\n        min-height: 280px;\n    }\n}\n\n@media (max-width: 600px) {\n    .taha-container {\n        width: calc(100% - 30px);\n    }\n\n    .taha-links {\n        display: none;\n    }\n\n    .taha-hero {\n        padding: 70px 0;\n    }\n\n    .taha-intro {\n        grid-template-columns: 1fr;\n    }\n\n    .taha-intro-item {\n        border-left: 0;\n        border-bottom: 1px solid #E4DED3;\n    }\n\n    .taha-services {\n        grid-template-columns: 1fr;\n    }\n\n    .taha-gallery {\n        grid-template-columns: 1fr;\n    }\n\n    .taha-section {\n        padding: 65px 0;\n    }\n}\n"
+    }
+  ],
+  "cssVariables": [
+    {
+      "name": "--taha-background",
+      "value": "#F7F5F0"
+    },
+    {
+      "name": "--taha-surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "--taha-brand",
+      "value": "#9B713B"
+    },
+    {
+      "name": "--taha-text",
+      "value": "#24211D"
+    },
+    {
+      "name": "--taha-muted",
+      "value": "#777168"
+    },
+    {
+      "name": "--taha-border",
+      "value": "#E4DED3"
+    }
+  ]
+}
