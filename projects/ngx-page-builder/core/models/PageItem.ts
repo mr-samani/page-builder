@@ -9,6 +9,8 @@ import { BlockCss } from '../contracts/IStyleSheetFile';
 
 export class PageItem implements IPageItem {
   id: string = '';
+  /** Registry key of the source definition used to create this block. */
+  sourceId?: string;
   dataSource?: DataSourceSetting;
   /** what the block shows from the record it is bound to (text, attributes, classes, visibility) */
   binding?: ItemBinding = undefined;

@@ -6,6 +6,7 @@
  * - فرم longhand (transition-property / -duration / -timing-function / -delay) هم خوانده می‌شود،
  *   چون از import یا Advanced ممکن است همین‌طور آمده باشد.
  */
+import { CORNER_TRANSITION_PROPS } from 'ngx-page-builder/core';
 import { splitTopLevel, trimNum } from '../css-unit-field/css-value-utils';
 
 //==================================================================================
@@ -333,6 +334,10 @@ export const TRANSITION_PROPERTY_GROUPS: PropertyGroup[] = [
   },
   { label: 'Position', items: ['top', 'right', 'bottom', 'left', 'inset', 'z-index'] },
   { label: 'Typography', items: ['font-size', 'font-weight', 'letter-spacing', 'line-height', 'word-spacing'] },
+  {
+    label: 'Corners (inverted / notch)',
+    items: CORNER_TRANSITION_PROPS.filter((n) => n !== 'border-radius'),
+  },
   { label: 'Other', items: ['background-position', 'background-size', 'clip-path', 'flex-basis', 'flex-grow', 'scale', 'rotate', 'translate'] },
 ];
 

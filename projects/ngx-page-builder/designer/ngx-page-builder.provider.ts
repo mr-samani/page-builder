@@ -63,7 +63,20 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
 
   LibConsts.SourceItemList = [
     ...SOURCE_ITEMS,
-    ...(config.customSources ?? []).map((item: SourceItem) => new SourceItem(item, true)),
+    ...(config.customSources ?? []).map(
+      (item: SourceItem, index: number) =>
+        new SourceItem(
+          {
+            ...item,
+            sourceId:
+              item.sourceId ??
+              (item.customComponent?.componentKey
+                ? `component:${item.customComponent.componentKey}`
+                : `custom:${index}:${item.category ?? 'custom'}:${item.tag}:${item.title ?? ''}`),
+          },
+          true,
+        ),
+    ),
   ];
   // check duplicates
   const ids = new Set();

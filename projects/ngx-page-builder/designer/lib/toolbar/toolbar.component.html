@@ -72,11 +72,7 @@
     <svg Icon="assets/icons/download.svg"></svg>
   </button>
 }
-@if (toolbarConfig?.showConfigButton) {
-  <button (click)="openConfigDialog()" title="Configuration">
-    <svg Icon="assets/icons/cog.svg"></svg>
-  </button>
-}
+
 @if (toolbarConfig?.showPrintButton) {
   <button (click)="print()" title="Print">
     <svg Icon="assets/icons/printer.svg"></svg>

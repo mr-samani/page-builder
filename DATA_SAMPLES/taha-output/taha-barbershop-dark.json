@@ -1,0 +1,1208 @@
+{
+  "config": {
+    "title": "آرایشگاه مردانه طاها",
+    "description": "تجربه‌ای متفاوت از آراستگی، استایل و مراقبت آقایان",
+    "size": "A4",
+    "orientation": "Portrait",
+    "direction": "rtl"
+  },
+  "data": [
+    {
+      "headerItems": [],
+      "footerItems": [],
+      "order": 0,
+      "config": {
+        "title": "خانه",
+        "description": "صفحه اصلی آرایشگاه مردانه طاها"
+      },
+      "bodyItems": [
+        {
+          "id": "taha-page",
+          "tag": "main",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "taha-header",
+              "tag": "header",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "header-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "brand",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "content": "طـاهـا",
+                      "options": {
+                        "attributes": {
+                          "href": "#home",
+                          "aria-label": "آرایشگاه مردانه طاها"
+                        }
+                      },
+                      "children": [],
+                      "classList": ["blk-brand"],
+                      "css": {
+                        "base": "font-size:30px;font-weight:900;color:#d8b77c;text-decoration:none;letter-spacing:2px;white-space:nowrap;"
+                      }
+                    },
+                    {
+                      "id": "header-nav",
+                      "tag": "nav",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "nav-home",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "content": "خانه",
+                          "options": {
+                            "attributes": {
+                              "href": "#home"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-nav-home"],
+                          "css": {
+                            "base": "color:#f1e9dc;text-decoration:none;font-size:13px;font-weight:600;padding:10px 13px;transition:color .25s;",
+                            "states": {
+                              "hover": "color:#d8b77c;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nav-services",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "content": "خدمات",
+                          "options": {
+                            "attributes": {
+                              "href": "#services"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-nav-services"],
+                          "css": {
+                            "base": "color:#c3b9aa;text-decoration:none;font-size:13px;padding:10px 13px;transition:color .25s;",
+                            "states": {
+                              "hover": "color:#d8b77c;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nav-gallery",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "content": "گالری",
+                          "options": {
+                            "attributes": {
+                              "href": "#gallery"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-nav-gallery"],
+                          "css": {
+                            "base": "color:#c3b9aa;text-decoration:none;font-size:13px;padding:10px 13px;transition:color .25s;",
+                            "states": {
+                              "hover": "color:#d8b77c;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "nav-about",
+                          "tag": "a",
+                          "canHaveChild": false,
+                          "content": "درباره ما",
+                          "options": {
+                            "attributes": {
+                              "href": "#about"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-nav-about"],
+                          "css": {
+                            "base": "color:#c3b9aa;text-decoration:none;font-size:13px;padding:10px 13px;transition:color .25s;",
+                            "states": {
+                              "hover": "color:#d8b77c;"
+                            }
+                          }
+                        }
+                      ],
+                      "classList": ["blk-header-nav"],
+                      "css": {
+                        "base": "display:flex;align-items:center;justify-content:center;gap:8px;"
+                      }
+                    },
+                    {
+                      "id": "header-booking",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "content": "رزرو نوبت <span>↗</span>",
+                      "options": {
+                        "attributes": {
+                          "href": "#contact"
+                        }
+                      },
+                      "children": [],
+                      "classList": ["blk-header-booking"],
+                      "css": {
+                        "base": "display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border:1px solid #a88a5b;border-radius:40px;color:#e5c895;text-decoration:none;font-size:12px;font-weight:700;transition:all .25s;",
+                        "states": {
+                          "hover": "background:#d8b77c;color:#171411;border-color:#d8b77c;"
+                        }
+                      }
+                    }
+                  ],
+                  "classList": ["blk-header-inner"],
+                  "css": {
+                    "base": "max-width:1240px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:25px;padding:18px 30px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "padding:15px 20px;flex-wrap:wrap;gap:14px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-taha-header"],
+              "css": {
+                "base": "position:relative;z-index:5;background:#171512;border-bottom:1px solid rgba(216,183,124,.16);"
+              }
+            },
+            {
+              "id": "hero-section",
+              "tag": "section",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "id": "home"
+                }
+              },
+              "children": [
+                {
+                  "id": "hero-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "hero-copy",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "hero-kicker",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "content": "BARBER SHOP  /  EST. 2020",
+                          "children": [],
+                          "classList": ["blk-hero-kicker"],
+                          "css": {
+                            "base": "display:inline-flex;align-items:center;gap:12px;color:#d8b77c;font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:26px;"
+                          }
+                        },
+                        {
+                          "id": "hero-title",
+                          "tag": "h1",
+                          "canHaveChild": false,
+                          "content": "استایل شما،<br><span>امضای شماست.</span>",
+                          "children": [],
+                          "classList": ["blk-hero-title"],
+                          "css": {
+                            "base": "font-size:clamp(42px,5.4vw,76px);line-height:1.5;font-weight:900;color:#f4eee5;margin:0 0 20px;letter-spacing:-2px;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "font-size:43px;line-height:1.55;letter-spacing:-1px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "hero-description",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "در طاها، آراستگی فقط یک اصلاح ساده نیست؛ تجربه‌ای از ظرافت، دقت و شخصیت شماست. جزئیات را به ما بسپارید.",
+                          "children": [],
+                          "classList": ["blk-hero-description"],
+                          "css": {
+                            "base": "max-width:470px;color:#b6aa99;font-size:15px;line-height:2.2;margin:0 0 32px;"
+                          }
+                        },
+                        {
+                          "id": "hero-actions",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "hero-primary",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "content": "رزرو وقت مراجعه <span>←</span>",
+                              "options": {
+                                "attributes": {
+                                  "href": "#contact"
+                                }
+                              },
+                              "children": [],
+                              "classList": ["blk-hero-primary"],
+                              "css": {
+                                "base": "display:inline-flex;align-items:center;gap:18px;background:#c6a36c;color:#17130e;text-decoration:none;padding:16px 25px;border-radius:50px;font-size:13px;font-weight:800;box-shadow:0 12px 35px rgba(198,163,108,.2);transition:all .25s;",
+                                "states": {
+                                  "hover": "background:#e0c18e;transform:translateY(-3px);"
+                                }
+                              }
+                            },
+                            {
+                              "id": "hero-secondary",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "content": "مشاهده خدمات",
+                              "options": {
+                                "attributes": {
+                                  "href": "#services"
+                                }
+                              },
+                              "children": [],
+                              "classList": ["blk-hero-secondary"],
+                              "css": {
+                                "base": "display:inline-flex;align-items:center;color:#e5d9c8;text-decoration:none;padding:15px 12px;font-size:13px;border-bottom:1px solid #796344;"
+                              }
+                            }
+                          ],
+                          "classList": ["blk-hero-actions"],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:18px;flex-wrap:wrap;"
+                          }
+                        },
+                        {
+                          "id": "hero-note",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "content": "✦ &nbsp; توجه به جزئیات، تفاوت ماست",
+                          "children": [],
+                          "classList": ["blk-hero-note"],
+                          "css": {
+                            "base": "margin-top:48px;color:#8e8170;font-size:11px;letter-spacing:.5px;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-hero-copy"],
+                      "css": {
+                        "base": "position:relative;z-index:2;padding:55px 0 55px 30px;max-width:570px;"
+                      }
+                    },
+                    {
+                      "id": "hero-visual",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "hero-image",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "تصویر اصلی آرایشگاه مردانه طاها",
+                              "loading": "eager"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-hero-image"],
+                          "css": {
+                            "base": "display:block;width:100%;height:590px;object-fit:cover;object-position:center;border-radius:220px 220px 24px 24px;background:linear-gradient(145deg,#65513b,#28221b);box-shadow:0 35px 90px rgba(0,0,0,.45);",
+                            "breakpoints": {
+                              "md": {
+                                "base": "height:480px;"
+                              },
+                              "sm": {
+                                "base": "height:380px;border-radius:180px 180px 20px 20px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "hero-image-caption",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "content": "THE ART OF GROOMING",
+                          "children": [],
+                          "classList": ["blk-hero-image-caption"],
+                          "css": {
+                            "base": "position:absolute;bottom:28px;left:-20px;background:#c6a36c;color:#211a11;padding:15px 22px;border-radius:4px;font-size:10px;font-weight:900;letter-spacing:2px;box-shadow:0 12px 30px rgba(0,0,0,.25);"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-hero-visual"],
+                      "css": {
+                        "base": "position:relative;padding:35px 0 35px 35px;"
+                      }
+                    }
+                  ],
+                  "classList": ["blk-hero-inner"],
+                  "css": {
+                    "base": "max-width:1240px;width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:55px;align-items:center;padding:35px 30px 65px;",
+                    "breakpoints": {
+                      "md": {
+                        "base": "grid-template-columns:minmax(0,1fr);gap:10px;padding:35px 25px 55px;"
+                      },
+                      "sm": {
+                        "base": "padding:25px 20px 45px;gap:0;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-hero-section"],
+              "css": {
+                "base": "position:relative;overflow:hidden;background:radial-gradient(ellipse at 78% 45%,rgba(111,78,43,.2),transparent 42%),linear-gradient(120deg,#171512 0%,#211c16 55%,#171512 100%);"
+              }
+            },
+            {
+              "id": "intro-strip",
+              "tag": "section",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "intro-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "intro-item-one",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "content": "<strong>01</strong><span>تجربه حرفه‌ای</span>",
+                      "children": [],
+                      "classList": ["blk-intro-item-one"],
+                      "css": {
+                        "base": "display:flex;align-items:center;gap:15px;color:#d7c8b3;font-size:13px;"
+                      }
+                    },
+                    {
+                      "id": "intro-item-two",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "content": "<strong>02</strong><span>ابزارهای تخصصی</span>",
+                      "children": [],
+                      "classList": ["blk-intro-item-two"],
+                      "css": {
+                        "base": "display:flex;align-items:center;gap:15px;color:#d7c8b3;font-size:13px;"
+                      }
+                    },
+                    {
+                      "id": "intro-item-three",
+                      "tag": "div",
+                      "canHaveChild": false,
+                      "content": "<strong>03</strong><span>توجه به جزئیات</span>",
+                      "children": [],
+                      "classList": ["blk-intro-item-three"],
+                      "css": {
+                        "base": "display:flex;align-items:center;gap:15px;color:#d7c8b3;font-size:13px;"
+                      }
+                    }
+                  ],
+                  "classList": ["blk-intro-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:25px 30px;display:flex;align-items:center;justify-content:space-around;gap:25px;border-top:1px solid rgba(216,183,124,.15);border-bottom:1px solid rgba(216,183,124,.15);",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "padding:22px 20px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-intro-strip"],
+              "css": {
+                "base": "background:#1d1914;"
+              }
+            },
+            {
+              "id": "services-section",
+              "tag": "section",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "id": "services"
+                }
+              },
+              "children": [
+                {
+                  "id": "services-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "services-heading",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "services-kicker",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "content": "WHAT WE DO",
+                          "children": [],
+                          "classList": ["blk-services-kicker"],
+                          "css": {
+                            "base": "color:#b99763;font-size:10px;font-weight:800;letter-spacing:3px;"
+                          }
+                        },
+                        {
+                          "id": "services-title",
+                          "tag": "h2",
+                          "canHaveChild": false,
+                          "content": "هنر آراستگی،<br><span>در دستان ما</span>",
+                          "children": [],
+                          "classList": ["blk-services-title"],
+                          "css": {
+                            "base": "font-size:clamp(30px,4vw,48px);line-height:1.7;font-weight:900;color:#f1e9dc;margin:12px 0 0;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-services-heading"],
+                      "css": {
+                        "base": "text-align:center;margin:0 auto 48px;"
+                      }
+                    },
+                    {
+                      "id": "services-grid",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "service-cut",
+                          "tag": "article",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "service-cut-image",
+                              "tag": "img",
+                              "canHaveChild": false,
+                              "options": {
+                                "attributes": {
+                                  "alt": "اصلاح تخصصی مو",
+                                  "loading": "lazy"
+                                }
+                              },
+                              "children": [],
+                              "classList": ["blk-service-cut-image"],
+                              "css": {
+                                "base": "width:100%;height:230px;display:block;object-fit:cover;border-radius:16px;background:linear-gradient(135deg,#725a3e,#29231c);"
+                              }
+                            },
+                            {
+                              "id": "service-cut-title",
+                              "tag": "h3",
+                              "canHaveChild": false,
+                              "content": "اصلاح و استایل مو",
+                              "children": [],
+                              "classList": ["blk-service-cut-title"],
+                              "css": {
+                                "base": "font-size:19px;font-weight:800;color:#f0e7d9;margin:22px 0 9px;"
+                              }
+                            },
+                            {
+                              "id": "service-cut-text",
+                              "tag": "p",
+                              "canHaveChild": false,
+                              "content": "از مدل‌های کلاسیک تا استایل‌های مدرن، متناسب با فرم چهره شما.",
+                              "children": [],
+                              "classList": ["blk-service-cut-text"],
+                              "css": {
+                                "base": "font-size:13px;line-height:2;color:#a99d8c;margin:0;"
+                              }
+                            }
+                          ],
+                          "classList": ["blk-service-cut"],
+                          "css": {
+                            "base": "padding:12px 12px 25px;background:#211c17;border:1px solid rgba(216,183,124,.12);border-radius:22px;box-shadow:0 20px 45px rgba(0,0,0,.16);transition:transform .3s,border-color .3s;",
+                            "states": {
+                              "hover": "transform:translateY(-8px);border-color:rgba(216,183,124,.55);"
+                            }
+                          }
+                        },
+                        {
+                          "id": "service-beard",
+                          "tag": "article",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "service-beard-image",
+                              "tag": "img",
+                              "canHaveChild": false,
+                              "options": {
+                                "attributes": {
+                                  "alt": "اصلاح و فرم‌دهی ریش",
+                                  "loading": "lazy"
+                                }
+                              },
+                              "children": [],
+                              "classList": ["blk-service-beard-image"],
+                              "css": {
+                                "base": "width:100%;height:230px;display:block;object-fit:cover;border-radius:16px;background:linear-gradient(135deg,#6a5238,#29231c);"
+                              }
+                            },
+                            {
+                              "id": "service-beard-title",
+                              "tag": "h3",
+                              "canHaveChild": false,
+                              "content": "اصلاح و فرم‌دهی ریش",
+                              "children": [],
+                              "classList": ["blk-service-beard-title"],
+                              "css": {
+                                "base": "font-size:19px;font-weight:800;color:#f0e7d9;margin:22px 0 9px;"
+                              }
+                            },
+                            {
+                              "id": "service-beard-text",
+                              "tag": "p",
+                              "canHaveChild": false,
+                              "content": "فرم‌دهی دقیق و حرفه‌ای برای ظاهری مرتب، جذاب و متناسب با چهره.",
+                              "children": [],
+                              "classList": ["blk-service-beard-text"],
+                              "css": {
+                                "base": "font-size:13px;line-height:2;color:#a99d8c;margin:0;"
+                              }
+                            }
+                          ],
+                          "classList": ["blk-service-beard"],
+                          "css": {
+                            "base": "padding:12px 12px 25px;background:#211c17;border:1px solid rgba(216,183,124,.12);border-radius:22px;box-shadow:0 20px 45px rgba(0,0,0,.16);transition:transform .3s,border-color .3s;",
+                            "states": {
+                              "hover": "transform:translateY(-8px);border-color:rgba(216,183,124,.55);"
+                            }
+                          }
+                        },
+                        {
+                          "id": "service-skin",
+                          "tag": "article",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "service-skin-image",
+                              "tag": "img",
+                              "canHaveChild": false,
+                              "options": {
+                                "attributes": {
+                                  "alt": "پاکسازی و مراقبت پوست آقایان",
+                                  "loading": "lazy"
+                                }
+                              },
+                              "children": [],
+                              "classList": ["blk-service-skin-image"],
+                              "css": {
+                                "base": "width:100%;height:230px;display:block;object-fit:cover;border-radius:16px;background:linear-gradient(135deg,#756047,#29231c);"
+                              }
+                            },
+                            {
+                              "id": "service-skin-title",
+                              "tag": "h3",
+                              "canHaveChild": false,
+                              "content": "پاکسازی و مراقبت پوست",
+                              "children": [],
+                              "classList": ["blk-service-skin-title"],
+                              "css": {
+                                "base": "font-size:19px;font-weight:800;color:#f0e7d9;margin:22px 0 9px;"
+                              }
+                            },
+                            {
+                              "id": "service-skin-text",
+                              "tag": "p",
+                              "canHaveChild": false,
+                              "content": "رسیدگی تخصصی برای شادابی و طراوت بیشتر پوست شما.",
+                              "children": [],
+                              "classList": ["blk-service-skin-text"],
+                              "css": {
+                                "base": "font-size:13px;line-height:2;color:#a99d8c;margin:0;"
+                              }
+                            }
+                          ],
+                          "classList": ["blk-service-skin"],
+                          "css": {
+                            "base": "padding:12px 12px 25px;background:#211c17;border:1px solid rgba(216,183,124,.12);border-radius:22px;box-shadow:0 20px 45px rgba(0,0,0,.16);transition:transform .3s,border-color .3s;",
+                            "states": {
+                              "hover": "transform:translateY(-8px);border-color:rgba(216,183,124,.55);"
+                            }
+                          }
+                        }
+                      ],
+                      "classList": ["blk-services-grid"],
+                      "css": {
+                        "base": "display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;",
+                        "breakpoints": {
+                          "md": {
+                            "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;"
+                          },
+                          "sm": {
+                            "base": "grid-template-columns:minmax(0,1fr);gap:18px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": ["blk-services-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:105px 30px 115px;",
+                    "breakpoints": {
+                      "md": {
+                        "base": "padding:80px 25px;"
+                      },
+                      "sm": {
+                        "base": "padding:65px 20px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-services-section"],
+              "css": {
+                "base": "background:#171512;background-image:radial-gradient(ellipse at 50% 0%,rgba(177,139,81,.09),transparent 55%);"
+              }
+            },
+            {
+              "id": "about-section",
+              "tag": "section",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "id": "about"
+                }
+              },
+              "children": [
+                {
+                  "id": "about-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "about-visual",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "about-image",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "فضای داخلی و دکوراسیون آرایشگاه طاها",
+                              "loading": "lazy"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-about-image"],
+                          "css": {
+                            "base": "display:block;width:100%;height:510px;object-fit:cover;border-radius:180px 18px 18px 18px;background:linear-gradient(135deg,#6d5437,#272019);",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "height:360px;border-radius:130px 16px 16px 16px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "about-stamp",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "content": "<strong>TAHA</strong><span>BARBER STUDIO</span>",
+                          "children": [],
+                          "classList": ["blk-about-stamp"],
+                          "css": {
+                            "base": "position:absolute;bottom:28px;right:-20px;width:120px;height:120px;border-radius:50%;background:#c6a36c;color:#211a11;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,.3);text-align:center;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "right:10px;width:95px;height:95px;"
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "classList": ["blk-about-visual"],
+                      "css": {
+                        "base": "position:relative;padding:20px 25px 20px 0;"
+                      }
+                    },
+                    {
+                      "id": "about-copy",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "about-kicker",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "content": "OUR PHILOSOPHY",
+                          "children": [],
+                          "classList": ["blk-about-kicker"],
+                          "css": {
+                            "base": "color:#b99763;font-size:10px;font-weight:800;letter-spacing:3px;"
+                          }
+                        },
+                        {
+                          "id": "about-title",
+                          "tag": "h2",
+                          "canHaveChild": false,
+                          "content": "اینجا،<br>جزئیات اهمیت دارند.",
+                          "children": [],
+                          "classList": ["blk-about-title"],
+                          "css": {
+                            "base": "font-size:clamp(32px,4vw,49px);line-height:1.65;color:#f3ebdf;font-weight:900;margin:17px 0 20px;"
+                          }
+                        },
+                        {
+                          "id": "about-text",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "ما باور داریم ظاهر آراسته، از توجه به جزئیات شروع می‌شود. در طاها تلاش می‌کنیم با شناخت فرم چهره، انتخاب مدل مناسب و استفاده از ابزارهای تخصصی، تجربه‌ای فراتر از یک اصلاح معمولی برای شما بسازیم.",
+                          "children": [],
+                          "classList": ["blk-about-text"],
+                          "css": {
+                            "base": "font-size:14px;line-height:2.4;color:#b6aa99;margin:0 0 28px;"
+                          }
+                        },
+                        {
+                          "id": "about-signature",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "content": "TAHA <span>—</span> THE BARBER EXPERIENCE",
+                          "children": [],
+                          "classList": ["blk-about-signature"],
+                          "css": {
+                            "base": "color:#d8b77c;font-size:11px;font-weight:800;letter-spacing:2px;padding-top:20px;border-top:1px solid rgba(216,183,124,.25);"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-about-copy"],
+                      "css": {
+                        "base": "padding:30px 25px 30px 0;max-width:500px;"
+                      }
+                    }
+                  ],
+                  "classList": ["blk-about-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:90px 30px 110px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:75px;align-items:center;",
+                    "breakpoints": {
+                      "md": {
+                        "base": "grid-template-columns:minmax(0,1fr);gap:35px;padding:75px 25px;"
+                      },
+                      "sm": {
+                        "base": "padding:60px 20px;gap:20px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-about-section"],
+              "css": {
+                "base": "background:#211c17;background-image:radial-gradient(ellipse at 10% 50%,rgba(198,163,108,.1),transparent 45%);"
+              }
+            },
+            {
+              "id": "gallery-section",
+              "tag": "section",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "id": "gallery"
+                }
+              },
+              "children": [
+                {
+                  "id": "gallery-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "gallery-heading",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "gallery-kicker",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "content": "THE GALLERY",
+                          "children": [],
+                          "classList": ["blk-gallery-kicker"],
+                          "css": {
+                            "base": "color:#b99763;font-size:10px;font-weight:800;letter-spacing:3px;"
+                          }
+                        },
+                        {
+                          "id": "gallery-title",
+                          "tag": "h2",
+                          "canHaveChild": false,
+                          "content": "نگاهی به هنر ما",
+                          "children": [],
+                          "classList": ["blk-gallery-title"],
+                          "css": {
+                            "base": "font-size:clamp(30px,4vw,44px);font-weight:900;color:#f1e9dc;margin:12px 0;"
+                          }
+                        },
+                        {
+                          "id": "gallery-description",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "زیبایی در جزئیات شکل می‌گیرد.",
+                          "children": [],
+                          "classList": ["blk-gallery-description"],
+                          "css": {
+                            "base": "font-size:13px;color:#a99d8c;margin:0;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-gallery-heading"],
+                      "css": {
+                        "base": "text-align:center;margin-bottom:42px;"
+                      }
+                    },
+                    {
+                      "id": "gallery-grid",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "gallery-image-one",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "نمونه استایل موی مردانه شماره یک",
+                              "loading": "lazy"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-gallery-image-one"],
+                          "css": {
+                            "base": "width:100%;height:440px;display:block;object-fit:cover;border-radius:140px 140px 18px 18px;background:linear-gradient(135deg,#6c5236,#2c241c);"
+                          }
+                        },
+                        {
+                          "id": "gallery-image-two",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "نمونه استایل موی مردانه شماره دو",
+                              "loading": "lazy"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-gallery-image-two"],
+                          "css": {
+                            "base": "width:100%;height:330px;display:block;object-fit:cover;border-radius:18px;background:linear-gradient(135deg,#70583d,#29221a);"
+                          }
+                        },
+                        {
+                          "id": "gallery-image-three",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "نمونه اصلاح ریش مردانه",
+                              "loading": "lazy"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-gallery-image-three"],
+                          "css": {
+                            "base": "width:100%;height:390px;display:block;object-fit:cover;border-radius:18px;background:linear-gradient(135deg,#806747,#29221a);"
+                          }
+                        },
+                        {
+                          "id": "gallery-image-four",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "options": {
+                            "attributes": {
+                              "alt": "جزئیات فضای آرایشگاه مردانه",
+                              "loading": "lazy"
+                            }
+                          },
+                          "children": [],
+                          "classList": ["blk-gallery-image-four"],
+                          "css": {
+                            "base": "width:100%;height:440px;display:block;object-fit:cover;border-radius:18px 18px 140px 140px;background:linear-gradient(135deg,#71583c,#29221a);"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-gallery-grid"],
+                      "css": {
+                        "base": "display:grid;grid-template-columns:1.1fr .9fr .9fr 1.1fr;gap:18px;align-items:center;",
+                        "breakpoints": {
+                          "md": {
+                            "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;"
+                          },
+                          "sm": {
+                            "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": ["blk-gallery-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:100px 30px 110px;",
+                    "breakpoints": {
+                      "md": {
+                        "base": "padding:75px 25px;"
+                      },
+                      "sm": {
+                        "base": "padding:65px 20px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-gallery-section"],
+              "css": {
+                "base": "background:#171512;"
+              }
+            },
+            {
+              "id": "contact-section",
+              "tag": "section",
+              "canHaveChild": true,
+              "options": {
+                "attributes": {
+                  "id": "contact"
+                }
+              },
+              "children": [
+                {
+                  "id": "contact-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "contact-copy",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "contact-kicker",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "content": "YOUR NEXT LOOK STARTS HERE",
+                          "children": [],
+                          "classList": ["blk-contact-kicker"],
+                          "css": {
+                            "base": "color:#211a11;font-size:10px;font-weight:900;letter-spacing:2px;"
+                          }
+                        },
+                        {
+                          "id": "contact-title",
+                          "tag": "h2",
+                          "canHaveChild": false,
+                          "content": "وقتشه استایل تازه‌ای بسازی.",
+                          "children": [],
+                          "classList": ["blk-contact-title"],
+                          "css": {
+                            "base": "font-size:clamp(28px,4vw,45px);line-height:1.7;font-weight:900;color:#211a11;margin:12px 0;"
+                          }
+                        },
+                        {
+                          "id": "contact-text",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "برای رزرو نوبت و دریافت مشاوره، با ما در ارتباط باشید.",
+                          "children": [],
+                          "classList": ["blk-contact-text"],
+                          "css": {
+                            "base": "font-size:14px;line-height:2;color:#493a27;margin:0;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-contact-copy"],
+                      "css": {
+                        "base": "max-width:620px;"
+                      }
+                    },
+                    {
+                      "id": "contact-button",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "content": "رزرو نوبت <span>←</span>",
+                      "options": {
+                        "attributes": {
+                          "href": "tel:"
+                        }
+                      },
+                      "children": [],
+                      "classList": ["blk-contact-button"],
+                      "css": {
+                        "base": "display:inline-flex;align-items:center;gap:18px;padding:17px 28px;border-radius:50px;background:#211a11;color:#e5c895;text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap;transition:all .25s;",
+                        "states": {
+                          "hover": "background:#3a2b19;transform:translateY(-3px);"
+                        }
+                      }
+                    }
+                  ],
+                  "classList": ["blk-contact-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:55px 65px;display:flex;align-items:center;justify-content:space-between;gap:35px;background:radial-gradient(ellipse at 85% 10%,rgba(255,255,255,.25),transparent 45%),linear-gradient(115deg,#b28c56,#dfc18e);border-radius:28px;box-shadow:0 25px 65px rgba(0,0,0,.25);",
+                    "breakpoints": {
+                      "md": {
+                        "base": "padding:45px 35px;"
+                      },
+                      "sm": {
+                        "base": "padding:35px 25px;flex-direction:column;align-items:flex-start;gap:22px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": ["blk-contact-section"],
+              "css": {
+                "base": "background:#211c17;padding:35px 30px 105px;",
+                "breakpoints": {
+                  "sm": {
+                    "base": "padding:20px 20px 70px;"
+                  }
+                }
+              }
+            },
+            {
+              "id": "taha-footer",
+              "tag": "footer",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "footer-inner",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "footer-brand",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "footer-logo",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "content": "طـاهـا",
+                          "children": [],
+                          "classList": ["blk-footer-logo"],
+                          "css": {
+                            "base": "font-size:28px;font-weight:900;color:#d8b77c;letter-spacing:2px;margin-bottom:10px;"
+                          }
+                        },
+                        {
+                          "id": "footer-description",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "هنر آراستگی، با امضای طاها.",
+                          "children": [],
+                          "classList": ["blk-footer-description"],
+                          "css": {
+                            "base": "font-size:12px;color:#928575;line-height:2;margin:0;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-footer-brand"],
+                      "css": {
+                        "base": "max-width:300px;"
+                      }
+                    },
+                    {
+                      "id": "footer-contact",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "footer-address",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "نشانی: آدرس آرایشگاه را وارد کنید",
+                          "children": [],
+                          "classList": ["blk-footer-address"],
+                          "css": {
+                            "base": "font-size:12px;color:#b8aa98;line-height:2;margin:0 0 8px;"
+                          }
+                        },
+                        {
+                          "id": "footer-phone",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "content": "تلفن: شماره تماس را وارد کنید",
+                          "children": [],
+                          "classList": ["blk-footer-phone"],
+                          "css": {
+                            "base": "font-size:12px;color:#b8aa98;line-height:2;margin:0;"
+                          }
+                        }
+                      ],
+                      "classList": ["blk-footer-contact"],
+                      "css": {
+                        "base": "text-align:left;"
+                      }
+                    }
+                  ],
+                  "classList": ["blk-footer-inner"],
+                  "css": {
+                    "base": "max-width:1180px;margin:0 auto;padding:35px 30px;display:flex;align-items:center;justify-content:space-between;gap:25px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "padding:30px 20px;flex-direction:column;align-items:flex-start;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "footer-bottom",
+                  "tag": "div",
+                  "canHaveChild": false,
+                  "content": "© تمامی حقوق برای آرایشگاه مردانه طاها محفوظ است.",
+                  "children": [],
+                  "classList": ["blk-footer-bottom"],
+                  "css": {
+                    "base": "border-top:1px solid rgba(216,183,124,.12);padding:18px 20px;text-align:center;color:#776d60;font-size:10px;"
+                  }
+                }
+              ],
+              "classList": ["blk-taha-footer"],
+              "css": {
+                "base": "background:#171512;"
+              }
+            }
+          ],
+          "classList": ["blk-taha-page"],
+          "css": {
+            "base": "width:100%;overflow:hidden;background:#171512;color:#f1e9dc;font-family:Tahoma,Arial,sans-serif;direction:rtl;"
+          }
+        }
+      ]
+    }
+  ],
+  "styles": [],
+  "cssVariables": [
+    {
+      "type": "color",
+      "name": "taha-night",
+      "value": "#171512"
+    },
+    {
+      "type": "color",
+      "name": "taha-surface",
+      "value": "#211c17"
+    },
+    {
+      "type": "color",
+      "name": "taha-gold",
+      "value": "#c6a36c"
+    },
+    {
+      "type": "color",
+      "name": "taha-cream",
+      "value": "#f1e9dc"
+    },
+    {
+      "type": "color",
+      "name": "taha-muted",
+      "value": "#a99d8c"
+    }
+  ]
+}

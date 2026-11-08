@@ -4,6 +4,8 @@ export const ColumnSource = new SourceItem({
   tag: 'column',
   icon: 'assets/icons/column.svg',
   title: 'Column',
+  category: 'layout',
+  description: 'A responsive column container for composing multi-column layouts.',
   canHaveChild: true,
   options: {
     inputs: {},

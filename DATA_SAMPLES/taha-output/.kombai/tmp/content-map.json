@@ -1,0 +1,1072 @@
+{
+ "page": {
+  "attrs": {
+   "dir": "rtl",
+   "lang": "fa"
+  }
+ },
+ "brand": {
+  "attrs": {
+   "href": "#top",
+   "aria-label": "آرایشگاه طاها"
+  }
+ },
+ "brand-mark": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"6\" cy=\"6\" r=\"2.6\"/><circle cx=\"6\" cy=\"18\" r=\"2.6\"/><path d=\"M8.2 7.8 20 18\"/><path d=\"M20 6 8.2 16.2\"/></svg>"
+ },
+ "brand-name": {
+  "content": "آرایشگاه طاها"
+ },
+ "brand-sub": {
+  "content": "TAHA BARBERSHOP"
+ },
+ "nav-links": {
+  "attrs": {
+   "aria-label": "بخش‌های صفحه"
+  }
+ },
+ "nav-link-0": {
+  "content": "خدمات",
+  "attrs": {
+   "href": "#services"
+  }
+ },
+ "nav-link-1": {
+  "content": "تعرفه",
+  "attrs": {
+   "href": "#pricing"
+  }
+ },
+ "nav-link-2": {
+  "content": "نمونه‌کار",
+  "attrs": {
+   "href": "#work"
+  }
+ },
+ "nav-link-3": {
+  "content": "آرایشگران",
+  "attrs": {
+   "href": "#team"
+  }
+ },
+ "nav-link-4": {
+  "content": "سؤالات متداول",
+  "attrs": {
+   "href": "#faq"
+  }
+ },
+ "nav-phone": {
+  "attrs": {
+   "href": "tel:+982188774521"
+  }
+ },
+ "nav-phone-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 4h3.2l1.6 4-2 1.5a11.5 11.5 0 0 0 5.7 5.7l1.5-2 4 1.6V18a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3 6.2 2 2 0 0 1 5 4z\"/></svg>"
+ },
+ "nav-phone-num": {
+  "content": "۰۲۱ ۸۸۷۷ ۴۵۲۱"
+ },
+ "nav-cta": {
+  "content": "رزرو نوبت",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "burger-summary": {
+  "attrs": {
+   "aria-label": "منو"
+  }
+ },
+ "burger-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><path d=\"M4 7h16\"/><path d=\"M4 12h16\"/><path d=\"M4 17h16\"/></svg>"
+ },
+ "mnav-link-0": {
+  "content": "خدمات",
+  "attrs": {
+   "href": "#services"
+  }
+ },
+ "mnav-link-1": {
+  "content": "تعرفه",
+  "attrs": {
+   "href": "#pricing"
+  }
+ },
+ "mnav-link-2": {
+  "content": "نمونه‌کار",
+  "attrs": {
+   "href": "#work"
+  }
+ },
+ "mnav-link-3": {
+  "content": "آرایشگران",
+  "attrs": {
+   "href": "#team"
+  }
+ },
+ "mnav-link-4": {
+  "content": "سؤالات متداول",
+  "attrs": {
+   "href": "#faq"
+  }
+ },
+ "mnav-cta": {
+  "content": "رزرو نوبت",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "hero": {
+  "attrs": {
+   "id": "top"
+  }
+ },
+ "hero-title-a": {
+  "content": "آرایشگاه مردانه"
+ },
+ "hero-title-b": {
+  "content": "طاها"
+ },
+ "hero-desc": {
+  "content": "کوتاهی مو، اصلاح ریش با تیغ و پیرایش صورت در خیابان ولیعصر. شنبه تا پنجشنبه از ۹ صبح تا ۹ شب باز است."
+ },
+ "hero-cta": {
+  "content": "رزرو نوبت",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "hero-cta-2": {
+  "content": "دیدن تعرفه‌ها",
+  "attrs": {
+   "href": "#pricing"
+  }
+ },
+ "hero-fact-v-0": {
+  "content": "۱۵ سال"
+ },
+ "hero-fact-l-0": {
+  "content": "سابقه در ولیعصر"
+ },
+ "hero-fact-v-1": {
+  "content": "۳ آرایشگر"
+ },
+ "hero-fact-l-1": {
+  "content": "ثبت‌شده در تیم"
+ },
+ "hero-fact-v-2": {
+  "content": "۴٫۹ از ۵"
+ },
+ "hero-fact-l-2": {
+  "content": "میانگین ۲۱۲ نظر"
+ },
+ "hero-frame": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "hero-shot": {
+  "attrs": {
+   "src": "https://images.unsplash.com/photo-1773904215697-e6c21fc27ac2?auto=format&fit=crop&w=1100&q=80",
+   "alt": "فضای آرایشگاه طاها با آینه و نور گرم — عکس: T on Unsplash",
+   "loading": "eager",
+   "decoding": "async"
+  }
+ },
+ "hero-plate-label": {
+  "content": "کوتاهی مو"
+ },
+ "hero-plate-price": {
+  "content": "۱۸۰٬۰۰۰ تومان"
+ },
+ "hero-plate-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8.4\"/><path d=\"M12 7.4V12l3.2 2\"/></svg>"
+ },
+ "hero-plate-time-t": {
+  "content": "۴۵ دقیقه"
+ },
+ "services": {
+  "attrs": {
+   "id": "services"
+  }
+ },
+ "svc-title": {
+  "content": "خدمات آرایشگاه"
+ },
+ "svc-link": {
+  "attrs": {
+   "href": "#pricing"
+  }
+ },
+ "svc-link-t": {
+  "content": "تعرفه کامل"
+ },
+ "svc-link-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 12H5\"/><path d=\"m11 6-6 6 6 6\"/></svg>"
+ },
+ "svc-hero-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/3993447/pexels-photo-3993447.jpeg?auto=compress&cs=tinysrgb&w=900",
+   "alt": "کوتاهی مو با ماشین در آرایشگاه طاها — عکس: cottonbro studio on Pexels",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "svc-hero-shade": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "svc-hero-name": {
+  "content": "کوتاهی و اصلاح"
+ },
+ "svc-hero-desc": {
+  "content": "مشاوره فرم صورت، کوتاهی با ماشین و قیچی، خط‌گیری و اصلاح ریش با تیغ."
+ },
+ "svc-hero-price": {
+  "content": "از ۱۸۰٬۰۰۰ تومان"
+ },
+ "svc-hero-time": {
+  "content": "۴۵ تا ۶۰ دقیقه"
+ },
+ "svc-2-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20 14.5 9.5\"/><path d=\"M13 4.5 19.5 11l-2.2 2.2L10.8 6.7z\"/><path d=\"M4 20l1.6-4.2 2.6 2.6z\"/></svg>"
+ },
+ "svc-2-name": {
+  "content": "اصلاح ریش با تیغ"
+ },
+ "svc-2-desc": {
+  "content": "گرم کردن حوله، اصلاح کامل ریش و ماسک آرام‌بخش."
+ },
+ "svc-2-price": {
+  "content": "۱۲۰٬۰۰۰ تومان"
+ },
+ "svc-2-time": {
+  "content": "۳۰ دقیقه"
+ },
+ "svc-3-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"6\" cy=\"6\" r=\"2.6\"/><circle cx=\"6\" cy=\"18\" r=\"2.6\"/><path d=\"M8.2 7.8 20 18\"/><path d=\"M20 6 8.2 16.2\"/></svg>"
+ },
+ "svc-3-name": {
+  "content": "کوتاهی کودک"
+ },
+ "svc-3-desc": {
+  "content": "کوتاهی برای کودکان تا ۱۰ سال، با صندلی مخصوص."
+ },
+ "svc-3-price": {
+  "content": "۱۴۰٬۰۰۰ تومان"
+ },
+ "svc-3-time": {
+  "content": "۳۰ دقیقه"
+ },
+ "svc-4-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 4h5v5\"/><path d=\"M20 4l-7.5 7.5\"/><path d=\"M9.5 11.5 4 20l8.5-5.5z\"/><path d=\"M12.5 8.5 15.5 11.5\"/></svg>"
+ },
+ "svc-4-name": {
+  "content": "رنگ و مش"
+ },
+ "svc-4-desc": {
+  "content": "رنگ، مش و پوشش موی سفید با رنگ‌های بدون آمونیاک."
+ },
+ "svc-4-price": {
+  "content": "۴۵۰٬۰۰۰ تومان"
+ },
+ "svc-4-time": {
+  "content": "۹۰ دقیقه"
+ },
+ "svc-5-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3.5c3.3 4 5.6 6.9 5.6 9.7A5.6 5.6 0 0 1 12 18.8a5.6 5.6 0 0 1-5.6-5.6C6.4 10.4 8.7 7.5 12 3.5z\"/><path d=\"M9.5 13.6a2.5 2.5 0 0 0 2.5 2.5\"/></svg>"
+ },
+ "svc-5-name": {
+  "content": "احیای مو"
+ },
+ "svc-5-desc": {
+  "content": "کراتین و پاکسازی پوست سر برای موهای آسیب‌دیده."
+ },
+ "svc-5-price": {
+  "content": "۱٬۲۰۰٬۰۰۰ تومان"
+ },
+ "svc-5-time": {
+  "content": "۱۲۰ دقیقه"
+ },
+ "pricing": {
+  "attrs": {
+   "id": "pricing"
+  }
+ },
+ "price-title": {
+  "content": "تعرفه خدمات"
+ },
+ "price-g1-h": {
+  "content": "کوتاهی و اصلاح"
+ },
+ "pr-1-name": {
+  "content": "کوتاهی مو"
+ },
+ "pr-1-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-1-time": {
+  "content": "۴۵ دقیقه"
+ },
+ "pr-1-price": {
+  "content": "۱۸۰٬۰۰۰"
+ },
+ "pr-2-name": {
+  "content": "کوتاهی و اصلاح ریش"
+ },
+ "pr-2-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-2-time": {
+  "content": "۶۰ دقیقه"
+ },
+ "pr-2-price": {
+  "content": "۲۵۰٬۰۰۰"
+ },
+ "pr-3-name": {
+  "content": "اصلاح ریش با تیغ"
+ },
+ "pr-3-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-3-time": {
+  "content": "۳۰ دقیقه"
+ },
+ "pr-3-price": {
+  "content": "۱۲۰٬۰۰۰"
+ },
+ "pr-4-name": {
+  "content": "اصلاح ابرو و خط صورت"
+ },
+ "pr-4-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-4-time": {
+  "content": "۱۵ دقیقه"
+ },
+ "pr-4-price": {
+  "content": "۸۰٬۰۰۰"
+ },
+ "pr-5-name": {
+  "content": "کوتاهی کودک تا ۱۰ سال"
+ },
+ "pr-5-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-5-time": {
+  "content": "۳۰ دقیقه"
+ },
+ "pr-5-price": {
+  "content": "۱۴۰٬۰۰۰"
+ },
+ "price-g2-h": {
+  "content": "رنگ و احیا"
+ },
+ "pr-6-name": {
+  "content": "رنگ و مش"
+ },
+ "pr-6-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-6-time": {
+  "content": "۹۰ دقیقه"
+ },
+ "pr-6-price": {
+  "content": "۴۵۰٬۰۰۰"
+ },
+ "pr-7-name": {
+  "content": "احیای مو با کراتین"
+ },
+ "pr-7-lead": {
+  "attrs": {
+   "aria-hidden": "true"
+  }
+ },
+ "pr-7-time": {
+  "content": "۱۲۰ دقیقه"
+ },
+ "pr-7-price": {
+  "content": "۱٬۲۰۰٬۰۰۰"
+ },
+ "price-note-t": {
+  "content": "پرداخت و لغو نوبت"
+ },
+ "price-note-v": {
+  "content": "پرداخت در محل با کارت یا نقدی. لغو نوبت تا ۳ ساعت قبل بدون هزینه است."
+ },
+ "price-hours-t": {
+  "content": "ساعت کاری"
+ },
+ "price-hours-d": {
+  "content": "شنبه تا پنجشنبه ۹:۰۰ تا ۲۱:۰۰"
+ },
+ "price-hours-f": {
+  "content": "جمعه ۱۰:۰۰ تا ۱۶:۰۰"
+ },
+ "price-call": {
+  "attrs": {
+   "href": "tel:+982188774521"
+  }
+ },
+ "price-call-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 4h3.2l1.6 4-2 1.5a11.5 11.5 0 0 0 5.7 5.7l1.5-2 4 1.6V18a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3 6.2 2 2 0 0 1 5 4z\"/></svg>"
+ },
+ "price-call-t": {
+  "content": "تماس برای مشاوره"
+ },
+ "pkg-title": {
+  "content": "پکیج‌ها"
+ },
+ "pkg-1-name": {
+  "content": "پکیج ماهانه"
+ },
+ "pkg-1-desc": {
+  "content": "چهار کوتاهی در ماه، قابل استفاده برای خودتان یا فرزندتان."
+ },
+ "pkg-1-price": {
+  "content": "۶۰۰٬۰۰۰ تومان"
+ },
+ "pkg-1-cta": {
+  "content": "رزرو",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "pkg-2-name": {
+  "content": "پکیج داماد"
+ },
+ "pkg-2-desc": {
+  "content": "کوتاهی، اصلاح با تیغ، پاکسازی صورت و ماسک مو در یک نوبت ۱۲۰ دقیقه‌ای."
+ },
+ "pkg-2-price": {
+  "content": "۸۵۰٬۰۰۰ تومان"
+ },
+ "pkg-2-cta": {
+  "content": "رزرو",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "pkg-3-name": {
+  "content": "پکیج پدر و پسر"
+ },
+ "pkg-3-desc": {
+  "content": "یک کوتاهی بزرگسال و یک کوتاهی کودک در یک نوبت."
+ },
+ "pkg-3-price": {
+  "content": "۲۹۰٬۰۰۰ تومان"
+ },
+ "pkg-3-cta": {
+  "content": "رزرو",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "gallery": {
+  "attrs": {
+   "id": "work"
+  }
+ },
+ "gal-title": {
+  "content": "نمونه‌کار"
+ },
+ "gal-1-img": {
+  "attrs": {
+   "src": "https://images.unsplash.com/photo-1702865272115-5afdbae975af?auto=format&fit=crop&w=900&q=80",
+   "alt": "سالن آرایشگاه با صندلی‌های چرمی — عکس: Redd Francisco on Unsplash",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "gal-2-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/9456810/pexels-photo-9456810.jpeg?auto=compress&cs=tinysrgb&w=800",
+   "alt": "تیغ اصلاح روی چرم — عکس: Erik Mclean on Pexels",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "gal-3-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/39559325/pexels-photo-39559325.jpeg?auto=compress&cs=tinysrgb&w=700",
+   "alt": "کوتاهی فید از نمای کنار — عکس: Brian Silva on Pexels",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "gal-4-img": {
+  "attrs": {
+   "src": "https://images.unsplash.com/photo-1702865263661-9da5ecf6f374?auto=format&fit=crop&w=700&q=80",
+   "alt": "بافت صندلی چرمی آرایشگاه — عکس: Redd Francisco on Unsplash",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "gal-5-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/13260835/pexels-photo-13260835.jpeg?auto=compress&cs=tinysrgb&w=900",
+   "alt": "آینه و انعکاس چراغ‌ها در سالن — عکس: Kateryna Hnidash on Pexels",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "gal-6-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/3993293/pexels-photo-3993293.jpeg?auto=compress&cs=tinysrgb&w=900",
+   "alt": "ایستگاه آرایش با صندلی مشکی — عکس: cottonbro studio on Pexels",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "team": {
+  "attrs": {
+   "id": "team"
+  }
+ },
+ "team-title": {
+  "content": "آرایشگران"
+ },
+ "tm-1-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/6487911/pexels-photo-6487911.jpeg?auto=compress&cs=tinysrgb&w=700",
+   "alt": "پرتره مهدی طاها — سرپرست آرایشگران",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "tm-1-name": {
+  "content": "مهدی طاها"
+ },
+ "tm-1-role": {
+  "content": "سرپرست آرایشگران"
+ },
+ "tm-1-spec": {
+  "content": "کوتاهی کلاسیک و فرم ریش"
+ },
+ "tm-1-years": {
+  "content": "۱۶ سال سابقه"
+ },
+ "tm-2-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/27467943/pexels-photo-27467943.jpeg?auto=compress&cs=tinysrgb&w=700",
+   "alt": "پرتره سعید رضایی — متخصص فید و کوتاهی ماشین",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "tm-2-name": {
+  "content": "سعید رضایی"
+ },
+ "tm-2-role": {
+  "content": "متخصص فید و کوتاهی ماشین"
+ },
+ "tm-2-spec": {
+  "content": "فید، تیپر و طرح‌های خط‌دار"
+ },
+ "tm-2-years": {
+  "content": "۹ سال سابقه"
+ },
+ "tm-3-img": {
+  "attrs": {
+   "src": "https://images.pexels.com/photos/16372624/pexels-photo-16372624.jpeg?auto=compress&cs=tinysrgb&w=700",
+   "alt": "پرتره امیر کاظمی — آرایشگر ریش و تیغ",
+   "loading": "lazy",
+   "decoding": "async"
+  }
+ },
+ "tm-3-name": {
+  "content": "امیر کاظمی"
+ },
+ "tm-3-role": {
+  "content": "آرایشگر ریش و تیغ"
+ },
+ "tm-3-spec": {
+  "content": "اصلاح با تیغ و پاکسازی صورت"
+ },
+ "tm-3-years": {
+  "content": "۷ سال سابقه"
+ },
+ "reviews": {
+  "attrs": {
+   "id": "reviews"
+  }
+ },
+ "rev-title": {
+  "content": "نظر مشتریان"
+ },
+ "rev-feature-q": {
+  "content": "«از سال ۱۳۹۸ پیش مهدی کوتاهی می‌کنم. خط گردن را طوری درمی‌آورد که سه هفته هم بماند. وقت هم دقیق است؛ هیچ‌وقت بیشتر از ده دقیقه منتظر نماندم.»"
+ },
+ "rev-feature-av": {
+  "content": "ب"
+ },
+ "rev-feature-name": {
+  "content": "بهنام ر."
+ },
+ "rev-feature-note": {
+  "content": "مشتری ثابت از ۱۳۹۸"
+ },
+ "rev-2-name": {
+  "content": "سارا م."
+ },
+ "rev-2-stars": {
+  "content": "★★★★★",
+  "attrs": {
+   "aria-label": "امتیاز ۵ از ۵"
+  }
+ },
+ "rev-2-text": {
+  "content": "همسرم و پسرم را برای پکیج پدر و پسر بردم؛ هر دو در یک ساعت تمام شد."
+ },
+ "rev-3-name": {
+  "content": "کیوان ا."
+ },
+ "rev-3-stars": {
+  "content": "★★★★★",
+  "attrs": {
+   "aria-label": "امتیاز ۵ از ۵"
+  }
+ },
+ "rev-3-text": {
+  "content": "اصلاح با تیغ را اینجا یاد گرفتم؛ حوله گرم و ماسک صورتش عالی است."
+ },
+ "rev-4-name": {
+  "content": "محسن د."
+ },
+ "rev-4-stars": {
+  "content": "★★★★★",
+  "attrs": {
+   "aria-label": "امتیاز ۴ از ۵"
+  }
+ },
+ "rev-4-text": {
+  "content": "شنبه صبح بدون نوبت رفتم و ۲۰ دقیقه بعد کوتاهی‌ام شروع شد."
+ },
+ "rev-summary-v": {
+  "content": "۴٫۹"
+ },
+ "rev-summary-l": {
+  "content": "میانگین ۲۱۲ نظر ثبت‌شده"
+ },
+ "booking": {
+  "attrs": {
+   "id": "booking"
+  }
+ },
+ "book-title": {
+  "content": "رزرو نوبت"
+ },
+ "book-fact-phone-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 4h3.2l1.6 4-2 1.5a11.5 11.5 0 0 0 5.7 5.7l1.5-2 4 1.6V18a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3 6.2 2 2 0 0 1 5 4z\"/></svg>"
+ },
+ "book-fact-phone-v": {
+  "content": "۰۲۱ ۸۸۷۷ ۴۵۲۱",
+  "attrs": {
+   "href": "tel:+982188774521"
+  }
+ },
+ "book-fact-phone-s": {
+  "content": "شنبه تا پنجشنبه، ۹:۰۰ تا ۲۱:۰۰"
+ },
+ "book-addr-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21s6.5-6.2 6.5-11a6.5 6.5 0 1 0-13 0C5.5 14.8 12 21 12 21z\"/><circle cx=\"12\" cy=\"10\" r=\"2.4\"/></svg>"
+ },
+ "book-addr-v": {
+  "content": "خیابان ولیعصر، بالاتر از پارک ساعی، پلاک ۱۲۴۰"
+ },
+ "book-addr-s": {
+  "content": "طبقه همکف، دو پله"
+ },
+ "book-meta-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8.4\"/><path d=\"M12 7.4V12l3.2 2\"/></svg>"
+ },
+ "book-meta-v": {
+  "content": "هر نوبت ۳۰ تا ۶۰ دقیقه"
+ },
+ "book-meta-s": {
+  "content": "نوبت‌های جمعه تا ۱۶:۰۰"
+ },
+ "book-cta-2": {
+  "content": "تماس تلفنی",
+  "attrs": {
+   "href": "tel:+982188774521"
+  }
+ },
+ "book-form": {
+  "attrs": {
+   "action": "#",
+   "method": "post"
+  }
+ },
+ "book-form-title": {
+  "content": "درخواست نوبت"
+ },
+ "lbl-name": {
+  "content": "نام و نام خانوادگی",
+  "attrs": {
+   "for": "fld-name"
+  }
+ },
+ "fld-1": {
+  "attrs": {
+   "id": "fld-name",
+   "name": "name",
+   "type": "text",
+   "placeholder": "مثلاً رضا محمدی",
+   "required": "",
+   "autocomplete": "name"
+  }
+ },
+ "lbl-phone": {
+  "content": "شماره موبایل",
+  "attrs": {
+   "for": "fld-phone"
+  }
+ },
+ "fld-2": {
+  "attrs": {
+   "id": "fld-phone",
+   "name": "phone",
+   "type": "tel",
+   "placeholder": "۰۹۱۲ ۳۴۵ ۶۷۸۹",
+   "required": "",
+   "autocomplete": "tel",
+   "inputmode": "tel"
+  }
+ },
+ "lbl-service": {
+  "content": "خدمت",
+  "attrs": {
+   "for": "fld-service"
+  }
+ },
+ "fld-3": {
+  "attrs": {
+   "id": "fld-service",
+   "name": "service"
+  }
+ },
+ "fld-3-opt-0": {
+  "content": "کوتاهی مو — ۱۸۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "haircut"
+  }
+ },
+ "fld-3-opt-1": {
+  "content": "کوتاهی و اصلاح ریش — ۲۵۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "haircut-beard"
+  }
+ },
+ "fld-3-opt-2": {
+  "content": "اصلاح ریش با تیغ — ۱۲۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "beard"
+  }
+ },
+ "fld-3-opt-3": {
+  "content": "کوتاهی کودک — ۱۴۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "kid"
+  }
+ },
+ "fld-3-opt-4": {
+  "content": "رنگ و مش — ۴۵۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "color"
+  }
+ },
+ "fld-3-opt-5": {
+  "content": "پکیج داماد — ۸۵۰٬۰۰۰ تومان",
+  "attrs": {
+   "value": "groom"
+  }
+ },
+ "lbl-date": {
+  "content": "تاریخ نوبت",
+  "attrs": {
+   "for": "fld-date"
+  }
+ },
+ "fld-4": {
+  "attrs": {
+   "id": "fld-date",
+   "name": "date",
+   "type": "text",
+   "placeholder": "۱۴۰۴/۰۹/۱۲",
+   "required": "",
+   "autocomplete": "off",
+   "inputmode": "numeric"
+  }
+ },
+ "lbl-time": {
+  "content": "ساعت",
+  "attrs": {
+   "for": "fld-time"
+  }
+ },
+ "fld-5": {
+  "attrs": {
+   "id": "fld-time",
+   "name": "time"
+  }
+ },
+ "fld-5-opt-0": {
+  "content": "۹:۰۰",
+  "attrs": {
+   "value": "09:00"
+  }
+ },
+ "fld-5-opt-1": {
+  "content": "۱۰:۳۰",
+  "attrs": {
+   "value": "10:30"
+  }
+ },
+ "fld-5-opt-2": {
+  "content": "۱۲:۰۰",
+  "attrs": {
+   "value": "12:00"
+  }
+ },
+ "fld-5-opt-3": {
+  "content": "۱۴:۰۰",
+  "attrs": {
+   "value": "14:00"
+  }
+ },
+ "fld-5-opt-4": {
+  "content": "۱۶:۳۰",
+  "attrs": {
+   "value": "16:30"
+  }
+ },
+ "fld-5-opt-5": {
+  "content": "۱۸:۰۰",
+  "attrs": {
+   "value": "18:00"
+  }
+ },
+ "fld-5-opt-6": {
+  "content": "۲۰:۰۰",
+  "attrs": {
+   "value": "20:00"
+  }
+ },
+ "lbl-barber": {
+  "content": "آرایشگر (اختیاری)",
+  "attrs": {
+   "for": "fld-barber"
+  }
+ },
+ "fld-6": {
+  "attrs": {
+   "id": "fld-barber",
+   "name": "barber"
+  }
+ },
+ "fld-6-opt-0": {
+  "content": "نفر اول آزاد",
+  "attrs": {
+   "value": "any"
+  }
+ },
+ "fld-6-opt-1": {
+  "content": "مهدی طاها",
+  "attrs": {
+   "value": "mahdi"
+  }
+ },
+ "fld-6-opt-2": {
+  "content": "سعید رضایی",
+  "attrs": {
+   "value": "saeed"
+  }
+ },
+ "fld-6-opt-3": {
+  "content": "امیر کاظمی",
+  "attrs": {
+   "value": "amir"
+  }
+ },
+ "book-submit": {
+  "content": "ثبت درخواست نوبت",
+  "attrs": {
+   "type": "submit"
+  }
+ },
+ "book-note": {
+  "content": "تأیید نوبت با پیامک اعلام می‌شود. برای همان روز با تلفن تماس بگیرید."
+ },
+ "faq": {
+  "attrs": {
+   "id": "faq"
+  }
+ },
+ "faq-title": {
+  "content": "سؤالات متداول"
+ },
+ "faq-1": {
+  "attrs": {
+   "open": ""
+  }
+ },
+ "faq-1-q": {
+  "content": "برای کوتاهی باید نوبت بگیرم؟"
+ },
+ "faq-1-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"><path d=\"M12 5v14\"/><path d=\"M5 12h14\"/></svg>"
+ },
+ "faq-1-a": {
+  "content": "نوبت اختیاری است. برای جمعه و پنجشنبه عصر بهتر است فرم رزرو را پر کنید یا تلفنی هماهنگ کنید."
+ },
+ "faq-2": {
+  "attrs": {}
+ },
+ "faq-2-q": {
+  "content": "پکیج داماد شامل چه چیزی است؟"
+ },
+ "faq-2-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"><path d=\"M12 5v14\"/><path d=\"M5 12h14\"/></svg>"
+ },
+ "faq-2-a": {
+  "content": "کوتاهی، اصلاح ریش با تیغ، پاکسازی صورت و ماسک مو؛ در یک نوبت ۱۲۰ دقیقه‌ای و با قیمت ۸۵۰٬۰۰۰ تومان."
+ },
+ "faq-3": {
+  "attrs": {}
+ },
+ "faq-3-q": {
+  "content": "پرداخت چگونه انجام می‌شود؟"
+ },
+ "faq-3-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"><path d=\"M12 5v14\"/><path d=\"M5 12h14\"/></svg>"
+ },
+ "faq-3-a": {
+  "content": "پرداخت در محل با کارت‌خوان یا نقدی. برای پکیج ماهانه می‌توانید یک‌جا یا در دو قسط پرداخت کنید."
+ },
+ "faq-4": {
+  "attrs": {}
+ },
+ "faq-4-q": {
+  "content": "برای کودکان هم صندلی دارید؟"
+ },
+ "faq-4-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\"><path d=\"M12 5v14\"/><path d=\"M5 12h14\"/></svg>"
+ },
+ "faq-4-a": {
+  "content": "بله. کوتاهی کودک تا ۱۰ سال با صندلی مخصوص انجام می‌شود و ۱۴۰٬۰۰۰ تومان است."
+ },
+ "ft-mark": {
+  "content": "ط"
+ },
+ "ft-name": {
+  "content": "آرایشگاه طاها"
+ },
+ "ft-addr": {
+  "content": "تهران، خیابان ولیعصر، بالاتر از پارک ساعی، پلاک ۱۲۴۰"
+ },
+ "ft-phone": {
+  "content": "۰۲۱ ۸۸۷۷ ۴۵۲۱",
+  "attrs": {
+   "href": "tel:+982188774521"
+  }
+ },
+ "ft-hours-t": {
+  "content": "ساعت کاری"
+ },
+ "ft-hours-1": {
+  "content": "شنبه تا پنجشنبه"
+ },
+ "ft-hours-2": {
+  "content": "۹:۰۰ تا ۲۱:۰۰"
+ },
+ "ft-hours-3": {
+  "content": "جمعه"
+ },
+ "ft-hours-4": {
+  "content": "۱۰:۰۰ تا ۱۶:۰۰"
+ },
+ "ft-links-t": {
+  "content": "دسترسی"
+ },
+ "ft-link-1": {
+  "content": "خدمات",
+  "attrs": {
+   "href": "#services"
+  }
+ },
+ "ft-link-2": {
+  "content": "تعرفه خدمات",
+  "attrs": {
+   "href": "#pricing"
+  }
+ },
+ "ft-link-3": {
+  "content": "نمونه‌کار",
+  "attrs": {
+   "href": "#work"
+  }
+ },
+ "ft-link-4": {
+  "content": "رزرو نوبت",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "ft-link-5": {
+  "content": "سؤالات متداول",
+  "attrs": {
+   "href": "#faq"
+  }
+ },
+ "ft-social-t": {
+  "content": "ارتباط"
+ },
+ "ft-ig": {
+  "attrs": {
+   "href": "https://instagram.com",
+   "target": "_blank",
+   "rel": "noopener",
+   "aria-label": "اینستاگرام"
+  }
+ },
+ "ft-ig-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3.5\" y=\"3.5\" width=\"17\" height=\"17\" rx=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M17 7h.01\"/></svg>"
+ },
+ "ft-wa": {
+  "attrs": {
+   "href": "https://wa.me/982188774521",
+   "target": "_blank",
+   "rel": "noopener",
+   "aria-label": "واتساپ"
+  }
+ },
+ "ft-wa-ic": {
+  "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 12a8 8 0 0 1-11.8 7.1L4 20l1-4A8 8 0 1 1 20 12z\"/><path d=\"M9 9.5c0 3 2.5 5.5 5.5 5.5\"/></svg>"
+ },
+ "ft-cta": {
+  "content": "رزرو نوبت",
+  "attrs": {
+   "href": "#booking"
+  }
+ },
+ "ft-copy": {
+  "content": "© ۱۴۰۴ آرایشگاه طاها. همه حقوق محفوظ است."
+ },
+ "ft-note": {
+  "content": "تهران، ولیعصر"
+ }
+}

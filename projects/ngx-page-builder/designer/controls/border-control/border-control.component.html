@@ -1,0 +1,161 @@
+<div class="bc">
+  <!-- ============ Presets ============ -->
+  <div class="bc-head">
+    <span class="bc-title">Border</span>
+    @if (hasAny()) {
+      <button type="button" class="bc-link" title="Remove the border of this state" (click)="reset()">Reset</button>
+    }
+  </div>
+
+  <div class="bc-presets" role="group" aria-label="Border presets">
+    @for (p of presets; track p.id) {
+      <button
+        type="button"
+        class="bc-preset"
+        [class.on]="activePreset() === p.id"
+        [title]="p.label"
+        [attr.aria-pressed]="activePreset() === p.id"
+        (click)="applyPreset(p)">
+        <span class="bc-thumb" aria-hidden="true">
+          <span class="bc-thumb-box" [attr.style]="p.css"></span>
+        </span>
+        <span class="bc-preset-label">{{ p.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- ============ Live preview ============ -->
+  <div class="bc-stage" aria-hidden="true">
+    <div class="bc-box" [attr.style]="previewCss()">Aa</div>
+  </div>
+  @if (previewCss()) {
+    <code class="bc-code">{{ previewCss() }}</code>
+  }
+
+  <!-- ============ Side picker ============ -->
+  <div class="bc-head sub">
+    <span class="bc-title">Sides</span>
+    <span class="bc-sub">{{ targetLabel[target()] }}</span>
+  </div>
+
+  <div class="bc-target">
+    <div class="bc-sides" role="group" aria-label="Border side">
+      @for (s of sides; track s) {
+        <button
+          type="button"
+          class="bc-side"
+          [class]="s"
+          [class.on]="target() === s"
+          [class.has]="sideOn(s)"
+          [title]="targetLabel[s]"
+          [attr.aria-pressed]="target() === s"
+          (click)="pick(s)"></button>
+      }
+      <button
+        type="button"
+        class="bc-side all"
+        [class.on]="target() === 'all'"
+        title="All sides"
+        aria-label="All sides"
+        [attr.aria-pressed]="target() === 'all'"
+        (click)="pick('all')">
+        All
+      </button>
+    </div>
+    <div class="bc-target-info">
+      @if (anyMixed()) {
+        <p class="bc-note">Sides differ. Changing a value here sets all four sides.</p>
+      } @else {
+        <p class="bc-note">Pick a side to edit it on its own.</p>
+      }
+      <button type="button" class="bc-link" [disabled]="!hasAny()" (click)="clearTarget()">Clear {{ targetLabel[target()].toLowerCase() }}</button>
+    </div>
+  </div>
+
+  <!-- ============ Width / style / color ============ -->
+  <div class="bc-row">
+    <span class="bc-lbl">Width</span>
+    <css-unit-field
+      title="border-width"
+      [units]="widthUnits"
+      [keywords]="widthKeywords"
+      [placeholder]="mixed('width') ? 'Mixed' : ''"
+      fallback="1px"
+      [step]="1"
+      [min]="0"
+      [value]="val('width')"
+      (valueChange)="setProp('width', $event)" />
+  </div>
+
+  <div class="bc-row stack">
+    <span class="bc-lbl">Style</span>
+    <div class="bc-style">
+      <pb-seg ariaLabel="Border style" [options]="styleQuick" [value]="val('style')" (picked)="setProp('style', $event)" />
+      <select
+        class="bc-select"
+        aria-label="More border styles"
+        title="More styles"
+        (change)="setProp('style', $any($event.target).value)">
+        <option value="" [selected]="!isMoreStyle(val('style'))">More…</option>
+        @for (s of styleMore; track s) {
+          <option [value]="s" [selected]="val('style') === s">{{ s }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="bc-row">
+    <span class="bc-lbl">Color</span>
+    <input-css type="Color" title="Border color" [ngModel]="val('color')" (ngModelChange)="setProp('color', $event)" />
+  </div>
+
+  <p class="bc-note">Corner radius lives in the Corners panel.</p>
+
+  <!-- ============ Outline ============ -->
+  <details class="bc-more" [open]="outlineOpen()">
+    <summary>Outline</summary>
+
+    <div class="bc-row">
+      <span class="bc-lbl">Width</span>
+      <css-unit-field
+        title="outline-width"
+        [units]="widthUnits"
+        [keywords]="widthKeywords"
+        fallback="2px"
+        [step]="1"
+        [min]="0"
+        [value]="outline().width"
+        (valueChange)="setOutline('width', $event)" />
+    </div>
+    <div class="bc-row">
+      <span class="bc-lbl">Style</span>
+      <select
+        class="bc-select wide"
+        aria-label="Outline style"
+        (change)="setOutline('style', $any($event.target).value)">
+        <option value="" [selected]="!outline().style">—</option>
+        @for (s of outlineStyles; track s) {
+          <option [value]="s" [selected]="outline().style === s">{{ s }}</option>
+        }
+      </select>
+    </div>
+    <div class="bc-row">
+      <span class="bc-lbl">Color</span>
+      <input-css type="Color" title="Outline color" [ngModel]="outline().color" (ngModelChange)="setOutline('color', $event)" />
+    </div>
+    <div class="bc-row">
+      <span class="bc-lbl">Offset</span>
+      <css-unit-field
+        title="outline-offset"
+        [units]="offsetUnits"
+        fallback="0px"
+        [step]="1"
+        [value]="outline().offset"
+        (valueChange)="setOutline('offset', $event)" />
+    </div>
+    @if (hasOutlineAny()) {
+      <button type="button" class="bc-link" (click)="resetOutline()">Reset outline</button>
+    }
+    <p class="bc-note">Outline is drawn outside the border and never changes the block's size.</p>
+  </details>
+</div>

@@ -6,6 +6,7 @@ import {
   DynamicDataInputType,
   DynamicDataService,
   DynamicDataStructure,
+  DynamicValueType,
 } from 'ngx-page-builder/core';
 import { debounce, debounceTime, distinctUntilChanged, observable, Observable, Subject, throttleTime } from 'rxjs';
 
@@ -34,7 +35,9 @@ export class DataSourceSettingComponent implements OnInit, ControlValueAccessor 
   onChange = (_: DataSourceSetting) => {};
   onTouched = () => {};
   constructor(public dynamicDataService: DynamicDataService) {
-    this.collectionDataSource = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => x.list);
+    this.collectionDataSource = this.dynamicDataService.dynamicData.filter(
+      (x: DynamicDataStructure) => x.type == DynamicValueType.Array,
+    );
 
     this.settingChange$
       .pipe(

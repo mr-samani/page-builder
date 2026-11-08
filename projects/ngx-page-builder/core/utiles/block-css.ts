@@ -22,6 +22,8 @@ import {
   PseudoState,
 } from '../contracts/IStyleSheetFile';
 import { ICssVariable } from '../contracts/ICssVariable';
+import { keyframesCssFor } from './animation-keyframes';
+import { cornerPropertyCssFor } from './corner-model';
 
 //==================================================================================
 // Types & constants
@@ -409,7 +411,9 @@ export function compileBlocksCss(
     const rules = sink.media.get(k)!;
     if (cond && rules.length) out += `@media ${cond}{${rules.join('')}}`;
   }
-  return out;
+  // @keyframes ی پریست‌های pb-* که در animation ها استفاده شده‌اند (هر نام یک‌بار) تا خروجی خودکفا باشد
+  // @property ی اندازه‌ی گوشه‌ها/notch ها (--pb-ci-* / --pb-cn-*) تا در transition و animation نرم تغییر کنند
+  return out + keyframesCssFor(out) + cornerPropertyCssFor(out);
 }
 
 /** استایل کامل یک خروجی صفحه‌ساز (همه‌ی صفحات) + متغیرهای CSS */

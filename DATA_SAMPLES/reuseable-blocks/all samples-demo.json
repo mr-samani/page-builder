@@ -1,0 +1,4269 @@
+{
+  "config": {
+    "title": "",
+    "description": "",
+    "size": "A4",
+    "orientation": "Portrait",
+    "direction": "rtl"
+  },
+  "data": [
+    {
+      "headerItems": [],
+      "bodyItems": [
+        {
+          "id": "mw60t6gg-usrbK",
+          "children": [
+            {
+              "id": "mw60t6gg-ICPPZ",
+              "children": [
+                {
+                  "id": "mw60t6gg-hGIDx",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "YOUR NEXT CHAPTER STARTS HERE",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-cta03",
+                    "cta__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-Ydccl",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "content": "Let’s build something remarkable.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-cta04",
+                    "cta__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-wmloL",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Bring your best ideas. We’ll help you turn them into meaningful progress.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-cta05",
+                    "cta__text"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-cta02",
+                "cta__content"
+              ]
+            },
+            {
+              "id": "mw60t6gg-nsCDy",
+              "children": [],
+              "tag": "a",
+              "canHaveChild": false,
+              "content": "Start a conversation ↗",
+              "options": {
+                "attributes": {
+                  "href": "#",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-cta06",
+                "cta__button"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-cta01",
+            "cta"
+          ]
+        },
+        {
+          "id": "mw60t6gg-vVciR",
+          "children": [
+            {
+              "id": "mw60t6gg-gOiua",
+              "children": [
+                {
+                  "id": "mw60t6gg-jPwQH",
+                  "children": [],
+                  "tag": "summary",
+                  "canHaveChild": false,
+                  "content": "Can I edit every part of a saved block?",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq03",
+                    "faq-question"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-Henpj",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Yes. After inserting it, text, images, attributes and styles remain editable in the page builder.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq04",
+                    "faq-answer"
+                  ]
+                }
+              ],
+              "tag": "details",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-faq02",
+                "faq-item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-KVXEA",
+              "children": [
+                {
+                  "id": "mw60t6gg-qJnvI",
+                  "children": [],
+                  "tag": "summary",
+                  "canHaveChild": false,
+                  "content": "Will the design work on mobile?",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq06",
+                    "faq-question"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-awAAj",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "The layout includes responsive rules and adapts its columns and spacing for smaller screens.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq07",
+                    "faq-answer"
+                  ]
+                }
+              ],
+              "tag": "details",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-faq05",
+                "faq-item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-rNSRB",
+              "children": [
+                {
+                  "id": "mw60t6gg-wnxgQ",
+                  "children": [],
+                  "tag": "summary",
+                  "canHaveChild": false,
+                  "content": "Can I reuse this on multiple pages?",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq09",
+                    "faq-question"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-Qnomo",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Export the block once and insert the saved design wherever you need it.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-faq10",
+                    "faq-answer"
+                  ]
+                }
+              ],
+              "tag": "details",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-faq08",
+                "faq-item"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-faq01",
+            "faq-list"
+          ]
+        },
+        {
+          "id": "mw60t6gg-PfyEY",
+          "children": [
+            {
+              "id": "mw60t6gg-cgJgX",
+              "children": [],
+              "tag": "div",
+              "canHaveChild": false,
+              "content": "✦",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea02",
+                "feature-icon"
+              ]
+            },
+            {
+              "id": "mw60t6gg-bafyf",
+              "children": [],
+              "tag": "h3",
+              "canHaveChild": false,
+              "content": "Built for speed",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea03",
+                "feature-title"
+              ]
+            },
+            {
+              "id": "mw60t6gg-yTCrV",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "A lightweight experience that keeps your pages smooth, responsive and effortless.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea04",
+                "feature-copy"
+              ]
+            },
+            {
+              "id": "mw60t6gg-gRHIO",
+              "children": [],
+              "tag": "a",
+              "canHaveChild": false,
+              "content": "Explore features  →",
+              "options": {
+                "attributes": {
+                  "href": "#",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea05",
+                "feature-link"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-fea01",
+            "feature-card"
+          ]
+        },
+        {
+          "id": "mw60t6gg-hEEQS",
+          "children": [
+            {
+              "id": "mw60t6gg-KlLms",
+              "children": [],
+              "tag": "div",
+              "canHaveChild": false,
+              "content": "✦",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea02",
+                "feature-icon"
+              ]
+            },
+            {
+              "id": "mw60t6gg-HldVk",
+              "children": [],
+              "tag": "h3",
+              "canHaveChild": false,
+              "content": "Built for speed",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea03",
+                "feature-title"
+              ]
+            },
+            {
+              "id": "mw60t6gg-aQOAL",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "A lightweight experience that keeps your pages smooth, responsive and effortless.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea04",
+                "feature-copy"
+              ]
+            },
+            {
+              "id": "mw60t6gg-ydfGD",
+              "children": [],
+              "tag": "a",
+              "canHaveChild": false,
+              "content": "Explore features  →",
+              "options": {
+                "attributes": {
+                  "href": "#",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fea05",
+                "feature-link"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-fea01",
+            "feature-card"
+          ]
+        },
+        {
+          "id": "mw60t6gg-DUsxE",
+          "children": [
+            {
+              "id": "mw60t6gg-GzbiE",
+              "children": [
+                {
+                  "id": "mw60t6gg-bTLVz",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "01 / STRATEGY",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr03",
+                    "features__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-HkPXn",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Clear direction",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr04",
+                    "features__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-OjMZj",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Make confident decisions with a shared understanding of the goal.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr05",
+                    "features__text"
+                  ]
+                }
+              ],
+              "tag": "article",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fgr02",
+                "features__item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-nsxPc",
+              "children": [
+                {
+                  "id": "mw60t6gg-svvqv",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "02 / CRAFT",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr07",
+                    "features__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-plQaC",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Thoughtful details",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr08",
+                    "features__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-vDiDT",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Every interaction is considered, useful and built to feel natural.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr09",
+                    "features__text"
+                  ]
+                }
+              ],
+              "tag": "article",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fgr06",
+                "features__item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-KuOhT",
+              "children": [
+                {
+                  "id": "mw60t6gg-fNLeq",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "03 / MOMENTUM",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr11",
+                    "features__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-qoDlB",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Progress that lasts",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr12",
+                    "features__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-TwCdk",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Turn good ideas into repeatable systems and measurable outcomes.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-fgr13",
+                    "features__text"
+                  ]
+                }
+              ],
+              "tag": "article",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-fgr10",
+                "features__item"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-fgr01",
+            "features"
+          ]
+        },
+        {
+          "id": "mw60t6gg-XBxMd",
+          "children": [
+            {
+              "id": "mw60t6gg-ARhRU",
+              "children": [],
+              "tag": "label",
+              "canHaveChild": false,
+              "content": "Email address",
+              "options": {
+                "attributes": {
+                  "for": "email-demo",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-frm02",
+                "field-label"
+              ]
+            },
+            {
+              "id": "mw60t6gg-xkZGO",
+              "children": [
+                {
+                  "id": "mw60t6gg-FtNkf",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "✉",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-frm04",
+                    "field-icon"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-uMprM",
+                  "children": [],
+                  "tag": "input",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "id": "email-demo",
+                      "type": "email",
+                      "placeholder": "you@example.com",
+                      "required": "required",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-frm05",
+                    "field-input"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-frm03",
+                "field-control"
+              ]
+            },
+            {
+              "id": "mw60t6gg-HlDNg",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "ⓘ  We’ll only use this to send your receipt.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-frm06",
+                "field-hint"
+              ]
+            },
+            {
+              "id": "mw60t6gg-QjkEV",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "Please enter a valid email address.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-frm07",
+                "field-error"
+              ]
+            }
+          ],
+          "tag": "div",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-frm01",
+            "field-wrap"
+          ]
+        },
+        {
+          "id": "mw60t6gg-tbcpM",
+          "children": [
+            {
+              "id": "mw60t6gg-wEzdu",
+              "children": [
+                {
+                  "id": "mw60t6gg-gtvtD",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "SELECTED WORK",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal03",
+                    "gallery__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-IIDTs",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "content": "A closer look at the craft.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal04",
+                    "gallery__title"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-gal02",
+                "gallery__heading"
+              ]
+            },
+            {
+              "id": "mw60t6gg-EGYOx",
+              "children": [
+                {
+                  "id": "mw60t6gg-VUFjj",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&q=85",
+                      "alt": "Minimal creative workspace",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal06",
+                    "gallery__one"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-fySmj",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85",
+                      "alt": "Modern office interior",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal07",
+                    "gallery__two"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-Ibgil",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=85",
+                      "alt": "Bright studio",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal08",
+                    "gallery__three"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-SMhNR",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1497366811364-ccf3f9a4e6f3?w=900&q=85",
+                      "alt": "Collaborative work table",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-gal09",
+                    "gallery__four"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-gal05",
+                "gallery__grid"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-gal01",
+            "gallery"
+          ]
+        },
+        {
+          "id": "mw60t6gg-MHuiv",
+          "children": [
+            {
+              "id": "mw60t6gg-DsYQr",
+              "children": [
+                {
+                  "id": "mw60t6gg-iWTaQ",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "DESIGNED FOR MOMENTUM",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-her03",
+                    "hero__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-jGFfQ",
+                  "children": [],
+                  "tag": "h1",
+                  "canHaveChild": false,
+                  "content": "Make room for what’s next.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-her04",
+                    "hero__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-hDPvX",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "A thoughtful platform for teams who want clarity, momentum, and work that feels effortless.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-her05",
+                    "hero__text"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-FysBp",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-HNjLA",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "content": "Explore the platform",
+                      "options": {
+                        "attributes": {
+                          "href": "#",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-her07",
+                        "hero__primary"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-gunBn",
+                      "children": [],
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "content": "See how it works ↗",
+                      "options": {
+                        "attributes": {
+                          "href": "#",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-her08",
+                        "hero__secondary"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-her06",
+                    "hero__actions"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-her02",
+                "hero__copy"
+              ]
+            },
+            {
+              "id": "mw60t6gg-GEheB",
+              "children": [
+                {
+                  "id": "mw60t6gg-hmnHf",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=85",
+                      "alt": "Bright modern creative studio",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-her10",
+                    "hero__image"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-her09",
+                "hero__visual"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-her01",
+            "hero"
+          ]
+        },
+        {
+          "id": "mw60t6gg-lIuNs",
+          "children": [
+            {
+              "id": "mw60t6gg-oCYTF",
+              "children": [
+                {
+                  "id": "mw60t6gg-DKwiX",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-kHYqp",
+                      "children": [],
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&q=85",
+                          "alt": "Sarah",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-sto04",
+                        "story-avatar"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto03",
+                    "story-ring"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-Fyeyr",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Sarah",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto05",
+                    "story-name"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-sto02",
+                "story-item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-bRXuP",
+              "children": [
+                {
+                  "id": "mw60t6gg-UeAcL",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-qJyXC",
+                      "children": [],
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "src": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&q=85",
+                          "alt": "Mike",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-sto08",
+                        "story-avatar"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto07",
+                    "story-ring"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-pFYhU",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Mike",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto09",
+                    "story-name"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-sto06",
+                "story-item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-kJePM",
+              "children": [
+                {
+                  "id": "mw60t6gg-bJgBW",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-rVsAh",
+                      "children": [],
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "src": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=240&q=85",
+                          "alt": "Emma",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-sto12",
+                        "story-avatar"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto11",
+                    "story-ring"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-ccMKe",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Emma",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto13",
+                    "story-name"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-sto10",
+                "story-item"
+              ]
+            },
+            {
+              "id": "mw60t6gg-JCewn",
+              "children": [
+                {
+                  "id": "mw60t6gg-MJLSy",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-RxDEM",
+                      "children": [],
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "src": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=240&q=85",
+                          "alt": "David",
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-sto16",
+                        "story-avatar"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto15",
+                    "story-ring"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-pNSXC",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "David",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-sto17",
+                    "story-name"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-sto14",
+                "story-item"
+              ]
+            }
+          ],
+          "tag": "div",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-sto01",
+            "stories-row"
+          ]
+        },
+        {
+          "id": "mw60t6gg-BGpeV",
+          "children": [
+            {
+              "id": "mw60t6gg-kDiJY",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "TRUSTED BY TEAMS BUILDING WHAT’S NEXT",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-log02",
+                "logos__label"
+              ]
+            },
+            {
+              "id": "mw60t6gg-Vzqeb",
+              "children": [
+                {
+                  "id": "mw60t6gg-GnBcx",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "NORTHSTAR",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-log04"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-UepSq",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "◈ orbit",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-log05"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-aHDjT",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "vertex",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-log06"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-lzeMA",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "FORMA",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-log07"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-GQOxP",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "◎ MONO",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-log08"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-log03",
+                "logos__row"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-log01",
+            "logos"
+          ]
+        },
+        {
+          "id": "mw60t6gg-BToCV",
+          "children": [
+            {
+              "id": "mw60t6gg-snpkH",
+              "children": [
+                {
+                  "id": "mw60t6gg-PMoab",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "THE WEEKLY EDIT",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-new03",
+                    "newsletter__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-LgfPb",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "content": "A little inspiration, delivered.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-new04",
+                    "newsletter__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-wzJGn",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Ideas, insights and useful reads. No noise, ever.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-new05",
+                    "newsletter__text"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-new02",
+                "newsletter__copy"
+              ]
+            },
+            {
+              "id": "mw60t6gg-GgQWP",
+              "children": [
+                {
+                  "id": "mw60t6gg-UNEix",
+                  "children": [],
+                  "tag": "input",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "type": "email",
+                      "placeholder": "Your email address",
+                      "aria-label": "Your email address",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-new07",
+                    "newsletter__input"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-yxctI",
+                  "children": [],
+                  "tag": "button",
+                  "canHaveChild": false,
+                  "content": "Subscribe",
+                  "options": {
+                    "attributes": {
+                      "type": "submit",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-new08",
+                    "newsletter__button"
+                  ]
+                }
+              ],
+              "tag": "form",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-new06",
+                "newsletter__form"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-new01",
+            "newsletter"
+          ]
+        },
+        {
+          "id": "mw60t6gg-Shond",
+          "children": [
+            {
+              "id": "mw60t6gg-vGeDR",
+              "children": [],
+              "tag": "span",
+              "canHaveChild": false,
+              "content": "MOST POPULAR",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc02",
+                "pricing__badge"
+              ]
+            },
+            {
+              "id": "mw60t6gg-CGHqb",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "GROWTH",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc03",
+                "pricing__tier"
+              ]
+            },
+            {
+              "id": "mw60t6gg-JSmgv",
+              "children": [
+                {
+                  "id": "mw60t6gg-sVAeK",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "/ month",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prc05",
+                    "pricing__period"
+                  ]
+                }
+              ],
+              "tag": "h2",
+              "canHaveChild": true,
+              "content": "$29",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc04",
+                "pricing__price"
+              ]
+            },
+            {
+              "id": "mw60t6gg-MeVUd",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "For teams ready to move faster without adding complexity.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc06",
+                "pricing__desc"
+              ]
+            },
+            {
+              "id": "mw60t6gg-JCHLC",
+              "children": [
+                {
+                  "id": "mw60t6gg-bhKkv",
+                  "children": [],
+                  "tag": "li",
+                  "canHaveChild": false,
+                  "content": "Unlimited projects",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prc08"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-RCdKP",
+                  "children": [],
+                  "tag": "li",
+                  "canHaveChild": false,
+                  "content": "Advanced analytics",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prc09"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-IQiUp",
+                  "children": [],
+                  "tag": "li",
+                  "canHaveChild": false,
+                  "content": "Priority support",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prc10"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-hvgqO",
+                  "children": [],
+                  "tag": "li",
+                  "canHaveChild": false,
+                  "content": "Team collaboration",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prc11"
+                  ]
+                }
+              ],
+              "tag": "ul",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc07",
+                "pricing__features"
+              ]
+            },
+            {
+              "id": "mw60t6gg-MdsFO",
+              "children": [],
+              "tag": "a",
+              "canHaveChild": false,
+              "content": "Choose Growth →",
+              "options": {
+                "attributes": {
+                  "href": "#",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prc12",
+                "pricing__button"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-prc01",
+            "pricing"
+          ]
+        },
+        {
+          "id": "mw60t6gg-wzsly",
+          "children": [
+            {
+              "id": "mw60t6gg-rbOgq",
+              "children": [
+                {
+                  "id": "mw60t6gg-yqPQu",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "-30%",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd03",
+                    "product-card__badge"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-yGGdV",
+                  "children": [],
+                  "tag": "button",
+                  "canHaveChild": false,
+                  "content": "♡",
+                  "options": {
+                    "attributes": {
+                      "type": "button",
+                      "aria-label": "Add to favorites",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd04",
+                    "product-card__favorite"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-PAUPm",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=85",
+                      "alt": "Red running sneaker",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd05",
+                    "product-card__image"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prd02",
+                "product-card__visual"
+              ]
+            },
+            {
+              "id": "mw60t6gg-rRPsu",
+              "children": [
+                {
+                  "id": "mw60t6gg-XmPAu",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "RUNNING / MEN",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd07",
+                    "product-card__category"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-lEfKR",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Velocity Runner X",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd08",
+                    "product-card__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-KjBGt",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "★★★★★  4.9 (128 reviews)",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd09",
+                    "product-card__rating"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-URQbd",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-rYQse",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "$129",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-prd11",
+                        "product-card__current"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-EBSmn",
+                      "children": [],
+                      "tag": "del",
+                      "canHaveChild": false,
+                      "content": "$185",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-prd12",
+                        "product-card__old"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd10",
+                    "product-card__price"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-gHusG",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "content": "Add to cart  →",
+                  "options": {
+                    "attributes": {
+                      "href": "#",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-prd13",
+                    "product-card__cta"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-prd06",
+                "product-card__details"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-prd01",
+            "product-card"
+          ]
+        },
+        {
+          "id": "mw60t6gg-MKPkB",
+          "children": [
+            {
+              "id": "mw60t6gg-aNycZ",
+              "children": [],
+              "tag": "img",
+              "canHaveChild": false,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "src": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&q=85",
+                  "alt": "Wireless headphones",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-lst02",
+                "product-row__image"
+              ]
+            },
+            {
+              "id": "mw60t6gg-deHMu",
+              "children": [
+                {
+                  "id": "mw60t6gg-yLOqZ",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "BEST SELLER",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-lst04",
+                    "product-row__tag"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-bjQeJ",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Studio Wireless Headphones",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-lst05",
+                    "product-row__title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-FlFah",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Immersive sound, all-day comfort and a refined matte finish.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-lst06",
+                    "product-row__description"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-bGdiE",
+                  "children": [],
+                  "tag": "strong",
+                  "canHaveChild": false,
+                  "content": "$249.00",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-lst07",
+                    "product-row__price"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-kApCF",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "content": "View details →",
+                  "options": {
+                    "attributes": {
+                      "href": "#",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-lst08",
+                    "product-row__link"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-lst03",
+                "product-row__content"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-lst01",
+            "product-row"
+          ]
+        },
+        {
+          "id": "mw60t6gg-dWdrO",
+          "children": [
+            {
+              "id": "mw60t6gg-rwWMJ",
+              "children": [],
+              "tag": "span",
+              "canHaveChild": false,
+              "content": "“",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-quo02",
+                "quote__mark"
+              ]
+            },
+            {
+              "id": "mw60t6gg-UaUkp",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "Great work happens when clarity meets the courage to make things simpler.",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-quo03",
+                "quote__text"
+              ]
+            },
+            {
+              "id": "mw60t6gg-SOVbU",
+              "children": [
+                {
+                  "id": "mw60t6gg-TFFZv",
+                  "children": [],
+                  "tag": "strong",
+                  "canHaveChild": false,
+                  "content": "Maya Angelou",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-quo05",
+                    "quote__author"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-KhuyD",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Creative leadership",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-quo06",
+                    "quote__role"
+                  ]
+                }
+              ],
+              "tag": "footer",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-quo04",
+                "quote__footer"
+              ]
+            }
+          ],
+          "tag": "blockquote",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-quo01",
+            "quote"
+          ]
+        },
+        {
+          "id": "mw60t6gh-gQerA",
+          "children": [
+            {
+              "id": "mw60t6gg-KFqjo",
+              "children": [
+                {
+                  "id": "mw60t6gg-MxobU",
+                  "children": [],
+                  "tag": "strong",
+                  "canHaveChild": false,
+                  "content": "4.9",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev03",
+                    "review__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-BOkPK",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "★★★★★",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev04",
+                    "review__stars"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-mKvxz",
+                  "children": [],
+                  "tag": "small",
+                  "canHaveChild": false,
+                  "content": "Based on 2,480 reviews",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev05",
+                    "review__caption"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-rev02",
+                "review__score"
+              ]
+            },
+            {
+              "id": "mw60t6gh-JvHPg",
+              "children": [
+                {
+                  "id": "mw60t6gg-PtUbD",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-XLFXR",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "5 star",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev08",
+                        "review__label"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-SsIwe",
+                      "children": [
+                        {
+                          "id": "mw60t6gg-OBiUF",
+                          "children": [],
+                          "tag": "i",
+                          "canHaveChild": false,
+                          "content": "",
+                          "options": {
+                            "attributes": {
+                              "class": ""
+                            }
+                          },
+                          "classList": [
+                            "blk-rev10",
+                            "review__fill5"
+                          ]
+                        }
+                      ],
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev09",
+                        "review__track"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-yPzYo",
+                      "children": [],
+                      "tag": "b",
+                      "canHaveChild": false,
+                      "content": "84%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev11",
+                        "review__percent"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev07",
+                    "review__bar"
+                  ]
+                },
+                {
+                  "id": "mw60t6gg-dxPYs",
+                  "children": [
+                    {
+                      "id": "mw60t6gg-sGouK",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "4 star",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev13",
+                        "review__label"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-kPRKg",
+                      "children": [
+                        {
+                          "id": "mw60t6gg-qcMFN",
+                          "children": [],
+                          "tag": "i",
+                          "canHaveChild": false,
+                          "content": "",
+                          "options": {
+                            "attributes": {
+                              "class": ""
+                            }
+                          },
+                          "classList": [
+                            "blk-rev15",
+                            "review__fill4"
+                          ]
+                        }
+                      ],
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev14",
+                        "review__track"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gg-iMHVo",
+                      "children": [],
+                      "tag": "b",
+                      "canHaveChild": false,
+                      "content": "12%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev16",
+                        "review__percent"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev12",
+                    "review__bar"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-qkHje",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-ddhHb",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "3 star",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev18",
+                        "review__label"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-KFVoM",
+                      "children": [
+                        {
+                          "id": "mw60t6gh-WOpqU",
+                          "children": [],
+                          "tag": "i",
+                          "canHaveChild": false,
+                          "content": "",
+                          "options": {
+                            "attributes": {
+                              "class": ""
+                            }
+                          },
+                          "classList": [
+                            "blk-rev20",
+                            "review__fill3"
+                          ]
+                        }
+                      ],
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev19",
+                        "review__track"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-YGHRn",
+                      "children": [],
+                      "tag": "b",
+                      "canHaveChild": false,
+                      "content": "3%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev21",
+                        "review__percent"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev17",
+                    "review__bar"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-DBcbo",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-tUgyH",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "2 star",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev23",
+                        "review__label"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-hxoTb",
+                      "children": [
+                        {
+                          "id": "mw60t6gh-sgnNa",
+                          "children": [],
+                          "tag": "i",
+                          "canHaveChild": false,
+                          "content": "",
+                          "options": {
+                            "attributes": {
+                              "class": ""
+                            }
+                          },
+                          "classList": [
+                            "blk-rev25",
+                            "review__fill2"
+                          ]
+                        }
+                      ],
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "content": "",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev24",
+                        "review__track"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-OIgkA",
+                      "children": [],
+                      "tag": "b",
+                      "canHaveChild": false,
+                      "content": "1%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-rev26",
+                        "review__percent"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rev22",
+                    "review__bar"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-rev06",
+                "review__bars"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-rev01",
+            "review"
+          ]
+        },
+        {
+          "id": "mw60t6gh-bvIJa",
+          "children": [
+            {
+              "id": "mw60t6gh-qxXTX",
+              "children": [
+                {
+                  "id": "mw60t6gh-dhvID",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "THE NUMBERS",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm03",
+                    "stats__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-NhErT",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "content": "Small details. Measurable impact.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm04",
+                    "stats__title"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-stm02",
+                "stats__intro"
+              ]
+            },
+            {
+              "id": "mw60t6gh-wDOSx",
+              "children": [
+                {
+                  "id": "mw60t6gh-tZGLg",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-KCjJG",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "98%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm07",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-poHka",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Customer satisfaction",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm08",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm06",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-FSrUh",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-rvHGO",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "2.4×",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm10",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-EVvdG",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Faster delivery",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm11",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm09",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-hxdQw",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-FKDgr",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "45k",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm13",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-MjMff",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Active users",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm14",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm12",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-rBiZX",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-ZmwzH",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "24/7",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm16",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-nkHHE",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Expert support",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm17",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm15",
+                    "stats__item"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-stm05",
+                "stats__grid"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-stm01",
+            "stats"
+          ]
+        },
+        {
+          "id": "mw60t6gh-vKFpo",
+          "children": [
+            {
+              "id": "mw60t6gh-zrABd",
+              "children": [
+                {
+                  "id": "mw60t6gh-zohUl",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "THE NUMBERS",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm03",
+                    "stats__eyebrow"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-drQNy",
+                  "children": [],
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "content": "Small details. Measurable impact.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm04",
+                    "stats__title"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-stm02",
+                "stats__intro"
+              ]
+            },
+            {
+              "id": "mw60t6gh-OlnYB",
+              "children": [
+                {
+                  "id": "mw60t6gh-QgaQB",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-LeRkk",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "98%",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm07",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-CheuA",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Customer satisfaction",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm08",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm06",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-pUtPG",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-QynLU",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "2.4×",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm10",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-GhVRH",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Faster delivery",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm11",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm09",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-nAuSI",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-LCito",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "45k",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm13",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-esMwf",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Active users",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm14",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm12",
+                    "stats__item"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-kFRNc",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-Nobvg",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "24/7",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm16",
+                        "stats__value"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-FXpzk",
+                      "children": [],
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "content": "Expert support",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-stm17",
+                        "stats__label"
+                      ]
+                    }
+                  ],
+                  "tag": "article",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-stm15",
+                    "stats__item"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-stm05",
+                "stats__grid"
+              ]
+            }
+          ],
+          "tag": "section",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-stm01",
+            "stats"
+          ]
+        },
+        {
+          "id": "mw60t6gh-yiOMv",
+          "children": [],
+          "tag": "a",
+          "canHaveChild": false,
+          "content": "Get started  →",
+          "options": {
+            "attributes": {
+              "href": "#",
+              "role": "button",
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-btn01",
+            "button-primary"
+          ]
+        },
+        {
+          "id": "mw60t6gh-EBMNY",
+          "children": [
+            {
+              "id": "mw60t6gh-RVzpM",
+              "children": [],
+              "tag": "input",
+              "canHaveChild": false,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "type": "checkbox",
+                  "checked": "checked",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-chk02",
+                "check-native"
+              ]
+            },
+            {
+              "id": "mw60t6gh-kVkPe",
+              "children": [],
+              "tag": "span",
+              "canHaveChild": false,
+              "content": "✓",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-chk03",
+                "check-box"
+              ]
+            },
+            {
+              "id": "mw60t6gh-hcELy",
+              "children": [],
+              "tag": "span",
+              "canHaveChild": false,
+              "content": "I agree to the <a href='#'>Terms & Conditions</a>",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-chk04",
+                "check-copy"
+              ]
+            }
+          ],
+          "tag": "label",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-chk01",
+            "check-row"
+          ]
+        },
+        {
+          "id": "mw60t6gh-EFPPg",
+          "children": [
+            {
+              "id": "mw60t6gh-vfesf",
+              "children": [
+                {
+                  "id": "mw60t6gh-xEdwJ",
+                  "children": [],
+                  "tag": "input",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "type": "radio",
+                      "name": "plan-demo",
+                      "checked": "checked",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad03",
+                    "radio-native"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-AmVmR",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad04",
+                    "radio-dot"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-zYciH",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Starter",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad05",
+                    "radio-title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-LMHdP",
+                  "children": [],
+                  "tag": "small",
+                  "canHaveChild": false,
+                  "content": "Free forever",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad06",
+                    "radio-sub"
+                  ]
+                }
+              ],
+              "tag": "label",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-rad02",
+                "radio-option"
+              ]
+            },
+            {
+              "id": "mw60t6gh-BZOrT",
+              "children": [
+                {
+                  "id": "mw60t6gh-nmdKq",
+                  "children": [],
+                  "tag": "input",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "type": "radio",
+                      "name": "plan-demo",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad08",
+                    "radio-native"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-yCwAJ",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad09",
+                    "radio-dot"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-MlDzR",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Pro",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad10",
+                    "radio-title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-UvTaL",
+                  "children": [],
+                  "tag": "small",
+                  "canHaveChild": false,
+                  "content": "$12 / month",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad11",
+                    "radio-sub"
+                  ]
+                }
+              ],
+              "tag": "label",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-rad07",
+                "radio-option"
+              ]
+            },
+            {
+              "id": "mw60t6gh-PrDXe",
+              "children": [
+                {
+                  "id": "mw60t6gh-ceAaN",
+                  "children": [],
+                  "tag": "input",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "type": "radio",
+                      "name": "plan-demo",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad13",
+                    "radio-native"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-FDANf",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad14",
+                    "radio-dot"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-dyyAE",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "Team",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad15",
+                    "radio-title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-INpEi",
+                  "children": [],
+                  "tag": "small",
+                  "canHaveChild": false,
+                  "content": "$29 / month",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-rad16",
+                    "radio-sub"
+                  ]
+                }
+              ],
+              "tag": "label",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-rad12",
+                "radio-option"
+              ]
+            }
+          ],
+          "tag": "div",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-rad01",
+            "radio-group"
+          ]
+        },
+        {
+          "id": "mw60t6gh-ghsMh",
+          "children": [
+            {
+              "id": "mw60t6gh-wyjpZ",
+              "children": [],
+              "tag": "img",
+              "canHaveChild": false,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "src": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=900&q=85",
+                  "alt": "Portrait of team member",
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tem02",
+                "team__portrait"
+              ]
+            },
+            {
+              "id": "mw60t6gh-aFHzn",
+              "children": [
+                {
+                  "id": "mw60t6gh-hjnPl",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Alex Morgan",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tem04",
+                    "team__name"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-rLEgi",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Product Design Lead",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tem05",
+                    "team__role"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-Uuata",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "content": "↗",
+                  "options": {
+                    "attributes": {
+                      "href": "#",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tem06",
+                    "team__link"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tem03",
+                "team__info"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-tem01",
+            "team"
+          ]
+        },
+        {
+          "id": "mw60t6gh-mAhMY",
+          "children": [
+            {
+              "id": "mw60t6gh-jPYGM",
+              "children": [
+                {
+                  "id": "mw60t6gh-JKljX",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&q=85",
+                      "alt": "Customer portrait",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tst03",
+                    "testimonial-avatar"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-yOxpR",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-xiGNm",
+                      "children": [],
+                      "tag": "strong",
+                      "canHaveChild": false,
+                      "content": "Sara Johnson",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tst05",
+                        "testimonial-name"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-WOdjO",
+                      "children": [],
+                      "tag": "small",
+                      "canHaveChild": false,
+                      "content": "Founder, Studio North",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tst06",
+                        "testimonial-role"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tst04",
+                    "testimonial-person"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-nUwPz",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "★★★★★",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tst07",
+                    "testimonial-stars"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tst02",
+                "testimonial-top"
+              ]
+            },
+            {
+              "id": "mw60t6gh-OYmZg",
+              "children": [],
+              "tag": "p",
+              "canHaveChild": false,
+              "content": "“The builder made it incredibly easy to create a polished website. The details feel thoughtful, and I never had to touch code.”",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tst08",
+                "testimonial-quote"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-tst01",
+            "testimonial-card"
+          ]
+        },
+        {
+          "id": "mw60t6gh-oyUQl",
+          "children": [
+            {
+              "id": "mw60t6gh-ibPQP",
+              "children": [
+                {
+                  "id": "mw60t6gh-OLRhN",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "01",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim03",
+                    "timeline__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-gIlxO",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-kwqLh",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "content": "Discover",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim05",
+                        "timeline__title"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-xeeok",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "content": "Understand the challenge, the audience and what success should look like.",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim06",
+                        "timeline__text"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim04",
+                    "timeline__body"
+                  ]
+                }
+              ],
+              "tag": "li",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tim02",
+                "timeline__item"
+              ]
+            },
+            {
+              "id": "mw60t6gh-aoUos",
+              "children": [
+                {
+                  "id": "mw60t6gh-aJBKv",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "02",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim08",
+                    "timeline__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-OobzH",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-RBbco",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "content": "Design",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim10",
+                        "timeline__title"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-nXqne",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "content": "Shape a clear direction and turn ideas into a considered experience.",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim11",
+                        "timeline__text"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim09",
+                    "timeline__body"
+                  ]
+                }
+              ],
+              "tag": "li",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tim07",
+                "timeline__item"
+              ]
+            },
+            {
+              "id": "mw60t6gh-loaVd",
+              "children": [
+                {
+                  "id": "mw60t6gh-LmRah",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "03",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim13",
+                    "timeline__number"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-xvFPQ",
+                  "children": [
+                    {
+                      "id": "mw60t6gh-nvrUJ",
+                      "children": [],
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "content": "Deliver",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim15",
+                        "timeline__title"
+                      ]
+                    },
+                    {
+                      "id": "mw60t6gh-VZQFB",
+                      "children": [],
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "content": "Build, refine and launch with confidence and measurable outcomes.",
+                      "options": {
+                        "attributes": {
+                          "class": ""
+                        }
+                      },
+                      "classList": [
+                        "blk-tim16",
+                        "timeline__text"
+                      ]
+                    }
+                  ],
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-tim14",
+                    "timeline__body"
+                  ]
+                }
+              ],
+              "tag": "li",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-tim12",
+                "timeline__item"
+              ]
+            }
+          ],
+          "tag": "ol",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-tim01",
+            "timeline"
+          ]
+        },
+        {
+          "id": "mw60t6gh-RUcpl",
+          "children": [
+            {
+              "id": "mw60t6gh-ISJsL",
+              "children": [
+                {
+                  "id": "mw60t6gh-cSRjh",
+                  "children": [],
+                  "tag": "img",
+                  "canHaveChild": false,
+                  "content": "",
+                  "options": {
+                    "attributes": {
+                      "src": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1000&q=85",
+                      "alt": "Colorful coastal village",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-msk03",
+                    "mask-image"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-msk02",
+                "mask-visual"
+              ]
+            },
+            {
+              "id": "mw60t6gh-JutLT",
+              "children": [
+                {
+                  "id": "mw60t6gh-ackoQ",
+                  "children": [],
+                  "tag": "span",
+                  "canHaveChild": false,
+                  "content": "DISCOVER",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-msk05",
+                    "mask-label"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-kBamZ",
+                  "children": [],
+                  "tag": "h3",
+                  "canHaveChild": false,
+                  "content": "Find your next escape",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-msk06",
+                    "mask-title"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-jnejI",
+                  "children": [],
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "content": "Small places. Big memories. Explore somewhere extraordinary.",
+                  "options": {
+                    "attributes": {
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-msk07",
+                    "mask-copy"
+                  ]
+                },
+                {
+                  "id": "mw60t6gh-klBwu",
+                  "children": [],
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "content": "Explore destinations  ↗",
+                  "options": {
+                    "attributes": {
+                      "href": "#",
+                      "class": ""
+                    }
+                  },
+                  "classList": [
+                    "blk-msk08",
+                    "mask-link"
+                  ]
+                }
+              ],
+              "tag": "div",
+              "canHaveChild": true,
+              "content": "",
+              "options": {
+                "attributes": {
+                  "class": ""
+                }
+              },
+              "classList": [
+                "blk-msk04",
+                "mask-content"
+              ]
+            }
+          ],
+          "tag": "article",
+          "canHaveChild": true,
+          "content": "",
+          "options": {
+            "attributes": {
+              "class": ""
+            }
+          },
+          "classList": [
+            "blk-msk01",
+            "mask-card"
+          ]
+        }
+      ],
+      "footerItems": [],
+      "config": {
+        "title": "",
+        "description": ""
+      },
+      "order": 0
+    }
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "createdAt": "2026-11-07T06:21:55.250Z",
+      "updatedAt": "2026-11-07T06:25:00.169Z",
+      "data": "* { box-sizing:border-box; }\n\nimg { max-width: 100%; }\n\npre { white-space: pre-wrap; font-family: inherit; }\n\n.blk-mvnksoyl-jVvKl { animation: 3s ease-in-out 0s infinite normal none running pb-float; transition: 200ms; }\n\n.blk-cat01 { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: 260px; overflow: hidden; border-radius: 24px; background: rgb(16, 24, 39); color: rgb(248, 250, 252); isolation: isolate; box-shadow: rgba(2, 8, 23, 0.22) 0px 18px 45px; transition: transform 0.35s, box-shadow 0.35s; }\n\n.blk-cat01:hover { transform: translateY(-7px); box-shadow: rgba(2, 8, 23, 0.32) 0px 28px 60px; }\n\n.blk-cat02 { width: 100%; height: 100%; min-height: 260px; object-fit: cover; transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }\n\n.blk-cat01:hover .blk-cat02 { transform: scale(1.09); }\n\n.blk-cat03 { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 28px; background: linear-gradient(110deg, rgb(16, 24, 39) 0%, rgb(20, 36, 58) 100%); }\n\n.blk-cat04 { font-size: 10px; letter-spacing: 2px; font-weight: 800; color: rgb(56, 189, 248); }\n\n.blk-cat05 { font-size: clamp(22px, 3vw, 32px); line-height: 1.08; margin: 13px 0px 8px; font-weight: 800; }\n\n.blk-cat06 { font-size: 13px; line-height: 1.6; color: rgb(174, 190, 210); margin: 0px 0px 20px; }\n\n.blk-cat07 { display: inline-flex; padding: 10px 16px; border: 1px solid rgb(59, 130, 246); border-radius: 999px; color: rgb(255, 255, 255); text-decoration: none; font-size: 12px; font-weight: 700; transition: background 0.25s; }\n\n.blk-cat07:hover { background: rgb(37, 99, 235); }\n\n@media(max-width:640px) .blk-cat01 { grid-template-columns:1fr; }\n\n@media(max-width:640px) .blk-cat02 { height:190px;min-height:190px; }\n\n@media(max-width:640px) .blk-cat03 { padding:22px; }\n\n.blk-cta01 { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 34px; border-radius: 25px; background: radial-gradient(circle at 90% 10%, rgb(66, 108, 139) 0px, transparent 38%), linear-gradient(120deg, rgb(24, 42, 67), rgb(17, 24, 39)); color: rgb(255, 255, 255); }\n\n.blk-cta02 { max-width: 650px; }\n\n.blk-cta03 { font: 700 10px Arial; letter-spacing: 2px; color: rgb(167, 243, 208); }\n\n.blk-cta04 { font: 800 clamp(27px, 4vw, 42px) Arial; margin: 12px 0px; }\n\n.blk-cta05 { color: rgb(185, 199, 216); font: 14px / 1.6 Arial; }\n\n.blk-cta06 { white-space: nowrap; background: rgb(167, 243, 208); color: rgb(16, 35, 31); padding: 15px 20px; border-radius: 999px; text-decoration: none; font: 800 12px Arial; }\n\n@media(max-width:650px) .blk-cta01 { align-items:flex-start;flex-direction:column;padding:24px; }\n\n.blk-faq01 { max-width: 760px; display: flex; flex-direction: column; gap: 9px; }\n\n.blk-faq02 { border: 1px solid rgb(223, 231, 241); border-radius: 14px; background: rgb(255, 255, 255); overflow: hidden; }\n\n.blk-faq05 { border: 1px solid rgb(223, 231, 241); border-radius: 14px; background: rgb(255, 255, 255); overflow: hidden; }\n\n.blk-faq08 { border: 1px solid rgb(223, 231, 241); border-radius: 14px; background: rgb(255, 255, 255); overflow: hidden; }\n\n.blk-faq03 { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 17px 19px; cursor: pointer; list-style: none; color: rgb(23, 32, 51); font-size: 14px; font-weight: 800; }\n\n.blk-faq06 { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 17px 19px; cursor: pointer; list-style: none; color: rgb(23, 32, 51); font-size: 14px; font-weight: 800; }\n\n.blk-faq09 { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 17px 19px; cursor: pointer; list-style: none; color: rgb(23, 32, 51); font-size: 14px; font-weight: 800; }\n\n.blk-faq03::-webkit-details-marker { display: none; }\n\n.blk-faq06::-webkit-details-marker { display: none; }\n\n.blk-faq09::-webkit-details-marker { display: none; }\n\n.blk-faq03:after { content: \"+\"; color: rgb(37, 99, 235); font-size: 22px; }\n\n.blk-faq06:after { content: \"+\"; color: rgb(37, 99, 235); font-size: 22px; }\n\n.blk-faq09:after { content: \"+\"; color: rgb(37, 99, 235); font-size: 22px; }\n\n.blk-faq02[open] .blk-faq03:after { content: \"−\"; }\n\n.blk-faq05[open] .blk-faq06:after { content: \"−\"; }\n\n.blk-faq08[open] .blk-faq09:after { content: \"−\"; }\n\n.blk-faq04 { margin: 0px; padding: 0px 19px 18px; color: rgb(100, 116, 139); font-size: 13px; line-height: 1.7; }\n\n.blk-faq07 { margin: 0px; padding: 0px 19px 18px; color: rgb(100, 116, 139); font-size: 13px; line-height: 1.7; }\n\n.blk-faq10 { margin: 0px; padding: 0px 19px 18px; color: rgb(100, 116, 139); font-size: 13px; line-height: 1.7; }\n\n.blk-fea01 { position: relative; max-width: 360px; padding: 28px; border: 1px solid rgb(219, 234, 254); border-radius: 22px; background: radial-gradient(circle at 90% 0%, rgb(219, 234, 254) 0px, transparent 42%), linear-gradient(145deg, rgb(255, 255, 255), rgb(248, 251, 255)); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }\n\n.blk-fea01:hover { transform: translateY(-6px); box-shadow: rgba(29, 78, 216, 0.1) 0px 20px 42px; }\n\n.blk-fea02 { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; background: linear-gradient(145deg, rgb(37, 99, 235), rgb(124, 58, 237)); color: rgb(255, 255, 255); font-size: 27px; box-shadow: rgba(37, 99, 235, 0.267) 0px 9px 20px; }\n\n.blk-fea03 { margin: 22px 0px 9px; color: rgb(23, 32, 51); font-size: 20px; font-weight: 900; }\n\n.blk-fea04 { margin: 0px; color: rgb(100, 116, 139); font-size: 13px; line-height: 1.7; }\n\n.blk-fea05 { display: inline-block; margin-top: 19px; color: rgb(37, 99, 235); text-decoration: none; font-size: 12px; font-weight: 900; }\n\n.blk-fgr01 { display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 12px; }\n\n.blk-fgr02 { padding: 23px; border: 1px solid rgb(228, 234, 240); border-radius: 18px; background: rgb(255, 255, 255); }\n\n.blk-fgr03 { font: 700 9px Arial; letter-spacing: 1.5px; color: rgb(15, 155, 117); }\n\n.blk-fgr04 { font: 800 20px Arial; color: rgb(23, 32, 51); margin: 24px 0px 9px; }\n\n.blk-fgr05 { font: 13px / 1.65 Arial; color: rgb(100, 116, 139); margin: 0px; }\n\n@media(max-width:650px) .blk-fgr01 { grid-template-columns:1fr; }\n\n.blk-frm01 { max-width: 480px; padding: 22px; border: 1px solid rgb(229, 234, 241); border-radius: 18px; background: rgb(255, 255, 255); font-family: inherit; }\n\n.blk-frm02 { display: block; margin: 0px 0px 9px; color: rgb(30, 41, 59); font-size: 13px; font-weight: 800; }\n\n.blk-frm03 { display: flex; align-items: center; gap: 12px; padding: 0px 15px; border: 1px solid rgb(203, 213, 225); border-radius: 12px; background: rgb(248, 250, 252); transition: border-color 0.2s, box-shadow 0.2s; }\n\n.blk-frm03:focus-within { border-color: rgb(37, 99, 235); box-shadow: rgba(37, 99, 235, 0.1) 0px 0px 0px 4px; }\n\n.blk-frm04 { font-size: 18px; color: rgb(100, 116, 139); }\n\n.blk-frm05 { width: 100%; height: 48px; border: 0px; outline: 0px; background: transparent; color: rgb(15, 23, 42); font-size: 14px; }\n\n.blk-frm06 { margin: 9px 0px 0px; color: rgb(100, 116, 139); font-size: 11px; }\n\n.blk-frm07 { display: none; margin: 9px 0px 0px; color: rgb(220, 38, 38); font-size: 11px; }\n\n.blk-frm01.is-invalid .blk-frm03 { border-color: rgb(239, 68, 68); background: rgb(255, 250, 250); }\n\n.blk-frm01.is-invalid .blk-frm07 { display: block; }\n\n.blk-gal01 { padding: 26px; border-radius: 24px; background: rgb(244, 246, 248); color: rgb(23, 32, 51); }\n\n.blk-gal02 { margin-bottom: 20px; }\n\n.blk-gal03 { color: rgb(100, 116, 139); font: 700 10px Arial; letter-spacing: 2px; }\n\n.blk-gal04 { font: 800 clamp(24px, 3vw, 36px) Arial; margin: 9px 0px; }\n\n.blk-gal05 { display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: 150px 150px; gap: 10px; }\n\n.blk-gal06 { grid-row: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }\n\n.blk-gal07 { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }\n\n.blk-gal08 { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }\n\n.blk-gal09 { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }\n\n@media(max-width:600px) .blk-gal05 { grid-template-columns:1fr 1fr;grid-template-rows:150px 110px; }\n\n@media(max-width:600px) .blk-gal06 { grid-row:span 1;grid-column:span 2; }\n\n.blk-her01 { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; padding: 32px; border-radius: 26px; background: rgb(16, 24, 39); color: rgb(248, 250, 252); overflow: hidden; }\n\n.blk-her02 { max-width: 560px; }\n\n.blk-her03 { color: rgb(142, 230, 196); font: 700 11px Arial; letter-spacing: 2px; }\n\n.blk-her04 { font: 800 clamp(34px, 5vw, 58px) / 1.02 Arial; letter-spacing: -2px; margin: 18px 0px; }\n\n.blk-her05 { color: rgb(183, 194, 210); font: 16px / 1.7 Arial; margin: 0px 0px 24px; }\n\n.blk-her06 { display: flex; gap: 12px; flex-wrap: wrap; }\n\n.blk-her07 { background: rgb(167, 243, 208); color: rgb(16, 35, 31); padding: 13px 18px; border-radius: 999px; text-decoration: none; font: 700 13px Arial; }\n\n.blk-her08 { color: white; padding: 13px; text-decoration: none; font: 600 13px Arial; }\n\n.blk-her10 { width: 100%; height: 340px; object-fit: cover; border-radius: 22px; }\n\n@media(max-width:700px) .blk-her01 { grid-template-columns:1fr;padding:22px; }\n\n.blk-sto01 { display: flex; gap: 18px; max-width: 600px; padding: 20px; overflow-x: auto; border: 1px solid rgb(226, 232, 240); border-radius: 18px; background: rgb(255, 255, 255); }\n\n.blk-sto02 { display: flex; flex: 0 0 72px; flex-direction: column; align-items: center; gap: 8px; }\n\n.blk-sto06 { display: flex; flex: 0 0 72px; flex-direction: column; align-items: center; gap: 8px; }\n\n.blk-sto10 { display: flex; flex: 0 0 72px; flex-direction: column; align-items: center; gap: 8px; }\n\n.blk-sto14 { display: flex; flex: 0 0 72px; flex-direction: column; align-items: center; gap: 8px; }\n\n.blk-sto03 { width: 66px; height: 66px; padding: 3px; border-radius: 50%; background: conic-gradient(rgb(245, 158, 11), rgb(236, 72, 153), rgb(139, 92, 246), rgb(245, 158, 11)); }\n\n.blk-sto07 { width: 66px; height: 66px; padding: 3px; border-radius: 50%; background: conic-gradient(rgb(245, 158, 11), rgb(236, 72, 153), rgb(139, 92, 246), rgb(245, 158, 11)); }\n\n.blk-sto11 { width: 66px; height: 66px; padding: 3px; border-radius: 50%; background: conic-gradient(rgb(245, 158, 11), rgb(236, 72, 153), rgb(139, 92, 246), rgb(245, 158, 11)); }\n\n.blk-sto15 { width: 66px; height: 66px; padding: 3px; border-radius: 50%; background: conic-gradient(rgb(245, 158, 11), rgb(236, 72, 153), rgb(139, 92, 246), rgb(245, 158, 11)); }\n\n.blk-sto04 { width: 100%; height: 100%; border: 3px solid white; border-radius: 50%; object-fit: cover; }\n\n.blk-sto08 { width: 100%; height: 100%; border: 3px solid white; border-radius: 50%; object-fit: cover; }\n\n.blk-sto12 { width: 100%; height: 100%; border: 3px solid white; border-radius: 50%; object-fit: cover; }\n\n.blk-sto16 { width: 100%; height: 100%; border: 3px solid white; border-radius: 50%; object-fit: cover; }\n\n.blk-sto05 { font-size: 11px; color: rgb(71, 85, 105); }\n\n.blk-sto09 { font-size: 11px; color: rgb(71, 85, 105); }\n\n.blk-sto13 { font-size: 11px; color: rgb(71, 85, 105); }\n\n.blk-sto17 { font-size: 11px; color: rgb(71, 85, 105); }\n\n.blk-log01 { padding: 25px 20px; border: 1px solid rgb(231, 235, 240); border-radius: 18px; background: rgb(255, 255, 255); text-align: center; }\n\n.blk-log02 { font: 700 10px Arial; letter-spacing: 2px; color: rgb(148, 163, 184); margin: 0px 0px 22px; }\n\n.blk-log03 { display: flex; align-items: center; justify-content: space-around; gap: 18px; flex-wrap: wrap; color: rgb(100, 116, 139); }\n\n.blk-log03 span { font: 800 17px Arial; opacity: 0.8; }\n\n.blk-new01 { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 28px; border-radius: 22px; background: rgb(17, 24, 39); color: rgb(255, 255, 255); }\n\n.blk-new02 { max-width: 440px; }\n\n.blk-new03 { font: 700 10px Arial; letter-spacing: 2px; color: rgb(134, 239, 172); }\n\n.blk-new04 { font: 800 27px Arial; margin: 9px 0px; }\n\n.blk-new05 { font: 13px Arial; color: rgb(170, 183, 200); }\n\n.blk-new06 { display: flex; gap: 8px; min-width: 300px; }\n\n.blk-new07 { min-width: 0px; flex: 1 1 0%; padding: 14px; border: 1px solid rgb(52, 66, 86); border-radius: 12px; background: rgb(27, 39, 56); color: rgb(255, 255, 255); }\n\n.blk-new08 { padding: 0px 17px; border: 0px; border-radius: 12px; background: rgb(167, 243, 208); color: rgb(16, 35, 31); font: 800 12px Arial; }\n\n@media(max-width:650px) .blk-new01 { align-items:stretch;flex-direction:column; }\n\n@media(max-width:650px) .blk-new06 { min-width:0; }\n\n.blk-prc01 { position: relative; max-width: 350px; padding: 30px; border-radius: 26px; background: linear-gradient(145deg, rgb(24, 36, 58), rgb(17, 24, 39)); color: rgb(248, 250, 252); border: 1px solid rgb(52, 68, 95); box-shadow: rgba(15, 23, 42, 0.133) 0px 22px 60px; }\n\n.blk-prc02 { position: absolute; right: 18px; top: 18px; background: rgb(167, 243, 208); color: rgb(18, 55, 45); border-radius: 999px; padding: 7px 10px; font: 800 9px Arial; }\n\n.blk-prc03 { color: rgb(167, 181, 202); font: 700 11px Arial; letter-spacing: 2px; margin: 12px 0px; }\n\n.blk-prc04 { font: 800 54px Arial; margin: 0px; }\n\n.blk-prc05 { font-size: 14px; color: rgb(158, 172, 192); }\n\n.blk-prc06 { color: rgb(189, 200, 216); font: 14px / 1.6 Arial; margin: 12px 0px 22px; }\n\n.blk-prc07 { list-style: none; padding: 0px; margin: 0px 0px 25px; display: grid; gap: 13px; color: rgb(226, 232, 240); font: 13px Arial; }\n\n.blk-prc07 li:before { content: \"✓\"; color: rgb(134, 239, 172); margin-right: 10px; }\n\n.blk-prc08 { display: block; text-align: center; padding: 14px; border-radius: 13px; background: rgb(167, 243, 208); color: rgb(16, 35, 31); text-decoration: none; font: 800 13px Arial; }\n\n.blk-prd01 { max-width: 360px; padding: 12px; border: 1px solid rgb(229, 234, 241); border-radius: 22px; background: rgb(255, 255, 255); color: rgb(23, 32, 51); box-shadow: rgba(15, 23, 42, 0.08) 0px 12px 35px; transition: transform 0.3s, box-shadow 0.3s; }\n\n.blk-prd01:hover { transform: translateY(-5px); box-shadow: rgba(15, 23, 42, 0.14) 0px 22px 45px; }\n\n.blk-prd02 { height: 220px; position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 16px; background: linear-gradient(145deg, rgb(241, 245, 249), rgb(232, 237, 245)); }\n\n.blk-prd03 { position: absolute; top: 14px; left: 14px; z-index: 2; padding: 6px 10px; border-radius: 8px; background: rgb(239, 71, 111); color: rgb(255, 255, 255); font-size: 11px; font-weight: 800; }\n\n.blk-prd04 { position: absolute; top: 12px; right: 12px; z-index: 2; width: 34px; height: 34px; border: 0px; border-radius: 50%; background: rgba(255, 255, 255, 0.867); color: rgb(30, 41, 59); font-size: 20px; cursor: pointer; }\n\n.blk-prd05 { width: 82%; height: 82%; object-fit: contain; transition: transform 0.5s; mix-blend-mode: multiply; }\n\n.blk-prd01:hover .blk-prd05 { transform: scale(1.12) rotate(-4deg); }\n\n.blk-prd06 { padding: 17px 8px 7px; }\n\n.blk-prd07 { font-size: 9px; letter-spacing: 1.7px; color: rgb(100, 116, 139); font-weight: 800; }\n\n.blk-prd08 { font-size: 19px; margin: 8px 0px 7px; font-weight: 800; }\n\n.blk-prd09 { font-size: 11px; color: rgb(229, 155, 22); letter-spacing: 1px; }\n\n.blk-prd10 { display: flex; align-items: center; gap: 10px; margin: 12px 0px 16px; }\n\n.blk-prd11 { font-size: 24px; color: rgb(17, 24, 39); }\n\n.blk-prd12 { font-size: 14px; color: rgb(148, 163, 184); }\n\n.blk-prd13 { display: block; padding: 13px; text-align: center; border-radius: 12px; background: rgb(23, 43, 77); color: white; text-decoration: none; font-size: 13px; font-weight: 800; transition: background 0.2s; }\n\n.blk-prd13:hover { background: rgb(37, 99, 235); }\n\n.blk-lst01 { display: grid; grid-template-columns: 180px 1fr; gap: 22px; max-width: 680px; padding: 14px; border: 1px solid rgb(226, 232, 240); border-radius: 20px; background: rgb(255, 255, 255); box-shadow: rgba(15, 23, 42, 0.043) 0px 10px 28px; }\n\n.blk-lst02 { width: 100%; height: 190px; object-fit: cover; border-radius: 14px; background: rgb(241, 245, 249); }\n\n.blk-lst03 { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 7px 5px; }\n\n.blk-lst04 { font-size: 9px; letter-spacing: 1.5px; color: rgb(37, 99, 235); font-weight: 900; }\n\n.blk-lst05 { font-size: 18px; margin: 9px 0px; color: rgb(23, 32, 51); }\n\n.blk-lst06 { font-size: 12px; line-height: 1.6; color: rgb(100, 116, 139); margin: 0px 0px 12px; }\n\n.blk-lst07 { font-size: 20px; color: rgb(15, 23, 42); }\n\n.blk-lst08 { margin-top: 12px; color: rgb(37, 99, 235); text-decoration: none; font-size: 12px; font-weight: 800; }\n\n@media(max-width:520px) .blk-lst01 { grid-template-columns:1fr; }\n\n@media(max-width:520px) .blk-lst02 { height:210px; }\n\n.blk-quo01 { position: relative; margin: 0px; padding: 34px 38px; border-radius: 22px; background: rgb(244, 240, 232); color: rgb(38, 51, 41); overflow: hidden; }\n\n.blk-quo02 { position: absolute; top: 0px; left: 22px; font: 100px / 1 Georgia; color: rgb(201, 216, 202); }\n\n.blk-quo03 { position: relative; font: italic clamp(23px, 3vw, 34px) / 1.35 Georgia; max-width: 760px; margin: 20px 0px 25px; }\n\n.blk-quo04 { display: flex; gap: 12px; align-items: center; font: 12px Arial; }\n\n.blk-quo05 { font-weight: 800; }\n\n.blk-quo06 { color: rgb(113, 128, 120); }\n\n.blk-rev01 { display: grid; grid-template-columns: 180px 1fr; gap: 25px; align-items: center; padding: 24px; border: 1px solid rgb(231, 235, 240); border-radius: 20px; background: rgb(255, 255, 255); color: rgb(23, 32, 51); }\n\n.blk-rev02 { display: flex; flex-direction: column; align-items: center; gap: 7px; }\n\n.blk-rev03 { font: 800 54px Arial; }\n\n.blk-rev04 { color: rgb(245, 166, 35); letter-spacing: 2px; }\n\n.blk-rev05 { font: 11px Arial; color: rgb(148, 163, 184); }\n\n.blk-rev06 { display: grid; gap: 12px; }\n\n.blk-rev07 { display: grid; grid-template-columns: 48px 1fr 34px; gap: 10px; align-items: center; }\n\n.blk-rev08 { font: 11px Arial; color: rgb(100, 116, 139); }\n\n.blk-rev09 { height: 8px; border-radius: 99px; background: rgb(238, 242, 246); overflow: hidden; }\n\n.blk-rev09 i { display: block; height: 100%; border-radius: 99px; background: rgb(245, 185, 66); }\n\n.blk-rev10 { width: 84%; }\n\n.blk-rev13 { width: 12%; }\n\n.blk-rev16 { width: 3%; }\n\n.blk-rev19 { width: 1%; }\n\n.blk-rev11 { font: 10px Arial; color: rgb(148, 163, 184); text-align: right; }\n\n@media(max-width:540px) .blk-rev01 { grid-template-columns:1fr; }\n\n.blk-stm01 { padding: 30px; border-radius: 24px; background: rgb(16, 24, 39); color: rgb(248, 250, 252); }\n\n.blk-stm02 { margin-bottom: 25px; }\n\n.blk-stm03 { color: rgb(125, 211, 199); font: 700 10px Arial; letter-spacing: 2px; }\n\n.blk-stm04 { font: 750 clamp(23px, 3vw, 34px) Arial; margin: 10px 0px; }\n\n.blk-stm05 { display: grid; grid-template-columns: repeat(4, minmax(0px, 1fr)); gap: 10px; }\n\n.blk-stm06 { padding: 18px; border: 1px solid rgb(43, 59, 80); border-radius: 17px; background: rgb(23, 35, 56); }\n\n.blk-stm07 { display: block; font: 800 clamp(27px, 4vw, 42px) Arial; color: rgb(167, 243, 208); }\n\n.blk-stm08 { display: block; margin-top: 9px; color: rgb(174, 187, 208); font: 12px Arial; }\n\n@media(max-width:650px) .blk-stm05 { grid-template-columns:repeat(2,minmax(0,1fr)); }\n\n.blk-btn01 { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-width: 180px; padding: 15px 24px; border-radius: 13px; background: linear-gradient(110deg, rgb(37, 99, 235), rgb(6, 182, 212)); color: rgb(255, 255, 255); text-decoration: none; font-size: 14px; font-weight: 800; letter-spacing: 0.2px; box-shadow: rgba(37, 99, 235, 0.25) 0px 10px 24px; transition: transform 0.2s, box-shadow 0.2s, filter 0.2s; }\n\n.blk-btn01:hover { transform: translateY(-3px); box-shadow: rgba(37, 99, 235, 0.333) 0px 16px 32px; filter: saturate(1.15); }\n\n.blk-btn01:active { transform: translateY(0px) scale(0.98); }\n\n.blk-btn01:focus-visible { outline: rgb(147, 197, 253) solid 3px; outline-offset: 4px; }\n\n.blk-chk01 { display: flex; align-items: center; gap: 13px; max-width: 460px; padding: 16px 18px; border: 1px solid rgb(219, 228, 240); border-radius: 14px; background: rgb(255, 255, 255); cursor: pointer; color: rgb(36, 50, 71); }\n\n.blk-chk02 { position: absolute; opacity: 0; pointer-events: none; }\n\n.blk-chk03 { display: grid; place-items: center; flex: 0 0 23px; height: 23px; border: 1.5px solid rgb(148, 163, 184); border-radius: 7px; color: transparent; font-size: 15px; font-weight: 900; transition: 0.2s; }\n\n.blk-chk02:checked + .blk-chk03 { background: rgb(37, 99, 235); border-color: rgb(37, 99, 235); color: rgb(255, 255, 255); box-shadow: rgba(37, 99, 235, 0.267) 0px 4px 12px; }\n\n.blk-chk02:focus-visible + .blk-chk03 { outline: rgb(147, 197, 253) solid 3px; outline-offset: 3px; }\n\n.blk-chk04 { font-size: 13px; line-height: 1.5; }\n\n.blk-chk04 a { color: rgb(37, 99, 235); font-weight: 800; text-decoration: none; }\n\n.blk-rad01 { display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 10px; max-width: 620px; }\n\n.blk-rad02 { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding: 17px 15px; border: 1px solid rgb(219, 227, 239); border-radius: 16px; background: rgb(255, 255, 255); cursor: pointer; transition: 0.2s; }\n\n.blk-rad07 { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding: 17px 15px; border: 1px solid rgb(219, 227, 239); border-radius: 16px; background: rgb(255, 255, 255); cursor: pointer; transition: 0.2s; }\n\n.blk-rad12 { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding: 17px 15px; border: 1px solid rgb(219, 227, 239); border-radius: 16px; background: rgb(255, 255, 255); cursor: pointer; transition: 0.2s; }\n\n.blk-rad02:has(.blk-rad03:checked) { border: 2px solid rgb(37, 99, 235); background: rgb(239, 246, 255); box-shadow: rgba(37, 99, 235, 0.094) 0px 8px 22px; }\n\n.blk-rad07:has(.blk-rad08:checked) { border: 2px solid rgb(37, 99, 235); background: rgb(239, 246, 255); box-shadow: rgba(37, 99, 235, 0.094) 0px 8px 22px; }\n\n.blk-rad12:has(.blk-rad13:checked) { border: 2px solid rgb(37, 99, 235); background: rgb(239, 246, 255); box-shadow: rgba(37, 99, 235, 0.094) 0px 8px 22px; }\n\n.blk-rad03 { position: absolute; opacity: 0; }\n\n.blk-rad08 { position: absolute; opacity: 0; }\n\n.blk-rad13 { position: absolute; opacity: 0; }\n\n.blk-rad04 { width: 18px; height: 18px; border: 1.5px solid rgb(148, 163, 184); border-radius: 50%; }\n\n.blk-rad09 { width: 18px; height: 18px; border: 1.5px solid rgb(148, 163, 184); border-radius: 50%; }\n\n.blk-rad14 { width: 18px; height: 18px; border: 1.5px solid rgb(148, 163, 184); border-radius: 50%; }\n\n.blk-rad03:checked + .blk-rad04 { border: 5px solid rgb(37, 99, 235); }\n\n.blk-rad08:checked + .blk-rad09 { border: 5px solid rgb(37, 99, 235); }\n\n.blk-rad13:checked + .blk-rad14 { border: 5px solid rgb(37, 99, 235); }\n\n.blk-rad05 { font-size: 14px; font-weight: 800; color: rgb(23, 32, 51); }\n\n.blk-rad10 { font-size: 14px; font-weight: 800; color: rgb(23, 32, 51); }\n\n.blk-rad15 { font-size: 14px; font-weight: 800; color: rgb(23, 32, 51); }\n\n.blk-rad06 { font-size: 11px; color: rgb(100, 116, 139); }\n\n.blk-rad11 { font-size: 11px; color: rgb(100, 116, 139); }\n\n.blk-rad16 { font-size: 11px; color: rgb(100, 116, 139); }\n\n@media(max-width:520px) .blk-rad01 { grid-template-columns:1fr; }\n\n.blk-tem01 { max-width: 310px; overflow: hidden; border-radius: 22px; background: rgb(255, 255, 255); border: 1px solid rgb(231, 235, 240); box-shadow: rgba(15, 23, 42, 0.07) 0px 14px 35px; color: rgb(23, 32, 51); }\n\n.blk-tem02 { display: block; width: 100%; height: 300px; object-fit: cover; }\n\n.blk-tem03 { display: flex; align-items: center; justify-content: space-between; padding: 18px; }\n\n.blk-tem04 { font: 750 19px Arial; margin: 0px 0px 6px; }\n\n.blk-tem05 { font: 13px Arial; color: rgb(100, 116, 139); margin: 0px; }\n\n.blk-tem06 { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: rgb(237, 245, 243); color: rgb(23, 99, 78); text-decoration: none; }\n\n.blk-tst01 { max-width: 520px; padding: 25px; border: 1px solid rgb(228, 234, 242); border-radius: 20px; background: linear-gradient(145deg, rgb(255, 255, 255), rgb(247, 250, 255)); box-shadow: rgba(15, 23, 42, 0.05) 0px 12px 32px; }\n\n.blk-tst02 { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }\n\n.blk-tst03 { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }\n\n.blk-tst04 { display: flex; flex-direction: column; gap: 4px; }\n\n.blk-tst05 { font-size: 13px; color: rgb(23, 32, 51); }\n\n.blk-tst06 { font-size: 10px; color: rgb(100, 116, 139); }\n\n.blk-tst07 { margin-left: auto; color: rgb(245, 158, 11); letter-spacing: 2px; font-size: 13px; }\n\n.blk-tst08 { margin: 19px 0px 0px; color: rgb(71, 85, 105); font-size: 14px; line-height: 1.75; font-style: italic; }\n\n.blk-tim01 { list-style: none; padding: 8px 0px; margin: 0px; max-width: 620px; }\n\n.blk-tim02 { display: flex; gap: 18px; position: relative; padding: 0px 0px 28px; }\n\n.blk-tim02:not(:last-child):after { content: \"\"; position: absolute; left: 19px; top: 42px; bottom: 0px; width: 1px; background: rgb(219, 227, 236); }\n\n.blk-tim03 { flex: 0 0 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; background: rgb(233, 248, 242); color: rgb(22, 112, 82); font: 800 12px Arial; z-index: 1; }\n\n.blk-tim04 { padding-top: 2px; }\n\n.blk-tim05 { font: 750 17px Arial; color: rgb(23, 32, 51); margin: 0px 0px 7px; }\n\n.blk-tim06 { font: 13px / 1.6 Arial; color: rgb(100, 116, 139); margin: 0px; }\n\n.blk-msk01 { display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 24px; max-width: 720px; padding: 18px; border-radius: 26px; background: rgb(16, 24, 39); color: rgb(255, 255, 255); overflow: hidden; }\n\n.blk-msk02 { height: 245px; overflow: hidden; border-radius: 42% 58% 63% 37% / 43% 38% 62% 57%; clip-path: polygon(0px 9%, 13% 0px, 28% 8%, 42% 1%, 57% 8%, 72% 0px, 87% 10%, 100% 3%, 96% 88%, 81% 100%, 65% 92%, 49% 100%, 34% 91%, 17% 100%, 0px 88%); transition: clip-path 0.4s; }\n\n.blk-msk01:hover .blk-msk02 { clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 100%); }\n\n.blk-msk03 { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }\n\n.blk-msk01:hover .blk-msk03 { transform: scale(1.08); }\n\n.blk-msk04 { padding: 18px 12px; }\n\n.blk-msk05 { font-size: 9px; letter-spacing: 2px; color: rgb(56, 189, 248); font-weight: 900; }\n\n.blk-msk06 { margin: 12px 0px; font-size: 25px; line-height: 1.08; font-weight: 900; }\n\n.blk-msk07 { font-size: 12px; line-height: 1.7; color: rgb(183, 196, 214); }\n\n.blk-msk08 { display: inline-block; margin-top: 12px; color: rgb(125, 211, 252); text-decoration: none; font-size: 12px; font-weight: 800; }\n\n@media(max-width:600px) .blk-msk01 { grid-template-columns:1fr; }\n\n@media(max-width:600px) .blk-msk02 { height:190px; }\n\n@media(max-width:600px) .blk-msk04 { padding:8px; }"
+    }
+  ],
+  "cssVariables": []
+}

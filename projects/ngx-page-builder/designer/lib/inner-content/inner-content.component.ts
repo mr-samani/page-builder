@@ -10,9 +10,10 @@ import {
   Injector,
   computed,
   signal,
+  effect,
 } from '@angular/core';
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
-import { LibConsts } from 'ngx-page-builder/core';
+import { DynamicElementService, LibConsts } from 'ngx-page-builder/core';
 import { createApplication } from '@angular/platform-browser';
 import { BaseContentComponent } from './base-content';
 import { PageBuilderService } from '../../services/page-builder.service';
@@ -61,11 +62,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   private iframeApp?: ApplicationRef;
   protected readonly injector = inject(Injector);
 
-  readonly scale = computed(() => {
-    const mw = this.pb.responsive().minWidth;
-    const c = this.canvas().nativeElement.getBoundingClientRect();
-    return Math.min(c.width / mw, 1);
-  });
+  readonly scale = signal(1);
   protected readonly canvasWidth = computed(() => this.pb.responsive().minWidth);
 
   constructor() {
@@ -73,12 +70,21 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     this.pb.onUpdateBaseConfig$.subscribe((c) => {
       if (c) this.updateBodyStyle();
     });
+    effect(() => {
+      const mw = this.pb.responsive().minWidth;
+      this.updateScale();
+    });
   }
 
   ngOnInit() {
     this.loadIframe();
   }
 
+  updateScale() {
+    const mw = this.pb.responsive().minWidth;
+    const c = this.canvas().nativeElement.getBoundingClientRect();
+    this.scale.set(Math.min(c.width / mw, 1));
+  }
   async loadIframe() {
     const iframe = this.iframe()?.nativeElement;
     if (!iframe) return;
@@ -111,6 +117,10 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
         },
       ],
     });
+
+    // بلاک‌های سفارشی باید با application ی iframe ساخته شوند تا استایل کامپوننت‌هایشان
+    // داخل <head> ی iframe نوشته شود (نه document اصلی). قبل از ساخت اولین بلاک ثبت می‌شود.
+    this.injector.get(DynamicElementService).registerDocument(doc, this.iframeApp.injector);
 
     // کامپوننت Angular را داخل iframe bootstrap می‌کنیم
     this.iframeApp.bootstrap(BaseContentComponent, {
@@ -167,6 +177,8 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
   }
 
   ngOnDestroy() {
+    const doc = this.iframe()?.nativeElement.contentDocument;
+    if (doc) this.injector.get(DynamicElementService).unregisterDocument(doc);
     this.iframeApp?.destroy();
   }
 }

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "color",
+    "name": "brand",
+    "value": "#5b5bf0"
+  },
+  {
+    "type": "color",
+    "name": "brand-2",
+    "value": "#8b5cf6"
+  },
+  {
+    "type": "color",
+    "name": "accent",
+    "value": "#22d3ee"
+  },
+  {
+    "type": "color",
+    "name": "ink",
+    "value": "#0f172a"
+  },
+  {
+    "type": "color",
+    "name": "muted",
+    "value": "#64748b"
+  },
+  {
+    "type": "color",
+    "name": "line",
+    "value": "#e2e8f0"
+  },
+  {
+    "type": "color",
+    "name": "surface",
+    "value": "#f8fafc"
+  },
+  {
+    "type": "color",
+    "name": "danger",
+    "value": "#ef4444"
+  },
+  {
+    "type": "color",
+    "name": "success",
+    "value": "#16a34a"
+  },
+  {
+    "type": "color",
+    "name": "warning",
+    "value": "#f59e0b"
+  }
+]

@@ -4,6 +4,8 @@ export const HeroTableSource = new SourceItem({
   tag: 'hero-table',
   icon: 'assets/icons/table.svg',
   title: 'Hero Table',
+  category: 'data',
+  description: 'An advanced data table with configurable columns and rows.',
   canHaveChild: true,
   customComponent: {
     componentKey: 'NgxPgHeroTable',

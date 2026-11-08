@@ -15,16 +15,16 @@
       <ng-container
         [ngComponentOutlet]="settingComponent"
         [ngComponentOutletInjector]="item.customComponent.compInjector"></ng-container>
-    } @else {
-      <!-- <p>No settings available.</p> -->
+    } @else if (sourceSettings.length) {
+      <generic-block-settings [item]="item" [fields]="sourceSettings"></generic-block-settings>
     }
 
     @if (item.isLink) {
       <edit-link [item]="item" [parentCollection]="parentCollection" [collectionDsList]="collectionDsList"></edit-link>
     }
     @if (enableExportAsPlugin) {
-      <div>
-        <button type="button" class="btn export-as-plugin" (click)="exportBlockAsPlugin()">Export as plugin</button>
+      <div class="export-as-plugin">
+        <button type="button" class="pb-btn" (click)="exportBlockAsPlugin()">Export as plugin</button>
       </div>
     }
   }

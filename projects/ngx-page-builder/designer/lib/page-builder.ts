@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -21,7 +22,7 @@ import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from '../services/storage/token.storage';
-import { PageBuilderService, PageItemChange } from '../services/page-builder.service';
+import { PageItemChange } from '../services/page-builder.service';
 
 import {
   DynamicDataStructure,
@@ -39,10 +40,12 @@ import {
   SourceItem,
 } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../services/class-manager.service';
-import { BlockLayoutsComponent } from './block-layouts/block-layouts.component';
-import { Dialog, NgxDialogModule } from 'ngx-kit/dialog';
+import { NgxDialogModule, NgxDialogService } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
-import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize';
+import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxResizeHandle } from 'ngx-kit/drag-resize';
+import { PanelService } from '../panels/panel.service';
+import { NgComponentOutlet } from '@angular/common';
+import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
 
 @Component({
   standalone: true,
@@ -50,23 +53,24 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup } from 'ngx-kit/drag-resize
   templateUrl: './page-builder.html',
   styleUrls: ['./page-builder.scss', '../styles/paper.scss', '../styles/inputs.scss'],
   imports: [
-    NgxDropList,
-    NgxDraggable,
     InnerContentComponent,
     ToolbarComponent,
     SideConfigComponent,
     SvgIconDirective,
     NgxDialogModule,
-    BlockLayoutsComponent,
     NgxDropListGroup,
+    NgxResizable,
+    NgComponentOutlet,
+    NgxResizeHandle,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
+  providers: [PanelService],
 })
 export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, OnDestroy {
-  openLayout = signal(false);
+  readonly innerContent = viewChild<InnerContentComponent>('innerContent');
 
+  toolbarConfig = LibConsts.toolbarConfig;
   readonly data = input<IPage[]>();
 
   @Input('config') set setPageConfig(val: PageBuilderConfig | undefined) {
@@ -116,7 +120,11 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   showPlugins = LibConsts.showPlugins;
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
+  protected readonly dialog = inject(NgxDialogService);
+  readonly panelService = inject(PanelService);
+
   isLoading = signal(false);
+  sideConfigSize = signal<number>(270);
   constructor(
     private injector: Injector,
     private cls: ClassManagerService,
@@ -153,10 +161,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     this.unregisterShortcuts();
   }
 
-  toggleLayoutPanel() {
-    this.openLayout.set(!this.openLayout());
-  }
-
   private async loadPageData(data: Page[]) {
     try {
       this.isLoading.set(true);
@@ -182,23 +186,26 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
     }
   }
 
-  async viewPlugins() {
-    const { PluginsDialogComponent } = await import('./plugins-dialog/plugins-dialog.component');
-    Dialog.open(PluginsDialogComponent, {
-      minWidth: '85dvw',
-      height: '95dvh',
-      injector: this.injector,
-      header: {
-        showMaximizeButton: true,
-        showCloseButton: true,
-      },
-      panelClass: 'ngx-page-builder',
-    }).afterClosed.subscribe((p) => {
-      if (p) {
-      }
-    });
+  onResizeSideConfig(ev: IResizableOutput) {
+    this.sideConfigSize.set(ev.width);
+    this.innerContent()?.updateScale();
   }
-
+  openConfigDialog() {
+    this.dialog
+      .open(ConfigDialogComponent, {
+        size: 'lg',
+        header: {
+          showMaximizeButton: true,
+          showCloseButton: true,
+        },
+        panelClass: 'ngx-page-builder',
+      })
+      .afterClosed.subscribe((r) => {
+        if (r) {
+          this.pb.onUpdateBaseConfig$.next(r);
+        }
+      });
+  }
   /**
    * ✅ Register all page builder shortcuts
    */

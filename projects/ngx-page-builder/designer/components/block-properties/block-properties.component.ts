@@ -9,11 +9,17 @@ import { TextCssControlComponent } from '../../controls/textcss-control/textcss-
 import { SizeControlComponent } from '../../controls/size-control/size-control.component';
 import { TransformControlComponent } from '../../controls/transform-control/transform-control.component';
 import { TransitionControlComponent } from '../../controls/transition-control/transition-control.component';
+import { AnimationControlComponent } from '../../controls/animation-control/animation-control.component';
+import { CornerControlComponent } from '../../controls/corner-control/corner-control.component';
 import { ClassSelectorComponent } from '../class-selector/class-selector.component';
 import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
+import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { BorderControlComponent } from '../../controls/border-control/border-control.component';
+import { PositionControlComponent } from '../../controls/position-control/position-control.component';
+import { FilterControlComponent } from '../../controls/filter-control/filter-control.component';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
 const TYPO_KEYS = [
@@ -45,11 +51,17 @@ const TYPO_KEYS = [
     NgxShadowBox,
     TransformControlComponent,
     TransitionControlComponent,
+    AnimationControlComponent,
+    CornerControlComponent,
+    FilterControlComponent,
+    BorderControlComponent,
+    PositionControlComponent,
     DisplayControlComponent,
     TextCssControlComponent,
     SizeControlComponent,
     ClassSelectorComponent,
     ChangeTagComponent,
+    SvgIconDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -70,6 +82,7 @@ export class BlockPropertiesComponent extends BaseComponent {
    * کنترل Display از این‌ها می‌فهمد المان واقعاً flex/grid است (حتی با `.d-flex`) و کدام تنظیمات فرزند معنی دارد.
    */
   computedDisplay = '';
+  computedPosition = '';
   parentDisplay: string | undefined = undefined;
   parentFlexDirection = 'row';
   /** مقدارهای محاسبه‌شده‌ی تایپوگرافی؛ فیلدهای ست‌نشده با آن‌ها placeholder و پیش‌نمایش درست می‌گیرند */
@@ -99,6 +112,15 @@ export class BlockPropertiesComponent extends BaseComponent {
     return { bp: this.pb.responsive().key, state: this.cssPseudoState() };
   }
 
+  /**
+   * آیا context فعلی از جای دیگری ارث می‌برد (state مثل hover، یا breakpoint غیرپایه)؟
+   * کنترل Corners با این می‌فهمد «خاموش کردن» یک گوشه‌ی ارث‌بری‌شده باید override صفر بنویسد نه حذف.
+   */
+  get inheritsContext(): boolean {
+    const c = this.ctx;
+    return c.state !== 'none' || c.bp !== this.cls.breakpointSetup.baseKey;
+  }
+
   get contextLabel(): string {
     const s = this.cssPseudoState();
     return this.pb.responsive().key + (s === 'none' ? '' : ' · ' + s);
@@ -126,6 +148,7 @@ export class BlockPropertiesComponent extends BaseComponent {
   /** یک‌بار هنگام لود (نه در مسیر داغ ویرایش) */
   private readLayoutContext(item: PageItem | undefined) {
     this.computedDisplay = '';
+    this.computedPosition = '';
     this.parentDisplay = undefined;
     this.parentFlexDirection = 'row';
     this.computedTypography = {};
@@ -135,6 +158,7 @@ export class BlockPropertiesComponent extends BaseComponent {
       if (own?.ownerDocument?.defaultView) {
         const cs = own.ownerDocument.defaultView.getComputedStyle(own);
         this.computedDisplay = cs.display;
+        this.computedPosition = cs.position;
         const t: Record<string, string> = {};
         for (const k of TYPO_KEYS) t[k] = cs[k];
         this.computedTypography = t;
@@ -151,6 +175,7 @@ export class BlockPropertiesComponent extends BaseComponent {
   onShadowChange(ev: string) {
     this.onChangeStyle(this.style);
   }
+
   /**
    * هر کنترل با هر تغییر، کل شیء style را emit می‌کند.
    * فقط تفاوت با مقدار لودشده روی item.css (در breakpoint/state فعال) نوشته می‌شود:

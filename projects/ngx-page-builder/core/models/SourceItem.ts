@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { CustomComponent } from './CustomComponent';
 import { BlockCss } from '../contracts/IStyleSheetFile';
+import type { SourceSettingField } from './SourceSettingField';
 export class Directive {
   directive!: Type<any>;
   inputs?: Record<string, any> | undefined;
@@ -44,10 +45,12 @@ export interface ISourceOptions<CUSTOM_DATA = any> {
 }
 
 export class SourceItem {
+  /** Stable registry key used to resolve the exact source schema for inserted blocks. */
+  sourceId?: string;
   /**
-   * Html tags
+   * HTML tag name.
    * @example 'div'
-   * */
+   */
   tag!: string; // 'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'img' | 'input' = 'div';
   /**
    * can have child elements
@@ -61,6 +64,16 @@ export class SourceItem {
    * @example 'My Chart'
    * */
   title?: string;
+  /** Stable library category id used by the block library UI. */
+  category?: string = undefined;
+  /** Short explanation shown in the block library. */
+  description?: string = undefined;
+  /** Additional searchable terms for discovery. */
+  keywords?: string[] = undefined;
+  /** Declarative native-attribute settings rendered by the generic block inspector. */
+  settings?: SourceSettingField[] = undefined;
+  /** Child source definitions cloned when this block is inserted (e.g. a ready-to-edit list). */
+  initialChildren?: SourceItem[] = undefined;
   /**
    * Block icon
    * @example <svg>...</svg>
@@ -90,5 +103,8 @@ export class SourceItem {
       if (Object.hasOwn(this, property)) (<any>this)[property] = (<any>data)[property];
     }
     this.isUserDefined = isUserDefined == true;
+    this.sourceId ??= this.customComponent?.componentKey
+      ? `component:${this.customComponent.componentKey}`
+      : `${this.isUserDefined ? 'custom' : 'source'}:${this.category ?? 'custom'}:${this.tag}:${this.title ?? ''}`;
   }
 }

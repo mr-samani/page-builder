@@ -1,0 +1,99 @@
+<div class="pc">
+  <!-- ============ Position type ============ -->
+  <div class="pc-head">
+    <span class="pc-title">Position</span>
+    @if (hasAny()) {
+      <button type="button" class="pc-link" title="Remove position, offsets and z-index of this state" (click)="reset()">Reset</button>
+    }
+  </div>
+
+  <pb-seg
+    ariaLabel="Position"
+    [options]="kinds"
+    [columns]="3"
+    [value]="model().position"
+    [inherited]="computedPosition()"
+    (picked)="setPosition($event)" />
+  <p class="pc-note">{{ hint() }}</p>
+
+  <!-- ============ Offsets ============ -->
+  <div class="pc-head sub">
+    <span class="pc-title">Offsets</span>
+    @if (hasInsets()) {
+      <button type="button" class="pc-link" title="Remove top, right, bottom and left" (click)="clearInsets()">Clear</button>
+    }
+  </div>
+
+  <div class="pc-insets" [class.off]="!insetsActive()">
+    @for (r of rows; track r.key) {
+      <div class="pc-inset">
+        <css-unit-field
+          [label]="r.label"
+          [labelWidth]="38"
+          [title]="r.key"
+          [units]="units"
+          [keywords]="keywords"
+          placeholder="auto"
+          fallback="0px"
+          [step]="1"
+          [value]="inset(r.key)"
+          (valueChange)="setInset(r.key, $event)" />
+        <button
+          type="button"
+          class="pc-x"
+          [disabled]="!inset(r.key)"
+          [attr.aria-label]="'Remove ' + r.label"
+          title="Remove"
+          (click)="clearInset(r.key)">
+          ✕
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (!insetsActive()) {
+    <p class="pc-note">Offsets are ignored while the position is static. Pick Relative, Absolute, Fixed or Sticky.</p>
+  } @else if (stickyWarn()) {
+    <p class="pc-note warn">Sticky needs an offset, for example Top 0px.</p>
+  }
+
+  <span class="pc-sublbl">Pin to</span>
+  <div class="pc-anchors" role="group" aria-label="Pin to">
+    @for (a of anchors; track a.id) {
+      <button type="button" class="pc-chip" [title]="a.title" (click)="applyAnchor(a)">{{ a.label }}</button>
+    }
+  </div>
+  @if (!canAnchor()) {
+    <p class="pc-note">Pinning switches the block to Absolute.</p>
+  }
+
+  <!-- ============ Stacking ============ -->
+  <div class="pc-head sub">
+    <span class="pc-title">Stacking</span>
+    @if (model().zIndex) {
+      <button type="button" class="pc-link" title="Back to auto" (click)="setZ('')">Auto</button>
+    }
+  </div>
+
+  <div class="pc-z">
+    <css-unit-field
+      label="Z"
+      title="z-index"
+      [units]="[]"
+      placeholder="auto"
+      fallback="0"
+      [step]="1"
+      [value]="model().zIndex"
+      (valueChange)="setZ($event)" />
+  </div>
+  <div class="pc-anchors" role="group" aria-label="Quick z-index values">
+    @for (z of zQuick; track z) {
+      <button type="button" class="pc-chip" [class.on]="model().zIndex === z" (click)="setZ(z)">{{ z }}</button>
+    }
+  </div>
+  <p class="pc-note">z-index only works on positioned blocks (and flex or grid items).</p>
+
+  @if (previewCss()) {
+    <code class="pc-code">{{ previewCss() }}</code>
+  }
+</div>

@@ -27,6 +27,8 @@ export const CollectionItemSource = new SourceItem({
   tag: 'collection',
   icon: 'assets/icons/collection.svg',
   title: 'Collection Item',
+  category: 'data',
+  description: 'A repeatable item rendered from a collection data source.',
   classList: [],
   canHaveChild: true,
   css: {

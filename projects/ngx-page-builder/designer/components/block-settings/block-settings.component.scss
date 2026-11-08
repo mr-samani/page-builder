@@ -2,6 +2,7 @@
   padding: 10px;
   height: calc(100vh - var(--topbar-height) - 31px);
   overflow: auto;
+  position: relative;
   .tag {
     all: unset;
     display: block;
@@ -15,11 +16,12 @@
 }
 
 .export-as-plugin {
-  display: block !important;
-  width: 100% !important;
-  position: sticky !important;
-  bottom: 0px !important;
-  margin: 20px 0 !important;
-  box-sizing: border-box !important;
-  text-align: center !important;
+  display: block;
+  position: sticky;
+  bottom: -14px;
+  background-color: var(--panel-bg);
+  color: var(--side-config-fg);
+  .pb-btn {
+    width: 100%;
+  }
 }

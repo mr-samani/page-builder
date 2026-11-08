@@ -6,7 +6,15 @@ export function getDefaultBlockDirective(pageItem: PageItem, onDropFn: Function)
   return new Promise<Directive[]>((resolve, reject) => {
     // حتما باید برای همه المان ها NgxDraggable اضاف شود در غیر اینصورت در جابجایی ایتم ها ایندکس اشتباه خواهد بود
     // حتی اگر disableMovement باشد باید NgxDraggable اضافه شود
-    let dir: Directive[] = [{ directive: NgxDraggable }];
+    let dir: Directive[] = [
+      {
+        directive: NgxDraggable,
+        inputs: {
+          // set interactive - input text can edit on designer when  ignoreInteractive: false
+          ignoreInteractive: false,
+        },
+      },
+    ];
     if (isTextBlock(pageItem) == true) {
       dir.push({
         directive: InlineEditTextDirective,

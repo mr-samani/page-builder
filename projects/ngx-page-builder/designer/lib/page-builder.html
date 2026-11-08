@@ -1,37 +1,70 @@
-<div class="page-builder-container ngx-page-builder" dir="ltr" ngxDropListGroup>
+<div
+  class="page-builder-container ngx-page-builder"
+  dir="ltr"
+  ngxDropListGroup
+  [style.--side-config-width.px]="sideConfigSize()"
+  [style.--panel-width.px]="panelService.panelSize()">
   <toolbar [customToolbarButtons]="customToolbarButtons"></toolbar>
-  <div class="components" id="blockSourceList" ngxDropList [data]="pb.sources" [disableSort]="false">
-    <div class="tool" (click)="toggleLayoutPanel()" title="Layouts" [class.active]="openLayout()">
+  <div class="components">
+    <button
+      type="button"
+      class="tool"
+      (click)="panelService.toggle('layout')"
+      title="Layouts"
+      aria-label="Layouts"
+      [class.active]="panelService.activePanel() == 'layout' ">
       <svg Icon="assets/icons/layout.svg"></svg>
-    </div>
+    </button>
+    <button
+      type="button"
+      class="tool"
+      (click)="panelService.toggle('block-library')"
+      title="Blocks"
+      aria-label="Blocks"
+      [class.active]="panelService.activePanel() == 'block-library'">
+      <svg Icon="assets/icons/blocks.svg"></svg>
+    </button>
 
     @if (showPlugins) {
-    <div class="tool" (click)="viewPlugins()" title="Plugins">
+    <button
+      type="button"
+      class="tool"
+      title="Plugins"
+      aria-label="Plugins"
+      (click)="panelService.toggle('plugins')"
+      [class.active]="panelService.activePanel() == 'plugins'">
       <svg Icon="assets/icons/hexagon-plus.svg"></svg>
-    </div>
-    } @for (item of pb.sources; track $index) {
-    <div class="tool" ngxDraggable [title]="item.title" (dblclick)="addItem(item)">
-      <svg [Icon]="item.icon"></svg>
-    </div>
+    </button>
+    }
+
+    <div class="space"></div>
+
+    @if (toolbarConfig?.showConfigButton) {
+    <button type="button" class="tool" title="Settings" aria-label="Settings" (click)="openConfigDialog()">
+      <svg Icon="assets/icons/cog.svg"></svg>
+    </button>
     }
   </div>
+  <div class="pb-panel-container">
+    <ng-container [ngComponentOutlet]="panelService.panelComponent()"></ng-container>
+  </div>
   <div class="page-container" (click)="pb.deSelectBlock()">
-    <inner-content></inner-content>
+    <inner-content #innerContent></inner-content>
   </div>
 
-  <side-config class="side-config"></side-config>
-
-  @if(openLayout()){
-  <div class="pb-panel">
-    <div class="pb-panel-header">
-      <span>Layouts</span>
-      <button type="button" (click)="toggleLayoutPanel()" class="pb-btn">
-        <svg Icon="assets/icons/xmark.svg"></svg>
-      </button>
-    </div>
-    <block-layouts></block-layouts>
+  <div
+    class="side-config"
+    ngxResizable
+    [minWidth]="200"
+    [maxWidth]="800"
+    [directions]="['w']"
+    (resizeMove)="onResizeSideConfig($event)">
+    <side-config></side-config>
+    <div class="ngx-resize-handler" ngxResizeHandle="end"></div>
   </div>
-  } @if(isLoading()){
+
+  <!-- loading -->
+  @if(isLoading()){
   <div class="ngx-page-builder-loading">loading...</div>
   }
 </div>

@@ -15,6 +15,7 @@ export * from './contracts/ICssVariable';
 
 // Models
 export * from './models/SourceItem';
+export * from './models/SourceSettingField';
 export * from './models/PageBuilderConfiguration';
 export * from './models/PagePreviewConfiguration';
 export * from './models/PageBuilderDto';
@@ -34,7 +35,9 @@ export * from './services/preview.service';
 export * from './services/dynamic-element.service';
 
 // Utils
+export * from './utiles/animation-keyframes';
 export * from './utiles/block-css';
+export * from './utiles/corner-model';
 export * from './utiles/clone-deep';
 export * from './utiles/collection-helper';
 export * from './utiles/css-parser';
@@ -46,6 +49,7 @@ export * from './utiles/parseBackground';
 export * from './utiles/randomNumber';
 export * from './utiles/rendering';
 export * from './utiles/sequentialGUID';
+export * from './utiles/filter-model';
 
 // Consts
 export * from './consts/ViewMode';

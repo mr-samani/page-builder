@@ -1,0 +1,2559 @@
+{
+  "config": {
+    "title": "Reusable Blocks Library — Starter Pack",
+    "description": "مجموعه بلاک‌های آماده و قابل استفاده مجدد برای ngx-page-builder",
+    "size": "A4",
+    "orientation": "Portrait",
+    "direction": "rtl"
+  },
+  "data": [
+    {
+      "headerItems": [],
+      "bodyItems": [
+        {
+          "id": "products-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "products-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "products-heading",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "products-title",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "منتخب محصولات",
+                      "classList": [
+                        "blk-products-title"
+                      ],
+                      "css": {
+                        "base": "font-size:32px;line-height:1.2;font-weight:800;margin:0;color:#172033;",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "font-size:26px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "products-link",
+                      "tag": "a",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "مشاهده همه ←",
+                      "options": {
+                        "attributes": {
+                          "href": "#products"
+                        }
+                      },
+                      "classList": [
+                        "blk-products-link"
+                      ],
+                      "css": {
+                        "base": "color:#5b5bd6;font-size:14px;font-weight:700;text-decoration:none;transition:color .2s;",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "display:inline-flex;margin-top:12px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-products-heading"
+                  ],
+                  "css": {
+                    "base": "display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "display:block;margin-bottom:22px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "products-grid",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "product-card-1",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "product-image-1",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "alt": "تصویر محصول هدفون بی‌سیم",
+                              "loading": "lazy"
+                            }
+                          },
+                          "classList": [
+                            "blk-product-image-1"
+                          ],
+                          "css": {
+                            "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:14px;background:#eef0f7;"
+                          }
+                        },
+                        {
+                          "id": "product-meta-1",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-category-1",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "صوتی و تصویری",
+                              "classList": [
+                                "blk-product-category-1"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#737d94;font-weight:600;"
+                              }
+                            },
+                            {
+                              "id": "product-rating-1",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "★ ۴.۸",
+                              "classList": [
+                                "blk-product-rating-1"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#b7791f;font-weight:700;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-meta-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px;"
+                          }
+                        },
+                        {
+                          "id": "product-name-1",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "هدفون بی‌سیم استودیو",
+                          "classList": [
+                            "blk-product-name-1"
+                          ],
+                          "css": {
+                            "base": "font-size:17px;line-height:1.5;margin:8px 0 4px;font-weight:800;color:#172033;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "font-size:15px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "product-description-1",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "صدای شفاف، حذف نویز هوشمند و طراحی سبک برای استفاده روزمره.",
+                          "classList": [
+                            "blk-product-description-1"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;line-height:1.8;color:#7b8498;margin:0;"
+                          }
+                        },
+                        {
+                          "id": "product-bottom-1",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-price-1",
+                              "tag": "strong",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "۴٬۸۹۰٬۰۰۰ تومان",
+                              "classList": [
+                                "blk-product-price-1"
+                              ],
+                              "css": {
+                                "base": "font-size:17px;color:#172033;"
+                              }
+                            },
+                            {
+                              "id": "product-buy-1",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "خرید",
+                              "options": {
+                                "attributes": {
+                                  "href": "#"
+                                }
+                              },
+                              "classList": [
+                                "blk-product-buy-1"
+                              ],
+                              "css": {
+                                "base": "display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:12px;background:#5b5bd6;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:background .2s;",
+                                "breakpoints": {
+                                  "sm": {
+                                    "base": "padding:0 10px;font-size:12px;"
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-bottom-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-product-card-1"
+                      ],
+                      "css": {
+                        "base": "min-width:0;background:#fff;border:1px solid #e8eaf2;border-radius:20px;padding:14px;box-shadow:0 8px 30px rgba(24,35,65,.05);transition:transform .2s,box-shadow .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);box-shadow:0 16px 36px rgba(24,35,65,.11);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:12px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "product-card-2",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "product-image-2",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "alt": "تصویر محصول ساعت هوشمند",
+                              "loading": "lazy"
+                            }
+                          },
+                          "classList": [
+                            "blk-product-image-2"
+                          ],
+                          "css": {
+                            "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:14px;background:#eef0f7;"
+                          }
+                        },
+                        {
+                          "id": "product-meta-2",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-category-2",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "گجت هوشمند",
+                              "classList": [
+                                "blk-product-category-2"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#737d94;font-weight:600;"
+                              }
+                            },
+                            {
+                              "id": "product-rating-2",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "★ ۴.۹",
+                              "classList": [
+                                "blk-product-rating-2"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#b7791f;font-weight:700;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-meta-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px;"
+                          }
+                        },
+                        {
+                          "id": "product-name-2",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "ساعت هوشمند مدل Active",
+                          "classList": [
+                            "blk-product-name-2"
+                          ],
+                          "css": {
+                            "base": "font-size:17px;line-height:1.5;margin:8px 0 4px;font-weight:800;color:#172033;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "font-size:15px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "product-description-2",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "پایش فعالیت روزانه، نمایش اعلان‌ها و باتری بادوام.",
+                          "classList": [
+                            "blk-product-description-2"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;line-height:1.8;color:#7b8498;margin:0;"
+                          }
+                        },
+                        {
+                          "id": "product-bottom-2",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-price-2",
+                              "tag": "strong",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "۳٬۲۵۰٬۰۰۰ تومان",
+                              "classList": [
+                                "blk-product-price-2"
+                              ],
+                              "css": {
+                                "base": "font-size:17px;color:#172033;"
+                              }
+                            },
+                            {
+                              "id": "product-buy-2",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "خرید",
+                              "options": {
+                                "attributes": {
+                                  "href": "#"
+                                }
+                              },
+                              "classList": [
+                                "blk-product-buy-2"
+                              ],
+                              "css": {
+                                "base": "display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:12px;background:#5b5bd6;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:background .2s;",
+                                "breakpoints": {
+                                  "sm": {
+                                    "base": "padding:0 10px;font-size:12px;"
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-bottom-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-product-card-2"
+                      ],
+                      "css": {
+                        "base": "min-width:0;background:#fff;border:1px solid #e8eaf2;border-radius:20px;padding:14px;box-shadow:0 8px 30px rgba(24,35,65,.05);transition:transform .2s,box-shadow .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);box-shadow:0 16px 36px rgba(24,35,65,.11);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:12px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "product-card-3",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "product-image-3",
+                          "tag": "img",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "alt": "تصویر محصول اسپیکر بلوتوث",
+                              "loading": "lazy"
+                            }
+                          },
+                          "classList": [
+                            "blk-product-image-3"
+                          ],
+                          "css": {
+                            "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:14px;background:#eef0f7;"
+                          }
+                        },
+                        {
+                          "id": "product-meta-3",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-category-3",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "لوازم جانبی",
+                              "classList": [
+                                "blk-product-category-3"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#737d94;font-weight:600;"
+                              }
+                            },
+                            {
+                              "id": "product-rating-3",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "★ ۴.۷",
+                              "classList": [
+                                "blk-product-rating-3"
+                              ],
+                              "css": {
+                                "base": "font-size:12px;color:#b7791f;font-weight:700;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-meta-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:16px;"
+                          }
+                        },
+                        {
+                          "id": "product-name-3",
+                          "tag": "h3",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "اسپیکر قابل حمل",
+                          "classList": [
+                            "blk-product-name-3"
+                          ],
+                          "css": {
+                            "base": "font-size:17px;line-height:1.5;margin:8px 0 4px;font-weight:800;color:#172033;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "font-size:15px;"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "product-description-3",
+                          "tag": "p",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "صدای قدرتمند در ابعاد جمع‌وجور با مقاومت در برابر پاشش آب.",
+                          "classList": [
+                            "blk-product-description-3"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;line-height:1.8;color:#7b8498;margin:0;"
+                          }
+                        },
+                        {
+                          "id": "product-bottom-3",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "product-price-3",
+                              "tag": "strong",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "۲٬۱۰۰٬۰۰۰ تومان",
+                              "classList": [
+                                "blk-product-price-3"
+                              ],
+                              "css": {
+                                "base": "font-size:17px;color:#172033;"
+                              }
+                            },
+                            {
+                              "id": "product-buy-3",
+                              "tag": "a",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "خرید",
+                              "options": {
+                                "attributes": {
+                                  "href": "#"
+                                }
+                              },
+                              "classList": [
+                                "blk-product-buy-3"
+                              ],
+                              "css": {
+                                "base": "display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:12px;background:#5b5bd6;color:#fff;text-decoration:none;font-size:13px;font-weight:700;transition:background .2s;",
+                                "breakpoints": {
+                                  "sm": {
+                                    "base": "padding:0 10px;font-size:12px;"
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-product-bottom-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-product-card-3"
+                      ],
+                      "css": {
+                        "base": "min-width:0;background:#fff;border:1px solid #e8eaf2;border-radius:20px;padding:14px;box-shadow:0 8px 30px rgba(24,35,65,.05);transition:transform .2s,box-shadow .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);box-shadow:0 16px 36px rgba(24,35,65,.11);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:12px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-products-grid"
+                  ],
+                  "css": {
+                    "base": "display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;",
+                    "breakpoints": {
+                      "md": {
+                        "base": "grid-template-columns:minmax(0,1fr);"
+                      },
+                      "sm": {
+                        "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-products-wrap"
+              ],
+              "css": {
+                "base": "max-width:1160px;margin:0 auto;width:100%;"
+              }
+            }
+          ],
+          "classList": [
+            "blk-products-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background-color:#f7f8fc;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "categories-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "categories-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "categories-title",
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "دسته‌بندی‌های محبوب",
+                  "classList": [
+                    "blk-categories-title"
+                  ],
+                  "css": {
+                    "base": "font-size:30px;line-height:1.25;font-weight:800;margin:0 0 26px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "font-size:25px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "categories-grid",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "category-audio",
+                      "tag": "a",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "category-audio-icon",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "♫",
+                          "classList": [
+                            "blk-category-audio-icon"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:#e9e5ff;color:#5b4acb;font-size:23px;"
+                          }
+                        },
+                        {
+                          "id": "category-audio-name",
+                          "tag": "strong",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "صوتی و تصویری",
+                          "classList": [
+                            "blk-category-audio-name"
+                          ],
+                          "css": {
+                            "base": "font-size:15px;font-weight:800;"
+                          }
+                        },
+                        {
+                          "id": "category-audio-count",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "۱۲۸ محصول",
+                          "classList": [
+                            "blk-category-audio-count"
+                          ],
+                          "css": {
+                            "base": "font-size:12px;color:#858da0;"
+                          }
+                        }
+                      ],
+                      "options": {
+                        "attributes": {
+                          "href": "#"
+                        }
+                      },
+                      "classList": [
+                        "blk-category-audio"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;min-width:0;padding:22px;border:1px solid #e8eaf2;border-radius:18px;background:linear-gradient(145deg,#f7f5ff,#fff);text-decoration:none;color:#172033;transition:transform .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:16px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "category-fashion",
+                      "tag": "a",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "category-fashion-icon",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "✧",
+                          "classList": [
+                            "blk-category-fashion-icon"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:#ffe9e2;color:#d46b4d;font-size:23px;"
+                          }
+                        },
+                        {
+                          "id": "category-fashion-name",
+                          "tag": "strong",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "مد و پوشاک",
+                          "classList": [
+                            "blk-category-fashion-name"
+                          ],
+                          "css": {
+                            "base": "font-size:15px;font-weight:800;"
+                          }
+                        },
+                        {
+                          "id": "category-fashion-count",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "۹۶ محصول",
+                          "classList": [
+                            "blk-category-fashion-count"
+                          ],
+                          "css": {
+                            "base": "font-size:12px;color:#858da0;"
+                          }
+                        }
+                      ],
+                      "options": {
+                        "attributes": {
+                          "href": "#"
+                        }
+                      },
+                      "classList": [
+                        "blk-category-fashion"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;min-width:0;padding:22px;border:1px solid #e8eaf2;border-radius:18px;background:linear-gradient(145deg,#fff5f2,#fff);text-decoration:none;color:#172033;transition:transform .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:16px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "category-home",
+                      "tag": "a",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "category-home-icon",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "⌂",
+                          "classList": [
+                            "blk-category-home-icon"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:#dff5ed;color:#27876a;font-size:23px;"
+                          }
+                        },
+                        {
+                          "id": "category-home-name",
+                          "tag": "strong",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "خانه و آشپزخانه",
+                          "classList": [
+                            "blk-category-home-name"
+                          ],
+                          "css": {
+                            "base": "font-size:15px;font-weight:800;"
+                          }
+                        },
+                        {
+                          "id": "category-home-count",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "۷۴ محصول",
+                          "classList": [
+                            "blk-category-home-count"
+                          ],
+                          "css": {
+                            "base": "font-size:12px;color:#858da0;"
+                          }
+                        }
+                      ],
+                      "options": {
+                        "attributes": {
+                          "href": "#"
+                        }
+                      },
+                      "classList": [
+                        "blk-category-home"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;min-width:0;padding:22px;border:1px solid #e8eaf2;border-radius:18px;background:linear-gradient(145deg,#effaf7,#fff);text-decoration:none;color:#172033;transition:transform .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:16px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "category-tech",
+                      "tag": "a",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "category-tech-icon",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "⌘",
+                          "classList": [
+                            "blk-category-tech-icon"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:#dfebff;color:#3474c9;font-size:23px;"
+                          }
+                        },
+                        {
+                          "id": "category-tech-name",
+                          "tag": "strong",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "تکنولوژی",
+                          "classList": [
+                            "blk-category-tech-name"
+                          ],
+                          "css": {
+                            "base": "font-size:15px;font-weight:800;"
+                          }
+                        },
+                        {
+                          "id": "category-tech-count",
+                          "tag": "span",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "۵۲ محصول",
+                          "classList": [
+                            "blk-category-tech-count"
+                          ],
+                          "css": {
+                            "base": "font-size:12px;color:#858da0;"
+                          }
+                        }
+                      ],
+                      "options": {
+                        "attributes": {
+                          "href": "#"
+                        }
+                      },
+                      "classList": [
+                        "blk-category-tech"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;min-width:0;padding:22px;border:1px solid #e8eaf2;border-radius:18px;background:linear-gradient(145deg,#f0f6ff,#fff);text-decoration:none;color:#172033;transition:transform .2s;",
+                        "states": {
+                          "hover": "transform:translateY(-3px);"
+                        },
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:16px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-categories-grid"
+                  ],
+                  "css": {
+                    "base": "display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-categories-wrap"
+              ],
+              "css": {
+                "base": "max-width:1160px;margin:0 auto;width:100%;"
+              }
+            }
+          ],
+          "classList": [
+            "blk-categories-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#fff;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "form-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "form-card",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "form-title",
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "درخواست مشاوره",
+                  "classList": [
+                    "blk-form-title"
+                  ],
+                  "css": {
+                    "base": "font-size:28px;line-height:1.3;font-weight:800;margin:0 0 8px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "font-size:24px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "form-intro",
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "اطلاعات خود را وارد کنید تا کارشناسان ما با شما تماس بگیرند.",
+                  "classList": [
+                    "blk-form-intro"
+                  ],
+                  "css": {
+                    "base": "font-size:14px;line-height:1.8;color:#7a8498;margin:0 0 24px;"
+                  }
+                },
+                {
+                  "id": "contact-form",
+                  "tag": "form",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "name-field",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "name-label",
+                          "tag": "label",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "نام و نام خانوادگی",
+                          "options": {
+                            "attributes": {
+                              "for": "contact-name"
+                            }
+                          },
+                          "classList": [
+                            "blk-name-label"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;font-weight:700;color:#34405a;"
+                          }
+                        },
+                        {
+                          "id": "name-input",
+                          "tag": "input",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "type": "text",
+                              "id": "contact-name",
+                              "name": "name",
+                              "placeholder": "مثلاً محمدرضا",
+                              "autocomplete": "name"
+                            }
+                          },
+                          "classList": [
+                            "blk-name-input"
+                          ],
+                          "css": {
+                            "base": "width:100%;min-height:48px;padding:0 14px;border:1px solid #dfe3ed;border-radius:12px;background:#fff;color:#172033;font:inherit;outline:none;transition:border-color .2s,box-shadow .2s;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:46px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "border-color:#5b5bd6;box-shadow:0 0 0 3px rgba(91,91,214,.13);"
+                            }
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-name-field"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:8px;"
+                      }
+                    },
+                    {
+                      "id": "email-field",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "email-label",
+                          "tag": "label",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "ایمیل",
+                          "options": {
+                            "attributes": {
+                              "for": "contact-email"
+                            }
+                          },
+                          "classList": [
+                            "blk-email-label"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;font-weight:700;color:#34405a;"
+                          }
+                        },
+                        {
+                          "id": "email-input",
+                          "tag": "input",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "type": "email",
+                              "id": "contact-email",
+                              "name": "email",
+                              "placeholder": "name@example.com",
+                              "autocomplete": "email"
+                            }
+                          },
+                          "classList": [
+                            "blk-email-input"
+                          ],
+                          "css": {
+                            "base": "width:100%;min-height:48px;padding:0 14px;border:1px solid #dfe3ed;border-radius:12px;background:#fff;color:#172033;font:inherit;outline:none;transition:border-color .2s,box-shadow .2s;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:46px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "border-color:#5b5bd6;box-shadow:0 0 0 3px rgba(91,91,214,.13);"
+                            }
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-email-field"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:8px;"
+                      }
+                    },
+                    {
+                      "id": "message-field",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "message-label",
+                          "tag": "label",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "توضیحات",
+                          "options": {
+                            "attributes": {
+                              "for": "contact-message"
+                            }
+                          },
+                          "classList": [
+                            "blk-message-label"
+                          ],
+                          "css": {
+                            "base": "font-size:13px;font-weight:700;color:#34405a;"
+                          }
+                        },
+                        {
+                          "id": "message-area",
+                          "tag": "textarea",
+                          "canHaveChild": false,
+                          "children": [],
+                          "options": {
+                            "attributes": {
+                              "id": "contact-message",
+                              "name": "message",
+                              "rows": "4",
+                              "placeholder": "کمی درباره نیازتان بنویسید..."
+                            }
+                          },
+                          "classList": [
+                            "blk-message-area"
+                          ],
+                          "css": {
+                            "base": "width:100%;min-height:112px;padding:12px 14px;border:1px solid #dfe3ed;border-radius:12px;background:#fff;color:#172033;font:inherit;resize:vertical;outline:none;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:100px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "border-color:#5b5bd6;box-shadow:0 0 0 3px rgba(91,91,214,.13);"
+                            }
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-message-field"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:8px;"
+                      }
+                    },
+                    {
+                      "id": "form-submit",
+                      "tag": "button",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "ارسال درخواست",
+                      "options": {
+                        "attributes": {
+                          "type": "submit"
+                        }
+                      },
+                      "classList": [
+                        "blk-form-submit"
+                      ],
+                      "css": {
+                        "base": "display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border:0;border-radius:13px;background:#5b5bd6;color:#fff;font:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:transform .2s,background .2s;",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "min-height:48px;"
+                          }
+                        },
+                        "states": {
+                          "hover": "background:#4848bd;transform:translateY(-1px);",
+                          "focus-visible": "outline:3px solid rgba(91,91,214,.28);outline-offset:2px;"
+                        }
+                      }
+                    }
+                  ],
+                  "options": {
+                    "attributes": {
+                      "action": "#",
+                      "method": "post"
+                    }
+                  },
+                  "classList": [
+                    "blk-contact-form"
+                  ],
+                  "css": {
+                    "base": "display:flex;flex-direction:column;gap:18px;"
+                  }
+                }
+              ],
+              "classList": [
+                "blk-form-card"
+              ],
+              "css": {
+                "base": "max-width:760px;margin:0 auto;padding:32px;background:#fff;border:1px solid #e7eaf2;border-radius:22px;box-shadow:0 12px 38px rgba(24,35,65,.06);",
+                "breakpoints": {
+                  "sm": {
+                    "base": "padding:22px 16px;"
+                  }
+                }
+              }
+            }
+          ],
+          "classList": [
+            "blk-form-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#f7f8fc;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "choice-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "choice-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "checkbox-card",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "checkbox-title",
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "علاقه‌مندی‌ها",
+                      "classList": [
+                        "blk-checkbox-title"
+                      ],
+                      "css": {
+                        "base": "font-size:18px;font-weight:800;margin:0 0 6px;"
+                      }
+                    },
+                    {
+                      "id": "checkbox-help",
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "می‌توانید چند گزینه را انتخاب کنید.",
+                      "classList": [
+                        "blk-checkbox-help"
+                      ],
+                      "css": {
+                        "base": "font-size:13px;color:#818a9d;margin:0 0 18px;"
+                      }
+                    },
+                    {
+                      "id": "checkbox-list",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "check-option-1",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "check-input-1",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "checkbox",
+                                  "name": "interests",
+                                  "value": "design",
+                                  "id": "interest-design"
+                                }
+                              },
+                              "classList": [
+                                "blk-check-input-1"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "check-text-1",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "طراحی رابط کاربری"
+                            }
+                          ],
+                          "classList": [
+                            "blk-check-option-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        },
+                        {
+                          "id": "check-option-2",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "check-input-2",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "checkbox",
+                                  "name": "interests",
+                                  "value": "development",
+                                  "id": "interest-development"
+                                }
+                              },
+                              "classList": [
+                                "blk-check-input-2"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "check-text-2",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "توسعه نرم‌افزار"
+                            }
+                          ],
+                          "classList": [
+                            "blk-check-option-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        },
+                        {
+                          "id": "check-option-3",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "check-input-3",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "checkbox",
+                                  "name": "interests",
+                                  "value": "consulting",
+                                  "id": "interest-consulting"
+                                }
+                              },
+                              "classList": [
+                                "blk-check-input-3"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "check-text-3",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "مشاوره کسب‌وکار"
+                            }
+                          ],
+                          "classList": [
+                            "blk-check-option-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-checkbox-list"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-checkbox-card"
+                  ],
+                  "css": {
+                    "base": "padding:26px;border:1px solid #e7eaf2;border-radius:20px;background:#fff;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "padding:20px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "radio-card",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "radio-title",
+                      "tag": "h3",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "روش ارتباط",
+                      "classList": [
+                        "blk-radio-title"
+                      ],
+                      "css": {
+                        "base": "font-size:18px;font-weight:800;margin:0 0 6px;"
+                      }
+                    },
+                    {
+                      "id": "radio-help",
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "روش موردنظر خود را انتخاب کنید.",
+                      "classList": [
+                        "blk-radio-help"
+                      ],
+                      "css": {
+                        "base": "font-size:13px;color:#818a9d;margin:0 0 18px;"
+                      }
+                    },
+                    {
+                      "id": "radio-list",
+                      "tag": "div",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "radio-option-1",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "radio-input-1",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "radio",
+                                  "name": "contact-method",
+                                  "value": "phone",
+                                  "id": "contact-phone"
+                                }
+                              },
+                              "classList": [
+                                "blk-radio-input-1"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "radio-text-1",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "تماس تلفنی"
+                            }
+                          ],
+                          "classList": [
+                            "blk-radio-option-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        },
+                        {
+                          "id": "radio-option-2",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "radio-input-2",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "radio",
+                                  "name": "contact-method",
+                                  "value": "email",
+                                  "id": "contact-by-email"
+                                }
+                              },
+                              "classList": [
+                                "blk-radio-input-2"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "radio-text-2",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "ایمیل"
+                            }
+                          ],
+                          "classList": [
+                            "blk-radio-option-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        },
+                        {
+                          "id": "radio-option-3",
+                          "tag": "label",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "radio-input-3",
+                              "tag": "input",
+                              "canHaveChild": false,
+                              "children": [],
+                              "options": {
+                                "attributes": {
+                                  "type": "radio",
+                                  "name": "contact-method",
+                                  "value": "messenger",
+                                  "id": "contact-messenger"
+                                }
+                              },
+                              "classList": [
+                                "blk-radio-input-3"
+                              ],
+                              "css": {
+                                "base": "width:18px;height:18px;accent-color:#5b5bd6;"
+                              }
+                            },
+                            {
+                              "id": "radio-text-3",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "پیام‌رسان"
+                            }
+                          ],
+                          "classList": [
+                            "blk-radio-option-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:10px;font-size:14px;color:#39445a;cursor:pointer;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-radio-list"
+                      ],
+                      "css": {
+                        "base": "display:flex;flex-direction:column;gap:14px;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-radio-card"
+                  ],
+                  "css": {
+                    "base": "padding:26px;border:1px solid #e7eaf2;border-radius:20px;background:#fff;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "padding:20px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-choice-wrap"
+              ],
+              "css": {
+                "base": "max-width:900px;margin:0 auto;width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;",
+                "breakpoints": {
+                  "sm": {
+                    "base": "grid-template-columns:minmax(0,1fr);gap:16px;"
+                  }
+                }
+              }
+            }
+          ],
+          "classList": [
+            "blk-choice-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#fff;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "cta-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "cta-panel",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "cta-copy",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "cta-eyebrow",
+                      "tag": "span",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "قدم بعدی را بردارید",
+                      "classList": [
+                        "blk-cta-eyebrow"
+                      ],
+                      "css": {
+                        "base": "display:inline-flex;padding:7px 11px;border:1px solid rgba(255,255,255,.25);border-radius:999px;color:#d8d5ff;font-size:11px;font-weight:700;"
+                      }
+                    },
+                    {
+                      "id": "cta-title",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "آماده‌اید ایده‌تان را به واقعیت تبدیل کنید؟",
+                      "classList": [
+                        "blk-cta-title"
+                      ],
+                      "css": {
+                        "base": "font-size:32px;line-height:1.25;font-weight:800;margin:16px 0 10px;color:#fff;",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "font-size:25px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "cta-description",
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "برای شروع یک گفت‌وگوی کوتاه کافی است. درباره نیازتان با ما صحبت کنید.",
+                      "classList": [
+                        "blk-cta-description"
+                      ],
+                      "css": {
+                        "base": "font-size:14px;line-height:1.9;color:#d4d5ec;margin:0;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-cta-copy"
+                  ],
+                  "css": {
+                    "base": "max-width:640px;min-width:0;"
+                  }
+                },
+                {
+                  "id": "cta-button",
+                  "tag": "a",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "شروع گفتگو ←",
+                  "options": {
+                    "attributes": {
+                      "href": "#contact"
+                    }
+                  },
+                  "classList": [
+                    "blk-cta-button"
+                  ],
+                  "css": {
+                    "base": "display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:13px;background:#fff;color:#39358b;text-decoration:none;font-size:14px;font-weight:800;white-space:nowrap;transition:transform .2s;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "width:100%;"
+                      }
+                    },
+                    "states": {
+                      "hover": "transform:translateY(-2px);",
+                      "focus-visible": "outline:3px solid rgba(255,255,255,.5);outline-offset:3px;"
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-cta-panel"
+              ],
+              "css": {
+                "base": "max-width:1160px;margin:0 auto;padding:52px 56px;border-radius:26px;background:linear-gradient(120deg,#24264f,#5147b8);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:32px;",
+                "breakpoints": {
+                  "sm": {
+                    "base": "padding:32px 22px;flex-direction:column;align-items:flex-start;"
+                  }
+                }
+              }
+            }
+          ],
+          "classList": [
+            "blk-cta-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#fff;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "testimonials-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "testimonials-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "testimonials-title",
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "تجربه مشتریان ما",
+                  "classList": [
+                    "blk-testimonials-title"
+                  ],
+                  "css": {
+                    "base": "font-size:30px;font-weight:800;line-height:1.25;margin:0 0 26px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "font-size:25px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "testimonials-grid",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "testimonial-1",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "testimonial-stars-1",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "★★★★★",
+                          "classList": [
+                            "blk-testimonial-stars-1"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;color:#d69a35;letter-spacing:2px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-quote-1",
+                          "tag": "blockquote",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "همکاری با این تیم تجربه‌ای حرفه‌ای و قابل اعتماد بود. خروجی دقیقاً مطابق نیاز ما و حتی فراتر از انتظارمان شد.",
+                          "classList": [
+                            "blk-testimonial-quote-1"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;line-height:1.9;color:#515d73;margin:16px 0 22px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-author-1",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "testimonial-avatar-1",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "ن‌م",
+                              "classList": [
+                                "blk-testimonial-avatar-1"
+                              ],
+                              "css": {
+                                "base": "display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#e9e7ff;color:#5147b8;font-weight:800;"
+                              }
+                            },
+                            {
+                              "id": "testimonial-person-1",
+                              "tag": "div",
+                              "canHaveChild": true,
+                              "children": [
+                                {
+                                  "id": "testimonial-name-1",
+                                  "tag": "strong",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "نگار محمدی",
+                                  "classList": [
+                                    "blk-testimonial-name-1"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:13px;color:#263149;"
+                                  }
+                                },
+                                {
+                                  "id": "testimonial-role-1",
+                                  "tag": "span",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "مدیر محصول",
+                                  "classList": [
+                                    "blk-testimonial-role-1"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:11px;color:#8a93a5;"
+                                  }
+                                }
+                              ],
+                              "classList": [
+                                "blk-testimonial-person-1"
+                              ],
+                              "css": {
+                                "base": "display:flex;flex-direction:column;gap:3px;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-testimonial-author-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:12px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-testimonial-1"
+                      ],
+                      "css": {
+                        "base": "padding:24px;border:1px solid #e8eaf2;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(24,35,65,.04);",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:20px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "testimonial-2",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "testimonial-stars-2",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "★★★★★",
+                          "classList": [
+                            "blk-testimonial-stars-2"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;color:#d69a35;letter-spacing:2px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-quote-2",
+                          "tag": "blockquote",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "از مرحله برنامه‌ریزی تا تحویل نهایی، همه‌چیز منظم و شفاف پیش رفت. پشتیبانی سریع هم نقطه قوت مهمی بود.",
+                          "classList": [
+                            "blk-testimonial-quote-2"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;line-height:1.9;color:#515d73;margin:16px 0 22px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-author-2",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "testimonial-avatar-2",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "ع‌ک",
+                              "classList": [
+                                "blk-testimonial-avatar-2"
+                              ],
+                              "css": {
+                                "base": "display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#e2f5ef;color:#218266;font-weight:800;"
+                              }
+                            },
+                            {
+                              "id": "testimonial-person-2",
+                              "tag": "div",
+                              "canHaveChild": true,
+                              "children": [
+                                {
+                                  "id": "testimonial-name-2",
+                                  "tag": "strong",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "علی کریمی",
+                                  "classList": [
+                                    "blk-testimonial-name-2"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:13px;color:#263149;"
+                                  }
+                                },
+                                {
+                                  "id": "testimonial-role-2",
+                                  "tag": "span",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "بنیان‌گذار",
+                                  "classList": [
+                                    "blk-testimonial-role-2"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:11px;color:#8a93a5;"
+                                  }
+                                }
+                              ],
+                              "classList": [
+                                "blk-testimonial-person-2"
+                              ],
+                              "css": {
+                                "base": "display:flex;flex-direction:column;gap:3px;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-testimonial-author-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:12px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-testimonial-2"
+                      ],
+                      "css": {
+                        "base": "padding:24px;border:1px solid #e8eaf2;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(24,35,65,.04);",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:20px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "testimonial-3",
+                      "tag": "article",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "testimonial-stars-3",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "★★★★★",
+                          "classList": [
+                            "blk-testimonial-stars-3"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;color:#d69a35;letter-spacing:2px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-quote-3",
+                          "tag": "blockquote",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "کیفیت طراحی، توجه به جزئیات و درک درست مسئله باعث شد با خیال راحت پروژه‌های بعدی را هم به آن‌ها بسپاریم.",
+                          "classList": [
+                            "blk-testimonial-quote-3"
+                          ],
+                          "css": {
+                            "base": "font-size:14px;line-height:1.9;color:#515d73;margin:16px 0 22px;"
+                          }
+                        },
+                        {
+                          "id": "testimonial-author-3",
+                          "tag": "div",
+                          "canHaveChild": true,
+                          "children": [
+                            {
+                              "id": "testimonial-avatar-3",
+                              "tag": "span",
+                              "canHaveChild": false,
+                              "children": [],
+                              "content": "س‌ف",
+                              "classList": [
+                                "blk-testimonial-avatar-3"
+                              ],
+                              "css": {
+                                "base": "display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#fff0e5;color:#bb6c2e;font-weight:800;"
+                              }
+                            },
+                            {
+                              "id": "testimonial-person-3",
+                              "tag": "div",
+                              "canHaveChild": true,
+                              "children": [
+                                {
+                                  "id": "testimonial-name-3",
+                                  "tag": "strong",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "سارا فرهمند",
+                                  "classList": [
+                                    "blk-testimonial-name-3"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:13px;color:#263149;"
+                                  }
+                                },
+                                {
+                                  "id": "testimonial-role-3",
+                                  "tag": "span",
+                                  "canHaveChild": false,
+                                  "children": [],
+                                  "content": "مدیر بازاریابی",
+                                  "classList": [
+                                    "blk-testimonial-role-3"
+                                  ],
+                                  "css": {
+                                    "base": "font-size:11px;color:#8a93a5;"
+                                  }
+                                }
+                              ],
+                              "classList": [
+                                "blk-testimonial-person-3"
+                              ],
+                              "css": {
+                                "base": "display:flex;flex-direction:column;gap:3px;"
+                              }
+                            }
+                          ],
+                          "classList": [
+                            "blk-testimonial-author-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;gap:12px;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-testimonial-3"
+                      ],
+                      "css": {
+                        "base": "padding:24px;border:1px solid #e8eaf2;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(24,35,65,.04);",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "padding:20px;"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-testimonials-grid"
+                  ],
+                  "css": {
+                    "base": "display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "grid-template-columns:minmax(0,1fr);gap:14px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-testimonials-wrap"
+              ],
+              "css": {
+                "base": "max-width:1160px;margin:0 auto;width:100%;"
+              }
+            }
+          ],
+          "classList": [
+            "blk-testimonials-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#f7f8fc;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "faq-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "faq-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "faq-title",
+                  "tag": "h2",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "پرسش‌های پرتکرار",
+                  "classList": [
+                    "blk-faq-title"
+                  ],
+                  "css": {
+                    "base": "font-size:30px;font-weight:800;line-height:1.25;margin:0 0 10px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "font-size:25px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "faq-intro",
+                  "tag": "p",
+                  "canHaveChild": false,
+                  "children": [],
+                  "content": "پاسخ پرسش‌هایی که ممکن است پیش از شروع برایتان مطرح شود.",
+                  "classList": [
+                    "blk-faq-intro"
+                  ],
+                  "css": {
+                    "base": "font-size:14px;color:#818a9d;line-height:1.8;margin:0 0 24px;"
+                  }
+                },
+                {
+                  "id": "faq-list",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "faq-item-1",
+                      "tag": "details",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "faq-summary-1",
+                          "tag": "summary",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "فرآیند شروع همکاری چگونه است؟",
+                          "classList": [
+                            "blk-faq-summary-1"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;cursor:pointer;list-style:none;font-size:14px;font-weight:800;color:#263149;outline:none;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:58px;font-size:13px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "outline:2px solid #7772e8;outline-offset:3px;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "faq-answer-1",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "ابتدا نیازها و اهداف شما را بررسی می‌کنیم، سپس محدوده پروژه، زمان‌بندی و پیشنهاد اجرایی را شفاف ارائه می‌دهیم.",
+                          "classList": [
+                            "blk-faq-answer-1"
+                          ],
+                          "css": {
+                            "base": "padding:0 0 18px;font-size:13px;line-height:1.9;color:#69758b;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-faq-item-1"
+                      ],
+                      "css": {
+                        "base": "border:1px solid #e7eaf2;border-radius:16px;background:#fff;padding:0 18px;"
+                      }
+                    },
+                    {
+                      "id": "faq-item-2",
+                      "tag": "details",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "faq-summary-2",
+                          "tag": "summary",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "آیا امکان تغییرات در طول پروژه وجود دارد؟",
+                          "classList": [
+                            "blk-faq-summary-2"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;cursor:pointer;list-style:none;font-size:14px;font-weight:800;color:#263149;outline:none;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:58px;font-size:13px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "outline:2px solid #7772e8;outline-offset:3px;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "faq-answer-2",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "بله. تغییرات در چارچوب توافق‌شده مدیریت می‌شوند و در صورت تغییر محدوده، زمان و هزینه احتمالی پیش از اجرا اعلام خواهد شد.",
+                          "classList": [
+                            "blk-faq-answer-2"
+                          ],
+                          "css": {
+                            "base": "padding:0 0 18px;font-size:13px;line-height:1.9;color:#69758b;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-faq-item-2"
+                      ],
+                      "css": {
+                        "base": "border:1px solid #e7eaf2;border-radius:16px;background:#fff;padding:0 18px;"
+                      }
+                    },
+                    {
+                      "id": "faq-item-3",
+                      "tag": "details",
+                      "canHaveChild": true,
+                      "children": [
+                        {
+                          "id": "faq-summary-3",
+                          "tag": "summary",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "بعد از تحویل چه خدماتی ارائه می‌شود؟",
+                          "classList": [
+                            "blk-faq-summary-3"
+                          ],
+                          "css": {
+                            "base": "display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;cursor:pointer;list-style:none;font-size:14px;font-weight:800;color:#263149;outline:none;",
+                            "breakpoints": {
+                              "sm": {
+                                "base": "min-height:58px;font-size:13px;"
+                              }
+                            },
+                            "states": {
+                              "focus-visible": "outline:2px solid #7772e8;outline-offset:3px;"
+                            }
+                          }
+                        },
+                        {
+                          "id": "faq-answer-3",
+                          "tag": "div",
+                          "canHaveChild": false,
+                          "children": [],
+                          "content": "بسته به نوع همکاری، آموزش، مستندات و پشتیبانی دوره‌ای برای اطمینان از استفاده صحیح از خروجی ارائه می‌شود.",
+                          "classList": [
+                            "blk-faq-answer-3"
+                          ],
+                          "css": {
+                            "base": "padding:0 0 18px;font-size:13px;line-height:1.9;color:#69758b;"
+                          }
+                        }
+                      ],
+                      "classList": [
+                        "blk-faq-item-3"
+                      ],
+                      "css": {
+                        "base": "border:1px solid #e7eaf2;border-radius:16px;background:#fff;padding:0 18px;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-faq-list"
+                  ],
+                  "css": {
+                    "base": "display:flex;flex-direction:column;gap:12px;"
+                  }
+                }
+              ],
+              "classList": [
+                "blk-faq-wrap"
+              ],
+              "css": {
+                "base": "max-width:860px;margin:0 auto;width:100%;"
+              }
+            }
+          ],
+          "classList": [
+            "blk-faq-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#fff;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        },
+        {
+          "id": "gallery-section",
+          "tag": "section",
+          "canHaveChild": true,
+          "children": [
+            {
+              "id": "gallery-wrap",
+              "tag": "div",
+              "canHaveChild": true,
+              "children": [
+                {
+                  "id": "gallery-heading",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "gallery-title",
+                      "tag": "h2",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "نگاهی به پروژه‌ها",
+                      "classList": [
+                        "blk-gallery-title"
+                      ],
+                      "css": {
+                        "base": "font-size:30px;font-weight:800;line-height:1.25;margin:0;",
+                        "breakpoints": {
+                          "sm": {
+                            "base": "font-size:25px;"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "gallery-caption",
+                      "tag": "p",
+                      "canHaveChild": false,
+                      "children": [],
+                      "content": "منتخبی از لحظه‌ها و تجربه‌های ما",
+                      "classList": [
+                        "blk-gallery-caption"
+                      ],
+                      "css": {
+                        "base": "font-size:13px;color:#818a9d;margin:0;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-gallery-heading"
+                  ],
+                  "css": {
+                    "base": "display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "display:block;margin-bottom:18px;"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "gallery-grid",
+                  "tag": "div",
+                  "canHaveChild": true,
+                  "children": [
+                    {
+                      "id": "gallery-image-1",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه اول",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-1"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    },
+                    {
+                      "id": "gallery-image-2",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه دوم",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-2"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    },
+                    {
+                      "id": "gallery-image-3",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه سوم",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-3"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    },
+                    {
+                      "id": "gallery-image-4",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه چهارم",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-4"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    },
+                    {
+                      "id": "gallery-image-5",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه پنجم",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-5"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    },
+                    {
+                      "id": "gallery-image-6",
+                      "tag": "img",
+                      "canHaveChild": false,
+                      "children": [],
+                      "options": {
+                        "attributes": {
+                          "alt": "تصویر نمونه پروژه ششم",
+                          "loading": "lazy"
+                        }
+                      },
+                      "classList": [
+                        "blk-gallery-image-6"
+                      ],
+                      "css": {
+                        "base": "display:block;width:100%;aspect-ratio:4 / 3;object-fit:cover;border-radius:16px;background:#e8eaf2;"
+                      }
+                    }
+                  ],
+                  "classList": [
+                    "blk-gallery-grid"
+                  ],
+                  "css": {
+                    "base": "display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;",
+                    "breakpoints": {
+                      "sm": {
+                        "base": "grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;"
+                      }
+                    }
+                  }
+                }
+              ],
+              "classList": [
+                "blk-gallery-wrap"
+              ],
+              "css": {
+                "base": "max-width:1160px;margin:0 auto;width:100%;"
+              }
+            }
+          ],
+          "classList": [
+            "blk-gallery-section"
+          ],
+          "css": {
+            "base": "padding:64px 24px;background:#f7f8fc;color:#172033;",
+            "breakpoints": {
+              "sm": {
+                "base": "padding:48px 16px;"
+              }
+            }
+          }
+        }
+      ],
+      "footerItems": [],
+      "config": {
+        "title": "کتابخانه بلاک‌های آماده",
+        "description": "نسخه اول مجموعه بلاک‌های فروشگاهی، فرم، CTA، نظرات، FAQ و گالری"
+      },
+      "order": 0
+    }
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "data": "*{box-sizing:border-box;}img{max-width:100%;}pre{white-space:pre-wrap;font-family:inherit;}details summary::-webkit-details-marker{display:none;}"
+    }
+  ],
+  "cssVariables": []
+}

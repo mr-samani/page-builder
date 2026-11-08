@@ -44,7 +44,7 @@
       display: inline;
       white-space: pre;
     }
-    // Syntax highlighting colors
+    /* Syntax highlighting colors*/
     .css-selector {
       color: #d7ba7d;
       font-weight: 500;
@@ -105,23 +105,23 @@
       color: #6a737d;
       font-style: italic;
     }
-    // .class
+    /* .class*/
     .css-class {
       color: #d7ba7d;
     }
-    // #id
+    /* #id*/
     .css-id {
       color: #4ec9b0;
     }
-    // [attr]
+    /* [attr]*/
     .css-attribute {
       color: #9cdcfe;
     }
-    // :hover, ::before
+    /* :hover, ::before*/
     .css-pseudo {
       color: #dcdcaa;
     }
-    // div, span
+    /* div, span*/
     .css-element {
       color: #569cd6;
     }
@@ -146,7 +146,7 @@
     }
   }
 
-  // Error display
+  /* Error display*/
   .css-editor-errors {
     background: #2d1e1e;
     border: 1px solid #e74c3c;
