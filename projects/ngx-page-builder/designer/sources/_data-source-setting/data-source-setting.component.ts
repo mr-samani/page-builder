@@ -13,7 +13,7 @@ import {
   isCollectionSource,
 } from 'ngx-page-builder/core';
 import { debounceTime, Subject } from 'rxjs';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 /**
  * Settings of a collection data source (like Webflow's collection list settings):
@@ -24,7 +24,7 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
   templateUrl: './data-source-setting.component.html',
   styleUrls: ['./data-source-setting.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, SvgIconDirective],
+  imports: [FormsModule, NgxIconComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -36,7 +36,8 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 export class DataSourceSettingComponent implements ControlValueAccessor {
   private readonly dynamicDataService = inject(DynamicDataService);
 
-  readonly collectionDataSource: DynamicDataStructure[] = this.dynamicDataService.dynamicData.filter(isCollectionSource);
+  readonly collectionDataSource: DynamicDataStructure[] =
+    this.dynamicDataService.dynamicData.filter(isCollectionSource);
   readonly operators = DATA_FILTER_OPERATORS;
   readonly DynamicDataInputType = DynamicDataInputType;
 
@@ -79,7 +80,10 @@ export class DataSourceSettingComponent implements ControlValueAccessor {
   private async syncSource() {
     const id = this.settings.id;
     const source = this.collectionDataSource.find((x) => x.id === id);
-    this.otherFields = (source?.inputData ?? []).map((f) => ({ ...f, value: this.settings.params?.[f.name] ?? f.value }));
+    this.otherFields = (source?.inputData ?? []).map((f) => ({
+      ...f,
+      value: this.settings.params?.[f.name] ?? f.value,
+    }));
     this.fieldOptions.set(flattenFields(this.dynamicDataService.getSchema(id)));
     // lazy sources (API): the structure is discovered with one record
     this.fieldOptions.set(flattenFields(await this.dynamicDataService.resolveSchema(id)));

@@ -28,9 +28,9 @@
   border-radius: 7px;
   background: color-mix(in srgb, var(--active-button, #4b8bff) 13%, transparent);
   color: var(--active-button, #75a7ff);
-  svg {
-    width: 19px;
-    height: 19px;
+  ngx-icon {
+    width: 19px !important;
+    height: 19px !important;
   }
 }
 .category-icon {

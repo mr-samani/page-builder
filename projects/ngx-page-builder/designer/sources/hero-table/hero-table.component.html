@@ -4,32 +4,32 @@
     <div class="table-toolbar" #toolbar [class.hide]="!firstSelectedCell">
       @if (showMergeButton) {
         <button class="btn-icon" (click)="mergeCells($event)" title="Merge cells">
-          <svg Icon="assets/icons/table-merge-cell.svg"></svg>
+          <ngx-icon icon="table-merge-cell" />
         </button>
       } @else {
         @if (canChangeRows) {
           <button class="btn-icon" (click)="addRow($event, true)" title="Insert row after">
-            <svg Icon="assets/icons/table-insert-row-after.svg"></svg>
+            <ngx-icon icon="table-insert-row-after" />
           </button>
           <button class="btn-icon" (click)="addRow($event)" title="Insert row above">
-            <svg Icon="assets/icons/table-insert-row-above.svg"></svg>
+            <ngx-icon icon="table-insert-row-above" />
           </button>
           <button class="btn-icon" (click)="deleteRow($event)" title="Delete row">
-            <svg Icon="assets/icons/table-delete-row.svg"></svg>
+            <ngx-icon icon="table-delete-row" />
           </button>
         }
         <button class="btn-icon" (click)="addColumn($event, true)" title="Insert column after">
-          <svg Icon="assets/icons/table-insert-column-after.svg"></svg>
+          <ngx-icon icon="table-insert-column-after" />
         </button>
         <button class="btn-icon" (click)="addColumn($event)" title="Insert column before">
-          <svg Icon="assets/icons/table-insert-column-before.svg"></svg>
+          <ngx-icon icon="table-insert-column-before" />
         </button>
         <button class="btn-icon" (click)="deleteColumn($event)" title="Delete column">
-          <svg Icon="assets/icons/table-delete-column.svg"></svg>
+          <ngx-icon icon="table-delete-column" />
         </button>
 
         <button class="btn-icon" (click)="unMergeCells($event)" title="Unmerge cells">
-          <svg Icon="assets/icons/table-unmerge-cell.svg"></svg>
+          <ngx-icon icon="table-unmerge-cell" />
         </button>
       }
     </div>

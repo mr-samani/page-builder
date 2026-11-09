@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { PageItem, isBlockClass } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
@@ -30,7 +30,7 @@ export interface IClassOutput {
   styleUrls: ['./class-selector.component.scss'],
 
   standalone: true,
-  imports: [FormsModule, SvgIconDirective],
+  imports: [FormsModule, NgxIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClassSelectorComponent implements OnInit {

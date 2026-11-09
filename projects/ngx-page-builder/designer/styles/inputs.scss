@@ -175,8 +175,8 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
   display: flex;
   align-items: center;
   gap: 9px;
-  min-height: 40px;
-  padding: 0 10px;
+  height: 40px;
+  padding: 10px 10px;
   border: 1px solid color-mix(in srgb, currentColor 17%, transparent);
   border-radius: 9px;
   background: color-mix(in srgb, var(--panel-bg, #171b22), #fff 4%);

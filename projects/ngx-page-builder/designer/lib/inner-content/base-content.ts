@@ -42,7 +42,7 @@ import { LibConsts } from 'ngx-page-builder/core';
       }
     </div>
 
-    <block-selector #blockSelector />
+    <block-selector #blockSelector></block-selector>
   `,
   styleUrls: ['./base-content.scss', '../../styles/paper.scss'],
   imports: [NgxDropList, BlockSelectorComponent],

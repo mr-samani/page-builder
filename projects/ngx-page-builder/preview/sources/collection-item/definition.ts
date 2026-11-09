@@ -2,7 +2,7 @@ import { SourceItem } from 'ngx-page-builder/core';
 
 export const CollectionItemPreview = new SourceItem({
   tag: 'collection',
-  icon: 'assets/icons/collection.svg',
+  icon: 'collection',
   title: 'Collection Item',
   classList: [],
   css: {

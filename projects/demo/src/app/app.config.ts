@@ -7,6 +7,7 @@ import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideNotify } from 'ngx-kit/notify';
 import { provideNgxDialog } from 'ngx-kit/dialog';
 import { provideMessage } from 'ngx-kit/message';
+import { ALL_ICONS, provideIcons } from 'ngx-page-builder/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideNotify(),
     provideMessage(),
     provideNgxDialog({ header: { showMaximizeButton: false } }),
+    provideIcons(ALL_ICONS),
     provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
       instance: () => import('highcharts'),

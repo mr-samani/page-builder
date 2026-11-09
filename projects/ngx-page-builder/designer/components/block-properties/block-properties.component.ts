@@ -16,10 +16,10 @@ import { CSSStyleHelper } from '../../helper/CSSStyle';
 import { PageItem, BlockCssContext, PseudoState } from 'ngx-page-builder/core';
 import { ChangeTagComponent } from '../change-tag/change-tag.component';
 import { NgxShadowBox } from 'ngx-kit/box-shadow';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { BorderControlComponent } from '../../controls/border-control/border-control.component';
 import { PositionControlComponent } from '../../controls/position-control/position-control.component';
 import { FilterControlComponent } from '../../controls/filter-control/filter-control.component';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 /** فقط همین‌ها از getComputedStyle خوانده می‌شوند (یک‌بار هنگام لود) */
 const TYPO_KEYS = [
@@ -61,7 +61,7 @@ const TYPO_KEYS = [
     SizeControlComponent,
     ClassSelectorComponent,
     ChangeTagComponent,
-    SvgIconDirective,
+    NgxIconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

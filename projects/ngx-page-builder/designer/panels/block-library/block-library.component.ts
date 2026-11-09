@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { NgxDraggable, NgxDropList, type IPosition } from 'ngx-kit/drag-resize';
 import { SourceItem } from 'ngx-page-builder/core';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
 import { PanelService } from '../../panels/panel.service';
 import { PbPanel } from '../panel.layout';
@@ -23,56 +23,56 @@ const CATEGORIES: BlockCategory[] = [
     id: 'layout',
     title: 'Layout & Structure',
     description: 'Containers and semantic page regions',
-    icon: 'assets/icons/layout.svg',
+    icon: 'layout',
   },
   {
     id: 'typography',
     title: 'Text & Typography',
     description: 'Headings, text, emphasis and separators',
-    icon: 'assets/icons/h.svg',
+    icon: 'h',
   },
   {
     id: 'media',
     title: 'Media & Embeds',
     description: 'Images, audio, video and embedded content',
-    icon: 'assets/icons/img.svg',
+    icon: 'img',
   },
   {
     id: 'actions',
     title: 'Links & Actions',
     description: 'Navigation, buttons and disclosure controls',
-    icon: 'assets/icons/link.svg',
+    icon: 'link',
   },
   {
     id: 'forms',
     title: 'Forms & Inputs',
     description: 'Accessible form fields and controls',
-    icon: 'assets/icons/input.svg',
+    icon: 'input',
   },
   {
     id: 'data',
     title: 'Lists & Data',
     description: 'Lists, tables, metrics and dynamic collections',
-    icon: 'assets/icons/table.svg',
+    icon: 'table',
   },
   {
     id: 'document',
     title: 'Print & Document',
     description: 'Page-oriented blocks for document layouts',
-    icon: 'assets/icons/page.svg',
+    icon: 'page',
   },
   {
     id: 'custom',
     title: 'Custom Blocks',
     description: 'Blocks registered by the application',
-    icon: 'assets/icons/hexagon-plus.svg',
+    icon: 'hexagonPlus',
   },
 ];
 
 @Component({
   selector: 'block-library',
   standalone: true,
-  imports: [CommonModule, SvgIconDirective, NgxDropList, NgxDraggable, PbPanel],
+  imports: [CommonModule, NgxIconComponent, NgxDropList, NgxDraggable, PbPanel],
   templateUrl: './block-library.component.html',
   styleUrls: ['./block-library.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,7 +102,7 @@ export class BlockLibraryComponent extends PageBuilderBaseComponent {
           id,
           title: this.categoryTitle(id),
           description: 'Application-defined blocks',
-          icon: 'assets/icons/hexagon-plus.svg',
+          icon: 'hexagon-plus',
         });
         known.add(id);
       }

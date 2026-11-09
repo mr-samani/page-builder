@@ -1,8 +1,8 @@
 <button (click)="toggleOutlines()" title="Toggle outlines" [class.active]="pb.showOutlines()">
-  <svg Icon="assets/icons/outlines.svg"></svg>
+  <ngx-icon icon="outlines" />
 </button>
 <button (click)="deSelectBlock()" title="Deselect block">
-  <svg Icon="assets/icons/cursor.svg"></svg>
+  <ngx-icon icon="cursor" />
 </button>
 <!-- --------------------------------------------------------------------------------- -->
 <div class="spacer"></div>
@@ -10,23 +10,23 @@
 @if (viewMode == 'PrintPage') {
   <div class="page-handler">
     <button (click)="addPage()" title="Add page">
-      <svg Icon="assets/icons/file-plus.svg"></svg>
+      <ngx-icon icon="file-plus" />
     </button>
     <button (click)="removePage()" title="Remove page">
-      <svg Icon="assets/icons/trash2.svg"></svg>
+      <ngx-icon icon="trash2" />
     </button>
 
     <button (click)="previousPage()" title="Previous page">
-      <svg Icon="assets/icons/chevron-left.svg"></svg>
+      <ngx-icon icon="chevron-left" />
     </button>
     <input [min]="1" [max]="pb.pageInfo.pages.length" type="number" [(ngModel)]="pageNumber" (change)="changePage()" />
     <span>/</span>
     <span>{{ pb.pageInfo.pages.length }}</span>
     <button (click)="nextPage()" title="Next page">
-      <svg Icon="assets/icons/chevron-right.svg"></svg>
+      <ngx-icon icon="chevron-right" />
     </button>
     <button (click)="sortPages()" title="Sort pages">
-      <svg Icon="assets/icons/files.svg"></svg>
+      <ngx-icon icon="files" />
     </button>
   </div>
 } @else {
@@ -36,7 +36,7 @@
         (click)="changeResponive(bp)"
         [title]="bp.key + ': Min Width=' + bp.minWidth"
         [class.active]="pb.responsive().key == bp.key">
-        <svg [Icon]="'assets/icons/' + bp.icon + '.svg'"></svg>
+        <ngx-icon [icon]="bp.icon" />
       </button>
     }
   </div>
@@ -47,55 +47,55 @@
 <!-- --------------------------------------------------------------------------------- -->
 @if (enableHistory) {
   <button type="button" title="undo" (click)="undo()" [disabled]="!canUndo">
-    <svg Icon="assets/icons/rotate-left.svg"></svg>
+    <ngx-icon icon="rotate-left" />
   </button>
   <button type="button" title="redo" (click)="redo()" [disabled]="!canRedo">
-    <svg Icon="assets/icons/rotate-right.svg"></svg>
+    <ngx-icon icon="rotate-right" />
   </button>
   <button type="button" title="history" (click)="getHistory()">
-    <svg Icon="assets/icons/clock-rotate-left.svg"></svg>
+    <ngx-icon icon="clock-rotate-left" />
   </button>
 }
 <!-- --------------------------------------------------------------------------------- -->
 
 <button (click)="openCssFileDialog()" title="Css file">
-  <svg Icon="assets/icons/file-signature.svg"></svg>
+  <ngx-icon icon="file-signature" />
 </button>
 
 @if (toolbarConfig?.showExportHtmlButton) {
   <button (click)="exportHtml()" title="Export all pages as Html">
-    <svg Icon="assets/icons/file-export.svg"></svg>
+    <ngx-icon icon="file-export" />
   </button>
 }
 @if (toolbarConfig?.showImportHtmlButton) {
   <button (click)="importHtml()" title="Import Html">
-    <svg Icon="assets/icons/download.svg"></svg>
+    <ngx-icon icon="download" />
   </button>
 }
 
 @if (toolbarConfig?.showPrintButton) {
   <button (click)="print()" title="Print">
-    <svg Icon="assets/icons/printer.svg"></svg>
+    <ngx-icon icon="printer" />
   </button>
 }
 @if (toolbarConfig?.showPreviewButton) {
   <button (click)="preview()" title="preview">
-    <svg Icon="assets/icons/monitor.svg"></svg>
+    <ngx-icon icon="monitor" />
   </button>
 }
 @if (toolbarConfig?.showSaveButton) {
   <button (click)="onSave()" title="Save">
-    <svg Icon="assets/icons/save.svg"></svg>
+    <ngx-icon icon="save" />
   </button>
 }
 @if (toolbarConfig?.showOpenButton) {
   <button (click)="onOpen()" title="Open">
-    <svg Icon="assets/icons/folder-open.svg"></svg>
+    <ngx-icon icon="folder-open" />
   </button>
 }
 @if (toolbarConfig?.showNewButton) {
   <button (click)="onNew()" title="Open">
-    <svg Icon="assets/icons/file.svg"></svg>
+    <ngx-icon icon="file" />
   </button>
 }
 @if (customToolbarButtons && customToolbarButtons.length > 0) {

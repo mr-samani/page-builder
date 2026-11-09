@@ -11,7 +11,7 @@ import {
 } from 'ngx-page-builder/core';
 import { InputGroupModule } from '../../controls/input-group/input-group.module';
 import { SwitchComponent } from '../../controls/switch/switch.component';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { DataSourceSelectorComponent } from '../text-binding/data-source-selector/data-source-selector.component';
 
 type LinkType = 'link' | 'page' | 'phone' | 'email';
@@ -35,7 +35,7 @@ const URL_REGEX = /^(https?:\/\/)[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
     CommonModule,
     FormsModule,
     InputGroupModule,
-    SvgIconDirective,
+    NgxIconComponent,
     SwitchComponent,
     DataSourceSelectorComponent,
   ],

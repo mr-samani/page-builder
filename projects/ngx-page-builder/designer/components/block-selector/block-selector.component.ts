@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, HostListener, Injector, input, OnDestroy } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { PageItem } from 'ngx-page-builder/core';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 @Component({
   selector: 'block-selector',
   templateUrl: './block-selector.component.html',
   styleUrls: ['./block-selector.component.scss'],
   standalone: true,
-  imports: [CommonModule, SvgIconDirective],
+  imports: [CommonModule, NgxIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockSelectorComponent extends BaseComponent implements OnDestroy {

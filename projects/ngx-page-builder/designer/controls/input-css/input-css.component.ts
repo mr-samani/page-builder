@@ -5,7 +5,7 @@ import { NgxInputColor } from 'ngx-kit/color-picker';
 import { NgxInputGradient } from 'ngx-kit/gradient-picker';
 import { CssValueType, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxDialogService } from 'ngx-kit/dialog';
 
@@ -13,7 +13,7 @@ import { NgxDialogService } from 'ngx-kit/dialog';
   selector: 'input-css',
   templateUrl: './input-css.component.html',
   styleUrls: ['./input-css.component.scss'],
-  imports: [CommonModule, FormsModule, NgxInputColor, NgxInputGradient, MenuDialog, SvgIconDirective],
+  imports: [CommonModule, FormsModule, NgxInputColor, NgxInputGradient, MenuDialog, NgxIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {

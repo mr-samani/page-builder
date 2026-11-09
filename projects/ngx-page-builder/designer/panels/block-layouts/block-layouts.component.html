@@ -50,7 +50,7 @@
               <span class="drag-spacer"></span>
             } @else {
               <span class="drag-handle" title="Drag to move">
-                <svg Icon="assets/icons/grip-dots.svg"></svg>
+                <ngx-icon icon="grip-dots" />
               </span>
             }
 
@@ -62,9 +62,9 @@
                 [attr.aria-label]="isOpen(item) ? 'Collapse' : 'Expand'"
                 (click)="toggle($event, item)">
                 @if (isOpen(item)) {
-                  <svg Icon="assets/icons/chevron-down.svg"></svg>
+                  <ngx-icon icon="chevron-down" />
                 } @else {
-                  <svg Icon="assets/icons/chevron-right.svg"></svg>
+                  <ngx-icon icon="chevron-right" />
                 }
               </button>
             } @else {

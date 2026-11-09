@@ -23,7 +23,7 @@
             }
           </select>
           <button type="button" class="pb-btn" title="Remove" (click)="removeFilter($index)">
-            <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+            <ngx-icon icon="xmark" />
           </button>
         </div>
         <div class="pb-input-group pi-row">
@@ -58,7 +58,7 @@
           <option value="desc">Descending</option>
         </select>
         <button type="button" class="pb-btn" title="Remove" (click)="removeSort($index)">
-          <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+          <ngx-icon icon="xmark" />
         </button>
       </div>
     }
@@ -96,7 +96,11 @@
       }
       @case (DynamicDataInputType.Textarea) {
         <div class="pb-input-group pi-row">
-          <textarea rows="5" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updateParam(field)"></textarea>
+          <textarea
+            rows="5"
+            [(ngModel)]="field.value"
+            [name]="'field_' + $index"
+            (change)="updateParam(field)"></textarea>
         </div>
       }
       @case (DynamicDataInputType.Select) {

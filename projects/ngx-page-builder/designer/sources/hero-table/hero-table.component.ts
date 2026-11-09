@@ -16,7 +16,7 @@ import { debounceTime, Subscription } from 'rxjs';
 import { PageBuilderService } from '../../services/page-builder.service';
 
 import { BlockHelper } from '../../helper/BlockHelper';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { buildLogicalGrid, findCellLogicalIndex, getNormalizedRange, isValidMergeRange } from './table-utiles';
 import { TableSetting } from './table-setting';
 import { TableHelper } from './table-helper';
@@ -41,7 +41,7 @@ import {
   templateUrl: './hero-table.component.html',
   styleUrls: ['./hero-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SvgIconDirective],
+  imports: [CommonModule, NgxIconComponent],
   encapsulation: ViewEncapsulation.None,
 })
 export class HeroTableComponent implements OnInit, AfterViewInit {

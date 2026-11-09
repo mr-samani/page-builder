@@ -2,7 +2,7 @@ import { SourceItem } from 'ngx-page-builder/core';
 
 export const CollectionItemSource = new SourceItem({
   tag: 'collection',
-  icon: 'assets/icons/collection.svg',
+  icon: 'ollection',
   title: 'Collection Item',
   category: 'data',
   description: 'A repeatable item rendered from a collection data source.',

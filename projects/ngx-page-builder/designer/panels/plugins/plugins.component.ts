@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy }
 import { FormsModule } from '@angular/forms';
 import { PBPluginService } from '../../services/plugin/plugin.service';
 import { LoadingComponent } from '../../controls/loading/loading.component';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { CommonModule } from '@angular/common';
 import { IPlugin, LibConsts } from 'ngx-page-builder/core';
 import { Notify } from 'ngx-kit/notify';
@@ -12,7 +12,7 @@ import { PbPanel } from '../panel.layout';
   selector: 'app-plugins',
   templateUrl: './plugins.component.html',
   styleUrls: ['./plugins.component.scss'],
-  imports: [FormsModule, LoadingComponent, SvgIconDirective, CommonModule, PbPanel],
+  imports: [FormsModule, LoadingComponent, NgxIconComponent, CommonModule, PbPanel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [PBPluginService],
 })

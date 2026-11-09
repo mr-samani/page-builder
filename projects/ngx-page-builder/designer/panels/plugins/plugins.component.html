@@ -1,6 +1,6 @@
 <pb-panel label="Plugins" description="">
   <div class="search-field">
-    <svg Icon="assets/icons/search.svg" aria-hidden="true"></svg>
+    <ngx-icon icon="search" aria-hidden="true" />
     <input
       type="text"
       aria-label="Search plugins"
@@ -9,7 +9,7 @@
       (keydown.enter)="filterList()" />
     @if (search) {
       <button type="button" class="clear-search" aria-label="Clear search" (click)="search = ''">
-        <svg Icon="assets/icons/xmark.svg"></svg>
+        <ngx-icon icon="xmark" />
       </button>
     }
   </div>
@@ -22,7 +22,7 @@
   <details class="category" open>
     <summary>
       <span class="title">Category</span>
-      <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+      <ngx-icon class="category-chevron" icon="chevronDown" />
     </summary>
 
     <div class="list-container">
@@ -39,11 +39,11 @@
 
           <div class="options">
             <button class="pb-btn" type="button" (click)="ok(item)">
-              <svg Icon="assets/icons/plus.svg"></svg>
+              <ngx-icon icon="plus" />
             </button>
             @if (canDeletePlugin) {
               <button class="pb-btn" type="button" (click)="deleteItem(item, i)">
-                <svg Icon="assets/icons/trash.svg"></svg>
+                <ngx-icon icon="trash" />
               </button>
             }
           </div>

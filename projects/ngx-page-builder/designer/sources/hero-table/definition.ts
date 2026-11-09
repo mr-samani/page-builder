@@ -2,7 +2,7 @@ import { SourceItem } from 'ngx-page-builder/core';
 
 export const HeroTableSource = new SourceItem({
   tag: 'hero-table',
-  icon: 'assets/icons/table.svg',
+  icon: 'table',
   title: 'Hero Table',
   category: 'data',
   description: 'An advanced data table with configurable columns and rows.',

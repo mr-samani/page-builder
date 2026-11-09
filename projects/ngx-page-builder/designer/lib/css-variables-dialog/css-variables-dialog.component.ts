@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { cloneDeep, CSS_VARIABLE_REGEX, CssValueTypeList, ICssVariable, LibConsts } from 'ngx-page-builder/core';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxInputColor } from 'ngx-kit/color-picker';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { NgxInputGradient } from 'ngx-kit/gradient-picker';
 import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
 @Component({
@@ -21,7 +21,7 @@ import { DIALOG_REF, NgxDialogModule } from 'ngx-kit/dialog';
     TabGroupModule,
     FormsModule,
     NgxInputColor,
-    SvgIconDirective,
+    NgxIconComponent,
     NgxInputGradient,
   ],
 })

@@ -1,17 +1,17 @@
 <input-group [(ngModel)]="type" (valueChange)="onTypeChange()">
   <input-option value="link" title="Link">
-    <svg [Icon]="'assets/icons/link.svg'"></svg>
+    <ngx-icon icon="link" />
   </input-option>
   @if (pages.length > 0) {
     <input-option value="page" title="Page">
-      <svg [Icon]="'assets/icons/page.svg'"></svg>
+      <ngx-icon icon="page" />
     </input-option>
   }
   <input-option value="email" title="Email">
-    <svg [Icon]="'assets/icons/envelope.svg'"></svg>
+    <ngx-icon icon="envelope" />
   </input-option>
   <input-option value="phone" title="Phone">
-    <svg [Icon]="'assets/icons/phone.svg'"></svg>
+    <ngx-icon icon="phone" />
   </input-option>
 </input-group>
 
@@ -97,7 +97,7 @@
       <tr>
         <td>
           <button type="button" (click)="removeQueryString($index)">
-            <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+            <ngx-icon icon="xmark" />
           </button>
         </td>
         <td>
@@ -113,7 +113,7 @@
             <div class="pb-input-group">
               <data-source-selector
                 [fields]="collectionFields"
-                [value]="q.value ?? ''"
+                [value]="q.value"
                 placeholder="Select a field…"
                 (valueChange)="onChangeCollectionKey($event, q)"></data-source-selector>
             </div>
@@ -128,7 +128,7 @@
   </tbody>
 </table>
 <button type="button" class="btn btn-icon" (click)="addNewRecordQueryString()">
-  <svg [Icon]="'assets/icons/plus.svg'"></svg>
+  <ngx-icon icon="plus" />
 </button>
 <!-- <pre dir="ltr">{{ queryString | json }}</pre> -->
 

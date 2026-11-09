@@ -14,7 +14,9 @@
       } @else {
         <p class="hint">
           @if (parentCollection.dataSource?.id) {
-            This data source does not declare its fields. Add <code>fields</code> to it.
+            This data source does not declare its fields. Add
+            <code>fields</code>
+            to it.
           } @else {
             Select a data source for the collection first.
           }
@@ -43,7 +45,7 @@
 @if (mode === 'static' && !isImage) {
   <div class="text" (click)="openTextEditor()">
     <span [innerHTML]="item.content | safeHtml" class="content"></span>
-    <svg Icon="assets/icons/edit.svg"></svg>
+    <ngx-icon icon="edit" />
   </div>
 }
 

@@ -8,19 +8,19 @@
     <div class="actions" [class.bottom]="showInBottom">
       <!-- @if (!item.disableMovement) {
         <span type="button" dragHandle>
-          <svg Icon="assets/icons/grip-dots.svg"></svg>
+          <ngx-icon icon="grip-dots" />
         </span>
       } -->
 
       @if (item.parent) {
         <button type="button" (click)="selectParent($event)" title="Parent">
-          <svg Icon="assets/icons/arrow-turn-up.svg"></svg>
+          <ngx-icon icon="arrowTurnUp" />
         </button>
       }
 
       @if (!item.disableDelete) {
         <button type="button" (click)="deleteBlock()" title="Delete">
-          <svg Icon="assets/icons/trash.svg"></svg>
+          <ngx-icon icon="trash" />
         </button>
       }
 

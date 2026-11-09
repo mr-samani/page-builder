@@ -17,7 +17,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(display)" #display>
       <summary>
         <span class="title">Display</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
 
       <div class="details-inner">
@@ -35,7 +35,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(size)" #size>
       <summary>
         <span class="title">Size</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (size.open) {
@@ -47,7 +47,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(spacing)" #spacing>
       <summary>
         <span class="title">Spacing</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (spacing.open) {
@@ -58,7 +58,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(position)" #position>
       <summary>
         <span class="title">Position</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (position.open) {
@@ -73,7 +73,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(typography)" #typography>
       <summary>
         <span class="title">Typography</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (typography.open) {
@@ -87,7 +87,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(background)" #background>
       <summary>
         <span class="title">Background</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (background.open) {
@@ -98,18 +98,21 @@
     <details class="category" name="block-properties" (toggle)="openPanel(border)" #border>
       <summary>
         <span class="title">Border</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (border.open) {
-          <border-control [(ngModel)]="style" [inherits]="inheritsContext" (change)="onChangeStyle($event)"></border-control>
+          <border-control
+            [(ngModel)]="style"
+            [inherits]="inheritsContext"
+            (change)="onChangeStyle($event)"></border-control>
         }
       </div>
     </details>
     <details class="category" name="block-properties" (toggle)="openPanel(corners)" #corners>
       <summary>
         <span class="title">Corners</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (corners.open) {
@@ -136,7 +139,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(shadow)" #shadow>
       <summary>
         <span class="title">Shadow</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (shadow.open) {
@@ -148,7 +151,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(filter)" #filter>
       <summary>
         <span class="title">Filter</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (filter.open) {
@@ -163,7 +166,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(transform)" #transform>
       <summary>
         <span class="title">Transform</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (transform.open) {
@@ -174,7 +177,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(transition)" #transition>
       <summary>
         <span class="title">Transition</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (transition.open) {
@@ -194,7 +197,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(animation)" #animation>
       <summary>
         <span class="title">Animation</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (animation.open) {
@@ -210,7 +213,7 @@
     <details class="category" name="block-properties" (toggle)="openPanel(advanced)" #advanced>
       <summary>
         <span class="title">Advanced</span>
-        <svg class="category-chevron" Icon="assets/icons/chevron-down.svg"></svg>
+        <ngx-icon class="category-chevron" icon="chevronDown" />
       </summary>
       <div class="details-inner">
         @if (advanced.open) {

@@ -24,7 +24,7 @@ function htmlBlock(
     tag,
     title,
     category,
-    icon: `assets/icons/${icon}.svg`,
+    icon,
     description,
     ...overrides,
   } as SourceItem;

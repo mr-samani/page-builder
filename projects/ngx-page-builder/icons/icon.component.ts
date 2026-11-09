@@ -19,8 +19,20 @@ export type NgxIconInput = IconDefinition | NgxIconName | (string & {});
 
 // Keep in sync with scripts/generate-icons.mjs
 const ALLOWED_TAGS: ReadonlySet<string> = new Set([
-  'path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon',
-  'g', 'defs', 'clipPath', 'mask', 'linearGradient', 'radialGradient', 'stop',
+  'path',
+  'circle',
+  'ellipse',
+  'rect',
+  'line',
+  'polyline',
+  'polygon',
+  'g',
+  'defs',
+  'clipPath',
+  'mask',
+  'linearGradient',
+  'radialGradient',
+  'stop',
 ]);
 const URL_REF = /^url\(#[\w.:-]+\)$/;
 const warned = new Set<string>();
@@ -65,8 +77,8 @@ function isSafeAttr(name: string, value: string): boolean {
     '[attr.role]': 'label() ? "img" : null',
     '[attr.aria-label]': 'label() || null',
     '[attr.aria-hidden]': 'label() ? null : "true"',
-    '[style.width]': 'size()',
-    '[style.height]': 'size()',
+    '[style.width]': 'width()',
+    '[style.height]': 'height()',
     '[class.ngx-icon--flip]': 'flipRtl()',
   },
 })
@@ -74,7 +86,8 @@ export class NgxIconComponent {
   /** Icon name (registry) or an IconDefinition (direct). */
   readonly icon = input.required<NgxIconInput>();
   /** Any CSS length. Default scales with font-size. */
-  readonly size = input<string>('1em');
+  readonly width = input<string>('auto');
+  readonly height = input<string>('100%');
   /** Accessible name. Omit for decorative icons (they get aria-hidden). */
   readonly label = input<string | null>(null);
   /** Mirror horizontally in RTL (arrows, chevrons, undo/redo ...). */
@@ -92,7 +105,9 @@ export class NgxIconComponent {
     const def = this.registry.get(value);
     if (!def && isDevMode() && !warned.has(value)) {
       warned.add(value);
-      console.warn(`[ngx-icon] Icon "${value}" is not registered. Use provideIcons(...) or pass the definition via [icon].`);
+      console.warn(
+        `[ngx-icon] Icon "${value}" is not registered. Use provideIcons(...) or pass the definition via [icon].`,
+      );
     }
     return def;
   });

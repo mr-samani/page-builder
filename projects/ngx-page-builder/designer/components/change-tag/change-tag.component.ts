@@ -8,14 +8,14 @@ import {
   type PseudoState,
 } from 'ngx-page-builder/core';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 @Component({
   selector: 'change-tag',
   templateUrl: './change-tag.component.html',
   styleUrls: ['./change-tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, SvgIconDirective],
+  imports: [FormsModule, NgxIconComponent],
 })
 export class ChangeTagComponent implements OnInit {
   canChangeTag = false;

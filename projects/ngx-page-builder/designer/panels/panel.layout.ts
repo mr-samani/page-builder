@@ -1,10 +1,10 @@
 import { Component, inject, input } from '@angular/core';
 import { PanelService } from './panel.service';
-import { SvgIconDirective } from '../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 @Component({
   selector: 'pb-panel',
-  imports: [SvgIconDirective],
+  imports: [NgxIconComponent],
   template: `
     <div class="pb-panel">
       <div class="pb-panel-header">
@@ -14,7 +14,7 @@ import { SvgIconDirective } from '../directives/svg-icon.directive';
         </div>
 
         <button type="button" (click)="panelService.close()" class="pb-btn" aria-label="Close layouts">
-          <svg Icon="assets/icons/xmark.svg"></svg>
+          <ngx-icon icon="xmark" />
         </button>
       </div>
       <div class="pb-pabel-body">

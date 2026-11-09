@@ -373,8 +373,8 @@ summary span.title {
   flex: 1;
 }
 summary .category-chevron {
-  width: 13px;
-  height: 13px;
+  width: 13px !important;
+  height: 13px !important;
   opacity: 0.55;
   transition: transform 0.18s ease;
 }

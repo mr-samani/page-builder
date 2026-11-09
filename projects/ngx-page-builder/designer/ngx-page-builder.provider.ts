@@ -1,4 +1,4 @@
-import { makeEnvironmentProviders } from '@angular/core';
+import { makeEnvironmentProviders, type EnvironmentProviders } from '@angular/core';
 import { NGX_PAGE_BUILDER_STORAGE_SERVICE } from './services/storage/token.storage';
 import { LocalStorageService } from './services/storage/local.storage.service';
 import { HttpStorageService } from './services/storage/http.storage.service';
@@ -113,6 +113,7 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
     },
   ];
 }
-export function providePageBuilderEnv(cfg: PageBuilderConfiguration) {
-  return makeEnvironmentProviders(providePageBuilder(cfg));
+export function providePageBuilderEnv(config: PageBuilderConfiguration): EnvironmentProviders {
+  const providers = providePageBuilder(config);
+  return makeEnvironmentProviders([...providers]);
 }

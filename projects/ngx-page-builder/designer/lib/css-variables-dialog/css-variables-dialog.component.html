@@ -14,7 +14,7 @@
         <tr>
           <td>
             <button class="pb-btn" (click)="remove($index)">
-              <svg Icon="assets/icons/trash.svg"></svg>
+              <ngx-icon icon="trash" />
             </button>
           </td>
           <td>
@@ -66,11 +66,11 @@
 </div>
 <div ngxDialogFooter [align]="'space-between'">
   <button class="pb-btn" (click)="save()">
-    <svg Icon="assets/icons/save.svg"></svg>
+    <ngx-icon icon="save" />
     Save
   </button>
   <button class="pb-btn" (click)="add()">
-    <svg Icon="assets/icons/plus.svg"></svg>
+    <ngx-icon icon="plus" />
     Add New Variable
   </button>
 </div>

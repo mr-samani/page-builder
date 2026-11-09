@@ -13,7 +13,7 @@
       title="Layouts"
       aria-label="Layouts"
       [class.active]="panelService.activePanel() == 'layout' ">
-      <svg Icon="assets/icons/layout.svg"></svg>
+      <ngx-icon icon="layout" />
     </button>
     <button
       type="button"
@@ -22,7 +22,7 @@
       title="Blocks"
       aria-label="Blocks"
       [class.active]="panelService.activePanel() == 'block-library'">
-      <svg Icon="assets/icons/blocks.svg"></svg>
+      <ngx-icon icon="blocks" />
     </button>
 
     @if (showPlugins) {
@@ -33,7 +33,7 @@
       aria-label="Plugins"
       (click)="panelService.toggle('plugins')"
       [class.active]="panelService.activePanel() == 'plugins'">
-      <svg Icon="assets/icons/hexagon-plus.svg"></svg>
+      <ngx-icon icon="hexagon-plus" />
     </button>
     }
 
@@ -41,7 +41,7 @@
 
     @if (toolbarConfig?.showConfigButton) {
     <button type="button" class="tool" title="Settings" aria-label="Settings" (click)="openConfigDialog()">
-      <svg Icon="assets/icons/cog.svg"></svg>
+      <ngx-icon icon="cog" />
     </button>
     }
   </div>

@@ -8,37 +8,37 @@ export const PREVIEW_SOURCE_ITEMS: SourceItem[] = [
   {
     tag: 'div',
     title: 'Div',
-    icon: 'assets/icons/div.svg',
+    icon: 'div',
     canHaveChild: true,
   },
   {
     tag: 'section',
     title: 'Section',
-    icon: 'assets/icons/section.svg',
+    icon: 'section',
     canHaveChild: true,
   },
   {
     tag: 'span',
     title: 'Span',
-    icon: 'assets/icons/span.svg',
+    icon: 'span',
     content: 'Span',
   },
   {
     tag: 'p',
     title: 'Paragraph',
-    icon: 'assets/icons/paragraph.svg',
+    icon: 'paragraph',
     content: 'Paragraph',
   },
   {
     tag: 'h1',
     title: 'Heading',
-    icon: 'assets/icons/h.svg',
+    icon: 'h',
     content: 'Heading',
   },
   {
     tag: 'img',
     title: 'Image',
-    icon: 'assets/icons/img.svg',
+    icon: 'img',
     options: {
       attributes: {
         loading: 'lazy',
@@ -49,7 +49,7 @@ export const PREVIEW_SOURCE_ITEMS: SourceItem[] = [
   {
     tag: 'input',
     title: 'Input',
-    icon: 'assets/icons/input.svg',
+    icon: 'input',
     options: {
       attributes: {
         name: 'input-field-' + randomNumber(3),
@@ -61,7 +61,7 @@ export const PREVIEW_SOURCE_ITEMS: SourceItem[] = [
   {
     tag: 'button',
     title: 'Button',
-    icon: 'assets/icons/rectangle-fill.svg',
+    icon: 'rectangle-fill',
     content: 'Button',
   },
   ColumnPreview,

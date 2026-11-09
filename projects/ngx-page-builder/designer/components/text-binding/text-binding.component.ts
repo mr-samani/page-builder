@@ -26,7 +26,7 @@ import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 import { DataSourceSelectorComponent } from './data-source-selector/data-source-selector.component';
 import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.filepicker';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
@@ -44,7 +44,7 @@ type BindingMode = 'static' | 'collection' | 'dynamic';
   styleUrls: ['./text-binding.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, SvgIconDirective, SwitchComponent],
+  imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, NgxIconComponent, SwitchComponent],
 })
 export class TextBindingComponent extends BaseComponent implements OnChanges {
   @Input() item!: PageItem;

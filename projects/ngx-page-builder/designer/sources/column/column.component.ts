@@ -9,14 +9,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { PageItem } from 'ngx-page-builder/core';
 
 @Component({
   selector: 'page-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
-  imports: [SvgIconDirective],
+  imports: [NgxIconComponent],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

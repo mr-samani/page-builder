@@ -14,7 +14,7 @@ import { NgxDraggable, NgxDropList, NgxDropListGroup, type IDropEvent } from 'ng
 import { Notify } from 'ngx-kit/notify';
 import { PageItem } from 'ngx-page-builder/core';
 import { auditTime, merge } from 'rxjs';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { MoveTarget, PageZone } from '../../services/page-builder.service';
 import { PageBuilderBaseComponent } from '../../lib/page-builder-base-component';
 import { PanelService } from '../../panels/panel.service';
@@ -44,7 +44,7 @@ const NO_ITEMS: PageItem[] = [];
   styleUrls: ['./block-layouts.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SvgIconDirective, NgxDropListGroup, NgxDraggable, NgxDropList, PbPanel],
+  imports: [CommonModule, NgxIconComponent, NgxDropListGroup, NgxDraggable, NgxDropList, PbPanel],
 })
 export class BlockLayoutsComponent extends PageBuilderBaseComponent {
   readonly panelService = inject(PanelService);

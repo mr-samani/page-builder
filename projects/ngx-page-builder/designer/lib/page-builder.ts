@@ -17,7 +17,6 @@ import { PageBuilderBaseComponent } from './page-builder-base-component';
 import { IStorageService } from '../services/storage/IStorageService';
 import { Subscription } from 'rxjs';
 import { SideConfigComponent } from '../components/side-config/side-config.component';
-import { SvgIconDirective } from '../directives/svg-icon.directive';
 import { FocusContext } from '../services/shortcut.service';
 import { preparePageDataForSave } from '../helper/prepare-page-builder-data';
 import { InnerContentComponent } from './inner-content/inner-content.component';
@@ -46,6 +45,7 @@ import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxResizeHandle 
 import { PanelService } from '../panels/panel.service';
 import { NgComponentOutlet } from '@angular/common';
 import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 @Component({
   standalone: true,
@@ -56,7 +56,7 @@ import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
     InnerContentComponent,
     ToolbarComponent,
     SideConfigComponent,
-    SvgIconDirective,
+    NgxIconComponent,
     NgxDialogModule,
     NgxDropListGroup,
     NgxResizable,

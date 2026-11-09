@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, Injector, Input, On
 import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
 import { SortPageListComponent } from '../sort-page-list/sort-page-list.component';
-import { SvgIconDirective } from '../../directives/svg-icon.directive';
+import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
 import { ExportHtmlService } from '../../services/import-export/export-html.service';
 import { HistoryService } from '../../services/history.service';
@@ -26,7 +26,7 @@ import { NgxDialogService } from 'ngx-kit/dialog';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
   standalone: true,
-  imports: [FormsModule, SvgIconDirective],
+  imports: [FormsModule, NgxIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ExportHtmlService],
 })

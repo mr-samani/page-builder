@@ -12,6 +12,7 @@
     align-items: center;
     gap: 5px;
     cursor: pointer;
+    height: 32px;
     &.active {
       background: var(--active-button);
       color: var(--active-button-fg);

@@ -2,7 +2,7 @@ import { SourceItem } from 'ngx-page-builder/core';
 
 export const ColumnSource = new SourceItem({
   tag: 'column',
-  icon: 'assets/icons/column.svg',
+  icon: 'column',
   title: 'Column',
   category: 'layout',
   description: 'A responsive column container for composing multi-column layouts.',

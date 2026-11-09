@@ -17,7 +17,7 @@
             (keydown.esc)="cancelEditClassName(item, $event)" />
         } @else {
           <button type="button" (click)="remove(i)" class="chips-remove">
-            <svg Icon="assets/icons/xmark.svg"></svg>
+            <ngx-icon icon="xmark" />
           </button>
           {{ item.name }}
         }
@@ -26,7 +26,7 @@
 
     @if (showAddClassBtn) {
       <span class="chips plus" (click)="showAddClassBtn = false">
-        <svg Icon="assets/icons/plus.svg"></svg>
+        <ngx-icon icon="plus" />
       </span>
     } @else {
       <div class="pb-input-group auto-complete">
