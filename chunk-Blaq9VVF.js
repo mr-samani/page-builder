@@ -1,0 +1,1 @@
+var t=`/assets/default-image.png`;var _=`page`;var e=`showoutline`;export{e as n,t as r,_ as t};
