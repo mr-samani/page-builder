@@ -1,1 +1,0 @@
-import{f as e$1}from"./main-PXKAFGS2.js";var e=class extends e$1{useDynamicData=!1};export{e as t};
