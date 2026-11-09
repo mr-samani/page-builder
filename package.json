@@ -11,6 +11,9 @@
     "test": "ng test",
     "format": "prettier --write \".//projects//**//*.{ts,html,css,scss}\" ",
     "build:icons": "node scripts/build-icons.js",
+    "icons": "node scripts/generate-icons.mjs --src  projects/ngx-page-builder/icons/svg",
+    "icons:check": "node scripts/generate-icons.mjs --src projects/ngx-page-builder/icons/svg --check",
+    "prebuild": "npm run icons",
     "ngFixImport": "node scripts/fix-shared-imports.js --apply"
   },
   "private": true,
@@ -44,6 +47,8 @@
     "ng-packagr": "^22.1.1",
     "prettier": "^3.8.1",
     "recast": "^0.23.11",
+    "svgo": "^4.1.0",
+    "svgson": "^5.3.1",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8"
   }
