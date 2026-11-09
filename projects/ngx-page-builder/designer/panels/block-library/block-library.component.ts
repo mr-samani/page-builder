@@ -65,7 +65,7 @@ const CATEGORIES: BlockCategory[] = [
     id: 'custom',
     title: 'Custom Blocks',
     description: 'Blocks registered by the application',
-    icon: 'hexagonPlus',
+    icon: 'hexagon-plus',
   },
 ];
 

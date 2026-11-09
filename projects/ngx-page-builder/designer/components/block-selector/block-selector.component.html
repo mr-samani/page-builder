@@ -1,20 +1,13 @@
-@if (item) {
-  <div
-    class="block-selector"
-    [style.left.px]="x"
-    [style.top.px]="y"
-    [style.width.px]="width"
-    [style.height.px]="height">
-    <div class="actions" [class.bottom]="showInBottom">
-      <!-- @if (!item.disableMovement) {
-        <span type="button" dragHandle>
-          <ngx-icon icon="grip-dots" />
-        </span>
-      } -->
+<!-- این سه المان همیشه در DOM هستند و فقط مقدار style آن‌ها از TS عوض می‌شود -->
+<div class="spacing margin" #margin></div>
+<div class="spacing padding" #padding></div>
 
+<div class="block-selector" #frame>
+  @if (item) {
+    <div class="actions" (pointerdown)="$event.stopPropagation()">
       @if (item.parent) {
         <button type="button" (click)="selectParent($event)" title="Parent">
-          <ngx-icon icon="arrowTurnUp" />
+          <ngx-icon icon="arrow-turn-up" />
         </button>
       }
 
@@ -23,9 +16,7 @@
           <ngx-icon icon="trash" />
         </button>
       }
-
       <span class="tag">{{ item.tag ? (item.tag | uppercase) : item.customComponent?.componentKey }}</span>
-      <!-- <span class="id">{{ item.id }}</span> -->
     </div>
-  </div>
-}
+  }
+</div>

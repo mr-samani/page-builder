@@ -1,6 +1,5 @@
 import { DOCUMENT, inject, Injectable, model, OnDestroy, signal } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { BlockSelectorComponent } from '../components/block-selector/block-selector.component';
 import { HistoryService } from './history.service';
 import { IStorageService } from './storage/IStorageService';
 
@@ -71,8 +70,6 @@ export class PageBuilderService implements OnDestroy {
   onPageChange$ = new BehaviorSubject<Page | undefined>(undefined);
   onSelectBlock$ = new BehaviorSubject<{ ev?: PointerEvent; item: PageItem } | undefined>(undefined);
   onUpdateBaseConfig$ = new BehaviorSubject<PageConfig | undefined>(undefined);
-
-  blockSelector?: BlockSelectorComponent;
 
   storageService!: IStorageService;
 

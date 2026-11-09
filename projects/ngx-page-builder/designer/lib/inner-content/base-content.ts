@@ -55,12 +55,9 @@ export class BaseContentComponent implements OnInit, AfterViewInit {
   headerEl = viewChild<ElementRef<HTMLElement>>('headerEl');
   bodyEl = viewChild<ElementRef<HTMLElement>>('bodyEl');
   footerEl = viewChild<ElementRef<HTMLElement>>('footerEl');
-
-  blockSelector = viewChild<BlockSelectorComponent>('blockSelector');
   viewMode = LibConsts.viewMode;
   readonly pb = inject(PageBuilderService);
   ngOnInit(): void {
-    this.pb.blockSelector = this.blockSelector();
     if (LibConsts.viewMode == 'PrintPage') {
       this.containerClassName += ` ngx-paper ${this.pb.pageInfo.config.size} ${this.pb.pageInfo.config.orientation}`;
     } else {

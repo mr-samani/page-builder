@@ -373,8 +373,6 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       // update new rowIndex and colIndex
       this.onSelectCell(this.firstSelectedCell?.block);
       this.checkCanChangeRows();
-
-      this.pb.blockSelector?.updatePosition();
       this.updateToolbarPosition();
     });
   }

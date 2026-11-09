@@ -1,8 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, HostListener, Injector, input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  NgZone,
+  OnDestroy,
+  untracked,
+  ViewChild,
+} from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { PageItem } from 'ngx-page-builder/core';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
+
+const BAR_HEIGHT = 24;
+const PLACEMENTS = ['top', 'bottom', 'inside'] as const;
+
+// ایندکس‌های آرایه‌ی اندازه‌گیری
+const X = 0,
+  Y = 1,
+  W = 2,
+  H = 3;
+const MARGIN = 4; // t r b l  -> 4..7 (ترتیب: top, right, bottom, left)
+const BORDER = 8; // 8..11
+const PADDING = 12; // 12..15
+const SHIFT_X = 16,
+  SHIFT_Y = 17,
+  PLACE = 18;
+const SIZE = 19;
+
+const px = (v: string) => Math.max(0, parseFloat(v) || 0);
+const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 
 @Component({
   selector: 'block-selector',
@@ -13,156 +42,216 @@ import { NgxIconComponent } from 'ngx-page-builder/icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
-  // readonly body = input.required<>();
-  x = 0;
-  y = 0;
-  width = 0;
-  height = 0;
   item?: PageItem | null;
-  showInBottom = false;
   headerOffset = 30;
 
-  // Observer روی خود element: سایز
-  private elementResizeObserver?: ResizeObserver;
-  // Observer روی parent: جابجایی layout (flex/grid/...)
-  private parentResizeObserver?: ResizeObserver;
-  // Observer روی element: تغییر محتوا داخل (text، child nodes)
-  private contentMutationObserver?: MutationObserver;
-  // Observer روی خود element: تغییر style/class خودش
-  private attributeMutationObserver?: MutationObserver;
+  @ViewChild('frame', { static: true }) private frameRef!: ElementRef<HTMLElement>;
+  @ViewChild('margin', { static: true }) private marginRef!: ElementRef<HTMLElement>;
+  @ViewChild('padding', { static: true }) private paddingRef!: ElementRef<HTMLElement>;
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly zone = inject(NgZone);
 
   private rafId?: number;
+  private prev = new Float64Array(SIZE);
+  private next = new Float64Array(SIZE);
+  private prevRadius = '';
+  private visible = false;
 
   constructor() {
     super();
 
     effect(() => {
-      const newItem = this.pb.activeEl();
-      if (this.item != newItem) {
-        this.item = newItem;
-        this.observeActiveElement();
-      }
+      const active = this.pb.activeEl();
+      untracked(() => this.setItem(active));
     });
 
-    this.pb.changed$.subscribe((data) => {
-      if (this.item != data.item) {
-        this.item = data.item;
-        if (this.item) {
-          this.observeActiveElement();
-          this.scheduleUpdate();
-        }
-      }
-    });
-  }
-
-  @HostListener('window:resize')
-  onPageResize() {
-    this.scheduleUpdate();
-  }
-  @HostListener('window:scroll')
-  onPageScroll() {
-    this.updatePosition();
+    // this.pb.changed$.pipe(takeUntilDestroyed()).subscribe((data) => this.setItem(data.item));
   }
 
   ngOnDestroy() {
-    this.disconnectObservers();
-    this.cancelScheduledUpdate();
+    this.stop();
   }
 
-  private observeActiveElement() {
-    this.disconnectObservers();
+  /* ------------------------------------------------------------------ */
+  /*  مدیریت آیتم                                                         */
+  /* ------------------------------------------------------------------ */
 
-    if (!this.item?.el) {
-      this.chdRef.detectChanges();
-      return;
+  private setItem(item: PageItem | null | undefined) {
+    const next = item ?? null;
+    if (this.item === next) return;
+
+    this.item = next;
+    this.chdRef.markForCheck();
+
+    if (next?.el) {
+      this.measure(true);
+      this.start();
+    } else {
+      this.stop();
+      this.setVisible(false);
     }
-    const el = this.item.el;
-    // 1) سایز خود element
-    this.elementResizeObserver = new ResizeObserver(() => this.scheduleUpdate());
-    this.elementResizeObserver.observe(el);
-
-    // 2) تغییر layout پدر (flex، grid، margin، padding پدر)
-    //    فقط یک سطح بالاتر کافیه چون getBoundingClientRect نسبت به viewport هست
-    // if (el.parentElement) {
-    //   this.parentResizeObserver = new ResizeObserver(() => this.scheduleUpdate());
-    //   this.parentResizeObserver.observe(el.parentElement);
-    // }
-
-    // 3) تغییر محتوا داخل element (text تایپ، child اضافه/حذف شد)
-    //    subtree: true یعنی هر تغییری در هر سطحی از داخل
-    this.contentMutationObserver = new MutationObserver(() => this.scheduleUpdate());
-    this.contentMutationObserver.observe(el, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
-
-    // 4) تغییر style/class خود element (بدون subtree — فقط خودش)
-    this.attributeMutationObserver = new MutationObserver(() => this.scheduleUpdate());
-    this.attributeMutationObserver.observe(el, {
-      attributes: true,
-      attributeFilter: ['style', 'class'],
-    });
-
-    this.scheduleUpdate();
   }
 
-  private disconnectObservers() {
-    this.elementResizeObserver?.disconnect();
-    this.parentResizeObserver?.disconnect();
-    this.contentMutationObserver?.disconnect();
-    this.attributeMutationObserver?.disconnect();
+  /* ------------------------------------------------------------------ */
+  /*  حلقه‌ی rAF (بیرون از zone)                                          */
+  /* ------------------------------------------------------------------ */
 
-    this.elementResizeObserver = undefined;
-    this.parentResizeObserver = undefined;
-    this.contentMutationObserver = undefined;
-    this.attributeMutationObserver = undefined;
-  }
-
-  /**
-   * به جای اینکه هر بار مستقیم updatePosition صدا بزنیم،
-   * با rAF یک frame صبر میکنیم تا browser layout رو finish کنه
-   * و چند تا observer که همزمان fire میکنن debounce بشن
-   */
-  private scheduleUpdate() {
-    if (this.rafId !== undefined) {
-      return;
-    }
-
-    // this.cancelScheduledUpdate();
-    this.rafId = requestAnimationFrame(() => {
-      this.rafId = undefined;
-      this.updatePosition();
+  private start() {
+    if (this.rafId !== undefined) return;
+    this.zone.runOutsideAngular(() => {
+      const tick = () => {
+        this.rafId = requestAnimationFrame(tick);
+        this.measure();
+      };
+      this.rafId = requestAnimationFrame(tick);
     });
   }
 
-  private cancelScheduledUpdate() {
+  private stop() {
     if (this.rafId !== undefined) {
       cancelAnimationFrame(this.rafId);
       this.rafId = undefined;
     }
   }
 
-  updatePosition() {
-    if (!this.item?.el) return;
-    const rect = this.item.el.getBoundingClientRect();
+  /* ------------------------------------------------------------------ */
+  /*  اندازه‌گیری                                                         */
+  /* ------------------------------------------------------------------ */
 
-    // اگه element هنوز در DOM نیست
-    if (rect.width === 0 && rect.height === 0 && rect.x === 0 && rect.y === 0) return;
-    const doc = this.item.el.ownerDocument;
-    const win = doc.defaultView!;
+  private measure(force = false) {
+    const el = this.item?.el;
+    if (!el || !el.isConnected) {
+      this.setVisible(false);
+      return;
+    }
 
-    const isRtl = this.pb.pageInfo.config.direction === 'rtl';
-    const scrollbarWidth = isRtl ? win.innerWidth - doc.documentElement.clientWidth : 0;
+    const rect = el.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) {
+      this.setVisible(false);
+      return;
+    }
 
-    this.x = win.scrollX + rect.x - scrollbarWidth;
-    this.y = win.scrollY + rect.y;
-    this.width = rect.width;
-    this.height = rect.height;
-    this.showInBottom = rect.y < 0 || rect.y - 24 < this.headerOffset;
+    const win = el.ownerDocument.defaultView;
+    if (!win) return;
 
-    this.chdRef.markForCheck();
+    // مبدأ مختصات خود host (که صفر در صفر است)؛ این روش scroll/RTL/transform پدر را خودکار حل می‌کند
+    const origin = this.host.nativeElement.getBoundingClientRect();
+    const cs = win.getComputedStyle(el);
+    const n = this.next;
+
+    n[X] = rect.left - origin.left;
+    n[Y] = rect.top - origin.top;
+    n[W] = rect.width;
+    n[H] = rect.height;
+
+    n[MARGIN] = px(cs.marginTop);
+    n[MARGIN + 1] = px(cs.marginRight);
+    n[MARGIN + 2] = px(cs.marginBottom);
+    n[MARGIN + 3] = px(cs.marginLeft);
+
+    n[BORDER] = px(cs.borderTopWidth);
+    n[BORDER + 1] = px(cs.borderRightWidth);
+    n[BORDER + 2] = px(cs.borderBottomWidth);
+    n[BORDER + 3] = px(cs.borderLeftWidth);
+
+    n[PADDING] = px(cs.paddingTop);
+    n[PADDING + 1] = px(cs.paddingRight);
+    n[PADDING + 2] = px(cs.paddingBottom);
+    n[PADDING + 3] = px(cs.paddingLeft);
+
+    // جای نوار اکشن: بالا | پایین | داخل بلاک (وقتی بلاک خیلی بلند است)
+    let placement = 0;
+    let shiftY = 0;
+    if (rect.top - BAR_HEIGHT < this.headerOffset) {
+      if (rect.bottom + BAR_HEIGHT <= win.innerHeight) {
+        placement = 1;
+      } else {
+        placement = 2;
+        shiftY = clamp(this.headerOffset - rect.top, 0, Math.max(0, rect.height - BAR_HEIGHT));
+      }
+    }
+    n[PLACE] = placement;
+    n[SHIFT_Y] = shiftY;
+    n[SHIFT_X] = clamp(-rect.left, 0, Math.max(0, rect.width - BAR_HEIGHT));
+
+    const radius = cs.borderRadius;
+
+    if (!force && this.visible && radius === this.prevRadius && this.same()) return;
+
+    this.prev.set(n);
+    this.prevRadius = radius;
+    this.apply(radius);
   }
+
+  private same(): boolean {
+    for (let i = 0; i < SIZE; i++) {
+      if (this.prev[i] !== this.next[i]) return false;
+    }
+    return true;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  نوشتن مستقیم روی DOM (بدون Change Detection)                         */
+  /* ------------------------------------------------------------------ */
+
+  private apply(radius: string) {
+    const n = this.next;
+    const frame = this.frameRef.nativeElement;
+    const margin = this.marginRef.nativeElement;
+    const padding = this.paddingRef.nativeElement;
+
+    this.visible = true;
+
+    // قاب اصلی
+    frame.style.display = 'block';
+    frame.style.transform = `translate3d(${n[X]}px, ${n[Y]}px, 0)`;
+    frame.style.width = `${n[W]}px`;
+    frame.style.height = `${n[H]}px`;
+    frame.style.borderRadius = radius;
+    frame.dataset['placement'] = PLACEMENTS[n[PLACE]];
+    frame.style.setProperty('--shift-x', `${n[SHIFT_X]}px`);
+    frame.style.setProperty('--shift-y', `${n[SHIFT_Y]}px`);
+
+    // margin  (هاشور نارنجی)
+    const [mt, mr, mb, ml] = [n[MARGIN], n[MARGIN + 1], n[MARGIN + 2], n[MARGIN + 3]];
+    if (mt || mr || mb || ml) {
+      margin.style.display = 'block';
+      margin.style.transform = `translate3d(${n[X] - ml}px, ${n[Y] - mt}px, 0)`;
+      margin.style.width = `${n[W] + ml + mr}px`;
+      margin.style.height = `${n[H] + mt + mb}px`;
+      margin.style.padding = `${mt}px ${mr}px ${mb}px ${ml}px`;
+    } else {
+      margin.style.display = 'none';
+    }
+
+    // padding  (هاشور سبز)
+    const [pt, pr, pb, pl] = [n[PADDING], n[PADDING + 1], n[PADDING + 2], n[PADDING + 3]];
+    if (pt || pr || pb || pl) {
+      padding.style.display = 'block';
+      padding.style.transform = `translate3d(${n[X]}px, ${n[Y]}px, 0)`;
+      padding.style.width = `${n[W]}px`;
+      padding.style.height = `${n[H]}px`;
+      padding.style.borderWidth = `${n[BORDER]}px ${n[BORDER + 1]}px ${n[BORDER + 2]}px ${n[BORDER + 3]}px`;
+      padding.style.padding = `${pt}px ${pr}px ${pb}px ${pl}px`;
+    } else {
+      padding.style.display = 'none';
+    }
+  }
+
+  private setVisible(value: boolean) {
+    if (value === this.visible && value) return;
+    this.visible = value;
+    if (!value) {
+      this.frameRef.nativeElement.style.display = 'none';
+      this.marginRef.nativeElement.style.display = 'none';
+      this.paddingRef.nativeElement.style.display = 'none';
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  اکشن‌ها                                                             */
+  /* ------------------------------------------------------------------ */
 
   async deleteBlock() {
     if (this.item && !this.item.disableDelete) {

@@ -1,50 +1,136 @@
+:host {
+  // host صفر در صفر است؛ همه‌چیز نسبت به آن جابه‌جا می‌شود
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 100;
+  direction: ltr;
+
+  --pb-sel-color: #0073ff;
+  --pb-sel-margin: #f5a742;
+  --pb-sel-padding: #5bbf72;
+}
+
+/* ---------- لایه‌های margin / padding ---------- */
+.spacing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  box-sizing: border-box;
+  border: 0 solid transparent;
+  pointer-events: none;
+  will-change: transform;
+
+  &.margin {
+    --hatch: var(--pb-sel-margin);
+    // ناحیه‌ی padding همین div = اندازه‌ی margin؛ content-box با exclude سوراخ می‌شود
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  &.padding {
+    --hatch: var(--pb-sel-padding);
+    // فقط حلقه‌ی بین padding-box و content-box
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0) padding-box;
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0) padding-box;
+    mask-composite: exclude;
+  }
+
+  background-color: color-mix(in srgb, var(--hatch) 18%, transparent);
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--hatch) 75%, transparent) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+/* ---------- قاب انتخاب ---------- */
 .block-selector {
   position: absolute;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  display: none;
   box-sizing: border-box;
-  border-radius: 5px;
-  outline: 2px solid #0073ff;
-  outline-offset: 1px;
-  z-index: 100;
+  pointer-events: none;
+  outline: 2px solid var(--pb-sel-color);
+  outline-offset: -1px;
+  will-change: transform;
+
   .actions {
     position: absolute;
-    pointer-events: auto;
-    background-color: #0073ff;
-    color: #fff;
-    padding: 5px;
-    height: 20px;
-    top: -32px;
-    left: 3px;
-    display: inline-flex;
-    overflow: hidden;
-    max-width: 100%;
-    border-radius: 5px 5px 0 0;
+    left: calc(var(--shift-x, 0px) - 1px);
+    display: flex;
     align-items: center;
-    gap: 4px;
-    z-index: 100;
-    &.bottom {
-      top: auto;
-      bottom: -32px;
-      border-radius: 0 0 5px 5px;
-    }
+    gap: 2px;
+    height: 24px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    pointer-events: auto;
+    background: var(--pb-sel-color);
+    color: #fff;
+    font:
+      600 11px/1 system-ui,
+      sans-serif;
+    white-space: nowrap;
+    user-select: none;
+    z-index: 1;
+
     button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      padding: 4px;
+      border: 0;
+      border-radius: 3px;
       background: none;
-      border: none;
-      min-width: 26px;
-      width: 26px;
-      padding: 0 6px;
+      color: inherit;
+      cursor: pointer;
+      ngx-icon {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      &:hover {
+        background: rgb(255 255 255 / 0.2);
+      }
     }
+
     svg {
-      fill: #fff;
+      fill: currentColor;
     }
-    span.id {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      display: inline-block;
-      overflow: hidden;
+
+    .tag {
+      padding: 0 4px;
+      opacity: 0.95;
     }
-    span.tag {
-      color: #3e3d4a;
-    }
+  }
+
+  &[data-placement='top'] .actions {
+    bottom: calc(100% + 1px);
+    border-radius: 4px 4px 0 0;
+  }
+  &[data-placement='bottom'] .actions {
+    top: calc(100% + 1px);
+    border-radius: 0 0 4px 4px;
+  }
+  &[data-placement='inside'] .actions {
+    top: var(--shift-y, 0px);
+    border-radius: 0 0 4px 0;
   }
 }

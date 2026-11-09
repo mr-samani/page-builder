@@ -18,6 +18,7 @@ import { createApplication } from '@angular/platform-browser';
 import { BaseContentComponent } from './base-content';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { DragDropService } from 'ngx-kit/drag-resize';
+import { ALL_ICONS, provideIcons } from 'ngx-page-builder/icons';
 
 @Component({
   selector: 'inner-content',
@@ -100,6 +101,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     // create new Angular Application Instance
     this.iframeApp = await createApplication({
       providers: [
+        provideIcons(ALL_ICONS),
         // خیلی مهم:
         // Angular را مجبور می‌کنیم DOCUMENT را
         // همان document مربوط به iframe بداند.

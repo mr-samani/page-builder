@@ -13,6 +13,10 @@ export function provideIcons(
   ...icons: ReadonlyArray<IconDefinition | readonly IconDefinition[]>
 ): EnvironmentProviders {
   return provideEnvironmentInitializer(() => {
+    // console.log(
+    //   'register icon',
+    //   icons.flat().map((x) => x.name),
+    // );
     inject(IconRegistry).register(...icons.flat());
   });
 }
