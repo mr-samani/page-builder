@@ -1,16 +1,27 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
   Input,
-  OnInit,
+  OnChanges,
   Output,
   Renderer2,
-  ChangeDetectionStrategy,
+  SimpleChanges,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Notify } from 'ngx-kit/notify';
+import { NgxDialogService } from 'ngx-kit/dialog';
+import {
+  DataSourceSetting,
+  DEFAULT_IMAGE_URL,
+  DynamicDataService,
+  DynamicDataStructure,
+  isCollectionSource,
+  PageItem,
+} from 'ngx-page-builder/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
-import { FormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 import { DataSourceSelectorComponent } from './data-source-selector/data-source-selector.component';
 import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
@@ -19,15 +30,13 @@ import { SvgIconDirective } from '../../directives/svg-icon.directive';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.html-editor';
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
-import { Notify } from 'ngx-kit/notify';
-import {
-  DataSourceSetting,
-  DEFAULT_IMAGE_URL,
-  DynamicDataService,
-  DynamicDataStructure,
-  PageItem,
-} from 'ngx-page-builder/core';
-import { NgxDialogService } from 'ngx-kit/dialog';
+
+/**
+ * - static     : the text is typed by the user
+ * - collection : the text comes from a field of the parent collection (`item.dataSource.binding`)
+ * - dynamic    : the text comes from an object data source (`{{namespace.field}}` in `item.content`)
+ */
+type BindingMode = 'static' | 'collection' | 'dynamic';
 
 @Component({
   selector: 'text-binding',
@@ -37,50 +46,108 @@ import { NgxDialogService } from 'ngx-kit/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, SvgIconDirective, SwitchComponent],
 })
-export class TextBindingComponent extends BaseComponent implements OnInit {
+export class TextBindingComponent extends BaseComponent implements OnChanges {
   @Input() item!: PageItem;
+  /** the collection that contains this element (if any) */
   @Input() parentCollection?: PageItem;
-  @Input() collectionDsList: DynamicDataStructure[] = [];
+  /** STRUCTURE of the collection records - available even when the collection has no data */
+  @Input() collectionFields: DynamicDataStructure[] = [];
   @Output() change = new EventEmitter<string>();
 
-  isCollectionItem: boolean = false;
-  dataSourceName = '';
-
-  bindingColumns: DynamicDataStructure[] = [];
-
-  dsList: DynamicDataStructure[] = [];
-  selectedNamespace = '';
-  useDynamicData = false;
-
+  mode: BindingMode = 'static';
+  /** selected field of the collection record */
+  collectionPath = '';
+  /** selected path of an object data source */
+  dynamicPath = '';
+  /** object data sources (collections are excluded) */
+  objectSources: DynamicDataStructure[] = [];
   /** img tag src url */
   imageUrl = '';
-  private filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
-  private htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
+
+  private readonly filePicker = inject<IPageBuilderFilePicker | null>(NGX_PAGE_BUILDER_FILE_PICKER);
+  private readonly htmlEditor = inject<IPageBuilderHtmlEditor | null>(NGX_PAGE_BUILDER_HTML_EDITOR);
   protected readonly renderer = inject(Renderer2);
   protected readonly dynamicDataService = inject(DynamicDataService);
   protected readonly dialog = inject(NgxDialogService);
 
-  constructor() {
-    super();
-    // dynamic data if is not item collection
-    this.dsList = this.dynamicDataService.dynamicData.filter((x: DynamicDataStructure) => !x.list);
+  get isImage(): boolean {
+    return !!this.item?.isImageTag;
   }
 
-  ngOnInit() {
-    if (!this.item.dataSource) {
-      this.item.dataSource = new DataSourceSetting();
-    }
-    let c = (this.item.content ?? '').trim();
-    if (c.startsWith('{{') && c.endsWith('}}')) {
-      this.selectedNamespace = c.substring(2, c.length - 2);
-      this.useDynamicData = true;
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    // block-settings re-uses this component when another element is selected
+    if (changes['item']) this.syncFromItem();
+  }
 
-    this.imageUrl = '';
-    if (this.item && this.item.isImageTag) {
-      this.imageUrl = this.item.el?.getAttribute('src') ?? '';
+  private syncFromItem() {
+    this.objectSources = this.dynamicDataService.dynamicData.filter((x) => !isCollectionSource(x));
+
+    const binding = this.item.dataSource?.binding ?? '';
+    const content = (this.item.content ?? '').trim();
+    this.collectionPath = binding;
+    this.dynamicPath = '';
+
+    if (binding && this.parentCollection) {
+      this.mode = 'collection';
+    } else if (!this.isImage && content.startsWith('{{') && content.endsWith('}}')) {
+      this.mode = 'dynamic';
+      this.dynamicPath = content.slice(2, -2);
+    } else {
+      this.mode = 'static';
+    }
+    this.imageUrl = this.isImage ? (this.item.el?.getAttribute('src') ?? '') : '';
+  }
+
+  /* ---------------------------- mode ---------------------------- */
+
+  /** the two switches are mutually exclusive: turning one on turns the other off */
+  toggleMode(mode: Exclude<BindingMode, 'static'>, enabled: boolean) {
+    const next: BindingMode = enabled ? mode : 'static';
+    if (next === this.mode) return;
+
+    this.clearCurrentBinding();
+    this.mode = next;
+    this.change.emit('');
+  }
+
+  private clearCurrentBinding() {
+    if (this.mode === 'collection') {
+      this.setCollectionBinding('');
+    } else if (this.mode === 'dynamic') {
+      this.dynamicPath = '';
+      this.item.content = '';
+      this.pb.writeItemValue(this.item);
     }
   }
+
+  /* ------------------------- collection ------------------------- */
+
+  onCollectionFieldChange(path: string) {
+    this.setCollectionBinding(path);
+    this.change.emit(path);
+  }
+
+  private setCollectionBinding(path: string) {
+    this.collectionPath = path;
+    if (path) {
+      this.item.dataSource ??= new DataSourceSetting();
+      this.item.dataSource.binding = path;
+    } else if (this.item.dataSource) {
+      delete this.item.dataSource.binding;
+      // an element has a data source only to hold its binding (collections keep theirs)
+      if (!this.item.dataSource.id) delete this.item.dataSource;
+    }
+  }
+
+  /* ------------------------- dynamic data ------------------------- */
+
+  onDynamicFieldChange(path: string) {
+    this.dynamicPath = path;
+    this.item.content = path ? `{{${path}}}` : '';
+    this.change.emit(this.item.content);
+  }
+
+  /* ---------------------------- static ---------------------------- */
 
   openTextEditor() {
     if (!this.item) return;
@@ -110,27 +177,8 @@ export class TextBindingComponent extends BaseComponent implements OnInit {
         });
     }
   }
-  onChangeKey(event: string[]) {
-    this.item.content = `{{${event.join('.')}}}`;
-    this.change.emit(this.item.content);
-  }
-  onChangeCollectionKey(event: string[]) {
-    if (event.length > 0) {
-      this.useDynamicData = false;
-      this.selectedNamespace = '';
-    }
-    this.item.dataSource ??= new DataSourceSetting();
-    this.item.dataSource.binding = `${event.join('.')}`;
-    this.change.emit(this.item.dataSource.binding);
-  }
-  onChangeUseDs() {
-    if (this.useDynamicData) {
-      this.item.dataSource!.binding = '';
-    }
-  }
 
   onChangeSrcImage() {
-    if (this.item.dataSource) this.item.dataSource.binding = '';
     if (!this.filePicker) {
       console.warn('Provider for file picker is not available');
       Notify.warning('Provider for file picker is not available');

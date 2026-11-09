@@ -1,17 +1,4 @@
-import {
-  Directive,
-  DOCUMENT,
-  effect,
-  ElementRef,
-  inject,
-  Inject,
-  input,
-  Input,
-  OnChanges,
-  OnInit,
-  Renderer2,
-  SimpleChanges,
-} from '@angular/core';
+import { Directive, DOCUMENT, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 
 const SvgCache = new Map<string, string>(); // Cache for performance
 

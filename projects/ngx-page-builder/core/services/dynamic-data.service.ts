@@ -1,8 +1,35 @@
 import { Injectable } from '@angular/core';
+import { firstValueFrom, isObservable } from 'rxjs';
 import { DynamicDataInput, DynamicDataStructure } from '../models/DynamicData';
+import { DataSourceSetting } from '../models/DataSourceSetting';
 import { PageItem } from '../models/PageItem';
 import { IPage } from '../contracts/IPage';
-import { Observable, switchMap } from 'rxjs';
+import {
+  applyFilters,
+  applySorts,
+  buildSampleRows,
+  DataRow,
+  declaredSchema,
+  schemaFromRow,
+} from '../utiles/data-schema';
+
+export interface CollectionQueryOptions {
+  /**
+   * designer only: when the data source returns no record, build sample records from the schema
+   * so that the user can see (and style) what the bound elements will look like.
+   */
+  sampleWhenEmpty?: boolean;
+  /** number of sample records (default: maxResultCount or 3) */
+  sampleCount?: number;
+}
+
+export interface CollectionQueryResult {
+  rows: DataRow[];
+  /** structure of one record (always available when the source declares it, even if `rows` is empty) */
+  schema: DynamicDataStructure[];
+  /** true when `rows` were generated from the schema */
+  isSample: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +41,11 @@ export class DynamicDataService {
 
   private map = new Map<string, DynamicDataStructure>();
   private nearestCache = new Map<string, string | null>(); // itemId -> nearest datasource id
+  private schemaCache = new Map<string, DynamicDataStructure[]>(); // schemas discovered from loaded data
 
   public set dynamicData(value: DynamicDataStructure[]) {
     this._dynamicData = value ?? [];
+    this.schemaCache.clear();
     this.createValueDictionary().then(() => {
       console.log(this._dynamicData, this._valueDictionary);
     });
@@ -131,9 +160,79 @@ export class DynamicDataService {
     else itemIds.forEach((id) => this.nearestCache.delete(id));
   }
 
+  /** collection data source by id */
+  findDataSource(id: string | undefined): DynamicDataStructure | undefined {
+    return id ? this.dynamicData.find((x: DynamicDataStructure) => x.id === id) : undefined;
+  }
+
+  /**
+   * STRUCTURE of the records of a collection, without loading data.
+   * Works when the source declares `fields` / `values` or has a static `list`.
+   */
+  getSchema(id: string | undefined): DynamicDataStructure[] {
+    const ds = this.findDataSource(id);
+    if (!ds) return [];
+    return declaredSchema(ds) ?? this.schemaCache.get(ds.id!) ?? [];
+  }
+
+  /**
+   * Same as getSchema but, when the source does not declare its structure (list is an API call),
+   * loads ONE record and infers the structure from it.
+   */
+  async resolveSchema(id: string | undefined): Promise<DynamicDataStructure[]> {
+    const known = this.getSchema(id);
+    if (known.length || !id) return known;
+    const { schema } = await this.queryCollection({ id, maxResultCount: 1 });
+    if (schema.length) this.schemaCache.set(id, schema);
+    return schema;
+  }
+
+  /**
+   * Loads the records of a collection: applies skip / take / filters / sorts.
+   * - `list` is a function (API): skip, take, params, filters and sorts are passed to it (server side paging).
+   * - `list` is an array / observable: filters, sorts and paging are applied here.
+   */
+  async queryCollection(
+    setting: Partial<DataSourceSetting> | undefined,
+    options: CollectionQueryOptions = {},
+  ): Promise<CollectionQueryResult> {
+    const ds = this.findDataSource(setting?.id);
+    if (!setting || !ds) return { rows: [], schema: [], isSample: false };
+
+    const skip = setting.skipCount ?? 0;
+    const take = setting.maxResultCount || undefined;
+    const serverSide = typeof ds.list === 'function';
+
+    let rows: DataRow[] = [];
+    try {
+      rows =
+        (await resolveList(ds, {
+          skip,
+          take,
+          params: setting.params,
+          filters: setting.filters,
+          sorts: setting.sorts,
+        })) ?? [];
+    } catch (e) {
+      console.warn(`Failed to load collection data of datasource '${setting.id}'`, e);
+    }
+
+    if (!serverSide) {
+      rows = applySorts(applyFilters(rows, setting.filters), setting.sorts).slice(skip, take ? skip + take : undefined);
+    }
+
+    const schema = declaredSchema(ds) ?? this.schemaCache.get(ds.id!) ?? (rows[0] ? schemaFromRow(rows[0]) : []);
+    if (schema.length && !this.schemaCache.has(ds.id!)) this.schemaCache.set(ds.id!, schema);
+
+    if (rows.length === 0 && options.sampleWhenEmpty && schema.length) {
+      return { rows: buildSampleRows(schema, options.sampleCount ?? take ?? 3), schema, isSample: true };
+    }
+    return { rows, schema, isSample: false };
+  }
+
   /**
    * get collection data by datasource id
-   * @param id datasource id
+   * @deprecated use queryCollection (supports filters, sorts and sample data)
    */
   async getCollectionData(
     id: string | undefined,
@@ -141,62 +240,32 @@ export class DynamicDataService {
     take?: number,
     params?: { [key: string]: any },
   ): Promise<DynamicDataStructure[][]> {
-    if (!id) return [];
-    let result: DynamicDataStructure[][] = [];
-    const finded = this.dynamicData.find((x: DynamicDataStructure) => x.id === id);
-    if (finded) {
-      const list = await resolveList(finded, take, skip, params);
-      result = list.slice(skip, take ? skip + take : undefined);
-    }
-    if (result.length === 0) {
-      console.warn(`No collection data found for datasource id: ${id}`);
-    }
-    return result;
+    const { rows } = await this.queryCollection({ id, skipCount: skip, maxResultCount: take, params });
+    return rows;
   }
 }
 
-import { isObservable, firstValueFrom } from 'rxjs';
-
-async function resolveList(
-  item: DynamicDataStructure,
-  take?: number,
-  skip?: number,
-  params?: { [key: string]: any },
-): Promise<DynamicDataStructure[][]> {
-  if (!item?.list) return [];
-  const input: DynamicDataInput = {
-    take,
-    skip,
-    params,
-  };
-  if (item.inputData && !params) {
-    input.params ??= {};
-    for (let k of item.inputData) {
-      input.params[k.name] = k.value;
+async function resolveList(item: DynamicDataStructure, input: DynamicDataInput = {}): Promise<DynamicDataStructure[][]> {
+  const request: DynamicDataInput = { ...input };
+  // default values of the input parameters declared by the data source
+  if (item.inputData && !request.params) {
+    request.params = {};
+    for (const k of item.inputData) {
+      request.params[k.name] = k.value;
     }
   }
   const listField = item.list;
+  if (!listField) return [];
 
-  // اگر list یک تابع است -> صدا بزنیم
+  // list is a function (promise / observable / plain array)
   if (typeof listField === 'function') {
-    const result = listField(input);
-
-    // تشخیص Promise با بررسی then
-    if (result && typeof (result as Promise<any>)?.then === 'function') {
-      return (await result) as any;
-    }
-
-    // تشخیص Observable
+    const result = listField(request);
     if (isObservable(result)) {
-      // منتظر اولین مقدار شو (یا استفاده از lastValueFrom بنا به نیاز)
       return await firstValueFrom<DynamicDataStructure[][]>(result as any);
     }
-
-    // اگر تابع مستقیم آرایه برگشت داده
-    return result as any;
+    return (await result) as DynamicDataStructure[][];
   }
 
-  // اگر list خودش مستقیم آرایه است
   if (isObservable(listField)) {
     return await firstValueFrom<DynamicDataStructure[][]>(listField as any);
   }

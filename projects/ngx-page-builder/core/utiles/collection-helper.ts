@@ -1,5 +1,8 @@
 import { DynamicDataStructure } from '../models/DynamicData';
 import { PageItem } from '../models/PageItem';
+import { IPageItem } from '../contracts/IPageItem';
+import { cloneDeep } from './clone-deep';
+import { fieldValue } from './data-schema';
 
 /**
  * بررسی می‌کند آیا یک آیتم در بین فرزندان یک تمپلیت خاص وجود دارد یا خیر
@@ -42,45 +45,53 @@ export function findCellContainer(item: PageItem): PageItem | undefined {
   return undefined;
 }
 
+/**
+ * Creates one repeated item of a collection from its template and fills the bound elements with the record values.
+ * The template is NOT modified (previously the values of the last record leaked into the saved template).
+ * @param dataList records of the collection
+ * @param template the item template
+ * @param index record index
+ */
 export function cloneTemplate(dataList: DynamicDataStructure[][], template: PageItem, index: number) {
-  const cleanTree = (item: PageItem) => {
-    delete item.options?.events;
-    delete item.options?.directives;
-    delete item.options?.inputs;
-    delete item.options?.outputs;
-    if (item.dataSource && item.dataSource.binding) {
-      const row = dataList[index];
-      if (row) {
-        const col = row.find((x: DynamicDataStructure) => x.name == item.dataSource!.binding);
-        const isImage = PageItem.isImage(item);
-        if (isImage) {
-          item.options ??= {};
-          item.options.attributes ??= {};
-          item.options.attributes['src'] = (col?.value ?? '').toString();
-        } else {
-          item.content = (col?.value ?? '').toString();
-        }
+  const row = dataList[index];
 
-        if (Array.isArray(item.options?.customData?.queryString)) {
-          for (let q of item.options.customData.queryString) {
-            if (q.isDynamic) {
-              const col = row.find((x: DynamicDataStructure) => x.name == q.value);
-              q.dynamicValue = col?.value;
-            }
-          }
-        }
+  const build = (item: PageItem): IPageItem => {
+    const { parent, el, children, template: _t, options, ...rest } = item;
+    const plain = { ...rest, children: [] as IPageItem[] } as IPageItem;
+    if (options) {
+      plain.options = cloneDeep(options);
+      delete plain.options.events;
+      delete plain.options.directives;
+      delete plain.options.inputs;
+      delete plain.options.outputs;
+    }
+
+    const binding = item.dataSource?.binding;
+    if (binding && row) {
+      const value = (fieldValue(row, binding) ?? '').toString();
+      if (PageItem.isImage(item)) {
+        plain.options ??= {};
+        plain.options.attributes ??= {};
+        plain.options.attributes['src'] = value;
+      } else {
+        plain.content = value;
       }
-      // console.log(index + '=>', item.content);
     }
-    if (item.children && item.children.length > 0) {
-      item.children.map((child) => cleanTree(child));
+
+    // dynamic query strings of links: ?id={field}
+    const queryString = plain.options?.customData?.['queryString'];
+    if (row && Array.isArray(queryString)) {
+      plain.options!.customData!['queryString'] = queryString.map((q: any) =>
+        q.isDynamic ? { ...q, dynamicValue: fieldValue(row, q.value) } : q,
+      );
     }
-    return item;
+
+    plain.children = (item.children ?? []).map(build);
+    return plain;
   };
-  //  console.time('cleanTree');
-  //const t = cleanTree(cloneDeep(this.pageItem.template!));
-  const t = cleanTree(template!);
-  // console.timeEnd('cleanTree');
-  // cleanTree([cloneDeep(this.pageItem.template!)]);
-  return PageItem.fromJSON(t);
+
+  const root = build(template);
+  // children get their parent from the constructor, the root must keep the collection as parent
+  root.parent = template.parent;
+  return PageItem.fromJSON(root);
 }

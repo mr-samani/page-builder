@@ -75,7 +75,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       select,
       textarea {
         width: 100% !important;
-        min-width: 100% !important;
+        min-width: 0 !important;
         max-width: 100% !important;
       }
     }

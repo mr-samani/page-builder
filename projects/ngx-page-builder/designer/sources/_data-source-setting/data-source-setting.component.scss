@@ -3,3 +3,13 @@
   flex-direction: column;
   margin-bottom: 10px;
 }
+
+.rule {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #8d8d8d63;
+  border-radius: 5px;
+}

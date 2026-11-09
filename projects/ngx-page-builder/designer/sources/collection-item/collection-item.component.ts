@@ -134,15 +134,10 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
       return;
     }
-    const count = this.pageItem.dataSource?.maxResultCount || 10;
-    const skip = this.pageItem.dataSource?.skipCount || 0;
-    const params = this.pageItem.dataSource.params;
-    if (this.pageItem.dataSource.id) {
-      this.dataList = await this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count, params);
-    }
-
-    // const childCount = Math.min(count, this.dataList.length);
-    const childCount = count;
+    // filters / sorts / skip / take are applied by the service; when the list is empty the designer shows sample records
+    const result = await this.dynamicDataService.queryCollection(this.pageItem.dataSource, { sampleWhenEmpty: true });
+    this.dataList = result.rows;
+    const childCount = this.dataList.length;
 
     await this.clearContainer();
     this.pageItem.children = [];
@@ -161,9 +156,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     await this.clearContainer();
     this.pageItem.children = [];
 
-    const count = this.pageItem.dataSource?.maxResultCount || 10;
-    //const childCount = Math.min(count, this.dataList.length);
-    const childCount = count;
+    const childCount = this.dataList.length;
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
       await this.pb.createBlockElement(this.editMode, cloned, this.elRef.nativeElement);

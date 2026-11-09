@@ -1,13 +1,71 @@
 <div class="data-field">
-  <label for="datasource">Data Source</label>
+  <label for="datasource">Data source</label>
   <div class="pb-input-group pi-row">
     <select [(ngModel)]="settings.id" id="datasource" name="datasource" (change)="onChangeDataSource()">
+      <option value="" disabled>Select a data source…</option>
       @for (item of collectionDataSource; track item.id) {
         <option [value]="item.id">{{ item.displayName }}</option>
       }
     </select>
   </div>
 </div>
+
+@if (settings.id) {
+  <!-- filter -->
+  <div class="data-field">
+    <label>Filter</label>
+    @for (f of settings.filters; track $index) {
+      <div class="rule">
+        <div class="pb-input-group pi-row">
+          <select [(ngModel)]="f.field" [name]="'filter-field-' + $index" (change)="update()">
+            @for (opt of fieldOptions(); track opt.path) {
+              <option [value]="opt.path">{{ opt.label }}</option>
+            }
+          </select>
+          <button type="button" class="pb-btn" title="Remove" (click)="removeFilter($index)">
+            <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+          </button>
+        </div>
+        <div class="pb-input-group pi-row">
+          <select [(ngModel)]="f.operator" [name]="'filter-op-' + $index" (change)="update()">
+            @for (op of operators; track op.value) {
+              <option [value]="op.value">{{ op.label }}</option>
+            }
+          </select>
+        </div>
+        @if (needsValue(f.operator)) {
+          <div class="pb-input-group pi-row">
+            <input type="text" [(ngModel)]="f.value" [name]="'filter-value-' + $index" (change)="update()" />
+          </div>
+        }
+      </div>
+    }
+    <button type="button" class="pb-btn" [disabled]="!fieldOptions().length" (click)="addFilter()">+ Add filter</button>
+  </div>
+
+  <!-- sort -->
+  <div class="data-field">
+    <label>Sort order</label>
+    @for (s of settings.sorts; track $index) {
+      <div class="pb-input-group pi-row">
+        <select [(ngModel)]="s.field" [name]="'sort-field-' + $index" (change)="update()">
+          @for (opt of fieldOptions(); track opt.path) {
+            <option [value]="opt.path">{{ opt.label }}</option>
+          }
+        </select>
+        <select [(ngModel)]="s.direction" [name]="'sort-dir-' + $index" (change)="update()">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+        <button type="button" class="pb-btn" title="Remove" (click)="removeSort($index)">
+          <svg [Icon]="'assets/icons/xmark.svg'"></svg>
+        </button>
+      </div>
+    }
+    <button type="button" class="pb-btn" [disabled]="!fieldOptions().length" (click)="addSort()">+ Add sort</button>
+  </div>
+}
+
 <div class="data-field">
   <label for="skipcount">Skip count</label>
   <div class="pb-input-group pi-row">
@@ -26,34 +84,33 @@
   </div>
 </div>
 
-@for (field of otherFields; track $index) {
+@for (field of otherFields; track field.name) {
   <div class="data-field">
     <label>{{ field.label }}</label>
 
     @switch (field.type) {
       @case (DynamicDataInputType.Number) {
         <div class="pb-input-group pi-row">
-          <input type="number" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)" />
+          <input type="number" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updateParam(field)" />
         </div>
       }
       @case (DynamicDataInputType.Textarea) {
         <div class="pb-input-group pi-row">
-          <textarea rows="5" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)"></textarea>
+          <textarea rows="5" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updateParam(field)"></textarea>
         </div>
       }
-      @case (DynamicDataInputType.Select || DynamicDataInputType.AutoComplete) {
+      @case (DynamicDataInputType.Select) {
         <div class="pb-input-group pi-row">
-          <select [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)">
-            @for (opt of field.options; track $index) {
+          <select [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updateParam(field)">
+            @for (opt of field.options; track opt.id) {
               <option [value]="opt.id">{{ opt.title }}</option>
             }
           </select>
         </div>
       }
-
       @default {
         <div class="pb-input-group pi-row">
-          <input type="text" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updt(field)" />
+          <input type="text" [(ngModel)]="field.value" [name]="'field_' + $index" (change)="updateParam(field)" />
         </div>
       }
     }

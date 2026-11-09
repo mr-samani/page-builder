@@ -43,7 +43,7 @@ const URL_REGEX = /^(https?:\/\/)[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
 export class EditLinkComponent implements OnInit {
   @Input() item!: PageItem;
   @Input() parentCollection?: PageItem;
-  @Input() collectionDsList: DynamicDataStructure[] = [];
+  @Input() collectionFields: DynamicDataStructure[] = [];
 
   type: LinkType = 'link';
 
@@ -175,8 +175,8 @@ export class EditLinkComponent implements OnInit {
     return !this.isInvalid;
   }
 
-  onChangeCollectionKey(event: string[], q: CMSPageQueryString) {
-    q.value = `${event.join('.')}`;
+  onChangeCollectionKey(path: string, q: CMSPageQueryString) {
+    q.value = path;
     this.onChange();
   }
 

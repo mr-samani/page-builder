@@ -23,7 +23,8 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   @ViewChild('settingsContainer', { static: true }) settingsContainer!: HTMLElement;
 
   parentCollection?: PageItem;
-  collectionDsList: DynamicDataStructure[] = [];
+  /** structure of the records of the parent collection (known even if the collection is empty) */
+  collectionFields: DynamicDataStructure[] = [];
 
   enableExportAsPlugin = LibConsts.enableExportAsPlugin;
 
@@ -35,7 +36,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     super();
     effect(async () => {
       this.item = this.pb.activeEl();
-      this.checkParentIsCollection();
+      await this.checkParentIsCollection();
 
       if (this.item && this.item.customComponent && typeof this.item.customComponent.componentSettings === 'function') {
         this.settingComponent = await this.item.customComponent.componentSettings();
@@ -67,11 +68,14 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     if (this.item) this.pb.changedProperties(this.item);
   }
   async checkParentIsCollection() {
-    this.parentCollection = this.parentCollectionItem(this.item);
+    const current = this.item;
+    this.parentCollection = this.parentCollectionItem(current);
+    this.collectionFields = [];
     if (this.parentCollection) {
-      const { id, skipCount, maxResultCount, params } = this.parentCollection.dataSource!;
-      let dsList = await this.dynamicDataService.getCollectionData(id, skipCount, maxResultCount, params);
-      this.collectionDsList = dsList.length > 0 ? dsList[0] : [];
+      // only the STRUCTURE is needed: binding must work even if the collection has no records
+      const fields = await this.dynamicDataService.resolveSchema(this.parentCollection.dataSource?.id);
+      // another element may have been selected while the schema was loading
+      if (this.item === current) this.collectionFields = fields;
     }
   }
 

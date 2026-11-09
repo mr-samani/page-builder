@@ -158,7 +158,10 @@ export class DynamicElementService {
       onChange: onChangeCustomData,
     };
 
-    const providers: Provider[] = [...(customComponent.providers ?? []), { provide: COMPONENT_DATA, useValue: context }];
+    const providers: Provider[] = [
+      ...(customComponent.providers ?? []),
+      { provide: COMPONENT_DATA, useValue: context },
+    ];
 
     // Injector اختصاصی کامپوننت (برای پنل تنظیمات در app اصلی هم استفاده می‌شود → بدون override)
     const componentInjector = Injector.create({ providers, parent: this.envInjector });
@@ -212,7 +215,6 @@ export class DynamicElementService {
       );
       targetAppRef.attachView(compRef.hostView);
       compRef.onDestroy(disposeResources);
-
       element = compRef.location.nativeElement as HTMLElement;
       (element as any).__componentRef__ = compRef;
       (element as any).__viewApplicationRef__ = targetAppRef;

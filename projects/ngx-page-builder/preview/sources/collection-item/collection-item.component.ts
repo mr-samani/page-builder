@@ -83,16 +83,9 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
       return;
     }
-    const count = this.pageItem.dataSource?.maxResultCount || 10;
-    const skip = this.pageItem.dataSource?.skipCount || 0;
-    const params = this.pageItem.dataSource.params;
-
-    if (this.pageItem.dataSource.id) {
-      this.dataList = await this.dynamicDataService.getCollectionData(this.pageItem.dataSource.id, skip, count, params);
-    }
-
-    // const childCount = Math.min(count, this.dataList.length);
-    const childCount = count;
+    const result = await this.dynamicDataService.queryCollection(this.pageItem.dataSource);
+    this.dataList = result.rows;
+    const childCount = this.dataList.length;
 
     await this.clearContainer();
     this.pageItem.children = [];

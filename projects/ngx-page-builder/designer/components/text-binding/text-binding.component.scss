@@ -22,3 +22,13 @@
     height: 20px;
   }
 }
+
+.binding {
+  margin-bottom: 10px;
+
+  .hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+}

@@ -7,7 +7,7 @@
       <text-binding
         [item]="item"
         [parentCollection]="parentCollection"
-        [collectionDsList]="collectionDsList"
+        [collectionFields]="collectionFields"
         (change)="onChangeProperties()"></text-binding>
     }
 
@@ -20,7 +20,7 @@
     }
 
     @if (item.isLink) {
-      <edit-link [item]="item" [parentCollection]="parentCollection" [collectionDsList]="collectionDsList"></edit-link>
+      <edit-link [item]="item" [parentCollection]="parentCollection" [collectionFields]="collectionFields"></edit-link>
     }
     @if (enableExportAsPlugin) {
       <div class="export-as-plugin">

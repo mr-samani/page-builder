@@ -1,32 +1,52 @@
 @if (parentCollection) {
-  <p>Collection Binding:</p>
-  <div class="pb-input-group">
-    <data-source-selector
-      [selectedItem]="item.dataSource?.binding"
-      [list]="collectionDsList"
-      (selectedKey)="onChangeCollectionKey($event)"></data-source-selector>
-    @if (item.dataSource) {
-      <button type="button" class="pb-btn" (click)="item.dataSource.binding = ''; onChangeCollectionKey([])">X</button>
+  <div class="binding">
+    <switch [ngModel]="mode === 'collection'" (ngModelChange)="toggleMode('collection', $event)" name="useCollection">
+      {{ isImage ? 'Get image from collection' : 'Get text from collection' }}
+    </switch>
+
+    @if (mode === 'collection') {
+      @if (collectionFields.length > 0) {
+        <data-source-selector
+          [fields]="collectionFields"
+          [value]="collectionPath"
+          placeholder="Select a field…"
+          (valueChange)="onCollectionFieldChange($event)"></data-source-selector>
+      } @else {
+        <p class="hint">
+          @if (parentCollection.dataSource?.id) {
+            This data source does not declare its fields. Add <code>fields</code> to it.
+          } @else {
+            Select a data source for the collection first.
+          }
+        </p>
+      }
     }
   </div>
 }
 
-<div>
-  <switch [(ngModel)]="useDynamicData" name="useDynamicData" (change)="onChangeUseDs()">Binding to dynamic data</switch>
-</div>
+@if (!isImage) {
+  <div class="binding">
+    <switch [ngModel]="mode === 'dynamic'" (ngModelChange)="toggleMode('dynamic', $event)" name="useDynamicData">
+      Binding to dynamic data
+    </switch>
 
-@if (useDynamicData) {
-  <data-source-selector
-    [selectedItem]="selectedNamespace"
-    [list]="dsList"
-    (selectedKey)="onChangeKey($event)"></data-source-selector>
-} @else if (!item.dataSource?.binding && !item.isImageTag) {
+    @if (mode === 'dynamic') {
+      <data-source-selector
+        [fields]="objectSources"
+        [value]="dynamicPath"
+        placeholder="Select a data source…"
+        (valueChange)="onDynamicFieldChange($event)"></data-source-selector>
+    }
+  </div>
+}
+
+@if (mode === 'static' && !isImage) {
   <div class="text" (click)="openTextEditor()">
     <span [innerHTML]="item.content | safeHtml" class="content"></span>
     <svg Icon="assets/icons/edit.svg"></svg>
   </div>
 }
 
-@if (item.isImageTag) {
+@if (isImage && mode !== 'collection') {
   <button type="button" (click)="onChangeSrcImage()" class="pb-btn">Change Image</button>
 }
