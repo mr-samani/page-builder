@@ -245,7 +245,10 @@ export class DynamicDataService {
   }
 }
 
-async function resolveList(item: DynamicDataStructure, input: DynamicDataInput = {}): Promise<DynamicDataStructure[][]> {
+async function resolveList(
+  item: DynamicDataStructure,
+  input: DynamicDataInput = {},
+): Promise<DynamicDataStructure[][]> {
   const request: DynamicDataInput = { ...input };
   // default values of the input parameters declared by the data source
   if (item.inputData && !request.params) {

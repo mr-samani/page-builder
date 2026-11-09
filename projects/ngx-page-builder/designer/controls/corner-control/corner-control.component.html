@@ -3,7 +3,9 @@
   <div class="cc-head">
     <span class="cc-title">Shape</span>
     @if (hasAny()) {
-      <button type="button" class="cc-link" title="Remove all corner overrides of this state" (click)="reset()">Reset</button>
+      <button type="button" class="cc-link" title="Remove all corner overrides of this state" (click)="reset()">
+        Reset
+      </button>
     }
   </div>
 
@@ -88,7 +90,8 @@
       title="Edit all four corners together"
       (click)="toggleLinked()">
       <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" class="cc-ico">
-        <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.700l1-1" />
+        <path
+          d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.700l1-1" />
       </svg>
       {{ linked() ? 'Linked' : 'Link' }}
     </button>
@@ -166,7 +169,11 @@
                 [units]="['px']"
                 fallback="0px"
                 [min]="0"
-                [title]="corner(k).cut.linked ? 'Radius of all three vertices of the cut-out' : 'Convex vertex on the horizontal edge'"
+                [title]="
+                  corner(k).cut.linked
+                    ? 'Radius of all three vertices of the cut-out'
+                    : 'Convex vertex on the horizontal edge'
+                "
                 [value]="corner(k).cut.r1 + 'px'"
                 (valueChange)="setCutRadius(k, 'r1', $event)"
                 (focusin)="active.set(k)" />
@@ -234,67 +241,79 @@
         </div>
         @if (notch(e).on) {
           <div class="cc-notch-fields">
-          <div class="cc-frow">
-            <span class="cc-fname">Shape</span>
-            <div class="cc-seg" role="group" aria-label="Notch shape">
-              <button type="button" [class.on]="notch(e).shape === 'rect'" [attr.aria-pressed]="notch(e).shape === 'rect'" (click)="setNotchShape(e, 'rect')">Rect</button>
-              <button type="button" [class.on]="notch(e).shape === 'round'" [attr.aria-pressed]="notch(e).shape === 'round'" (click)="setNotchShape(e, 'round')">Round</button>
-            </div>
-          </div>
-          <div class="cc-frow">
-            <span class="cc-fname">Width</span>
-            <css-unit-field
-              title="Width of the opening on the edge"
-              [units]="['px']"
-              fallback="0px"
-              [min]="0"
-              [value]="notch(e).width + 'px'"
-              (valueChange)="setNotch(e, 'width', $event)" />
-          </div>
-          <div class="cc-frow">
-            <span class="cc-fname">Depth</span>
-            <css-unit-field
-              title="How far the notch cuts into the block"
-              [units]="['px']"
-              fallback="0px"
-              [min]="0"
-              [value]="notch(e).depth + 'px'"
-              (valueChange)="setNotch(e, 'depth', $event)" />
-          </div>
-          <div class="cc-frow">
-            <span class="cc-fname">Position</span>
-            <css-unit-field
-              title="Position of the notch along the edge"
-              [units]="['%']"
-              fallback="50%"
-              [min]="0"
-              [max]="100"
-              [value]="notch(e).pos + '%'"
-              (valueChange)="setNotch(e, 'pos', $event)" />
-          </div>
-          @if (notch(e).shape === 'rect') {
             <div class="cc-frow">
-              <span class="cc-fname">Radius</span>
+              <span class="cc-fname">Shape</span>
+              <div class="cc-seg" role="group" aria-label="Notch shape">
+                <button
+                  type="button"
+                  [class.on]="notch(e).shape === 'rect'"
+                  [attr.aria-pressed]="notch(e).shape === 'rect'"
+                  (click)="setNotchShape(e, 'rect')">
+                  Rect
+                </button>
+                <button
+                  type="button"
+                  [class.on]="notch(e).shape === 'round'"
+                  [attr.aria-pressed]="notch(e).shape === 'round'"
+                  (click)="setNotchShape(e, 'round')">
+                  Round
+                </button>
+              </div>
+            </div>
+            <div class="cc-frow">
+              <span class="cc-fname">Width</span>
               <css-unit-field
-                title="Radius of the two bottom corners of the notch"
+                title="Width of the opening on the edge"
                 [units]="['px']"
                 fallback="0px"
                 [min]="0"
-                [value]="notch(e).radius + 'px'"
-                (valueChange)="setNotch(e, 'radius', $event)" />
+                [value]="notch(e).width + 'px'"
+                (valueChange)="setNotch(e, 'width', $event)" />
             </div>
-          }
-          <div class="cc-frow">
-            <span class="cc-fname">Flare</span>
-            <css-unit-field
-              title="Rounds the two sharp vertices where the notch meets the edge"
-              [units]="['px']"
-              fallback="0px"
-              [min]="0"
-              [value]="notch(e).flare + 'px'"
-              (valueChange)="setNotch(e, 'flare', $event)" />
+            <div class="cc-frow">
+              <span class="cc-fname">Depth</span>
+              <css-unit-field
+                title="How far the notch cuts into the block"
+                [units]="['px']"
+                fallback="0px"
+                [min]="0"
+                [value]="notch(e).depth + 'px'"
+                (valueChange)="setNotch(e, 'depth', $event)" />
+            </div>
+            <div class="cc-frow">
+              <span class="cc-fname">Position</span>
+              <css-unit-field
+                title="Position of the notch along the edge"
+                [units]="['%']"
+                fallback="50%"
+                [min]="0"
+                [max]="100"
+                [value]="notch(e).pos + '%'"
+                (valueChange)="setNotch(e, 'pos', $event)" />
+            </div>
+            @if (notch(e).shape === 'rect') {
+              <div class="cc-frow">
+                <span class="cc-fname">Radius</span>
+                <css-unit-field
+                  title="Radius of the two bottom corners of the notch"
+                  [units]="['px']"
+                  fallback="0px"
+                  [min]="0"
+                  [value]="notch(e).radius + 'px'"
+                  (valueChange)="setNotch(e, 'radius', $event)" />
+              </div>
+            }
+            <div class="cc-frow">
+              <span class="cc-fname">Flare</span>
+              <css-unit-field
+                title="Rounds the two sharp vertices where the notch meets the edge"
+                [units]="['px']"
+                fallback="0px"
+                [min]="0"
+                [value]="notch(e).flare + 'px'"
+                (valueChange)="setNotch(e, 'flare', $event)" />
+            </div>
           </div>
-        </div>
         }
       </li>
     }
@@ -307,11 +326,14 @@
   @if (usesMask()) {
     @if (shadowSet()) {
       <p class="cc-warn">
-        Box-shadow is cut along cut-outs, scoops and notches. To keep a shadow, put this block inside a container and give
-        the container a drop-shadow filter.
+        Box-shadow is cut along cut-outs, scoops and notches. To keep a shadow, put this block inside a container and
+        give the container a drop-shadow filter.
       </p>
     } @else {
-      <p class="cc-note">Output is an SVG mask: radii stay exact in px at any element size. Borders and shadows are cut along cut-outs, scoops and notches.</p>
+      <p class="cc-note">
+        Output is an SVG mask: radii stay exact in px at any element size. Borders and shadows are cut along cut-outs,
+        scoops and notches.
+      </p>
     }
   }
 </div>

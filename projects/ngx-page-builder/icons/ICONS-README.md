@@ -26,7 +26,7 @@ npm i -D svgo svgson
 
 ```json
 "paths": {
-  "ngx-page-builder/icons": ["projects/ngx-page-builder/icons/src/public-api.ts"]
+  "ngx-page-builder/icons": ["projects/ngx-page-builder/icons/public-api.ts"]
 }
 ```
 

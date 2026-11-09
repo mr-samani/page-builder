@@ -144,7 +144,8 @@ export class TransformControlComponent extends BaseControl {
 
     s.transformOrigin = this.originSet() ? formatOrigin(this.origin()) : '';
     s.perspective = this.perspective();
-    s.perspectiveOrigin = this.perspectiveOriginSet() && this.perspective() ? formatOrigin(this.perspectiveOrigin()) : '';
+    s.perspectiveOrigin =
+      this.perspectiveOriginSet() && this.perspective() ? formatOrigin(this.perspectiveOrigin()) : '';
     s.backfaceVisibility = this.backface();
     s.transformStyle = this.transformStyle();
 

@@ -29,10 +29,20 @@ type Handle = 1 | 2;
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ee-tabs" role="tablist" aria-label="Easing type">
-      <button type="button" role="tab" [class.on]="mode() !== 'steps'" [attr.aria-selected]="mode() !== 'steps'" (click)="toCurve()">
+      <button
+        type="button"
+        role="tab"
+        [class.on]="mode() !== 'steps'"
+        [attr.aria-selected]="mode() !== 'steps'"
+        (click)="toCurve()">
         Curve
       </button>
-      <button type="button" role="tab" [class.on]="mode() === 'steps'" [attr.aria-selected]="mode() === 'steps'" (click)="toSteps()">
+      <button
+        type="button"
+        role="tab"
+        [class.on]="mode() === 'steps'"
+        [attr.aria-selected]="mode() === 'steps'"
+        (click)="toSteps()">
         Steps
       </button>
     </div>
@@ -59,11 +69,21 @@ type Handle = 1 | 2;
           (pointerup)="onUp($event)"
           (pointercancel)="onUp($event)">
           <!-- frame + guides -->
-          <rect [attr.x]="pad" [attr.y]="Y(1)" [attr.width]="size - 2 * pad" [attr.height]="Y(0) - Y(1)" class="ee-unit" />
+          <rect
+            [attr.x]="pad"
+            [attr.y]="Y(1)"
+            [attr.width]="size - 2 * pad"
+            [attr.height]="Y(0) - Y(1)"
+            class="ee-unit" />
           <line [attr.x1]="pad" [attr.x2]="size - pad" [attr.y1]="Y(0)" [attr.y2]="Y(0)" class="ee-axis" />
           <line [attr.x1]="pad" [attr.x2]="size - pad" [attr.y1]="Y(1)" [attr.y2]="Y(1)" class="ee-axis" />
           <line [attr.x1]="pad" [attr.x2]="pad" [attr.y1]="Y(Y_MAX)" [attr.y2]="Y(Y_MIN)" class="ee-axis faint" />
-          <line [attr.x1]="size - pad" [attr.x2]="size - pad" [attr.y1]="Y(Y_MAX)" [attr.y2]="Y(Y_MIN)" class="ee-axis faint" />
+          <line
+            [attr.x1]="size - pad"
+            [attr.x2]="size - pad"
+            [attr.y1]="Y(Y_MAX)"
+            [attr.y2]="Y(Y_MIN)"
+            class="ee-axis faint" />
 
           <!-- handle arms -->
           <line [attr.x1]="X(0)" [attr.y1]="Y(0)" [attr.x2]="X(e.p[0])" [attr.y2]="Y(e.p[1])" class="ee-arm" />
@@ -375,7 +395,7 @@ export class EasingEditorComponent {
 
   private currentBezier(): Bezier {
     const e = this.parsed();
-    return e.kind === 'bezier' ? [...e.p] as Bezier : [0.25, 0.1, 0.25, 1];
+    return e.kind === 'bezier' ? ([...e.p] as Bezier) : [0.25, 0.1, 0.25, 1];
   }
 
   //---------------------------------- mode / presets ----------------------------------

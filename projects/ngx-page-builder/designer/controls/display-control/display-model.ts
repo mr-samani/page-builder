@@ -20,7 +20,14 @@ const r2 = (n: number) => Math.round(n * 100) / 100;
 const transpose = (rects: Rect[], vertical: boolean): Rect[] =>
   vertical ? rects.map(({ x, y, w, h }) => ({ x: y, y: x, w: h, h: w })) : rects;
 
-export type DistKind = 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch';
+export type DistKind =
+  | 'flex-start'
+  | 'center'
+  | 'flex-end'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly'
+  | 'stretch';
 export type CrossKind = 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
 
 /** سه میله روی محور اصلی با توزیع مشخص (justify-content). `vertical` یعنی محور اصلی عمودی است */
@@ -48,12 +55,18 @@ export function justifyGlyph(kind: DistKind, vertical = false): Rect[] {
     case 'stretch': {
       // میله‌های پهن‌تر که تمام فضا را پر می‌کنند
       const ww = 4.2;
-      return transpose([1, 5.9, 10.8].map((x) => ({ x, y, w: ww, h })), vertical);
+      return transpose(
+        [1, 5.9, 10.8].map((x) => ({ x, y, w: ww, h })),
+        vertical,
+      );
     }
     default:
       xs = [1, 5, 9];
   }
-  return transpose(xs.map((x) => ({ x: r2(x), y, w, h })), vertical);
+  return transpose(
+    xs.map((x) => ({ x: r2(x), y, w, h })),
+    vertical,
+  );
 }
 
 /** سه میله روی محور فرعی (align-items / align-self). `vertical` یعنی محور فرعی عمودی نیست (جهت column) */
@@ -256,7 +269,8 @@ export interface FlexParts {
 }
 
 const NUM_ONLY = /^[+-]?(?:\d+\.?\d*|\.\d+)$/;
-const LEN_OR_KW = /^(?:[+-]?(?:\d+\.?\d*|\.\d+)(?:px|%|em|rem|vw|vh|ch|ex|vmin|vmax)|auto|content|min-content|max-content|fit-content)$/i;
+const LEN_OR_KW =
+  /^(?:[+-]?(?:\d+\.?\d*|\.\d+)(?:px|%|em|rem|vw|vh|ch|ex|vmin|vmax)|auto|content|min-content|max-content|fit-content)$/i;
 
 /** `flex: ...` را طبق مشخصات CSS به grow/shrink/basis می‌شکند؛ هرچه نامطمئن است (var() و ...) → null */
 export function parseFlexShorthand(text: string | null | undefined): FlexParts | null {

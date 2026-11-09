@@ -2,7 +2,9 @@
   <div class="sc-head">
     <span class="sc-title">Size</span>
     @if (hasAnySize()) {
-      <button type="button" class="sc-link" title="Remove all size overrides of this state" (click)="clearSizes()">Reset</button>
+      <button type="button" class="sc-link" title="Remove all size overrides of this state" (click)="clearSizes()">
+        Reset
+      </button>
     }
   </div>
 
@@ -19,7 +21,9 @@
         [value]="value(r.prop)"
         (valueChange)="set(r.prop, $event)" />
       <span class="sc-tools">
-        <button type="button" class="sc-icon" title="Set to 100%" aria-label="Set to 100%" (click)="fill($any(r.prop))">100%</button>
+        <button type="button" class="sc-icon" title="Set to 100%" aria-label="Set to 100%" (click)="fill($any(r.prop))">
+          100%
+        </button>
         <button
           type="button"
           class="sc-icon"
@@ -48,7 +52,15 @@
           [value]="value(r.prop)"
           (valueChange)="set(r.prop, $event)" />
         <span class="sc-tools one">
-          <button type="button" class="sc-icon" [disabled]="!value(r.prop)" title="Remove override" aria-label="Remove override" (click)="clear(r.prop)">✕</button>
+          <button
+            type="button"
+            class="sc-icon"
+            [disabled]="!value(r.prop)"
+            title="Remove override"
+            aria-label="Remove override"
+            (click)="clear(r.prop)">
+            ✕
+          </button>
         </span>
       </div>
     }
@@ -65,14 +77,27 @@
           [value]="value(r.prop)"
           (valueChange)="set(r.prop, $event)" />
         <span class="sc-tools one">
-          <button type="button" class="sc-icon" [disabled]="!value(r.prop)" title="Remove override" aria-label="Remove override" (click)="clear(r.prop)">✕</button>
+          <button
+            type="button"
+            class="sc-icon"
+            [disabled]="!value(r.prop)"
+            title="Remove override"
+            aria-label="Remove override"
+            (click)="clear(r.prop)">
+            ✕
+          </button>
         </span>
       </div>
     }
   </details>
 
   <div class="sc-head sub"><span class="sc-title">Overflow</span></div>
-  <pb-seg ariaLabel="Overflow" [options]="overflow" [value]="s().overflow || ''" inherited="visible" (picked)="set('overflow', $event)" />
+  <pb-seg
+    ariaLabel="Overflow"
+    [options]="overflow"
+    [value]="s().overflow || ''"
+    inherited="visible"
+    (picked)="set('overflow', $event)" />
 
   <details class="sc-more" [open]="mediaOpen()">
     <summary>Ratio, fit &amp; box</summary>
@@ -96,11 +121,25 @@
       (change)="onRatioText($event)"
       (keydown.enter)="onRatioText($event)" />
     @if (ratioInvalid()) {
-      <p class="sc-note err">Use numbers like <code>16 / 9</code>, <code>1.5</code> or <code>auto</code>.</p>
+      <p class="sc-note err">
+        Use numbers like
+        <code>16 / 9</code>
+        ,
+        <code>1.5</code>
+        or
+        <code>auto</code>
+        .
+      </p>
     }
 
     <span class="sc-sublbl">Fit (images &amp; video)</span>
-    <pb-seg ariaLabel="Object fit" [options]="fit" [value]="s().objectFit || ''" inherited="fill" [columns]="5" (picked)="set('objectFit', $event)" />
+    <pb-seg
+      ariaLabel="Object fit"
+      [options]="fit"
+      [value]="s().objectFit || ''"
+      inherited="fill"
+      [columns]="5"
+      (picked)="set('objectFit', $event)" />
     @if (s().objectFit && s().objectFit !== 'fill') {
       <span class="sc-sublbl">
         Position
@@ -108,10 +147,20 @@
           <button type="button" class="sc-link" (click)="clear('objectPosition')">Clear</button>
         }
       </span>
-      <origin-pad ariaLabel="Object position" [x]="position().x" [y]="position().y" [isSet]="!!s().objectPosition" (changed)="onPosition($event)" />
+      <origin-pad
+        ariaLabel="Object position"
+        [x]="position().x"
+        [y]="position().y"
+        [isSet]="!!s().objectPosition"
+        (changed)="onPosition($event)" />
     }
 
     <span class="sc-sublbl">Box sizing</span>
-    <pb-seg ariaLabel="Box sizing" [options]="box" [value]="s().boxSizing || ''" inherited="border-box" (picked)="set('boxSizing', $event)" />
+    <pb-seg
+      ariaLabel="Box sizing"
+      [options]="box"
+      [value]="s().boxSizing || ''"
+      inherited="border-box"
+      (picked)="set('boxSizing', $event)" />
   </details>
 </div>

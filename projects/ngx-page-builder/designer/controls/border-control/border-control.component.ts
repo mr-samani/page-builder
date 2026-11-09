@@ -144,7 +144,9 @@ export class BorderControlComponent extends BaseControl {
   });
 
   /** ضلعی که فیلدها نشان می‌دهند (در حالت All: top) */
-  protected readonly cur = computed(() => this.model()[this.target() === 'all' ? 'top' : (this.target() as BorderSideKey)]);
+  protected readonly cur = computed(
+    () => this.model()[this.target() === 'all' ? 'top' : (this.target() as BorderSideKey)],
+  );
 
   protected readonly anyMixed = computed(() => BORDER_PROPS.some((p) => this.mixed(p)));
 

@@ -17,7 +17,11 @@ export const RATIO_PRESETS: RatioPreset[] = [
 
 /** فاصله‌های دور `/` و تکراری را یکدست می‌کند: «16/9» ≡ «16 / 9» */
 export function normalizeRatio(v: string | undefined | null): string {
-  return (v ?? '').trim().toLowerCase().replace(/\s*\/\s*/g, ' / ').replace(/\s+/g, ' ');
+  return (v ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s*\/\s*/g, ' / ')
+    .replace(/\s+/g, ' ');
 }
 
 const NUM = String.raw`(?:\d+\.?\d*|\.\d+)`;

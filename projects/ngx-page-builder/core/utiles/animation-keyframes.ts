@@ -41,22 +41,130 @@ const mk = (
 
 export const ANIMATION_PRESETS: readonly AnimationPreset[] = [
   // ---------- Fade ----------
-  mk('Fade', 'fade-in', 'Fade in', [[0, 'opacity:0'], [1, 'opacity:1']], IN),
-  mk('Fade', 'fade-out', 'Fade out', [[0, 'opacity:1'], [1, 'opacity:0']], IN),
-  mk('Fade', 'fade-in-up', 'Fade in up', [[0, 'opacity:0;transform:translateY(24px)'], [1, 'opacity:1;transform:translateY(0)']], IN),
-  mk('Fade', 'fade-in-down', 'Fade in down', [[0, 'opacity:0;transform:translateY(-24px)'], [1, 'opacity:1;transform:translateY(0)']], IN),
-  mk('Fade', 'fade-in-left', 'Fade in left', [[0, 'opacity:0;transform:translateX(-24px)'], [1, 'opacity:1;transform:translateX(0)']], IN),
-  mk('Fade', 'fade-in-right', 'Fade in right', [[0, 'opacity:0;transform:translateX(24px)'], [1, 'opacity:1;transform:translateX(0)']], IN),
+  mk(
+    'Fade',
+    'fade-in',
+    'Fade in',
+    [
+      [0, 'opacity:0'],
+      [1, 'opacity:1'],
+    ],
+    IN,
+  ),
+  mk(
+    'Fade',
+    'fade-out',
+    'Fade out',
+    [
+      [0, 'opacity:1'],
+      [1, 'opacity:0'],
+    ],
+    IN,
+  ),
+  mk(
+    'Fade',
+    'fade-in-up',
+    'Fade in up',
+    [
+      [0, 'opacity:0;transform:translateY(24px)'],
+      [1, 'opacity:1;transform:translateY(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Fade',
+    'fade-in-down',
+    'Fade in down',
+    [
+      [0, 'opacity:0;transform:translateY(-24px)'],
+      [1, 'opacity:1;transform:translateY(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Fade',
+    'fade-in-left',
+    'Fade in left',
+    [
+      [0, 'opacity:0;transform:translateX(-24px)'],
+      [1, 'opacity:1;transform:translateX(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Fade',
+    'fade-in-right',
+    'Fade in right',
+    [
+      [0, 'opacity:0;transform:translateX(24px)'],
+      [1, 'opacity:1;transform:translateX(0)'],
+    ],
+    IN,
+  ),
 
   // ---------- Slide ----------
-  mk('Slide', 'slide-in-up', 'Slide in up', [[0, 'transform:translateY(100%)'], [1, 'transform:translateY(0)']], IN),
-  mk('Slide', 'slide-in-down', 'Slide in down', [[0, 'transform:translateY(-100%)'], [1, 'transform:translateY(0)']], IN),
-  mk('Slide', 'slide-in-left', 'Slide in left', [[0, 'transform:translateX(-100%)'], [1, 'transform:translateX(0)']], IN),
-  mk('Slide', 'slide-in-right', 'Slide in right', [[0, 'transform:translateX(100%)'], [1, 'transform:translateX(0)']], IN),
+  mk(
+    'Slide',
+    'slide-in-up',
+    'Slide in up',
+    [
+      [0, 'transform:translateY(100%)'],
+      [1, 'transform:translateY(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Slide',
+    'slide-in-down',
+    'Slide in down',
+    [
+      [0, 'transform:translateY(-100%)'],
+      [1, 'transform:translateY(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Slide',
+    'slide-in-left',
+    'Slide in left',
+    [
+      [0, 'transform:translateX(-100%)'],
+      [1, 'transform:translateX(0)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Slide',
+    'slide-in-right',
+    'Slide in right',
+    [
+      [0, 'transform:translateX(100%)'],
+      [1, 'transform:translateX(0)'],
+    ],
+    IN,
+  ),
 
   // ---------- Zoom ----------
-  mk('Zoom', 'zoom-in', 'Zoom in', [[0, 'opacity:0;transform:scale(0.6)'], [1, 'opacity:1;transform:scale(1)']], IN),
-  mk('Zoom', 'zoom-out', 'Zoom out', [[0, 'opacity:0;transform:scale(1.4)'], [1, 'opacity:1;transform:scale(1)']], IN),
+  mk(
+    'Zoom',
+    'zoom-in',
+    'Zoom in',
+    [
+      [0, 'opacity:0;transform:scale(0.6)'],
+      [1, 'opacity:1;transform:scale(1)'],
+    ],
+    IN,
+  ),
+  mk(
+    'Zoom',
+    'zoom-out',
+    'Zoom out',
+    [
+      [0, 'opacity:0;transform:scale(1.4)'],
+      [1, 'opacity:1;transform:scale(1)'],
+    ],
+    IN,
+  ),
   mk(
     'Zoom',
     'bounce-in',
@@ -99,10 +207,23 @@ export const ANIMATION_PRESETS: readonly AnimationPreset[] = [
     ],
     { ...IN, duration: '750ms' },
   ),
-  mk('Flip', 'rotate-in', 'Rotate in', [[0, 'opacity:0;transform:rotate(-200deg)'], [1, 'opacity:1;transform:rotate(0)']], IN),
+  mk(
+    'Flip',
+    'rotate-in',
+    'Rotate in',
+    [
+      [0, 'opacity:0;transform:rotate(-200deg)'],
+      [1, 'opacity:1;transform:rotate(0)'],
+    ],
+    IN,
+  ),
 
   // ---------- Attention ----------
-  mk('Attention', 'pulse', 'Pulse', [[0, 'transform:scale(1)'], [0.5, 'transform:scale(1.06)'], [1, 'transform:scale(1)']]),
+  mk('Attention', 'pulse', 'Pulse', [
+    [0, 'transform:scale(1)'],
+    [0.5, 'transform:scale(1.06)'],
+    [1, 'transform:scale(1)'],
+  ]),
   mk(
     'Attention',
     'bounce',
@@ -182,24 +303,75 @@ export const ANIMATION_PRESETS: readonly AnimationPreset[] = [
     ],
     { duration: '1.3s' },
   ),
-  mk('Attention', 'flash', 'Flash', [[0, 'opacity:1'], [0.25, 'opacity:0'], [0.5, 'opacity:1'], [0.75, 'opacity:0'], [1, 'opacity:1']], {
-    duration: '1s',
-    easing: 'linear',
-  }),
+  mk(
+    'Attention',
+    'flash',
+    'Flash',
+    [
+      [0, 'opacity:1'],
+      [0.25, 'opacity:0'],
+      [0.5, 'opacity:1'],
+      [0.75, 'opacity:0'],
+      [1, 'opacity:1'],
+    ],
+    {
+      duration: '1s',
+      easing: 'linear',
+    },
+  ),
 
   // ---------- Loop ----------
-  mk('Loop', 'spin', 'Spin', [[0, 'transform:rotate(0deg)'], [1, 'transform:rotate(360deg)']], { ...LOOP, duration: '1s', easing: 'linear' }),
-  mk('Loop', 'float', 'Float', [[0, 'transform:translateY(0)'], [0.5, 'transform:translateY(-10px)'], [1, 'transform:translateY(0)']], {
-    ...LOOP,
-    duration: '3s',
-    easing: 'ease-in-out',
-  }),
-  mk('Loop', 'ping', 'Ping', [[0, 'transform:scale(1);opacity:1'], [0.75, 'transform:scale(2);opacity:0'], [1, 'transform:scale(2);opacity:0']], {
-    ...LOOP,
-    duration: '1s',
-    easing: 'cubic-bezier(0, 0, 0.2, 1)',
-  }),
-  mk('Loop', 'blink', 'Blink', [[0, 'opacity:1'], [0.5, 'opacity:0.2'], [1, 'opacity:1']], { ...LOOP, duration: '1.2s', easing: 'ease-in-out' }),
+  mk(
+    'Loop',
+    'spin',
+    'Spin',
+    [
+      [0, 'transform:rotate(0deg)'],
+      [1, 'transform:rotate(360deg)'],
+    ],
+    { ...LOOP, duration: '1s', easing: 'linear' },
+  ),
+  mk(
+    'Loop',
+    'float',
+    'Float',
+    [
+      [0, 'transform:translateY(0)'],
+      [0.5, 'transform:translateY(-10px)'],
+      [1, 'transform:translateY(0)'],
+    ],
+    {
+      ...LOOP,
+      duration: '3s',
+      easing: 'ease-in-out',
+    },
+  ),
+  mk(
+    'Loop',
+    'ping',
+    'Ping',
+    [
+      [0, 'transform:scale(1);opacity:1'],
+      [0.75, 'transform:scale(2);opacity:0'],
+      [1, 'transform:scale(2);opacity:0'],
+    ],
+    {
+      ...LOOP,
+      duration: '1s',
+      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+    },
+  ),
+  mk(
+    'Loop',
+    'blink',
+    'Blink',
+    [
+      [0, 'opacity:1'],
+      [0.5, 'opacity:0.2'],
+      [1, 'opacity:1'],
+    ],
+    { ...LOOP, duration: '1.2s', easing: 'ease-in-out' },
+  ),
 ];
 
 export const ANIMATION_PRESET_GROUPS: string[] = Array.from(new Set(ANIMATION_PRESETS.map((p) => p.group)));
@@ -245,7 +417,10 @@ export function framesToKeyframeObjects(p: AnimationPreset, easing?: string): Ke
     for (const part of decl.split(';')) {
       const i = part.indexOf(':');
       if (i < 0) continue;
-      const prop = part.slice(0, i).trim().replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
+      const prop = part
+        .slice(0, i)
+        .trim()
+        .replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
       kf[prop] = part.slice(i + 1).trim();
     }
     // در CSS، timing-function بین هر دو keyframe اعمال می‌شود (نه روی کل چرخه) — همین رفتار را شبیه‌سازی می‌کنیم

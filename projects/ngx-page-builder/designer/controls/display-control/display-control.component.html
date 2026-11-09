@@ -3,7 +3,11 @@
   <div class="dc-head">
     <span class="dc-title">Display</span>
     @if (s().display) {
-      <button type="button" class="dc-link" title="Remove the display override of this state" (click)="setProp('display', '')">
+      <button
+        type="button"
+        class="dc-link"
+        title="Remove the display override of this state"
+        (click)="setProp('display', '')">
         Clear
       </button>
     }
@@ -28,7 +32,11 @@
     }
   </select>
   @if (!s().display && computedDisplay()) {
-    <p class="dc-note">Currently <b>{{ computedDisplay() }}</b> (from a class or the browser default).</p>
+    <p class="dc-note">
+      Currently
+      <b>{{ computedDisplay() }}</b>
+      (from a class or the browser default).
+    </p>
   }
 
   <!-- ============ Flex container ============ -->
@@ -122,8 +130,16 @@
       </div>
     }
 
-    <grid-tracks label="Columns" kind="column" [value]="s().gridTemplateColumns || ''" (changed)="setProp('gridTemplateColumns', $event)" />
-    <grid-tracks label="Rows" kind="row" [value]="s().gridTemplateRows || ''" (changed)="setProp('gridTemplateRows', $event)" />
+    <grid-tracks
+      label="Columns"
+      kind="column"
+      [value]="s().gridTemplateColumns || ''"
+      (changed)="setProp('gridTemplateColumns', $event)" />
+    <grid-tracks
+      label="Rows"
+      kind="row"
+      [value]="s().gridTemplateRows || ''"
+      (changed)="setProp('gridTemplateRows', $event)" />
 
     <ng-container *ngTemplateOutlet="gapTpl"></ng-container>
 
@@ -152,7 +168,12 @@
       <summary>More grid options</summary>
       <div class="dc-row">
         <span class="dc-lbl">Auto flow</span>
-        <pb-seg ariaLabel="Auto flow" [options]="gridFlow" [value]="s().gridAutoFlow || ''" inherited="row" (picked)="setProp('gridAutoFlow', $event)" />
+        <pb-seg
+          ariaLabel="Auto flow"
+          [options]="gridFlow"
+          [value]="s().gridAutoFlow || ''"
+          inherited="row"
+          (picked)="setProp('gridAutoFlow', $event)" />
       </div>
       <div class="dc-row">
         <span class="dc-lbl">Auto cols</span>
@@ -199,7 +220,7 @@
         class="dc-input area"
         rows="3"
         spellcheck="false"
-        placeholder="&quot;header header&quot; &quot;sidebar main&quot;"
+        placeholder='"header header" "sidebar main"'
         aria-label="Grid template areas"
         [value]="s().gridTemplateAreas || ''"
         (change)="setProp('gridTemplateAreas', $any($event.target).value.trim())"></textarea>
@@ -216,7 +237,12 @@
     </div>
     <div class="dc-row">
       <span class="dc-lbl">Sizing</span>
-      <pb-seg ariaLabel="Flex sizing" [options]="sizing" [value]="flexSizing()" inherited="shrink" (picked)="onSizing($event)" />
+      <pb-seg
+        ariaLabel="Flex sizing"
+        [options]="sizing"
+        [value]="flexSizing()"
+        inherited="shrink"
+        (picked)="onSizing($event)" />
     </div>
     @if (flexSizing() === 'custom') {
       <div class="dc-trio">
@@ -263,7 +289,11 @@
     <div class="dc-row">
       <span class="dc-lbl">Order</span>
       <div class="dc-order">
-        <pb-seg ariaLabel="Order shortcuts" [options]="order" [value]="s().order || ''" (picked)="setProp('order', $event)" />
+        <pb-seg
+          ariaLabel="Order shortcuts"
+          [options]="order"
+          [value]="s().order || ''"
+          (picked)="setProp('order', $event)" />
         <css-unit-field
           [units]="[]"
           fallback="0"
@@ -281,7 +311,13 @@
         <button type="button" class="dc-link" (click)="clearGridChild()">Clear</button>
       }
     </div>
-    @for (ax of [{ k: 'gridColumn', l: 'Column', n: colSpan() }, { k: 'gridRow', l: 'Row', n: rowSpan() }]; track ax.k) {
+    @for (
+      ax of [
+        { k: 'gridColumn', l: 'Column', n: colSpan() },
+        { k: 'gridRow', l: 'Row', n: rowSpan() },
+      ];
+      track ax.k
+    ) {
       <div class="dc-row">
         <span class="dc-lbl">{{ ax.l }}</span>
         @if (ax.n === null) {
@@ -294,9 +330,13 @@
             (change)="setProp(ax.k, $any($event.target).value.trim())" />
         } @else {
           <div class="dc-step" role="group" [attr.aria-label]="ax.l + ' span'">
-            <button type="button" [disabled]="ax.n === 0" aria-label="Decrease span" (click)="stepSpan($any(ax.k), -1)">−</button>
+            <button type="button" [disabled]="ax.n === 0" aria-label="Decrease span" (click)="stepSpan($any(ax.k), -1)">
+              −
+            </button>
             <span class="dc-step-val" [class.dim]="ax.n === 0">{{ spanText(ax.n) }}</span>
-            <button type="button" [disabled]="ax.n >= 24" aria-label="Increase span" (click)="stepSpan($any(ax.k), 1)">+</button>
+            <button type="button" [disabled]="ax.n >= 24" aria-label="Increase span" (click)="stepSpan($any(ax.k), 1)">
+              +
+            </button>
           </div>
         }
       </div>
@@ -322,7 +362,11 @@
         (picked)="setProp('justifySelf', $event)" />
     </div>
   } @else if (parentKind() === 'other') {
-    <p class="dc-note dim">Parent is <b>{{ parentDisplay() }}</b>. Child options appear when the parent is Flex or Grid.</p>
+    <p class="dc-note dim">
+      Parent is
+      <b>{{ parentDisplay() }}</b>
+      . Child options appear when the parent is Flex or Grid.
+    </p>
   }
 </div>
 

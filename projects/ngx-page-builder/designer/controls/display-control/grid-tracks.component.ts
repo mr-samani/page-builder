@@ -59,7 +59,13 @@ import { Track, makeTrack, parseTracks, serializeTracks, trackLabel } from './di
               <span class="gt-chip-val">{{ label2(t.value) }}</span>
             </button>
           }
-          <button #addBtn type="button" class="gt-chip add" [title]="'Add ' + kind()" [attr.aria-label]="'Add ' + kind()" (click)="add()">
+          <button
+            #addBtn
+            type="button"
+            class="gt-chip add"
+            [title]="'Add ' + kind()"
+            [attr.aria-label]="'Add ' + kind()"
+            (click)="add()">
             +
           </button>
         </div>
@@ -79,15 +85,25 @@ import { Track, makeTrack, parseTracks, serializeTracks, trackLabel } from './di
           (valueChange)="setValue(t.uid, $event)" />
         <div class="gt-kw" role="group" aria-label="Keywords">
           @for (k of keywords; track k.value) {
-            <button type="button" [class.on]="t.value === k.value" (click)="setValue(t.uid, k.value)">{{ k.label }}</button>
+            <button type="button" [class.on]="t.value === k.value" (click)="setValue(t.uid, k.value)">
+              {{ k.label }}
+            </button>
           }
         </div>
         <div class="gt-acts">
-          <button type="button" [disabled]="index() === 0" (click)="shift(t.uid, -1)" title="Move earlier">◀ Move</button>
-          <button type="button" [disabled]="index() === count() - 1" (click)="shift(t.uid, 1)" title="Move later">Move ▶</button>
+          <button type="button" [disabled]="index() === 0" (click)="shift(t.uid, -1)" title="Move earlier">
+            ◀ Move
+          </button>
+          <button type="button" [disabled]="index() === count() - 1" (click)="shift(t.uid, 1)" title="Move later">
+            Move ▶
+          </button>
           <button type="button" class="del" (click)="remove(t.uid)">Delete</button>
         </div>
-        <p class="gt-note">Tip: use <b>ƒ</b> for minmax(), fit-content() or var().</p>
+        <p class="gt-note">
+          Tip: use
+          <b>ƒ</b>
+          for minmax(), fit-content() or var().
+        </p>
       }
     </pb-popover>
   `,

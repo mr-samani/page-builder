@@ -117,7 +117,9 @@ export class TransitionControlComponent extends BaseControl implements OnDestroy
     const layers = parseTransitionStyle(this.style);
     this.layers.set(layers);
     this.hadTransition =
-      layers.length > 0 || (this.style.transition ?? '').trim() === 'none' || (this.style.transitionProperty ?? '').trim() === 'none';
+      layers.length > 0 ||
+      (this.style.transition ?? '').trim() === 'none' ||
+      (this.style.transitionProperty ?? '').trim() === 'none';
     this.cd.markForCheck();
   }
 
@@ -145,7 +147,10 @@ export class TransitionControlComponent extends BaseControl implements OnDestroy
   protected add(addRow: HTMLElement): void {
     // اولین transition همان «all» است؛ بعدی‌ها پیشنهاد opacity/transform تا تکراری ساخته نشود
     const used = new Set(this.layers().map((l) => l.property));
-    const property = !used.has('all') && this.layers().length === 0 ? 'all' : ['opacity', 'transform', 'color'].find((p) => !used.has(p)) ?? 'all';
+    const property =
+      !used.has('all') && this.layers().length === 0
+        ? 'all'
+        : (['opacity', 'transform', 'color'].find((p) => !used.has(p)) ?? 'all');
     const layer = createTransition({ property });
     this.layers.update((l) => [...l, layer]);
     this.hadTransition = true;

@@ -70,7 +70,8 @@ export interface BgState {
 const cyc = (list: string[], i: number): string => (list.length ? list[i % list.length] : '');
 const listOf = (v: string | undefined): string[] => splitTopLevel((v ?? '').trim(), ',');
 
-const IMAGE_START = /^(?:url\(|image-set\(|-webkit-image-set\(|cross-fade\(|element\()|^(?:repeating-)?(?:linear|radial|conic)-gradient\(/i;
+const IMAGE_START =
+  /^(?:url\(|image-set\(|-webkit-image-set\(|cross-fade\(|element\()|^(?:repeating-)?(?:linear|radial|conic)-gradient\(/i;
 const REPEAT_KW = new Set(['repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'space', 'round']);
 const ATTACH_KW = new Set(['scroll', 'fixed', 'local']);
 const BOX_KW = new Set(['border-box', 'padding-box', 'content-box', 'text']);
@@ -273,7 +274,10 @@ export function serializeLayers(layers: readonly BgLayer[]): BgWrite {
     return vals.every((v) => norm(v) === norm(BG_DEFAULTS[k])) ? '' : vals.join(', ');
   };
   return {
-    backgroundImage: layers.map((l) => l.image.trim()).filter(Boolean).join(', '),
+    backgroundImage: layers
+      .map((l) => l.image.trim())
+      .filter(Boolean)
+      .join(', '),
     backgroundSize: aux('size'),
     backgroundPosition: aux('position'),
     backgroundRepeat: aux('repeat'),
@@ -381,7 +385,8 @@ export const joinSize = (w: string, h: string): string => `${w || 'auto'} ${h ||
 export function layerTitle(l: BgLayer): string {
   if (l.kind === 'gradient') {
     const t = l.image.trim().toLowerCase();
-    const type = t.startsWith('radial') || t.startsWith('repeating-radial') ? 'Radial' : t.includes('conic') ? 'Conic' : 'Linear';
+    const type =
+      t.startsWith('radial') || t.startsWith('repeating-radial') ? 'Radial' : t.includes('conic') ? 'Conic' : 'Linear';
     return `${type} gradient`;
   }
   return l.image.trim() ? 'Image' : 'Image (empty)';

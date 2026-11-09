@@ -68,7 +68,9 @@
       } @else {
         <p class="bc-note">Pick a side to edit it on its own.</p>
       }
-      <button type="button" class="bc-link" [disabled]="!hasAny()" (click)="clearTarget()">Clear {{ targetLabel[target()].toLowerCase() }}</button>
+      <button type="button" class="bc-link" [disabled]="!hasAny()" (click)="clearTarget()">
+        Clear {{ targetLabel[target()].toLowerCase() }}
+      </button>
     </div>
   </div>
 
@@ -90,7 +92,11 @@
   <div class="bc-row stack">
     <span class="bc-lbl">Style</span>
     <div class="bc-style">
-      <pb-seg ariaLabel="Border style" [options]="styleQuick" [value]="val('style')" (picked)="setProp('style', $event)" />
+      <pb-seg
+        ariaLabel="Border style"
+        [options]="styleQuick"
+        [value]="val('style')"
+        (picked)="setProp('style', $event)" />
       <select
         class="bc-select"
         aria-label="More border styles"
@@ -141,7 +147,11 @@
     </div>
     <div class="bc-row">
       <span class="bc-lbl">Color</span>
-      <input-css type="Color" title="Outline color" [ngModel]="outline().color" (ngModelChange)="setOutline('color', $event)" />
+      <input-css
+        type="Color"
+        title="Outline color"
+        [ngModel]="outline().color"
+        (ngModelChange)="setOutline('color', $event)" />
     </div>
     <div class="bc-row">
       <span class="bc-lbl">Offset</span>

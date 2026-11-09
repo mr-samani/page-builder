@@ -19,8 +19,30 @@ export type BorderProp = 'width' | 'style' | 'color';
 export const BORDER_SIDES: readonly BorderSideKey[] = ['top', 'right', 'bottom', 'left'];
 export const BORDER_PROPS: readonly BorderProp[] = ['width', 'style', 'color'];
 
-export const BORDER_STYLES = ['none', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset', 'hidden'] as const;
-export const OUTLINE_STYLES = ['none', 'auto', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset'] as const;
+export const BORDER_STYLES = [
+  'none',
+  'solid',
+  'dashed',
+  'dotted',
+  'double',
+  'groove',
+  'ridge',
+  'inset',
+  'outset',
+  'hidden',
+] as const;
+export const OUTLINE_STYLES = [
+  'none',
+  'auto',
+  'solid',
+  'dashed',
+  'dotted',
+  'double',
+  'groove',
+  'ridge',
+  'inset',
+  'outset',
+] as const;
 export const WIDTH_KEYWORDS = ['thin', 'medium', 'thick'] as const;
 
 const BORDER_STYLE_SET: ReadonlySet<string> = new Set(BORDER_STYLES);
@@ -78,7 +100,8 @@ const NO_STYLE: ReadonlySet<string> = new Set(['', 'none', 'hidden']);
 export const sideVisible = (s: BorderSide): boolean => !NO_STYLE.has(s.style.toLowerCase());
 
 /** آیا چیزی (حتی ناقص) روی هر ضلعی ست شده؟ */
-export const hasBorder = (m: BorderModel): boolean => BORDER_SIDES.some((k) => !!(m[k].width || m[k].style || m[k].color));
+export const hasBorder = (m: BorderModel): boolean =>
+  BORDER_SIDES.some((k) => !!(m[k].width || m[k].style || m[k].color));
 
 export const isBorderVisible = (m: BorderModel): boolean => BORDER_SIDES.some((k) => sideVisible(m[k]));
 

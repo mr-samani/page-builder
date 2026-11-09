@@ -90,7 +90,8 @@ export class InlineTextFormatter {
   saveSelection(): void {
     const sel = this.doc.getSelection();
     if (!sel?.rangeCount) return;
-    if (this.el.contains(sel.anchorNode) && this.el.contains(sel.focusNode)) this.lastRange = sel.getRangeAt(0).cloneRange();
+    if (this.el.contains(sel.anchorNode) && this.el.contains(sel.focusNode))
+      this.lastRange = sel.getRangeAt(0).cloneRange();
   }
 
   private restoreSelection(): Selection | null {
@@ -166,7 +167,9 @@ export class InlineTextFormatter {
         }
         target.style.fontSize = `${px}px`;
         // اندازه‌ی لایه‌های داخلی قبلی نباید اندازه‌ی جدید را لغو کند
-        target.querySelectorAll<HTMLElement>('[style*="font-size"]').forEach((c) => c.style.removeProperty('font-size'));
+        target
+          .querySelectorAll<HTMLElement>('[style*="font-size"]')
+          .forEach((c) => c.style.removeProperty('font-size'));
       }
     }, true);
   }

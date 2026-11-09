@@ -107,7 +107,14 @@ export function parseEasing(text: string | null | undefined): ParsedEasing {
   const cb = /^cubic-bezier\(\s*([^)]*)\)$/i.exec(t);
   if (cb) {
     const nums = cb[1].split(',').map((s) => Number(s.trim()));
-    if (nums.length === 4 && nums.every((n) => Number.isFinite(n)) && nums[0] >= 0 && nums[0] <= 1 && nums[2] >= 0 && nums[2] <= 1) {
+    if (
+      nums.length === 4 &&
+      nums.every((n) => Number.isFinite(n)) &&
+      nums[0] >= 0 &&
+      nums[0] <= 1 &&
+      nums[2] >= 0 &&
+      nums[2] <= 1
+    ) {
       return { kind: 'bezier', p: nums as Bezier };
     }
     return { kind: 'raw', raw: t };
@@ -185,7 +192,7 @@ export function stepSegmentValue(i: number, n: number, jump: StepJump): number {
     case 'jump-start':
       return (i + 1) / n;
     case 'jump-none':
-      return i / ((n - 1) || 1);
+      return i / (n - 1 || 1);
     case 'jump-both':
       return (i + 1) / (n + 1);
     default: // end / jump-end
@@ -317,15 +324,7 @@ export const TRANSITION_PROPERTY_GROUPS: PropertyGroup[] = [
   { label: 'General', items: ['all', 'opacity', 'transform', 'filter', 'backdrop-filter', 'visibility'] },
   {
     label: 'Color',
-    items: [
-      'color',
-      'background-color',
-      'border-color',
-      'outline-color',
-      'fill',
-      'stroke',
-      'text-decoration-color',
-    ],
+    items: ['color', 'background-color', 'border-color', 'outline-color', 'fill', 'stroke', 'text-decoration-color'],
   },
   { label: 'Border & shadow', items: ['border-width', 'border-radius', 'box-shadow', 'text-shadow', 'outline-offset'] },
   {
@@ -338,7 +337,19 @@ export const TRANSITION_PROPERTY_GROUPS: PropertyGroup[] = [
     label: 'Corners (inverted / notch)',
     items: CORNER_TRANSITION_PROPS.filter((n) => n !== 'border-radius'),
   },
-  { label: 'Other', items: ['background-position', 'background-size', 'clip-path', 'flex-basis', 'flex-grow', 'scale', 'rotate', 'translate'] },
+  {
+    label: 'Other',
+    items: [
+      'background-position',
+      'background-size',
+      'clip-path',
+      'flex-basis',
+      'flex-grow',
+      'scale',
+      'rotate',
+      'translate',
+    ],
+  },
 ];
 
 export const ALL_KNOWN_PROPERTIES = new Set(TRANSITION_PROPERTY_GROUPS.flatMap((g) => g.items));

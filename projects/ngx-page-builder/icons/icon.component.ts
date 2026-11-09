@@ -68,6 +68,8 @@ function isSafeAttr(name: string, value: string): boolean {
       line-height: 0;
       vertical-align: -0.125em;
       color: inherit;
+      min-width: 0;
+      min-height: 0;
     }
     :host(.ngx-icon--flip:dir(rtl)) {
       transform: scaleX(-1);

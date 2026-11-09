@@ -13,7 +13,13 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ANIMATION_PRESETS, ANIMATION_PRESET_GROUPS, AnimationPreset, findAnimationPreset, framesToKeyframeObjects } from 'ngx-page-builder/core';
+import {
+  ANIMATION_PRESETS,
+  ANIMATION_PRESET_GROUPS,
+  AnimationPreset,
+  findAnimationPreset,
+  framesToKeyframeObjects,
+} from 'ngx-page-builder/core';
 import { BaseControl } from '../base-control';
 import { CssUnitFieldComponent } from '../css-unit-field/css-unit-field.component';
 import { PbPopoverComponent } from '../popover/pb-popover.component';
@@ -101,7 +107,12 @@ export class AnimationControlComponent extends BaseControl implements OnDestroy 
     { value: 'none', label: 'None', title: 'Element returns to its own style when done', text: 'None' },
     { value: 'forwards', label: 'Forwards', title: 'Keep the last frame after it ends', text: 'After' },
     { value: 'backwards', label: 'Backwards', title: 'Apply the first frame during the delay', text: 'Before' },
-    { value: 'both', label: 'Both', title: 'Apply the first frame during the delay and keep the last one', text: 'Both' },
+    {
+      value: 'both',
+      label: 'Both',
+      title: 'Apply the first frame during the delay and keep the last one',
+      text: 'Both',
+    },
   ];
   protected readonly playOptions: SegOption[] = [
     { value: 'running', label: 'Running', text: 'Running' },
@@ -119,7 +130,8 @@ export class AnimationControlComponent extends BaseControl implements OnDestroy 
       if (layer.raw) return { layer, title: 'Custom', meta: layer.raw, path: easingSvgPath(parseEasing(''), 30, 20) };
       const preset = findAnimationPreset(layer.name);
       const delay = layer.delay && toMs(layer.delay) !== 0 ? ` · +${layer.delay}` : '';
-      const loops = layer.iterations === 'infinite' ? ' · ∞' : layer.iterations !== '1' ? ` · ×${layer.iterations}` : '';
+      const loops =
+        layer.iterations === 'infinite' ? ' · ∞' : layer.iterations !== '1' ? ` · ×${layer.iterations}` : '';
       return {
         layer,
         title: preset?.label ?? layer.name,
@@ -153,7 +165,10 @@ export class AnimationControlComponent extends BaseControl implements OnDestroy 
 
     const layers = parseAnimationStyle(this.style);
     this.layers.set(layers);
-    this.hadAnimation = layers.length > 0 || (this.style.animation ?? '').trim() === 'none' || (this.style.animationName ?? '').trim() === 'none';
+    this.hadAnimation =
+      layers.length > 0 ||
+      (this.style.animation ?? '').trim() === 'none' ||
+      (this.style.animationName ?? '').trim() === 'none';
     this.cd.markForCheck();
   }
 

@@ -454,7 +454,8 @@ export class CornerControlComponent extends BaseControl {
   /** ← → ↑ ↓ روی handle: ±۱px (Shift: ±۱۰) */
   protected onCornerKey(ev: KeyboardEvent, k: CornerKey): void {
     const step = ev.shiftKey ? 10 : 1;
-    const dir = ev.key === 'ArrowRight' || ev.key === 'ArrowDown' ? 1 : ev.key === 'ArrowLeft' || ev.key === 'ArrowUp' ? -1 : 0;
+    const dir =
+      ev.key === 'ArrowRight' || ev.key === 'ArrowDown' ? 1 : ev.key === 'ArrowLeft' || ev.key === 'ArrowUp' ? -1 : 0;
     if (!dir) return;
     ev.preventDefault();
     if (this.corner(k).mode === 'cut') {
@@ -483,7 +484,10 @@ export class CornerControlComponent extends BaseControl {
   private allSame(m: CornerModel): boolean {
     const a = m.corners.tl;
     return CORNER_KEYS.every(
-      (k) => m.corners[k].mode === a.mode && m.corners[k].size === a.size && JSON.stringify(m.corners[k].cut) === JSON.stringify(a.cut),
+      (k) =>
+        m.corners[k].mode === a.mode &&
+        m.corners[k].size === a.size &&
+        JSON.stringify(m.corners[k].cut) === JSON.stringify(a.cut),
     );
   }
 
@@ -492,7 +496,9 @@ export class CornerControlComponent extends BaseControl {
     return {
       c: CORNER_KEYS.map((k) => {
         const c = m.corners[k];
-        return c.mode === 'cut' ? ['cut', c.cut.w, c.cut.h, c.cut.r1, c.cut.r2, c.cut.r3] : [c.mode, pxOf(c.size) ?? c.size];
+        return c.mode === 'cut'
+          ? ['cut', c.cut.w, c.cut.h, c.cut.r1, c.cut.r2, c.cut.r3]
+          : [c.mode, pxOf(c.size) ?? c.size];
       }),
       n: EDGE_KEYS.map((e) => {
         const n = m.notches[e];

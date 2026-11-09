@@ -60,8 +60,16 @@ const R = (x: number, y: number, w: number, h: number): Rect => ({ x, y, w, h })
 const DISPLAY_MAIN: SegOption[] = [
   { value: 'block', label: 'Block', rects: [R(2, 2, 12, 3.2), R(2, 6.4, 12, 3.2), R(2, 10.8, 12, 3.2)] },
   { value: 'flex', label: 'Flex', rects: [R(2, 3, 3.2, 10), R(6.4, 3, 3.2, 10), R(10.8, 3, 3.2, 10)] },
-  { value: 'grid', label: 'Grid', rects: [R(2, 2, 5.5, 5.5), R(8.5, 2, 5.5, 5.5), R(2, 8.5, 5.5, 5.5), R(8.5, 8.5, 5.5, 5.5)] },
-  { value: 'inline', label: 'Inline', rects: [R(1.5, 7, 4, 2), R(6.5, 7, 3, 2), R(10.5, 7, 4, 2), R(1.5, 3, 13, 1), R(1.5, 12, 13, 1)] },
+  {
+    value: 'grid',
+    label: 'Grid',
+    rects: [R(2, 2, 5.5, 5.5), R(8.5, 2, 5.5, 5.5), R(2, 8.5, 5.5, 5.5), R(8.5, 8.5, 5.5, 5.5)],
+  },
+  {
+    value: 'inline',
+    label: 'Inline',
+    rects: [R(1.5, 7, 4, 2), R(6.5, 7, 3, 2), R(10.5, 7, 4, 2), R(1.5, 3, 13, 1), R(1.5, 12, 13, 1)],
+  },
   {
     value: 'none',
     label: 'None',
@@ -86,12 +94,21 @@ const DIRECTION: SegOption[] = [
   { value: 'row', label: 'Row', title: 'Row →', paths: ['M2 8h11', 'M9.5 4.5L13 8l-3.5 3.5'] },
   { value: 'column', label: 'Column', title: 'Column ↓', paths: ['M8 2v11', 'M4.5 9.5L8 13l3.5-3.5'] },
   { value: 'row-reverse', label: 'Row reverse', title: 'Row reverse ←', paths: ['M14 8H3', 'M6.5 4.5L3 8l3.5 3.5'] },
-  { value: 'column-reverse', label: 'Column reverse', title: 'Column reverse ↑', paths: ['M8 14V3', 'M4.5 6.5L8 3l3.5 3.5'] },
+  {
+    value: 'column-reverse',
+    label: 'Column reverse',
+    title: 'Column reverse ↑',
+    paths: ['M8 14V3', 'M4.5 6.5L8 3l3.5 3.5'],
+  },
 ];
 
 const WRAP: SegOption[] = [
   { value: 'nowrap', label: 'No wrap', rects: [R(2, 6, 3.2, 4), R(6.4, 6, 3.2, 4), R(10.8, 6, 3.2, 4)] },
-  { value: 'wrap', label: 'Wrap', rects: [R(2, 3, 3.2, 4), R(6.4, 3, 3.2, 4), R(10.8, 3, 3.2, 4), R(2, 9, 3.2, 4), R(6.4, 9, 3.2, 4)] },
+  {
+    value: 'wrap',
+    label: 'Wrap',
+    rects: [R(2, 3, 3.2, 4), R(6.4, 3, 3.2, 4), R(10.8, 3, 3.2, 4), R(2, 9, 3.2, 4), R(6.4, 9, 3.2, 4)],
+  },
   {
     value: 'wrap-reverse',
     label: 'Wrap reverse',
@@ -182,7 +199,12 @@ export class DisplayControlComponent extends BaseControl {
   protected readonly order = ORDER;
   protected readonly gridItems = GRID_ITEMS;
   protected readonly gridFlow = GRID_FLOW;
-  protected readonly presets = GRID_PRESETS.map<SegOption>((p) => ({ value: p.id, label: p.label, text: p.label, title: p.columns }));
+  protected readonly presets = GRID_PRESETS.map<SegOption>((p) => ({
+    value: p.id,
+    label: p.label,
+    text: p.label,
+    title: p.columns,
+  }));
   protected readonly lengthUnits = ['px', '%', 'em', 'rem', 'vw', 'vh'] as const;
   protected readonly normalizePos = normalizePos;
   protected readonly normalizeGrid = toGridPos;

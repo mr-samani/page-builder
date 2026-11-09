@@ -113,7 +113,9 @@ class DocDirective {
 let lastBlock: BlockComponent;
 @Component({
   selector: 'test-block',
-  template: `<span class="inner">{{ title() }}|{{ legacy }}|{{ data?.data }}</span>`,
+  template: `
+    <span class="inner">{{ title() }}|{{ legacy }}|{{ data?.data }}</span>
+  `,
 })
 class BlockComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   readonly pageItem = input<PageItem>();
@@ -204,19 +206,24 @@ describe('DynamicElementService', () => {
   });
 
   describe('directives on plain element', () => {
-    it.each(['aliased', 'aliasName'])('@Input decorator (alias set via "%s") + ngOnChanges before ngOnInit', async (aliasKey) => {
-      const item = makeItem({
-        options: {
-          directives: [{ directive: DecoratorDirective, inputs: { label: 'hello', [aliasKey]: 'world' }, outputs: {} }],
-        },
-      });
-      await service.createBlock([], false, host, -1, item);
+    it.each(['aliased', 'aliasName'])(
+      '@Input decorator (alias set via "%s") + ngOnChanges before ngOnInit',
+      async (aliasKey) => {
+        const item = makeItem({
+          options: {
+            directives: [
+              { directive: DecoratorDirective, inputs: { label: 'hello', [aliasKey]: 'world' }, outputs: {} },
+            ],
+          },
+        });
+        await service.createBlock([], false, host, -1, item);
 
-      expect(lastDecorator.label).toBe('hello');
-      expect(lastDecorator.aliased).toBe('world');
-      expect(log.indexOf('decorator:changes')).toBeGreaterThanOrEqual(0);
-      expect(log.indexOf('decorator:changes')).toBeLessThan(log.indexOf('decorator:init:hello:world'));
-    });
+        expect(lastDecorator.label).toBe('hello');
+        expect(lastDecorator.aliased).toBe('world');
+        expect(log.indexOf('decorator:changes')).toBeGreaterThanOrEqual(0);
+        expect(log.indexOf('decorator:changes')).toBeLessThan(log.indexOf('decorator:init:hello:world'));
+      },
+    );
 
     it.each(['aliased', 'sigAlias'])('input() signal (alias set via "%s") and input transform', async (aliasKey) => {
       const item = makeItem({
@@ -252,7 +259,11 @@ describe('DynamicElementService', () => {
         options: {
           directives: [
             { directive: DecoratorDirective, inputs: {}, outputs: { pinged: onPing } },
-            { directive: SignalDirective, inputs: {}, outputs: { done: onDone, value: onValue, valueChange: onValueChange } },
+            {
+              directive: SignalDirective,
+              inputs: {},
+              outputs: { done: onDone, value: onValue, valueChange: onValueChange },
+            },
           ],
         },
       });
@@ -271,7 +282,9 @@ describe('DynamicElementService', () => {
     it('warns (and does not throw) for unknown inputs/outputs', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
       const item = makeItem({
-        options: { directives: [{ directive: DecoratorDirective, inputs: { nope: 1 }, outputs: { nopeOut: () => {} } }] },
+        options: {
+          directives: [{ directive: DecoratorDirective, inputs: { nope: 1 }, outputs: { nopeOut: () => {} } }],
+        },
       });
       await expect(service.createBlock([], false, host, -1, item)).resolves.toBeTruthy();
       expect(warn).toHaveBeenCalledTimes(2);

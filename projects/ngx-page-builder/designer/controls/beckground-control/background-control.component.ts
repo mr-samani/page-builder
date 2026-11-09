@@ -84,7 +84,14 @@ const CLIP: SegOption[] = [
     },
   ],
   standalone: true,
-  imports: [FormsModule, InputCssComponent, CssUnitFieldComponent, OriginPadComponent, PbPopoverComponent, SegGroupComponent],
+  imports: [
+    FormsModule,
+    InputCssComponent,
+    CssUnitFieldComponent,
+    OriginPadComponent,
+    PbPopoverComponent,
+    SegGroupComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackgroundControlComponent extends BaseControl {
@@ -385,13 +392,25 @@ export class BackgroundControlComponent extends BaseControl {
     this.layers.set([]);
     this.hadImages = false;
     this.legacy.set({ has: false, unreadable: false });
-    this.applyRaw({ background: '', backgroundImage: '', backgroundSize: '', backgroundPosition: '', backgroundRepeat: '', backgroundAttachment: '' });
+    this.applyRaw({
+      background: '',
+      backgroundImage: '',
+      backgroundSize: '',
+      backgroundPosition: '',
+      backgroundRepeat: '',
+      backgroundAttachment: '',
+    });
   }
 
   protected hasAny(): boolean {
     const s = this.s();
     return !!(
-      this.layers().length || s.backgroundColor || s.background || s.backgroundImage || s.backgroundClip || this.hadImages
+      this.layers().length ||
+      s.backgroundColor ||
+      s.background ||
+      s.backgroundImage ||
+      s.backgroundClip ||
+      this.hadImages
     );
   }
 

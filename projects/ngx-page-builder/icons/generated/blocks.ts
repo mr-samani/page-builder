@@ -4,7 +4,13 @@ import type { IconDefinition } from '../icon-definition';
 export const blocks: IconDefinition = {
   name: 'blocks',
   viewBox: '0 0 24 24',
-  attrs: { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.7', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
+  attrs: {
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.7',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+  },
   nodes: [
     ['rect', { width: '8', height: '8', x: '3', y: '3', rx: '1.5' }],
     ['rect', { width: '8', height: '5', x: '13', y: '3', rx: '1.5' }],

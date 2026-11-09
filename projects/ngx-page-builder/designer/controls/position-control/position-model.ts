@@ -94,7 +94,12 @@ export const ANCHORS: AnchorPreset[] = [
     title: 'Cover the whole container (all offsets 0)',
     set: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
   },
-  { id: 'sx', label: 'Stretch X', title: 'Stretch horizontally (left and right 0)', set: { left: '0px', right: '0px' } },
+  {
+    id: 'sx',
+    label: 'Stretch X',
+    title: 'Stretch horizontally (left and right 0)',
+    set: { left: '0px', right: '0px' },
+  },
   { id: 'sy', label: 'Stretch Y', title: 'Stretch vertically (top and bottom 0)', set: { top: '0px', bottom: '0px' } },
 ];
 
@@ -103,7 +108,8 @@ export const Z_QUICK = ['-1', '0', '1', '10', '100', '999'] as const;
 /** راهنمای کوتاه برای هر نوع position */
 export const POSITION_HINTS: Record<PositionKind, string> = {
   static: 'Normal flow. Offsets have no effect.',
-  relative: 'Stays in the flow; offsets shift it from where it would be. It also becomes the anchor for absolute children.',
+  relative:
+    'Stays in the flow; offsets shift it from where it would be. It also becomes the anchor for absolute children.',
   absolute: 'Leaves the flow and is placed against the nearest positioned ancestor (set Relative on the parent).',
   fixed: 'Leaves the flow and is placed against the viewport, so it stays in place on scroll.',
   sticky: 'Scrolls normally until it reaches its offset (e.g. Top 0), then sticks. Needs at least one offset.',

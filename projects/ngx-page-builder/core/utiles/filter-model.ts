@@ -40,15 +40,42 @@ export interface FilterMeta {
 
 export const FILTER_META: Record<Exclude<FilterFn, 'drop-shadow'>, FilterMeta> & { 'drop-shadow': FilterMeta } = {
   blur: { fn: 'blur', label: 'Blur', unit: 'px', min: 0, max: 40, hardMax: 500, step: 0.5, neutral: 0, initial: 4 },
-  brightness: { fn: 'brightness', label: 'Brightness', unit: '%', min: 0, max: 300, step: 1, neutral: 100, initial: 120 },
+  brightness: {
+    fn: 'brightness',
+    label: 'Brightness',
+    unit: '%',
+    min: 0,
+    max: 300,
+    step: 1,
+    neutral: 100,
+    initial: 120,
+  },
   contrast: { fn: 'contrast', label: 'Contrast', unit: '%', min: 0, max: 300, step: 1, neutral: 100, initial: 120 },
   grayscale: { fn: 'grayscale', label: 'Grayscale', unit: '%', min: 0, max: 100, step: 1, neutral: 0, initial: 100 },
-  'hue-rotate': { fn: 'hue-rotate', label: 'Hue rotate', unit: 'deg', min: -360, max: 360, step: 1, neutral: 0, initial: 90 },
+  'hue-rotate': {
+    fn: 'hue-rotate',
+    label: 'Hue rotate',
+    unit: 'deg',
+    min: -360,
+    max: 360,
+    step: 1,
+    neutral: 0,
+    initial: 90,
+  },
   invert: { fn: 'invert', label: 'Invert', unit: '%', min: 0, max: 100, step: 1, neutral: 0, initial: 100 },
   opacity: { fn: 'opacity', label: 'Opacity', unit: '%', min: 0, max: 100, step: 1, neutral: 100, initial: 70 },
   saturate: { fn: 'saturate', label: 'Saturate', unit: '%', min: 0, max: 400, step: 1, neutral: 100, initial: 150 },
   sepia: { fn: 'sepia', label: 'Sepia', unit: '%', min: 0, max: 100, step: 1, neutral: 0, initial: 80 },
-  'drop-shadow': { fn: 'drop-shadow', label: 'Drop shadow', unit: 'px', min: 0, max: 0, step: 1, neutral: 0, initial: 0 },
+  'drop-shadow': {
+    fn: 'drop-shadow',
+    label: 'Drop shadow',
+    unit: 'px',
+    min: 0,
+    max: 0,
+    step: 1,
+    neutral: 0,
+    initial: 0,
+  },
 };
 
 export const FILTER_FNS = Object.keys(FILTER_META) as FilterFn[];
@@ -171,12 +198,17 @@ export function parseColor(src: string): { color: string; alpha: number } | null
     let h = m[1];
     if (h.length === 3 || h.length === 4) h = [...h].map((c) => c + c).join('');
     if (h.length === 6) return { color: '#' + h, alpha: 1 };
-    if (h.length === 8) return { color: '#' + h.slice(0, 6), alpha: Math.round((parseInt(h.slice(6), 16) / 255) * 100) / 100 };
+    if (h.length === 8)
+      return { color: '#' + h.slice(0, 6), alpha: Math.round((parseInt(h.slice(6), 16) / 255) * 100) / 100 };
     return null;
   }
   m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:\s*[,/]\s*([\d.]+)(%)?)?\s*\)$/.exec(s);
   if (m) {
-    const hx = [m[1], m[2], m[3]].map((v) => Math.max(0, Math.min(255, Math.round(parseFloat(v)))).toString(16).padStart(2, '0'));
+    const hx = [m[1], m[2], m[3]].map((v) =>
+      Math.max(0, Math.min(255, Math.round(parseFloat(v))))
+        .toString(16)
+        .padStart(2, '0'),
+    );
     let a = m[4] === undefined ? 1 : parseFloat(m[4]);
     if (m[5]) a /= 100;
     return { color: '#' + hx.join(''), alpha: Math.max(0, Math.min(1, a)) };
@@ -197,7 +229,13 @@ function parseShadow(arg: string): ShadowValue | null {
   }
   if (nums.length < 2 || nums.length > 3) return null;
   const pc = colorTok ? parseColor(colorTok) : { color: '#000000', alpha: 1 };
-  const sh: ShadowValue = { x: nums[0], y: nums[1], blur: nums[2] ?? 0, color: pc?.color ?? '#000000', alpha: pc?.alpha ?? 1 };
+  const sh: ShadowValue = {
+    x: nums[0],
+    y: nums[1],
+    blur: nums[2] ?? 0,
+    color: pc?.color ?? '#000000',
+    alpha: pc?.alpha ?? 1,
+  };
   if (colorTok && !pc) sh.colorRaw = colorTok;
   return sh;
 }
@@ -273,15 +311,36 @@ export function filterDeclsToCssText(d: Record<string, string>): string {
 
 //---------------------------------- presets ----------------------------------
 
-const fnItem = (fn: Exclude<FilterFn, 'drop-shadow'>, value: number): FilterItem => ({ id: nextId(), kind: 'fn', fn, value });
+const fnItem = (fn: Exclude<FilterFn, 'drop-shadow'>, value: number): FilterItem => ({
+  id: nextId(),
+  kind: 'fn',
+  fn,
+  value,
+});
 
 export const FILTER_PRESETS: FilterPreset[] = [
   { id: 'none', label: 'None', build: () => [] },
-  { id: 'noir', label: 'Noir', build: () => [fnItem('grayscale', 100), fnItem('contrast', 130), fnItem('brightness', 90)] },
-  { id: 'vintage', label: 'Vintage', build: () => [fnItem('sepia', 60), fnItem('contrast', 110), fnItem('brightness', 105), fnItem('saturate', 120)] },
+  {
+    id: 'noir',
+    label: 'Noir',
+    build: () => [fnItem('grayscale', 100), fnItem('contrast', 130), fnItem('brightness', 90)],
+  },
+  {
+    id: 'vintage',
+    label: 'Vintage',
+    build: () => [fnItem('sepia', 60), fnItem('contrast', 110), fnItem('brightness', 105), fnItem('saturate', 120)],
+  },
   { id: 'vivid', label: 'Vivid', build: () => [fnItem('saturate', 160), fnItem('contrast', 110)] },
-  { id: 'dream', label: 'Dream', build: () => [fnItem('blur', 1.5), fnItem('brightness', 110), fnItem('saturate', 130)] },
-  { id: 'faded', label: 'Faded', build: () => [fnItem('contrast', 85), fnItem('brightness', 110), fnItem('saturate', 80)] },
+  {
+    id: 'dream',
+    label: 'Dream',
+    build: () => [fnItem('blur', 1.5), fnItem('brightness', 110), fnItem('saturate', 130)],
+  },
+  {
+    id: 'faded',
+    label: 'Faded',
+    build: () => [fnItem('contrast', 85), fnItem('brightness', 110), fnItem('saturate', 80)],
+  },
   { id: 'cool', label: 'Cool', build: () => [fnItem('hue-rotate', 180), fnItem('saturate', 110)] },
   {
     id: 'glass',
@@ -291,7 +350,15 @@ export const FILTER_PRESETS: FilterPreset[] = [
   {
     id: 'shadow',
     label: 'Shadow',
-    build: () => [{ id: nextId(), kind: 'fn', fn: 'drop-shadow', value: 0, shadow: { x: 0, y: 8, blur: 12, color: '#000000', alpha: 0.35 } }],
+    build: () => [
+      {
+        id: nextId(),
+        kind: 'fn',
+        fn: 'drop-shadow',
+        value: 0,
+        shadow: { x: 0, y: 8, blur: 12, color: '#000000', alpha: 0.35 },
+      },
+    ],
   },
   { id: 'invert', label: 'Invert', build: () => [fnItem('invert', 100), fnItem('hue-rotate', 180)] },
 ];

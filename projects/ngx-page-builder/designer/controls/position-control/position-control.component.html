@@ -3,7 +3,13 @@
   <div class="pc-head">
     <span class="pc-title">Position</span>
     @if (hasAny()) {
-      <button type="button" class="pc-link" title="Remove position, offsets and z-index of this state" (click)="reset()">Reset</button>
+      <button
+        type="button"
+        class="pc-link"
+        title="Remove position, offsets and z-index of this state"
+        (click)="reset()">
+        Reset
+      </button>
     }
   </div>
 
@@ -20,7 +26,9 @@
   <div class="pc-head sub">
     <span class="pc-title">Offsets</span>
     @if (hasInsets()) {
-      <button type="button" class="pc-link" title="Remove top, right, bottom and left" (click)="clearInsets()">Clear</button>
+      <button type="button" class="pc-link" title="Remove top, right, bottom and left" (click)="clearInsets()">
+        Clear
+      </button>
     }
   </div>
 

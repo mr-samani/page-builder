@@ -35,7 +35,12 @@ import {
 const KINDS: SegOption[] = [
   { value: 'static', label: 'Static', text: 'Static', title: 'static: normal flow' },
   { value: 'relative', label: 'Relative', text: 'Relative', title: 'relative: offset from its normal place' },
-  { value: 'absolute', label: 'Absolute', text: 'Absolute', title: 'absolute: placed against the nearest positioned ancestor' },
+  {
+    value: 'absolute',
+    label: 'Absolute',
+    text: 'Absolute',
+    title: 'absolute: placed against the nearest positioned ancestor',
+  },
   { value: 'fixed', label: 'Fixed', text: 'Fixed', title: 'fixed: placed against the viewport' },
   { value: 'sticky', label: 'Sticky', text: 'Sticky', title: 'sticky: sticks when scrolled to its offset' },
 ];
