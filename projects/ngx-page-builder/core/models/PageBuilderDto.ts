@@ -25,6 +25,12 @@ export class PageBuilderConfig {
   size: PageSize = 'A4';
   orientation: PageOrientation = 'Portrait';
   direction: 'rtl' | 'ltr' = 'ltr';
+
+  lang?: string;
+  fontFamily?: string;
+  colorScheme?: 'light' | 'dark' | 'light dark';
+  baseFontSize?: string;
+
   constructor(data?: PageBuilderConfig | any) {
     if (data) {
       for (var property in data) {
