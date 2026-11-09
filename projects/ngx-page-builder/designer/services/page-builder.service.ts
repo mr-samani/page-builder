@@ -505,6 +505,10 @@ export class PageBuilderService implements OnDestroy {
     if (!container) {
       throw new Error('Required container to create element');
     }
+    // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
+    if (item.css) {
+      this.cls.addBlockCss(item, false);
+    }
     if (editMode) {
       item.options ??= {};
       item.options.directives ??= [];
@@ -517,19 +521,12 @@ export class PageBuilderService implements OnDestroy {
       }
       item.options.attributes ??= {};
       const classNames = getDefaultBlockClasses(item);
-      item.options.attributes['class'] ??= classNames;
-      if (!item.options.attributes['class'].includes(classNames)) {
-        item.options.attributes['class'] += ` ${classNames}`;
+      if (item.classList.indexOf(classNames) == -1) {
+        item.classList.push(classNames);
       }
       item.options.events ??= {};
       item.options.events['click'] = (ev: PointerEvent) => this.selectBlock(item, ev);
     }
-
-    // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
-    if (item.css) {
-      this.cls.addBlockCss(item, false);
-    }
-
     let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
     if (!item.customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {

@@ -88,7 +88,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
      * - move block -> not rebuild all: only move same contents
      * - addd block only add new block
      */
-    this.pagebuiderChangeSubscription = this.pb.changed$.pipe(debounceTime(300)).subscribe((data) => {
+    this.pagebuiderChangeSubscription = this.pb.changed$.pipe(debounceTime(300)).subscribe(async (data) => {
       if (
         data.type == 'AddBlock' ||
         data.type == 'RemoveBlock' ||
@@ -103,8 +103,8 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
         if (found.result) {
           console.time('updateTemplate');
           this.pageItem.template = cloneDeep(found.root!);
+          await this.update(data);
           console.timeEnd('updateTemplate');
-          this.update(data);
         }
       }
     });
@@ -137,21 +137,11 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     // filters / sorts / skip / take are applied by the service; when the list is empty the designer shows sample records
     const result = await this.dynamicDataService.queryCollection(this.pageItem.dataSource, { sampleWhenEmpty: true });
     this.dataList = result.rows;
-    const childCount = this.dataList.length;
-
-    await this.clearContainer();
-    this.pageItem.children = [];
-    for (let i = 0; i < childCount; i++) {
-      let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
-      await this.pb.createBlockElement(true, cloned, this.elRef.nativeElement);
-      this.pageItem.children.push(cloned);
-    }
-    // console.log('data-collection', this.pageItem.id, this.pageItem);
-    this.chdRef.detectChanges();
+    this.update();
   }
 
-  async update(change: PageItemChange) {
-    if (!this.pageItem || !this.pageItem.template || !change.item) return;
+  async update(change?: PageItemChange) {
+    if (!this.pageItem || !this.pageItem.template) return;
 
     await this.clearContainer();
     this.pageItem.children = [];
@@ -159,6 +149,7 @@ export class CollectionItemComponent implements OnInit, OnDestroy, AfterViewInit
     const childCount = this.dataList.length;
     for (let i = 0; i < childCount; i++) {
       let cloned = cloneTemplate(this.dataList, this.pageItem.template!, i);
+      cloned.parent = this.pageItem;
       await this.pb.createBlockElement(this.editMode, cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
