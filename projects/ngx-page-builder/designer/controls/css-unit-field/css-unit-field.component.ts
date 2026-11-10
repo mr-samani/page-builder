@@ -149,7 +149,7 @@ import { parseCssNumber, trimNum } from './css-value-utils';
         sans-serif;
       color: #fff;
       height: 100%;
-      min-width: 0;
+      min-width: 50px;
     }
     .cuf-num,
     .cuf-raw {

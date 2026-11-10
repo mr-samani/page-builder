@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import type { Rect } from '../display-control/display-model';
 
 export interface SegOption {
@@ -126,7 +126,8 @@ export interface SegOption {
       background: #ffffff14;
       color: #fff;
     }
-    .seg-btn.on {
+    .seg-btn.on,
+    .seg-btn input[type='radio']:checked {
       background: #4b8bff;
       color: #fff;
     }
@@ -143,7 +144,7 @@ export interface SegOption {
 })
 export class SegGroupComponent {
   options = input.required<readonly SegOption[]>();
-  value = input<string>('');
+  value = model<string>('');
   /** مقدار مؤثر ولی ست‌نشده توسط کاربر (مثلاً از کلاس یا Bootstrap) */
   inherited = input<string>('');
   clearable = input<boolean>(true);
@@ -179,6 +180,7 @@ export class SegGroupComponent {
       if (this.clearable()) this.picked.emit('');
       return;
     }
+    this.value.set(o.value);
     this.picked.emit(o.value);
   }
 

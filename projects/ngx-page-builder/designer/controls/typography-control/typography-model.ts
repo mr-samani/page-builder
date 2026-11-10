@@ -63,7 +63,7 @@ export function findFont(options: readonly FontOption[], value: string | undefin
 /** نام نمایشی برای مقدار نامشخص: اولین family */
 export function fontLabelOf(value: string | undefined | null): string {
   const first = splitTopLevel((value ?? '').trim(), ',')[0] ?? '';
-  return first.replace(/^["']|["']$/g, '').trim();
+  return first.replace(/^["']|["']$/g, '').trim() ?? '';
 }
 
 /** `var(--x)` یا `inherit` و ... نباید به‌عنوان نام فونت دست‌کاری شوند */

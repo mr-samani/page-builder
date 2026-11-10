@@ -137,15 +137,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const iframe = this.iframe()?.nativeElement;
     if (!iframe) return;
     const doc = iframe.contentDocument!;
-    const dir = this.pb.pageInfo.config.direction;
-    const s = `
-    body{
-      margin:0;
-      padding:0;
-      height:100%;
-      direction:${dir};
-      overflow-y:scroll;
-    }
+    const s = `${this.siteSettingsToCss()}
     ngx-page-builder-context{
       height: 100%;
       display: block;
@@ -153,7 +145,6 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     *{
       box-sizing:border-box;
     }
-
     `;
 
     let style = doc.head.querySelector('#ngx-page-context-base-style');
@@ -182,5 +173,28 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const doc = this.iframe()?.nativeElement.contentDocument;
     if (doc) this.injector.get(DynamicElementService).unregisterDocument(doc);
     this.iframeApp?.destroy();
+  }
+
+  siteSettingsToCss(): string {
+    const s = this.pb.pageInfo.config;
+
+    return `body {
+      --pb-font-family: ${s.fontFamily};
+      --pb-base-font-size: ${s.baseFontSize ?? '16px'};
+      --pb-color-text: ${s.color ?? 'inherit'};
+      --pb-color-background: ${s.backgroundColor ?? 'inherit'};
+      color-scheme: ${s.colorScheme};
+      direction: ${s.direction};
+      font-family: var(--pb-font-family);
+      font-size: var(--pb-base-font-size);
+      color: var(--pb-color-text, inherit);
+      background: var(--pb-color-background, transparent);
+
+      
+      margin:0;
+      padding:0;
+      height:100%; 
+      overflow-y:scroll;
+    }`;
   }
 }

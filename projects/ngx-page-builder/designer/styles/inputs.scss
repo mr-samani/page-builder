@@ -51,7 +51,7 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
     }
 
     &:has(input.color) input {
-      width: 36px;
+      width: 50px;
     }
     input.color {
       width: 32px;

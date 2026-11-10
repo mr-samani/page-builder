@@ -1,16 +1,54 @@
 <div ngxDialogHeader [showCloseButton]="true">Configuration</div>
 <div ngxDialogBody>
-  <p>Direction:</p>
-  <div class="radio-group">
-    <label>
-      <input type="radio" name="direction" id="RTL" [(ngModel)]="configs.direction" value="rtl" />
-      RTL
-    </label>
+  <div class="sc-row">
+    <span class="sc-lbl">Direction</span>
+    <div>
+      <pb-seg [options]="directionOptions" [(value)]="configs.direction" name="direction" [showLabels]="true"></pb-seg>
+    </div>
+  </div>
+  <div class="sc-row">
+    <span class="sc-lbl">Back ground color</span>
+    <input-css type="Color" [(ngModel)]="configs.backgroundColor" />
+  </div>
+  <div class="sc-row">
+    <span class="sc-lbl">Color</span>
+    <input-css type="Color" [(ngModel)]="configs.color" />
+  </div>
 
-    <label>
-      <input type="radio" name="direction" id="LTR" [(ngModel)]="configs.direction" value="ltr" />
-      LTR
-    </label>
+  <!-- font family -->
+  <div class="sc-row">
+    <label class="sc-lbl" for="tyFont">Font family</label>
+    <div class="pb-input-group">
+      <select id="tyFont" [(ngModel)]="configs.fontFamily">
+        <option value="">Inherited</option>
+        @for (g of fontGroups; track g.label) {
+          <optgroup [label]="g.label">
+            @for (f of g.items; track f.value) {
+              <option [value]="f.value" [style.fontFamily]="f.value">
+                {{ f.label }}
+              </option>
+            }
+          </optgroup>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- font size -->
+  <div class="sc-row">
+    <span class="sc-lbl">Font size</span>
+    <div>
+      <css-unit-field
+        title="font-size"
+        [units]="sizeUnits"
+        fallback=""
+        [placeholder]="configs.baseFontSize + ''"
+        [seed]="configs.baseFontSize + ''"
+        [step]="1"
+        [min]="0"
+        [value]="configs.baseFontSize || ''"
+        (valueChange)="configs.baseFontSize = $event" />
+    </div>
   </div>
 
   @if (viewMode == 'PrintPage') {

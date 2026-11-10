@@ -30,6 +30,8 @@ export class PageBuilderConfig {
   fontFamily?: string;
   colorScheme?: 'light' | 'dark' | 'light dark';
   baseFontSize?: string;
+  backgroundColor?: string;
+  color?: string;
 
   constructor(data?: PageBuilderConfig | any) {
     if (data) {
