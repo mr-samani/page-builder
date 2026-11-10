@@ -94,7 +94,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   async exportBlockAsPlugin() {
     if (!this.item) return;
     const { ExportPluginDialogComponent } =
-      await import('../../lib/export-plugin-dialog/export-plugin-dialog.component');
+      await import('../../dialogs/export-plugin-dialog/export-plugin-dialog.component');
     this.dialog.open(ExportPluginDialogComponent, {
       data: this.item,
       size: 'md',

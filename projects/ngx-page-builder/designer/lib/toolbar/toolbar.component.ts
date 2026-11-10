@@ -3,10 +3,9 @@ import { PageBuilderBaseComponent } from '../page-builder-base-component';
 import { FormsModule } from '@angular/forms';
 import { SortPageListComponent } from '../sort-page-list/sort-page-list.component';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
-import { ImportDialogComponent } from '../import-dialog/import-dialog.component';
+import { ImportDialogComponent } from '../../dialogs/import-dialog/import-dialog.component';
 import { ExportHtmlService } from '../../services/import-export/export-html.service';
 import { HistoryService } from '../../services/history.service';
-import { CssFileDialogComponent } from '../css-file-dialog/css-file-dialog.component';
 import { preparePageDataForSave } from '../../helper/prepare-page-builder-data';
 import {
   LibConsts,
@@ -17,10 +16,11 @@ import {
   DEFAULT_BREAKPOINTS,
   type Breakpoint,
 } from 'ngx-page-builder/core';
-import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
+import { PreviewDialogComponent } from '../../dialogs/preview-dialog/preview-dialog.component';
 import { Notify } from 'ngx-kit/notify';
 import { MSG } from 'ngx-kit/message';
 import { NgxDialogService } from 'ngx-kit/dialog';
+import { CssFileDialogComponent } from '../../dialogs/css-file-dialog/css-file-dialog.component';
 @Component({
   selector: 'toolbar',
   templateUrl: './toolbar.component.html',

@@ -4,8 +4,7 @@
   "scripts": {
     "start": "ng serve --port=4322 -o",
     "build": "ng build --project=demo",
-    "build:sass": "sass projects/ngx-page-builder/designer/assets/style.scss projects/ngx-page-builder/designer/assets/styles.css",
-    "build:lib": "npm run build:sass && ng build --project=ngx-page-builder",
+    "build:lib": "ng build --project=ngx-page-builder",
     "ng": "ng",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

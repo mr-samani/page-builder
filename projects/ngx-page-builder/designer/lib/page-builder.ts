@@ -44,14 +44,14 @@ import { Notify } from 'ngx-kit/notify';
 import { NgxDropListGroup, NgxResizable, type IResizableOutput, NgxResizeHandle } from 'ngx-kit/drag-resize';
 import { PanelService } from '../panels/panel.service';
 import { NgComponentOutlet } from '@angular/common';
-import { ConfigDialogComponent } from './config-dialog/config-dialog.component';
+import { ConfigDialogComponent } from '../dialogs/config-dialog/config-dialog.component';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
 
 @Component({
   standalone: true,
   selector: 'ngx-page-builder',
   templateUrl: './page-builder.html',
-  styleUrls: ['./page-builder.scss', '../styles/paper.scss', '../styles/inputs.scss'],
+  styleUrls: ['../styles/all.scss'],
   imports: [
     InnerContentComponent,
     ToolbarComponent,

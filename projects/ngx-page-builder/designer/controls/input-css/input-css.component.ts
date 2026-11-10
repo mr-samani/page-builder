@@ -8,6 +8,7 @@ import { MenuDialog } from '../../extensions/menu-dialog/menu-dialog.component';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { ClassManagerService } from '../../services/class-manager.service';
 import { NgxDialogService } from 'ngx-kit/dialog';
+import { CssVariablesDialogComponent } from '../../dialogs/css-variables-dialog/css-variables-dialog.component';
 
 @Component({
   selector: 'input-css',
@@ -115,12 +116,8 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
   }
   async openCssVariablesDialog(menuDialog: MenuDialog) {
     menuDialog.closeModal();
-    const { CssVariablesDialogComponent } =
-      await import('../../lib/css-variables-dialog/css-variables-dialog.component');
     this.dialog
       .open(CssVariablesDialogComponent, {
-        minWidth: '85dvw',
-        height: '95dvh',
         header: {
           showMaximizeButton: true,
           showCloseButton: true,

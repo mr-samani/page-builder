@@ -29,7 +29,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
-  styleUrls: ['./builder.component.css'],
+  styleUrls: ['./builder.component.scss'],
   imports: [NgxPageBuilder],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -41,6 +41,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
       showPlugins: true,
       canDeletePlugin: true,
       enableHistory: true,
+      enableCssVariable: true,
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: true,
