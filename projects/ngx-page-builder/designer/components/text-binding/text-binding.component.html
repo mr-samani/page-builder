@@ -5,47 +5,34 @@
     </switch>
 
     @if (mode === 'collection') {
-      @if (collectionFields.length > 0) {
-        <data-source-selector
-          [fields]="collectionFields"
-          [value]="collectionPath"
-          placeholder="Select a field…"
-          (valueChange)="onCollectionFieldChange($event)"></data-source-selector>
-      } @else {
-        <p class="hint">
-          @if (parentCollection.dataSource?.id) {
-            This data source does not declare its fields. Add
-            <code>fields</code>
-            to it.
-          } @else {
-            Select a data source for the collection first.
-          }
-        </p>
-      }
+      <data-source-selector
+        [item]="item()"
+        [collection]="true"
+        placeholder="Select a field…"
+        (pathChange)="onCollectionFieldChange($event)"></data-source-selector>
     }
   </div>
 }
 
 @if (!isImage) {
   <div class="binding">
-    <switch [ngModel]="mode === 'dynamic'" (ngModelChange)="toggleMode('dynamic', $event)" name="useDynamicData">
+    <switch [ngModel]="mode === 'object'" (ngModelChange)="toggleMode('object', $event)" name="useDynamicData">
       Binding to dynamic data
     </switch>
 
-    @if (mode === 'dynamic') {
+    @if (mode === 'object') {
       <data-source-selector
-        [fields]="objectSources"
-        [value]="dynamicPath"
-        placeholder="Select a data source…"
-        (valueChange)="onDynamicFieldChange($event)"></data-source-selector>
+        [item]="item()"
+        [collection]="false"
+        placeholder="Select a data source…"></data-source-selector>
     }
   </div>
 }
 
 @if (mode === 'static' && !isImage) {
   <div class="text" (click)="openTextEditor()">
-    <span [innerHTML]="item.content | safeHtml" class="content"></span>
-    <ngx-icon icon="edit" />
+    <span [innerHTML]="item().content | safeHtml" class="content"></span>
+    <ngx-icon icon="edit" width="25px" />
   </div>
 }
 

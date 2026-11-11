@@ -2,7 +2,6 @@ import { DynamicDataStructure } from '../models/DynamicData';
 import { PageItem } from '../models/PageItem';
 import { IPageItem } from '../contracts/IPageItem';
 import { cloneDeep } from './clone-deep';
-import { fieldValue } from './data-schema';
 
 /**
  * بررسی می‌کند آیا یک آیتم در بین فرزندان یک تمپلیت خاص وجود دارد یا خیر
@@ -94,4 +93,7 @@ export function cloneTemplate(dataList: DynamicDataStructure[][], template: Page
   // children get their parent from the constructor, the root must keep the collection as parent
   root.parent = template.parent;
   return PageItem.fromJSON(root);
+}
+function fieldValue(row: DynamicDataStructure<any>[], value: any) {
+  throw new Error('Function not implemented.');
 }

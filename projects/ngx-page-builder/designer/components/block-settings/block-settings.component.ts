@@ -72,10 +72,8 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
     this.parentCollection = this.parentCollectionItem(current);
     this.collectionFields = [];
     if (this.parentCollection) {
-      // only the STRUCTURE is needed: binding must work even if the collection has no records
-      const fields = await this.dynamicDataService.resolveSchema(this.parentCollection.dataSource?.id);
       // another element may have been selected while the schema was loading
-      if (this.item === current) this.collectionFields = fields;
+      if (this.item === current) this.collectionFields = [];
     }
   }
 

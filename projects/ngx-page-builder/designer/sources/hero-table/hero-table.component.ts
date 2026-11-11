@@ -34,6 +34,7 @@ import {
   cloneDeep,
   cloneTemplate,
   itemInThisTemplate,
+  type CollectionQueryResult,
 } from 'ngx-page-builder/core';
 
 @Component({
@@ -67,7 +68,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
 
   showMergeButton: boolean = false;
 
-  dataList: DynamicDataStructure[][] = [];
+  dataList: any[] = [];
 
   settings: TableSetting = new TableSetting();
 
@@ -169,12 +170,7 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
       const bodyTemplate = body.children[0];
       this.dataList = [];
       if (this.pageItem.dataSource.id) {
-        this.dataList = await this.dynamicDataService.getCollectionData(
-          this.pageItem.dataSource.id,
-          skip,
-          count,
-          params,
-        );
+        this.dataList = (await this.dynamicDataService.queryCollection(this.pageItem.dataSource)).rows;
       }
 
       const childCount = Math.min(count, this.dataList.length);

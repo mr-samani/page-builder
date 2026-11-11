@@ -10,7 +10,7 @@ export class PageItem implements IPageItem {
   id: string = '';
   /** Registry key of the source definition used to create this block. */
   sourceId?: string;
-  dataSource?: DataSourceSetting;
+  dataSource: DataSourceSetting;
   parent?: PageItem;
   el?: HTMLElement | null;
   children: PageItem[] = [];
@@ -68,6 +68,8 @@ export class PageItem implements IPageItem {
     }
     if (parent) this.parent = parent;
     this.classList ??= [];
+
+    this.dataSource ??= new DataSourceSetting();
   }
   static fromJSON(data: IPageItem): PageItem {
     const item = new PageItem(data);

@@ -1,12 +1,39 @@
-@for (level of levels(); track $index) {
-  <div class="pb-input-group pi-row">
-    <select [name]="'ds-level-' + $index" (change)="onSelect($index, $event)">
-      <option value="" [selected]="!level.selected">{{ $index === 0 ? placeholder() : '—' }}</option>
-      @for (field of level.options; track field.name) {
-        <option [value]="field.name" [selected]="field.name === level.selected">
-          {{ field.displayName || field.name }}
+<div class="pb-input-group pi-row">
+  <span class="pb-input-label">
+    {{ dataSourceLabel() }}
+  </span>
+
+  <select name="data-source" (change)="onDataSourceChange($event)">
+    <option value="">
+      {{ dataSourcePlaceholder() }}
+    </option>
+
+    @for (source of dataSources(); track source.id) {
+      <option [value]="source.id" [selected]="source.id == item().dataSource.id">
+        {{ source.displayName || source.name }}
+      </option>
+    }
+  </select>
+</div>
+
+@if (selectedDataSource(); as source) {
+  @for (level of levels(); track level.depth) {
+    {{ level.selected }}
+    <div class="pb-input-group pi-row">
+      <select
+        [name]="'data-source-field-' + level.depth"
+        [value]="level.selected"
+        (change)="onFieldChange(level.depth, $event)">
+        <option value="">
+          {{ level.depth === 0 ? placeholder() : 'Select nested field...' }}
         </option>
-      }
-    </select>
-  </div>
+
+        @for (field of level.options; track field.name) {
+          <option [value]="field.name">
+            {{ field.displayName || field.name }}
+          </option>
+        }
+      </select>
+    </div>
+  }
 }

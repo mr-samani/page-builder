@@ -1,7 +1,7 @@
 import type { Observable } from 'rxjs/internal/Observable';
 import type { DataFilter, DataSort } from './DataSourceSetting';
 
-export interface DynamicDataStructure<ValueType = any> {
+export interface DynamicDataStructure<DTO = any> {
   /**
    * Unique ID
    */
@@ -19,25 +19,20 @@ export interface DynamicDataStructure<ValueType = any> {
    * bind elements to a field even when the list is empty (or is loaded lazily from an API).
    * If omitted: `values` is used when the type is Array, otherwise it is inferred from the first record of `list`.
    */
-  values?: DynamicDataStructure<ValueType>[] | null;
+  fields?: DynamicDataStructure[] | null;
 
   /**
    * Fill in this field when the data result is a collection of records (list or array).
    */
-  list?: DynamicDataStructure<ValueType>[][] | PromiseDynamicDataList | ObservableDynamicDataList;
+  rawData?: DTO[] | PromiseDynamicDataList<DTO> | ObservableDynamicDataList<DTO>;
   type: DynamicValueType;
-
-  /**
-   * result value
-   */
-  value?: ValueType | string | number | boolean | Date | null | undefined;
 
   inputData?: DynamicDataInputParameter[] | null;
 }
 
-declare type ObservableDynamicDataList = (pramaters: DynamicDataInput) => Observable<DynamicDataStructure[][]>;
+declare type ObservableDynamicDataList<DTO> = (pramaters: DynamicDataInput) => Observable<DTO[]>;
 
-declare type PromiseDynamicDataList = (pramaters: DynamicDataInput) => Promise<DynamicDataStructure[][]>;
+declare type PromiseDynamicDataList<DTO> = (pramaters: DynamicDataInput) => Promise<DTO[]>;
 
 export interface CustomInputData {}
 

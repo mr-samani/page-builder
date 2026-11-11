@@ -111,11 +111,11 @@
         <td>
           @if (parentCollection && q.isDynamic) {
             <div class="pb-input-group">
-              <data-source-selector
-                [fields]="collectionFields"
-                [value]="q.value"
+              <!-- <data-source-selector
+                [dataSources]="collectionFields"
+                [selectedPath]="q.value"
                 placeholder="Select a field…"
-                (valueChange)="onChangeCollectionKey($event, q)"></data-source-selector>
+                (pathChange)="onChangeCollectionKey($event, q)"></data-source-selector> -->
             </div>
           } @else {
             <div class="pb-input-group">

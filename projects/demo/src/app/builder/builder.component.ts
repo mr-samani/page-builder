@@ -42,6 +42,7 @@ import { ICssVariable } from 'ngx-page-builder/core';
       canDeletePlugin: true,
       enableHistory: true,
       enableCssVariable: true,
+      enableAddCssFile: true,
       toolbarConfig: {
         showSaveButton: true,
         showOpenButton: true,

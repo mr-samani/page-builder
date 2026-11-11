@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, isObservable } from 'rxjs';
-import { DynamicDataInput, DynamicDataStructure } from '../models/DynamicData';
+import { DynamicDataInput, DynamicDataStructure, DynamicValueType } from '../models/DynamicData';
 import { DataSourceSetting } from '../models/DataSourceSetting';
 import { PageItem } from '../models/PageItem';
 import { IPage } from '../contracts/IPage';
-import {
-  applyFilters,
-  applySorts,
-  buildSampleRows,
-  DataRow,
-  declaredSchema,
-  schemaFromRow,
-} from '../utiles/data-schema';
+import { applyFilters, applySorts } from '../utiles/data-schema';
+import type { IPageItem } from '../../../../dist/ngx-page-builder/types/ngx-page-builder-core';
 
 export interface CollectionQueryOptions {
   /**
@@ -23,8 +17,8 @@ export interface CollectionQueryOptions {
   sampleCount?: number;
 }
 
-export interface CollectionQueryResult {
-  rows: DataRow[];
+export interface CollectionQueryResult<DTO = any> {
+  rows: DTO[];
   /** structure of one record (always available when the source declares it, even if `rows` is empty) */
   schema: DynamicDataStructure[];
   /** true when `rows` were generated from the schema */
@@ -37,79 +31,52 @@ export interface CollectionQueryResult {
 export class DynamicDataService {
   private _dynamicData: DynamicDataStructure[] = [];
 
-  private _valueDictionary: Record<string, string | undefined> = {};
-
-  private map = new Map<string, DynamicDataStructure>();
+  // Cache DataRaw for replace value
+  private rawCache = new Map<string, any>();
   private nearestCache = new Map<string, string | null>(); // itemId -> nearest datasource id
   private schemaCache = new Map<string, DynamicDataStructure[]>(); // schemas discovered from loaded data
 
   public set dynamicData(value: DynamicDataStructure[]) {
     this._dynamicData = value ?? [];
     this.schemaCache.clear();
-    this.createValueDictionary().then(() => {
-      console.log(this._dynamicData, this._valueDictionary);
-    });
   }
 
   public get dynamicData() {
     return this._dynamicData;
   }
 
-  private async createValueDictionary() {
-    this._valueDictionary = {};
-    if (!this._dynamicData) {
-      return;
-    }
-
-    let recursiveTraverse = (list: DynamicDataStructure[], path: string[] = []) => {
-      for (let obj of list) {
-        if (obj.name) {
-          let p = [...path, obj.name];
-          let k = p.join('.');
-          this._valueDictionary[k] = obj.value as any;
-        }
-        if (obj.values) {
-          recursiveTraverse(obj.values, [...path, obj.name]);
-        }
-      }
-    };
-
-    for (let item of this._dynamicData) {
-      let path: string[] = [item.name];
-      if (item.values) {
-        const values = item.values;
-        recursiveTraverse(values, path);
-      } else if (item.list) {
-        for (let i = 0; i < item.list.length; i++) {
-          let p = path[path.length - 1] + `[${i}]`;
-          const list = await resolveList(item);
-          recursiveTraverse(list[i], [...path, p]);
-        }
-      }
+  private async getDataRaw(block: IPageItem) {
+    if (!block || !block.dataSource || !block.dataSource.id) return null;
+    const value = this.rawCache.get(block.dataSource.id);
+    if (value) {
+      return value;
+    } else {
+      const data = await this.queryCollection(block.dataSource);
+      this.rawCache.set(block.dataSource.id, data);
+      return data;
     }
   }
 
   public replaceValues(pages: IPage[]) {
     setTimeout(() => {
       // console.log('Replacing values...', pages, this._valueDictionary);
-      let replace = (item?: HTMLElement | null) => {
-        if (!item) return;
-        let txt = item.innerHTML;
-        let isReplaced = false;
-        for (const key in this._valueDictionary) {
-          const value = this._valueDictionary[key] ?? '';
-          const regEx = new RegExp(`\\{{${key}\\}}`, 'g');
-          isReplaced = isReplaced || regEx.test(txt);
-          txt = txt.replace(regEx, value);
-        }
-        if (isReplaced) {
-          item.innerHTML = txt;
+      let replace = async (item: IPageItem) => {
+        if (!item.el) return;
+        const content = item.content?.trim() ?? '';
+        if (content.startsWith('{{') && content.endsWith('}}')) {
+          let raw = await this.getDataRaw(item);
+          if (!raw) return;
+          const paths = content.replace('{{', '').replace('}}', '').split('.');
+          for (const p of paths) {
+            raw = raw[p];
+          }
+          item.el.textContent = raw.toString();
         }
       };
       for (let page of pages) {
-        page.bodyItems.forEach((item) => replace(item.el));
-        page.headerItems.forEach((item) => replace(item.el));
-        page.footerItems.forEach((item) => replace(item.el));
+        page.bodyItems.forEach((item) => replace(item));
+        page.headerItems.forEach((item) => replace(item));
+        page.footerItems.forEach((item) => replace(item));
       }
     }, 100);
   }
@@ -119,24 +86,16 @@ export class DynamicDataService {
     let txt = content;
 
     let isReplaced = false;
-    for (const key in this._valueDictionary) {
-      const value = this._valueDictionary[key] ?? '';
-      const regEx = new RegExp(`\\{{${key}\\}}`, 'g');
-      isReplaced = isReplaced || regEx.test(txt);
-      txt = txt.replace(regEx, value);
-    }
+    // TODO
+    // for (const key in this._valueDictionary) {
+    //   const value = this._valueDictionary[key] ?? '';
+    //   const regEx = new RegExp(`\\{{${key}\\}}`, 'g');
+    //   isReplaced = isReplaced || regEx.test(txt);
+    //   txt = txt.replace(regEx, value);
+    // }
     return txt;
   }
   /*------------------------------------------------------------------------------------------*/
-  register(ds: DynamicDataStructure) {
-    this.map.set(ds.id!, ds);
-  }
-  get(id: string) {
-    return this.map.get(id) ?? null;
-  }
-  list() {
-    return Array.from(this.map.values());
-  }
 
   // walk up model parent pointers to find nearest datasource
   findNearestDataSource(itemId: string, pageModel: Map<string, PageItem>): string | null {
@@ -166,28 +125,6 @@ export class DynamicDataService {
   }
 
   /**
-   * STRUCTURE of the records of a collection, without loading data.
-   * Works when the source declares `fields` / `values` or has a static `list`.
-   */
-  getSchema(id: string | undefined): DynamicDataStructure[] {
-    const ds = this.findDataSource(id);
-    if (!ds) return [];
-    return declaredSchema(ds) ?? this.schemaCache.get(ds.id!) ?? [];
-  }
-
-  /**
-   * Same as getSchema but, when the source does not declare its structure (list is an API call),
-   * loads ONE record and infers the structure from it.
-   */
-  async resolveSchema(id: string | undefined): Promise<DynamicDataStructure[]> {
-    const known = this.getSchema(id);
-    if (known.length || !id) return known;
-    const { schema } = await this.queryCollection({ id, maxResultCount: 1 });
-    if (schema.length) this.schemaCache.set(id, schema);
-    return schema;
-  }
-
-  /**
    * Loads the records of a collection: applies skip / take / filters / sorts.
    * - `list` is a function (API): skip, take, params, filters and sorts are passed to it (server side paging).
    * - `list` is an array / observable: filters, sorts and paging are applied here.
@@ -201,9 +138,9 @@ export class DynamicDataService {
 
     const skip = setting.skipCount ?? 0;
     const take = setting.maxResultCount || undefined;
-    const serverSide = typeof ds.list === 'function';
+    const serverSide = typeof ds.rawData === 'function';
 
-    let rows: DataRow[] = [];
+    let rows: any[] = [];
     try {
       rows =
         (await resolveList(ds, {
@@ -220,35 +157,18 @@ export class DynamicDataService {
     if (!serverSide) {
       rows = applySorts(applyFilters(rows, setting.filters), setting.sorts).slice(skip, take ? skip + take : undefined);
     }
+    //TODO//
+    const schema = {} as any; // declaredSchema(ds) ?? this.schemaCache.get(ds.id!) ?? (rows[0] ? schemaFromRow(rows[0]) : []);
+    // if (schema.length && !this.schemaCache.has(ds.id!)) this.schemaCache.set(ds.id!, schema);
 
-    const schema = declaredSchema(ds) ?? this.schemaCache.get(ds.id!) ?? (rows[0] ? schemaFromRow(rows[0]) : []);
-    if (schema.length && !this.schemaCache.has(ds.id!)) this.schemaCache.set(ds.id!, schema);
-
-    if (rows.length === 0 && options.sampleWhenEmpty && schema.length) {
-      return { rows: buildSampleRows(schema, options.sampleCount ?? take ?? 3), schema, isSample: true };
-    }
+    // if (rows.length === 0 && options.sampleWhenEmpty && schema.length) {
+    //   return { rows: buildSampleRows(schema, options.sampleCount ?? take ?? 3), schema, isSample: true };
+    // }
     return { rows, schema, isSample: false };
-  }
-
-  /**
-   * get collection data by datasource id
-   * @deprecated use queryCollection (supports filters, sorts and sample data)
-   */
-  async getCollectionData(
-    id: string | undefined,
-    skip = 0,
-    take?: number,
-    params?: { [key: string]: any },
-  ): Promise<DynamicDataStructure[][]> {
-    const { rows } = await this.queryCollection({ id, skipCount: skip, maxResultCount: take, params });
-    return rows;
   }
 }
 
-async function resolveList(
-  item: DynamicDataStructure,
-  input: DynamicDataInput = {},
-): Promise<DynamicDataStructure[][]> {
+async function resolveList(item: DynamicDataStructure, input: DynamicDataInput = {}): Promise<unknown[]> {
   const request: DynamicDataInput = { ...input };
   // default values of the input parameters declared by the data source
   if (item.inputData && !request.params) {
@@ -257,21 +177,21 @@ async function resolveList(
       request.params[k.name] = k.value;
     }
   }
-  const listField = item.list;
+  const listField = item.rawData;
   if (!listField) return [];
 
   // list is a function (promise / observable / plain array)
   if (typeof listField === 'function') {
     const result = listField(request);
     if (isObservable(result)) {
-      return await firstValueFrom<DynamicDataStructure[][]>(result as any);
+      return await firstValueFrom(result);
     }
-    return (await result) as DynamicDataStructure[][];
+    return await result;
   }
 
   if (isObservable(listField)) {
-    return await firstValueFrom<DynamicDataStructure[][]>(listField as any);
+    return await firstValueFrom(listField as any);
   }
 
-  return listField as DynamicDataStructure[][];
+  return listField;
 }
