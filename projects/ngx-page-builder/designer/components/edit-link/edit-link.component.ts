@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CMSPage, CMSPageQueryString, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
+import { CMSPage, CMSPageQueryString, LibConsts, PageItem } from 'ngx-page-builder/core';
 import { InputGroupModule } from '../../controls/input-group/input-group.module';
 import { SwitchComponent } from '../../controls/switch/switch.component';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
@@ -24,12 +24,16 @@ const URL_REGEX = /^(https?:\/\/)[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
   templateUrl: './edit-link.component.html',
   styleUrls: ['./edit-link.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, InputGroupModule, NgxIconComponent, SwitchComponent],
+  imports: [CommonModule, FormsModule, InputGroupModule, NgxIconComponent, SwitchComponent, DataSourceSelectorComponent],
 })
 export class EditLinkComponent implements OnInit {
   @Input() item!: PageItem;
+  /** the collection that contains the link: its fields can be used in the query string */
   @Input() parentCollection?: PageItem;
-  @Input() collectionFields: DynamicDataStructure[] = [];
+
+  get collectionId(): string | undefined {
+    return this.parentCollection?.dataSource?.id;
+  }
 
   type: LinkType = 'link';
 

@@ -1,39 +1,15 @@
-<div class="pb-input-group pi-row">
-  <span class="pb-input-label">
-    {{ dataSourceLabel() }}
-  </span>
+@for (level of levels(); track level.depth) {
+  <div class="pb-input-group pi-row">
+    <select [name]="'binding-level-' + level.depth" (change)="onSelect(level.depth, $event)">
+      <option value="" [selected]="!level.selected">{{ emptyLabel(level.depth) }}</option>
 
-  <select name="data-source" (change)="onDataSourceChange($event)">
-    <option value="">
-      {{ dataSourcePlaceholder() }}
-    </option>
-
-    @for (source of dataSources(); track source.id) {
-      <option [value]="source.id" [selected]="source.id == item().dataSource.id">
-        {{ source.displayName || source.name }}
-      </option>
-    }
-  </select>
-</div>
-
-@if (selectedDataSource(); as source) {
-  @for (level of levels(); track level.depth) {
-    {{ level.selected }}
-    <div class="pb-input-group pi-row">
-      <select
-        [name]="'data-source-field-' + level.depth"
-        [value]="level.selected"
-        (change)="onFieldChange(level.depth, $event)">
-        <option value="">
-          {{ level.depth === 0 ? placeholder() : 'Select nested field...' }}
+      @for (option of level.options; track option.name) {
+        <option [value]="option.name" [selected]="option.name === level.selected">
+          {{ label(option) }}
         </option>
-
-        @for (field of level.options; track field.name) {
-          <option [value]="field.name">
-            {{ field.displayName || field.name }}
-          </option>
-        }
-      </select>
-    </div>
-  }
+      }
+    </select>
+  </div>
+} @empty {
+  <p class="hint">There is no field to bind to.</p>
 }

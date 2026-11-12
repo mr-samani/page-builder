@@ -1,38 +1,52 @@
 import type { Observable } from 'rxjs/internal/Observable';
 import type { DataFilter, DataSort } from './DataSourceSetting';
 
+/**
+ * Describes one dynamic data source.
+ *
+ * - `type: Array`  -> a collection (list). `fields` is the structure of ONE record. Blocks inside a collection are
+ *   bound to these fields (`dataSource.binding = 'price'`).
+ * - `type: Object` -> a single object. `fields` is the structure of its properties. Any other block can be bound to a
+ *   non list field of it (`dataSource.binding = '<name>.job.title'`, shown as `{{personalInfo.job.title}}`).
+ *
+ * The designer only needs the STRUCTURE (`name`, `type`, `fields`): it never has to load data, it builds sample data
+ * from the structure. The VALUES (`rawData`) are only needed where the page is viewed.
+ */
 export interface DynamicDataStructure<DTO = any> {
   /**
-   * Unique ID
+   * Unique ID (required for collections: `dataSource.id` of a collection block refers to it)
    */
   id?: string;
 
   /**
-   * NameSpace
+   * NameSpace: first segment of the binding path of an object source (`personalInfo` in `personalInfo.job.title`).
+   * Must be unique and must not contain dots.
    */
   name: string;
   displayName: string;
 
   /**
-   * Fill in this field when the data result is a sample json
-   * STRUCTURE of one record of a collection (list). Declare it for every collection so that the designer can
-   * bind elements to a field even when the list is empty (or is loaded lazily from an API).
-   * If omitted: `values` is used when the type is Array, otherwise it is inferred from the first record of `list`.
+   * Structure of the data: properties of an object, or of ONE record of a collection.
+   * Declare it for every Array / Object source: the designer binds blocks to it even when there is no data.
+   * If omitted, the structure is inferred from the first record of a static `rawData` list.
    */
   fields?: DynamicDataStructure[] | null;
 
   /**
-   * Fill in this field when the data result is a collection of records (list or array).
+   * The data, used by the viewer (not needed by the designer):
+   * - a collection: an array of records
+   * - an object: the object
+   * - a function (Promise / Observable) returning one of them, e.g. an API call. The designer never calls it.
    */
-  rawData?: DTO[] | PromiseDynamicDataList<DTO> | ObservableDynamicDataList<DTO>;
+  rawData?: DTO | DTO[] | Observable<DTO | DTO[]> | DynamicDataLoader<DTO>;
   type: DynamicValueType;
 
   inputData?: DynamicDataInputParameter[] | null;
 }
 
-declare type ObservableDynamicDataList<DTO> = (pramaters: DynamicDataInput) => Observable<DTO[]>;
-
-declare type PromiseDynamicDataList<DTO> = (pramaters: DynamicDataInput) => Promise<DTO[]>;
+export type DynamicDataLoader<DTO = any> = (
+  parameters: DynamicDataInput,
+) => Promise<DTO | DTO[]> | Observable<DTO | DTO[]>;
 
 export interface CustomInputData {}
 
@@ -51,8 +65,8 @@ export interface DynamicDataInput<InputData = { [key: string]: any }> {
   params?: InputData;
 
   /**
-   * Filters / sorts chosen in the designer. When `list` is a function (API), the function is responsible for
-   * applying them (server side paging). When `list` is a static array they are applied by the library.
+   * Filters / sorts chosen in the designer. When `rawData` is a function (API), the function is responsible for
+   * applying them (server side paging). When `rawData` is a static array they are applied by the library.
    */
   filters?: DataFilter[];
   sorts?: DataSort[];

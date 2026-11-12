@@ -92,7 +92,6 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   @Input('dynamicData') set setDynamicData(val: DynamicDataStructure[]) {
     this.dynamicDataService.dynamicData = val ?? [];
-    console.log('ds', this.dynamicDataService.dynamicData);
   }
 
   @Input({

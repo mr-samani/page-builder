@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
   EventEmitter,
   inject,
   input,
-  Input,
+  linkedSignal,
   Output,
   Renderer2,
-  untracked,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Notify } from 'ngx-kit/notify';
@@ -17,14 +16,14 @@ import {
   DataSourceSetting,
   DEFAULT_IMAGE_URL,
   DynamicDataService,
-  DynamicDataStructure,
-  DynamicValueType,
+  findParentCollection,
   PageItem,
+  toBindingToken,
 } from 'ngx-page-builder/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextEditorComponent } from '../text-editor/text-editor.component';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
-import { DataSourceSelectorComponent } from './data-source-selector/data-source-selector.component';
+import { BindingScope, DataSourceSelectorComponent } from './data-source-selector/data-source-selector.component';
 import { IPageBuilderFilePicker } from '../../services/file-picker/IFilePicker';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from '../../services/file-picker/token.filepicker';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
@@ -33,12 +32,13 @@ import { NGX_PAGE_BUILDER_HTML_EDITOR } from '../../services/html-editor/token.h
 import { IPageBuilderHtmlEditor } from '../../services/html-editor/IHtmlEditor';
 
 /**
- * - static     : the text is typed by the user
- * - collection : the text comes from a field of the parent collection (`item.dataSource.binding`)
- * - object    : the text comes from an object data source (`{{namespace.field}}` in `item.content`)
+ * Binds the text (or the image) of a block to dynamic data.
+ *
+ * The binding is stored in `item.dataSource.binding` and `item.content` shows it as `{{binding}}`.
+ * Where the block is decides what it can be bound to:
+ * - inside a collection: a field of the records of that collection (`price`, `address.city`)
+ * - anywhere else: a non list field of an object data source (`personalInfo.job.title`)
  */
-type BindingMode = 'static' | 'collection' | 'object';
-
 @Component({
   selector: 'text-binding',
   templateUrl: './text-binding.component.html',
@@ -48,15 +48,9 @@ type BindingMode = 'static' | 'collection' | 'object';
   imports: [FormsModule, SafeHtmlPipe, DataSourceSelectorComponent, NgxIconComponent, SwitchComponent],
 })
 export class TextBindingComponent extends BaseComponent {
-  item = input.required<PageItem>();
-  /** the collection that contains this element (if any) */
-  @Input() parentCollection?: PageItem;
+  readonly item = input.required<PageItem>();
   @Output() change = new EventEmitter<string>();
 
-  mode: BindingMode = 'static';
-
-  /** object data sources (collections are excluded) */
-  objectSources: DynamicDataStructure[] = [];
   /** img tag src url */
   imageUrl = '';
 
@@ -66,81 +60,62 @@ export class TextBindingComponent extends BaseComponent {
   protected readonly dynamicDataService = inject(DynamicDataService);
   protected readonly dialog = inject(NgxDialogService);
 
-  constructor() {
-    super();
-    effect(() => {
-      const item = this.item();
-      // block-settings re-uses this component when another element is selected
-      untracked(() => this.syncFromItem());
-    });
-  }
+  /** the collection that contains the block (undefined when the block is not used in a list) */
+  protected readonly collection = computed(() => findParentCollection(this.item()));
+  protected readonly scope = computed<BindingScope>(() => (this.collection() ? 'collection' : 'object'));
+  protected readonly collectionId = computed(() => this.collection()?.dataSource.id);
+
+  /** the switch: can be on while no field is chosen yet. Reset when another block is selected */
+  protected readonly bound = linkedSignal(() => !!this.item().dataSource?.binding);
+  protected readonly binding = linkedSignal(() => this.item().dataSource?.binding ?? '');
+
+  /** false when there is nothing to bind to (no data source / no fields) */
+  protected readonly canBind = computed(() => {
+    const collection = this.collection();
+    if (collection) return !!this.dynamicDataService.findDataSource(collection.dataSource.id)?.fields?.length;
+    return this.dynamicDataService.objectSources.length > 0;
+  });
 
   get isImage(): boolean {
     return !!this.item()?.isImageTag;
   }
 
-  private syncFromItem() {
-    this.objectSources = this.dynamicDataService.dynamicData.filter((x) => x.type != DynamicValueType.Array);
-    const binding = this.item().dataSource?.binding ?? '';
-    const content = (this.item().content ?? '').trim();
-
-    if (binding && this.parentCollection) {
-      this.mode = 'collection';
-    } else if (!this.isImage && content.startsWith('{{') && content.endsWith('}}')) {
-      this.mode = 'object';
-    } else {
-      this.mode = 'static';
-    }
-    this.imageUrl = this.isImage ? (this.item().el?.getAttribute('src') ?? '') : '';
+  get switchLabel(): string {
+    if (this.scope() === 'collection') return this.isImage ? 'Get image from collection' : 'Get text from collection';
+    return this.isImage ? 'Bind image to dynamic data' : 'Binding to dynamic data';
   }
 
-  /* ---------------------------- mode ---------------------------- */
-
-  /** the two switches are mutually exclusive: turning one on turns the other off */
-  toggleMode(mode: Exclude<BindingMode, 'static'>, enabled: boolean) {
-    this.item().dataSource ??= new DataSourceSetting();
-    const next: BindingMode = enabled ? mode : 'static';
-    if (next === this.mode) return;
-
-    this.clearCurrentBinding();
-    this.mode = next;
-    this.change.emit('');
+  toggleBinding(enabled: boolean) {
+    this.bound.set(enabled);
+    if (!enabled) this.applyBinding('');
   }
 
-  private clearCurrentBinding() {
-    if (this.mode === 'collection') {
-      this.setCollectionBinding('');
-    } else if (this.mode === 'object') {
-      this.item().content = '';
-      this.pb.writeItemValue(this.item());
-    }
+  /** a field (leaf) has been chosen, `path` is the value to store */
+  onPathChange(path: string) {
+    this.applyBinding(path);
   }
 
-  /* ------------------------- collection ------------------------- */
-
-  onCollectionFieldChange(path: string) {
-    this.setCollectionBinding(path);
-    this.change.emit(path);
-  }
-
-  private setCollectionBinding(path: string) {
+  private applyBinding(path: string) {
     const block = this.item();
-    if (!block) return;
+    block.dataSource ??= new DataSourceSetting();
     if (path) {
       block.dataSource.binding = path;
-    } else if (block.dataSource) {
+    } else {
       delete block.dataSource.binding;
     }
+    this.binding.set(path);
+
+    if (this.isImage) {
+      // the address comes from the data: the old one must not stay
+      if (block.options?.attributes) delete block.options.attributes['src'];
+      if (block.el) this.renderer.setAttribute(block.el, 'src', DEFAULT_IMAGE_URL);
+      this.change.emit(path);
+    } else {
+      block.content = toBindingToken(path);
+      this.pb.writeItemValue(block);
+    }
+    this.chdRef.markForCheck();
   }
-
-  /* ------------------------- dynamic data ------------------------- */
-
-  onDynamicFieldChange(path: string) {
-    this.item().content = path ? `{{${path}}}` : '';
-    this.change.emit(this.item().content);
-  }
-
-  /* ---------------------------- static ---------------------------- */
 
   openTextEditor() {
     if (!this.item()) return;

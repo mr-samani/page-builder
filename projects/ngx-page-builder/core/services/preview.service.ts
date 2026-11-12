@@ -346,7 +346,8 @@ export class PagePreviewService {
         await this.genElms(bodyItems, body);
         await this.genElms(footerItems, footer);
       }
-      this.dynamicDataService.replaceValues(pages);
+      // objects: fill the bound blocks with `rawData` (collections / tables fill their own children)
+      await this.dynamicDataService.replaceValues(pages);
     } catch (error) {
       console.error('Error loading page data:', error);
       Notify.error('Error loading page data: ' + error);

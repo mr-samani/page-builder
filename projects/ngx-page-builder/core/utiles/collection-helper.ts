@@ -1,7 +1,8 @@
-import { DynamicDataStructure } from '../models/DynamicData';
 import { PageItem } from '../models/PageItem';
 import { IPageItem } from '../contracts/IPageItem';
+import { DEFAULT_IMAGE_URL } from '../consts/defaults';
 import { cloneDeep } from './clone-deep';
+import { escapeHtml, getByPath, hasBindingToken, interpolateBindings, toDisplayText, toImageSrc } from './data-binding';
 
 /**
  * بررسی می‌کند آیا یک آیتم در بین فرزندان یک تمپلیت خاص وجود دارد یا خیر
@@ -45,13 +46,24 @@ export function findCellContainer(item: PageItem): PageItem | undefined {
 }
 
 /**
+ * The collection that contains a block (nearest ancestor that has a data source), or undefined when the block is
+ * not used inside a list. Blocks inside a collection are bound to the fields of that collection.
+ */
+export function findParentCollection(item: PageItem | undefined | null): PageItem | undefined {
+  for (let current = item?.parent; current; current = current.parent) {
+    if (current.dataSource?.id) return current;
+  }
+  return undefined;
+}
+
+/**
  * Creates one repeated item of a collection from its template and fills the bound elements with the record values.
- * The template is NOT modified (previously the values of the last record leaked into the saved template).
+ * The template is NOT modified.
  * @param dataList records of the collection
  * @param template the item template
  * @param index record index
  */
-export function cloneTemplate(dataList: DynamicDataStructure[][], template: PageItem, index: number) {
+export function cloneTemplate(dataList: any[], template: PageItem, index: number) {
   const row = dataList[index];
 
   const build = (item: PageItem): IPageItem => {
@@ -65,24 +77,8 @@ export function cloneTemplate(dataList: DynamicDataStructure[][], template: Page
       delete plain.options.outputs;
     }
 
-    const binding = item.dataSource?.binding;
-    if (binding && row) {
-      const value = (fieldValue(row, binding) ?? '').toString();
-      if (PageItem.isImage(item)) {
-        plain.options ??= {};
-        plain.options.attributes ??= {};
-        plain.options.attributes['src'] = value;
-      } else {
-        plain.content = value;
-      }
-    }
-
-    // dynamic query strings of links: ?id={field}
-    const queryString = plain.options?.customData?.['queryString'];
-    if (row && Array.isArray(queryString)) {
-      plain.options!.customData!['queryString'] = queryString.map((q: any) =>
-        q.isDynamic ? { ...q, dynamicValue: fieldValue(row, q.value) } : q,
-      );
+    if (row) {
+      fillFromRow(plain, item, row);
     }
 
     plain.children = (item.children ?? []).map(build);
@@ -94,6 +90,30 @@ export function cloneTemplate(dataList: DynamicDataStructure[][], template: Page
   root.parent = template.parent;
   return PageItem.fromJSON(root);
 }
-function fieldValue(row: DynamicDataStructure<any>[], value: any) {
-  throw new Error('Function not implemented.');
+
+/** puts the values of one record into the content / attributes of a copy of a template block */
+function fillFromRow(plain: IPageItem, item: PageItem, row: unknown) {
+  const binding = item.dataSource?.binding;
+
+  if (binding) {
+    const value = getByPath(row, binding);
+    if (PageItem.isImage(item)) {
+      plain.options ??= {};
+      plain.options.attributes ??= {};
+      plain.options.attributes['src'] = toImageSrc(value) || DEFAULT_IMAGE_URL;
+    } else {
+      plain.content = escapeHtml(toDisplayText(value));
+    }
+  } else if (hasBindingToken(item.content)) {
+    // text with several fields written by hand: `{{title}} - {{price}}`
+    plain.content = interpolateBindings(item.content!, (path) => getByPath(row, path), { escape: true });
+  }
+
+  // dynamic query strings of links: ?id={field}
+  const queryString = plain.options?.customData?.['queryString'];
+  if (Array.isArray(queryString)) {
+    plain.options!.customData!['queryString'] = queryString.map((q: any) =>
+      q.isDynamic ? { ...q, dynamicValue: toDisplayText(getByPath(row, q.value)) } : q,
+    );
+  }
 }

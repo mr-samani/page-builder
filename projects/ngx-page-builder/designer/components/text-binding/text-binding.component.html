@@ -1,41 +1,26 @@
-@if (parentCollection) {
+@if (canBind()) {
   <div class="binding">
-    <switch [ngModel]="mode === 'collection'" (ngModelChange)="toggleMode('collection', $event)" name="useCollection">
-      {{ isImage ? 'Get image from collection' : 'Get text from collection' }}
+    <switch [ngModel]="bound()" (ngModelChange)="toggleBinding($event)" name="useBinding">
+      {{ switchLabel }}
     </switch>
 
-    @if (mode === 'collection') {
+    @if (bound()) {
       <data-source-selector
-        [item]="item()"
-        [collection]="true"
-        placeholder="Select a field…"
-        (pathChange)="onCollectionFieldChange($event)"></data-source-selector>
+        [scope]="scope()"
+        [collectionId]="collectionId()"
+        [path]="binding()"
+        (pathChange)="onPathChange($event)"></data-source-selector>
     }
   </div>
 }
 
-@if (!isImage) {
-  <div class="binding">
-    <switch [ngModel]="mode === 'object'" (ngModelChange)="toggleMode('object', $event)" name="useDynamicData">
-      Binding to dynamic data
-    </switch>
-
-    @if (mode === 'object') {
-      <data-source-selector
-        [item]="item()"
-        [collection]="false"
-        placeholder="Select a data source…"></data-source-selector>
-    }
-  </div>
-}
-
-@if (mode === 'static' && !isImage) {
+@if (!bound() && !isImage) {
   <div class="text" (click)="openTextEditor()">
     <span [innerHTML]="item().content | safeHtml" class="content"></span>
     <ngx-icon icon="edit" width="25px" />
   </div>
 }
 
-@if (isImage && mode !== 'collection') {
+@if (!bound() && isImage) {
   <button type="button" (click)="onChangeSrcImage()" class="pb-btn">Change Image</button>
 }

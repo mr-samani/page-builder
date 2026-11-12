@@ -4,7 +4,7 @@
     <!-- <div class="id">{{ item.id }}</div> -->
 
     @if (item.CanBeSetContent || item.isImageTag) {
-      <text-binding [item]="item" [parentCollection]="parentCollection" (change)="onChangeProperties()"></text-binding>
+      <text-binding [item]="item" (change)="onChangeProperties()"></text-binding>
     }
 
     @if (item.customComponent && settingComponent) {
@@ -16,7 +16,7 @@
     }
 
     @if (item.isLink) {
-      <edit-link [item]="item" [parentCollection]="parentCollection" [collectionFields]="collectionFields"></edit-link>
+      <edit-link [item]="item" [parentCollection]="parentCollection"></edit-link>
     }
     @if (enableExportAsPlugin) {
       <div class="export-as-plugin">

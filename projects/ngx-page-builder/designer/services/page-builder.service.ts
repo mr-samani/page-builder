@@ -652,7 +652,6 @@ export class PageBuilderService implements OnDestroy {
       // item.style = encodeURIComponent(item.el.style.cssText);
       if (item.content && item.content != item.el.textContent) {
         item.el.textContent = item.content;
-        // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
       }
     }
     this.cls.addBlockCss(item, false);
