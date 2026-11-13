@@ -67,8 +67,9 @@
   display: none;
   box-sizing: border-box;
   pointer-events: none;
-  outline: 2px solid var(--pb-sel-color);
-  outline-offset: -1px;
+  // اندازه‌ی بصری ثابت در هر scale ی canvas
+  outline: calc(2px / var(--pb-canvas-scale, 1)) solid var(--pb-sel-color);
+  outline-offset: calc(-1px / var(--pb-canvas-scale, 1));
   will-change: transform;
 
   .actions {
@@ -89,6 +90,8 @@
     white-space: nowrap;
     user-select: none;
     z-index: 1;
+    // نوار اکشن با scale ی canvas کوچک نشود
+    transform: scale(calc(1 / var(--pb-canvas-scale, 1)));
 
     button {
       display: inline-flex;
@@ -123,14 +126,17 @@
 
   &[data-placement='top'] .actions {
     bottom: calc(100% + 1px);
+    transform-origin: left bottom;
     border-radius: 4px 4px 0 0;
   }
   &[data-placement='bottom'] .actions {
     top: calc(100% + 1px);
+    transform-origin: left top;
     border-radius: 0 0 4px 4px;
   }
   &[data-placement='inside'] .actions {
     top: var(--shift-y, 0px);
+    transform-origin: left top;
     border-radius: 0 0 4px 0;
   }
 }

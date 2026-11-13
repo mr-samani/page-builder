@@ -65,6 +65,13 @@ export class PageBuilderService implements OnDestroy {
 
   responsive = signal<Breakpoint>(DEFAULT_FIRST_BREAKPOINT);
 
+  /**
+   * نسبت scale ی canvas (iframe) نسبت به اندازه‌ی واقعی؛ ۱ = بدون scale.
+   * فقط InnerContentComponent مقدار می‌دهد. رابط‌هایی که داخل iframe رسم می‌شوند (قاب انتخاب و ...)
+   * با آن اندازه‌ی بصری ثابت می‌گیرند.
+   */
+  canvasScale = signal(1);
+
   /** start from 0 */
   currentPageIndex = signal<number>(0);
   activeEl = signal<PageItem | undefined>(undefined);

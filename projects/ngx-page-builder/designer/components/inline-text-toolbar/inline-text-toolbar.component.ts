@@ -111,12 +111,18 @@ export class InlineTextToolbarComponent {
     const bar = this.bar().nativeElement;
     const win = bar.ownerDocument.defaultView;
     if (!win) return;
-    const w = bar.offsetWidth;
-    const h = bar.offsetHeight;
+    // canvas ممکن است scale شده باشد؛ نوار را معکوس scale می‌کنیم تا اندازه‌ی بصری ثابت بماند
+    // (k = 1 / scale ی canvas) و همه‌ی فاصله‌ها را در مختصات منطقی iframe حساب می‌کنیم
+    const canvasScale = parseFloat(bar.ownerDocument.documentElement.style.getPropertyValue('--pb-canvas-scale')) || 1;
+    const k = 1 / canvasScale;
+    const w = bar.offsetWidth * k;
+    const h = bar.offsetHeight * k;
+    const gap = 8 * k;
+    const edge = 4 * k;
     this.visible.set(!(anchor.bottom < 0 || anchor.top > win.innerHeight));
-    let top = anchor.top - h - 8;
-    if (top < 4) top = Math.min(anchor.bottom + 8, win.innerHeight - h - 4);
-    const left = Math.min(Math.max(4, anchor.left), Math.max(4, win.innerWidth - w - 4));
-    this.transform.set(`translate(${Math.round(left)}px, ${Math.round(Math.max(4, top))}px)`);
+    let top = anchor.top - h - gap;
+    if (top < edge) top = Math.min(anchor.bottom + gap, win.innerHeight - h - edge);
+    const left = Math.min(Math.max(edge, anchor.left), Math.max(edge, win.innerWidth - w - edge));
+    this.transform.set(`translate(${Math.round(left)}px, ${Math.round(Math.max(edge, top))}px) scale(${k})`);
   }
 }
