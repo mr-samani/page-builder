@@ -277,14 +277,7 @@ export class DynamicElementService {
   private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
     if (item.options?.attributes) {
       for (const [k, v] of Object.entries(item.options.attributes)) {
-        // HTML boolean attributes are enabled by presence; data/custom attributes keep literal values.
-        if (v === null || v === undefined || (BOOLEAN_HTML_ATTRIBUTES.has(k.toLowerCase()) && v === false)) {
-          this.renderer.removeAttribute(element, k);
-        } else if (BOOLEAN_HTML_ATTRIBUTES.has(k.toLowerCase()) && v === true) {
-          this.renderer.setAttribute(element, k, '');
-        } else {
-          this.renderer.setAttribute(element, k, String(v));
-        }
+        this.applyAttribute(element, k, v);
       }
     }
 
@@ -310,21 +303,7 @@ export class DynamicElementService {
     }
 
     if (element.tagName == 'A' && Array.isArray(item.options?.customData?.queryString)) {
-      let link = element.getAttribute('href')?.trim() || '';
-      if (!link.includes('?')) {
-        link += '?';
-      }
-      for (const q of item.options.customData.queryString as CMSPageQueryString[]) {
-        if (!link.endsWith('?')) {
-          link += '&';
-        }
-        if (q.isDynamic) {
-          link += q.key + '=' + q.dynamicValue;
-        } else {
-          link += q.key + '=' + q.value;
-        }
-      }
-      element.setAttribute('href', link);
+      this.applyLinkQueryString(element, item.options.customData.queryString as CMSPageQueryString[]);
     }
 
     element.dataset['id'] = item.id;
@@ -334,6 +313,121 @@ export class DynamicElementService {
     }
 
     return element;
+  }
+
+  /** set / remove one HTML attribute */
+  private applyAttribute(element: HTMLElement, name: string, value: unknown): void {
+    // HTML boolean attributes are enabled by presence; data/custom attributes keep literal values.
+    if (value === null || value === undefined || (BOOLEAN_HTML_ATTRIBUTES.has(name.toLowerCase()) && value === false)) {
+      this.renderer.removeAttribute(element, name);
+    } else if (BOOLEAN_HTML_ATTRIBUTES.has(name.toLowerCase()) && value === true) {
+      this.renderer.setAttribute(element, name, '');
+    } else {
+      this.renderer.setAttribute(element, name, String(value));
+    }
+  }
+
+  /** appends the query string parameters to the current href of a link */
+  private applyLinkQueryString(element: HTMLElement, queryString: CMSPageQueryString[]): void {
+    let link = element.getAttribute('href')?.trim() || '';
+    if (!link.includes('?')) {
+      link += '?';
+    }
+    for (const q of queryString) {
+      if (!link.endsWith('?')) {
+        link += '&';
+      }
+      if (q.isDynamic) {
+        link += q.key + '=' + q.dynamicValue;
+      } else {
+        link += q.key + '=' + q.value;
+      }
+    }
+    element.setAttribute('href', link);
+  }
+
+  /**
+   * Updates an already rendered block IN PLACE from a new definition of the same block
+   * (attributes, text content, css classes, link query string, data source, style reference).
+   * No element / component / directive is created or destroyed, so it is cheap and keeps the selection, focus and
+   * drag state of the block.
+   *
+   * @returns false (and changes NOTHING) when the difference can not be applied in place: the caller must destroy
+   * the block and create it again (text content of a block that has children).
+   */
+  public patchBlock(item: PageItem, next: IPageItem): boolean {
+    const el = item.el;
+    if (!el) return false;
+
+    const isComponent = !!item.customComponent;
+    const nextContent = next.content ?? '';
+    const contentChanged = !isComponent && (item.content ?? '') !== nextContent;
+    if (contentChanged && ((item.children?.length ?? 0) > 0 || (next.children?.length ?? 0) > 0)) {
+      // innerHTML would remove the child elements
+      return false;
+    }
+
+    // attributes
+    const prevAttrs = item.options?.attributes ?? {};
+    const nextAttrs = next.options?.attributes ?? {};
+    let attrsChanged = false;
+    for (const name of Object.keys(prevAttrs)) {
+      if (!(name in nextAttrs)) {
+        this.renderer.removeAttribute(el, name);
+        attrsChanged = true;
+      }
+    }
+    for (const [name, value] of Object.entries(nextAttrs)) {
+      if (!Object.is(prevAttrs[name], value)) {
+        this.applyAttribute(el, name, value);
+        attrsChanged = true;
+      }
+    }
+    if (el.tagName == 'IMG' && !el.hasAttribute('src')) {
+      el.setAttribute('src', DEFAULT_IMAGE_URL);
+    }
+
+    // link: href + query string
+    const prevQuery = item.options?.customData?.queryString;
+    const nextQuery = next.options?.customData?.queryString;
+    if (el.tagName == 'A' && (attrsChanged || !this.sameJson(prevQuery, nextQuery))) {
+      const base = nextAttrs['href'];
+      if (base === null || base === undefined) el.removeAttribute('href');
+      else el.setAttribute('href', String(base).trim());
+      if (Array.isArray(nextQuery)) this.applyLinkQueryString(el, nextQuery as CMSPageQueryString[]);
+    }
+
+    // text content
+    if (contentChanged) {
+      this.renderer.setProperty(el, 'innerHTML', nextContent);
+    }
+
+    // css classes (only the difference: classes added by other code, e.g. drag & drop, stay untouched)
+    const prevClasses = item.classList ?? [];
+    const nextClasses = next.classList ?? [];
+    const removed = prevClasses.filter((c) => !nextClasses.includes(c));
+    const added = nextClasses.filter((c) => !prevClasses.includes(c));
+    if (removed.length) el.classList.remove(...removed);
+    if (added.length) el.classList.add(...added);
+
+    // model
+    if (!isComponent) item.content = next.content;
+    item.classList = [...nextClasses];
+    item.options ??= {};
+    item.options.attributes = next.options?.attributes ? { ...next.options.attributes } : undefined;
+    item.options.customData = next.options?.customData;
+    if (next.dataSource) item.dataSource = next.dataSource;
+    item.css = next.css;
+    return true;
+  }
+
+  private sameJson(a: unknown, b: unknown): boolean {
+    if (a === b) return true;
+    try {
+      return JSON.stringify(a) === JSON.stringify(b);
+    } catch {
+      return false;
+    }
   }
 
   /**

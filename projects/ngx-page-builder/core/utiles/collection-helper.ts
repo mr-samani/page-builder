@@ -1,5 +1,7 @@
 import { PageItem } from '../models/PageItem';
 import { IPageItem } from '../contracts/IPageItem';
+import { ISourceOptions } from '../models/SourceItem';
+import { CustomComponent } from '../models/CustomComponent';
 import { DEFAULT_IMAGE_URL } from '../consts/defaults';
 import { cloneDeep } from './clone-deep';
 import { escapeHtml, getByPath, hasBindingToken, interpolateBindings, toDisplayText, toImageSrc } from './data-binding';
@@ -56,6 +58,109 @@ export function findParentCollection(item: PageItem | undefined | null): PageIte
   return undefined;
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+// Template / clone helpers
+//
+// IMPORTANT (performance): a PageItem is a node of a big object graph (parent -> whole page, el -> DOM element ->
+// Angular ComponentRef/LView -> application, options.directives[].inputs.pageItem -> parent ...).
+// NEVER run cloneDeep() on a PageItem or on `options` of a PageItem that was rendered in the designer: it walks the
+// whole graph (seconds per call). Everything below copies only the data fields of a block.
+//-------------------------------------------------------------------------------------------------------------------
+
+/** IPageItem + the runtime fields of PageItem that the constructor of PageItem copies */
+type PlainItem = IPageItem & { customComponent?: CustomComponent };
+
+interface PlainOptions {
+  /** record of the repeated item; undefined when a template snapshot is made */
+  row?: unknown;
+  /** component inputs / outputs are data of a block, but rows never needed them (kept as before) */
+  keepComponentIO: boolean;
+  /** previous template blocks by id: used to keep the binding tokens of a template (see snapshotTemplate) */
+  prevById?: Map<string, PageItem>;
+  /** copy customComponent instead of sharing it (template snapshots must not share runtime state) */
+  detachComponent?: boolean;
+}
+
+/** data only copy of the options of a block: events / directives are runtime (rebuilt by the designer) and never copied */
+function copyOptions(options: ISourceOptions | undefined, keepComponentIO: boolean): ISourceOptions | undefined {
+  if (!options) return undefined;
+  const copy: ISourceOptions = {};
+  if (options.attributes) copy.attributes = { ...options.attributes };
+  if (options.customData !== undefined) copy.customData = cloneDeep(options.customData);
+  if (keepComponentIO) {
+    if (options.inputs) copy.inputs = cloneDeep(options.inputs);
+    if (options.outputs) copy.outputs = { ...options.outputs };
+  }
+  return copy;
+}
+
+function indexById(root: PageItem, map = new Map<string, PageItem>()): Map<string, PageItem> {
+  map.set(root.id, root);
+  for (const child of root.children ?? []) indexById(child, map);
+  return map;
+}
+
+/** plain (data only) copy of a block tree; `parent`, `el`, `template` and runtime options are not copied */
+function toPlain(item: PageItem, o: PlainOptions): PlainItem {
+  const { parent, el, children, template, options, classList, customComponent, ...rest } = item;
+  const plain = { ...rest, classList: [...(classList ?? [])], children: [] as PlainItem[] } as PlainItem;
+
+  plain.options = copyOptions(options, o.keepComponentIO);
+  if (customComponent) {
+    plain.customComponent = o.detachComponent
+      ? { ...customComponent, compInjector: undefined, componentData: cloneDeep(customComponent.componentData) }
+      : customComponent;
+  }
+
+  if (o.row !== undefined && o.prevById === undefined) {
+    // a repeated item: bound blocks show the values of the record
+    fillFromRow(plain, item, o.row);
+  } else if (o.prevById) {
+    keepTemplateBindings(plain, item, o.prevById.get(item.id), o.row);
+  }
+
+  plain.children = (children ?? []).map((child) => toPlain(child, o));
+  return plain;
+}
+
+/**
+ * A template snapshot is made from a repeated item that shows the values of ONE record. The parts that are derived
+ * from the record (bound text / image, text with `{{tokens}}`) must not be written to the template:
+ * the previous template value is kept unless the user really changed it.
+ */
+function keepTemplateBindings(plain: PlainItem, item: PageItem, prev: PageItem | undefined, row: unknown) {
+  if (!prev) return;
+  if (item.dataSource?.binding) {
+    plain.content = prev.content;
+    if (PageItem.isImage(item) && plain.options?.attributes && prev.options?.attributes?.['src'] !== undefined) {
+      plain.options.attributes['src'] = prev.options.attributes['src'];
+    }
+  } else if (row !== undefined && hasBindingToken(prev.content)) {
+    const derived = interpolateBindings(prev.content!, (path) => getByPath(row, path), { escape: true });
+    if (item.content === derived) plain.content = prev.content;
+  }
+}
+
+/**
+ * Lightweight copy of a block tree to use as the template of a collection.
+ * Replaces `cloneDeep(found.root)` (which copied the DOM, Angular internals and the whole page: seconds).
+ * Styles (`css`) are shared by reference on purpose: all repeated items must see the same style object.
+ * @param root the repeated item that was changed (it shows the values of ONE record)
+ * @param prev the current template (keeps the binding tokens, see keepTemplateBindings)
+ * @param row the record that `root` shows
+ */
+export function snapshotTemplate(root: PageItem, prev?: PageItem, row?: unknown): PageItem {
+  const plain = toPlain(root, {
+    keepComponentIO: true,
+    detachComponent: true,
+    prevById: prev ? indexById(prev) : new Map(),
+    row,
+  });
+  const template = PageItem.fromJSON(plain);
+  template.parent = root.parent;
+  return template;
+}
+
 /**
  * Creates one repeated item of a collection from its template and fills the bound elements with the record values.
  * The template is NOT modified.
@@ -65,34 +170,15 @@ export function findParentCollection(item: PageItem | undefined | null): PageIte
  */
 export function cloneTemplate(dataList: any[], template: PageItem, index: number) {
   const row = dataList[index];
-
-  const build = (item: PageItem): IPageItem => {
-    const { parent, el, children, template: _t, options, ...rest } = item;
-    const plain = { ...rest, children: [] as IPageItem[] } as IPageItem;
-    if (options) {
-      plain.options = cloneDeep(options);
-      delete plain.options.events;
-      delete plain.options.directives;
-      delete plain.options.inputs;
-      delete plain.options.outputs;
-    }
-
-    if (row) {
-      fillFromRow(plain, item, row);
-    }
-
-    plain.children = (item.children ?? []).map(build);
-    return plain;
-  };
-
-  const root = build(template);
+  const plain = toPlain(template, { keepComponentIO: false, row: row ?? undefined });
+  const root = PageItem.fromJSON(plain);
   // children get their parent from the constructor, the root must keep the collection as parent
   root.parent = template.parent;
-  return PageItem.fromJSON(root);
+  return root;
 }
 
 /** puts the values of one record into the content / attributes of a copy of a template block */
-function fillFromRow(plain: IPageItem, item: PageItem, row: unknown) {
+function fillFromRow(plain: PlainItem, item: PageItem, row: unknown) {
   const binding = item.dataSource?.binding;
 
   if (binding) {
@@ -116,4 +202,87 @@ function fillFromRow(plain: IPageItem, item: PageItem, row: unknown) {
       q.isDynamic ? { ...q, dynamicValue: toDisplayText(getByPath(row, q.value)) } : q,
     );
   }
+}
+
+/**
+ * Structural comparison of plain data (settings, attributes, ...).
+ * Unlike isEqual() the class of an object does not matter (settings loaded from json are plain objects, new ones are
+ * class instances) and a property that is `undefined` is the same as a missing property.
+ */
+export function isSameData(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  const aEmpty = a === undefined || a === null;
+  const bEmpty = b === undefined || b === null;
+  if (aEmpty || bEmpty) return aEmpty && bEmpty;
+  if (typeof a !== 'object' || typeof b !== 'object') return Number.isNaN(a) && Number.isNaN(b);
+
+  if (Array.isArray(a) || Array.isArray(b)) {
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+    return a.every((value, i) => isSameData(value, b[i]));
+  }
+
+  const ao = a as Record<string, unknown>;
+  const bo = b as Record<string, unknown>;
+  const keys = new Set([...Object.keys(ao), ...Object.keys(bo)]);
+  for (const key of keys) {
+    if (!isSameData(ao[key], bo[key])) return false;
+  }
+  return true;
+}
+
+/** query strings without the values that come from the record (those differ in every repeated item) */
+function stableCustomData(customData: any): any {
+  const q = customData?.queryString;
+  if (!Array.isArray(q)) return customData;
+  return { ...customData, queryString: q.map((x: any) => (x?.isDynamic ? { ...x, dynamicValue: undefined } : x)) };
+}
+
+/**
+ * true when two templates produce exactly the same repeated items (styles are not compared: they live in the
+ * stylesheet and are shared by all copies, a style change needs no re-rendering).
+ */
+export function isSameTemplate(a: PageItem, b: PageItem): boolean {
+  if (a === b) return true;
+  if (a.id !== b.id || a.tag !== b.tag || !!a.canHaveChild !== !!b.canHaveChild) return false;
+
+  const ac = a.classList ?? [];
+  const bc = b.classList ?? [];
+  if (ac.length !== bc.length || ac.some((c, i) => c !== bc[i])) return false;
+
+  if (!a.dataSource?.binding && (a.content ?? '') !== (b.content ?? '')) return false;
+  if (!isSameData(a.dataSource, b.dataSource)) return false;
+  if (!isSameData(a.options?.attributes, b.options?.attributes)) {
+    // the src of a bound image is derived from the record
+    if (!a.dataSource?.binding) return false;
+  }
+  if (!isSameData(stableCustomData(a.options?.customData), stableCustomData(b.options?.customData))) {
+    return false;
+  }
+
+  const ak = a.customComponent;
+  const bk = b.customComponent;
+  if (!!ak !== !!bk) return false;
+  if (ak && bk && (ak.componentKey !== bk.componentKey || !isSameData(ak.componentData, bk.componentData))) {
+    return false;
+  }
+
+  const an = a.children ?? [];
+  const bn = b.children ?? [];
+  if (an.length !== bn.length) return false;
+  for (let i = 0; i < an.length; i++) if (!isSameTemplate(an[i], bn[i])) return false;
+  return true;
+}
+
+/**
+ * Makes every block of `target` use the style object of the same block of `template`.
+ * (one style object is shared by all repeated items: editing one of them edits all of them)
+ * Only walks trees with the same shape; returns without doing anything on the first difference.
+ */
+export function shareTemplateCss(target: PageItem, template: PageItem): void {
+  if (target.id !== template.id) return;
+  if (target.css !== template.css) target.css = template.css;
+  const tc = target.children ?? [];
+  const sc = template.children ?? [];
+  const n = Math.min(tc.length, sc.length);
+  for (let i = 0; i < n; i++) shareTemplateCss(tc[i], sc[i]);
 }

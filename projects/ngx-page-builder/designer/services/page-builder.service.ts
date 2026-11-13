@@ -32,6 +32,15 @@ export interface MoveTarget {
   zone?: PageZone;
 }
 
+export interface CreateBlockOptions {
+  /**
+   * Do not (re)write the stylesheet rules of the block and its children.
+   * Used for the copies of a collection item: they share the id (and so the css class + rule) of the template,
+   * the rule exists already and writing it again for every copy only invalidates the styles of the page.
+   */
+  skipStyle?: boolean;
+}
+
 export interface PageItemChange {
   item: PageItem | null;
   parent?: PageItem[];
@@ -498,7 +507,13 @@ export class PageBuilderService implements OnDestroy {
   /**
    *  ایجاد المنت جدید حتما باید با await انجام شود
    */
-  async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement | null, index: number = -1) {
+  async createBlockElement(
+    editMode: boolean,
+    item: PageItem,
+    container?: HTMLElement | null,
+    index: number = -1,
+    options?: CreateBlockOptions,
+  ) {
     if (!container) {
       container = this.pageBodyEl;
     }
@@ -506,7 +521,8 @@ export class PageBuilderService implements OnDestroy {
       throw new Error('Required container to create element');
     }
     // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
-    if (item.css) {
+    // (skipStyle: کپی‌های یک آیتم کالکشن id و کلاس blk-<id> یکسان دارند و rule آن‌ها قبلا ساخته شده است)
+    if (item.css && !options?.skipStyle) {
       this.cls.addBlockCss(item, false);
     }
     if (editMode) {
@@ -530,7 +546,7 @@ export class PageBuilderService implements OnDestroy {
     let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
     if (!item.customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {
-        await this.createBlockElement(editMode, child, el, -1);
+        await this.createBlockElement(editMode, child, el, -1, options);
       }
     }
     return el;

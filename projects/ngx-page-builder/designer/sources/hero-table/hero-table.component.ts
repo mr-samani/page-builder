@@ -31,9 +31,9 @@ import {
   DynamicDataStructure,
   DynamicElementService,
   PageItem,
-  cloneDeep,
   cloneTemplate,
   itemInThisTemplate,
+  snapshotTemplate,
   type CollectionQueryResult,
 } from 'ngx-page-builder/core';
 
@@ -133,7 +133,8 @@ export class HeroTableComponent implements OnInit, AfterViewInit {
         const found = itemInThisTemplate(data.item, this.pageItem.children);
         if (found.result) {
           console.time('updateTemplate');
-          this.pageItem.template = cloneDeep(found.root!);
+          // light data copy (cloneDeep of a rendered block copies the DOM, Angular internals and the whole page)
+          this.pageItem.template = snapshotTemplate(found.root!);
           console.timeEnd('updateTemplate');
           this.generate();
         }
