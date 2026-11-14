@@ -2,14 +2,14 @@
 <div ngxDialogBody>
   <tab-group [(selectedIndex)]="selectedTabIndex">
     @for (item of files; track $index) {
-      <tab-item [title]="item.name" [active]="$index == 0">
+      <tab-item [title]="item.name" [active]="$index == selectedTabIndex">
+        <!-- <pre>{{ item.data | json }}</pre> -->
         <css-classes-editor [(ngModel)]="item.data"></css-classes-editor>
       </tab-item>
     }
   </tab-group>
 </div>
 <div ngxDialogFooter>
-  selectedTabIndex={{ selectedTabIndex }}
   @if (enableAddCssFile) {
     <button type="button" class="pb-btn" (click)="addFile()" [disabled]="loading">Add file</button>
   }
