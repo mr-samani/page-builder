@@ -121,6 +121,8 @@ export class PageBuilderService implements OnDestroy {
     await this.removeAllPages();
     this.pageInfo = new PageBuilderDto();
     this.history.clear();
+    this.cls.destroy();
+    this.cls.initialize();
   }
 
   new() {
