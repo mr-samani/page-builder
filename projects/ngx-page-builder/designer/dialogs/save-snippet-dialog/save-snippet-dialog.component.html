@@ -1,10 +1,10 @@
-<div ngxDialogHeader [showCloseButton]="true">Export Plugin</div>
+<div ngxDialogHeader [showCloseButton]="true">Save as Snippet</div>
 <div ngxDialogBody>
   <div class="pb-form-field">
     <label for="name">Name</label>
     <input id="name" name="name" [(ngModel)]="name" #nameInput="ngModel" required (keydown.enter)="ok($event)" />
     @if (nameInput.hasError('required')) {
-      <p class="text-danger">Name is required for plugin</p>
+      <p class="text-danger">Name is required for snippet</p>
     }
   </div>
 

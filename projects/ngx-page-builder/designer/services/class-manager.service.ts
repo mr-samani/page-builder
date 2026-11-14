@@ -383,6 +383,32 @@ export class ClassManagerService {
     }
   }
 
+  /**
+   * کلاس‌های دستی (غیر blk-*) از CSS ورودی را فقط در صورتی به فایل default اضافه می‌کند که هنوز وجود نداشته باشند.
+   * (کلاس‌های موجود پروژه‌ی فعلی هرگز بازنویسی نمی‌شوند.) rule های `.blk-*` و at-rule ها (قدیمی: خروجی compile شده‌ی بلاک‌ها) نادیده گرفته می‌شوند،
+   * چون استایل هر بلاک داخل خود `item.css` است و با id جدید ساخته می‌شود.
+   */
+  public async addMissingClassStyles(content: string): Promise<void> {
+    if (!content?.trim()) return;
+    const parsed = await parseCssBlockToRecord(content);
+    const missing: Record<string, string> = {};
+    for (const [selector, text] of Object.entries(parsed)) {
+      if (selector.startsWith('@')) continue;
+      if (this.hasClass(selector)) continue;
+      missing[selector] = text;
+    }
+    if (Object.keys(missing).length === 0) return;
+
+    const defaultFile = this.cssFileData.find((f) => f.name === 'default');
+    if (defaultFile) {
+      await this.updateCssFile(defaultFile.id, missing, false);
+    } else {
+      await this.addCssFile('default', '');
+      const created = this.cssFileData.find((f) => f.name === 'default');
+      if (created) await this.updateCssFile(created.id, missing, false);
+    }
+  }
+
   public async updateCssFile(fileId: string, content: string | Record<string, string>, replace = true): Promise<void> {
     const file = this.cssFileData.find((f) => f.id === fileId);
     if (!file) throw new Error(`File with id ${fileId} not found`);
@@ -904,12 +930,23 @@ export class ClassManagerService {
     for (const r of roots) this.addBlockCss(r, true);
   }
 
-  /** استایل کامل درخت (base + state ها + media ها) برای اسنپ‌شات/پلاگین، به‌همراه کلاس‌های دستی بلاک */
+  /** استایل کامل درخت (base + state ها + media ها) به‌همراه کلاس‌های دستی بلاک */
   getBlockStyles(item: PageItem): string {
-    let css = compileBlocksCss([item], this.setup);
+    return compileBlocksCss([item], this.setup) + this.getManualClassStyles(item);
+  }
+
+  /**
+   * فقط استایل «کلاس‌های دستی» (غیر blk-*) که در درخت استفاده شده‌اند، برای snippet.
+   * استایل خود بلاک‌ها داخل `item.css` هر node ذخیره می‌شود و اینجا تکرار نمی‌شود.
+   */
+  getManualClassStyles(item: PageItem): string {
+    let css = '';
+    const seen = new Set<string>();
     const tree = (node: PageItem) => {
       for (const c of node.classList) {
         if (isBlockClass(c)) continue;
+        if (seen.has(c)) continue;
+        seen.add(c);
         const s = this.getClassStyles(c);
         if (s) css += `\n.${c}{\n  ${s}\n}\n`;
       }

@@ -25,7 +25,7 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   /** the collection that contains the selected block (undefined when it is not used in a list) */
   parentCollection?: PageItem;
 
-  enableExportAsPlugin = LibConsts.enableExportAsPlugin;
+  enableSaveAsSnippet = LibConsts.enableSaveAsSnippet;
 
   protected readonly injector = inject(Injector);
   protected readonly dialog = inject(NgxDialogService);
@@ -65,11 +65,11 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   onChangeProperties() {
     if (this.item) this.pb.changedProperties(this.item);
   }
-  async exportBlockAsPlugin() {
+  async saveBlockAsSnippet() {
     if (!this.item) return;
-    const { ExportPluginDialogComponent } =
-      await import('../../dialogs/export-plugin-dialog/export-plugin-dialog.component');
-    this.dialog.open(ExportPluginDialogComponent, {
+    const { SaveSnippetDialogComponent } =
+      await import('../../dialogs/save-snippet-dialog/save-snippet-dialog.component');
+    this.dialog.open(SaveSnippetDialogComponent, {
       data: this.item,
       size: 'md',
       header: {

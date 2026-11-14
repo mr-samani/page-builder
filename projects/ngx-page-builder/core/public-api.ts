@@ -10,7 +10,7 @@ export * from './contracts/IPageConfig';
 export * from './contracts/IPageItem';
 export * from './contracts/IPageBuilderOutput';
 export * from './contracts/IStyleSheetFile';
-export * from './contracts/IPlugin';
+export * from './contracts/ISnippet';
 export * from './contracts/ICssVariable';
 
 // Models

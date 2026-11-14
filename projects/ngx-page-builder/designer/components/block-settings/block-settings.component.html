@@ -18,9 +18,9 @@
     @if (item.isLink) {
       <edit-link [item]="item" [parentCollection]="parentCollection"></edit-link>
     }
-    @if (enableExportAsPlugin) {
-      <div class="export-as-plugin">
-        <button type="button" class="pb-btn" (click)="exportBlockAsPlugin()">Export as plugin</button>
+    @if (enableSaveAsSnippet) {
+      <div class="save-as-snippet">
+        <button type="button" class="pb-btn" (click)="saveBlockAsSnippet()">Save as snippet</button>
       </div>
     }
   }

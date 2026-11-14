@@ -435,10 +435,7 @@ export class PagePreviewService {
   private setStyle() {
     if (!this.data) return;
     const { size, orientation } = this.data.config;
-    let finded = this.doc.querySelector('style#NgxPageBuilderPrint');
-    if (finded) {
-      finded.remove();
-    }
+    this.doc.getElementById('NgxPageBuilderPrint')?.remove();
 
     const style = this.doc.createElement('style');
     style.id = 'NgxPageBuilderPrint';
@@ -453,10 +450,7 @@ export class PagePreviewService {
 
     // اضافه کردن styles به صورت تکی
     for (let s of this.data.styles) {
-      let existingStyle = this.doc.querySelector(`style#${s.name}`);
-      if (existingStyle) {
-        existingStyle.remove();
-      }
+      this.doc.getElementById(s.name)?.remove();
 
       const style = this.doc.createElement('style');
       style.innerHTML = s.data;

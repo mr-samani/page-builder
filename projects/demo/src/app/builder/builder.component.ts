@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { CustomToolbarButtons, IPage, IStyleSheetFile, PageBuilderConfig, StorageType } from 'ngx-page-builder/core';
 import {
-  NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
+  NGX_PAGE_BUILDER_SNIPPET_STORE,
   NGX_PAGE_BUILDER_FILE_PICKER,
   NGX_PAGE_BUILDER_HTML_EDITOR,
   NGX_PAGE_BUILDER_STORAGE_SERVICE,
@@ -24,7 +24,7 @@ import { HtmlEditorService } from './html-editor.service';
 import { Router } from '@angular/router';
 import { CustomSources } from '../custom-source/custom-sources';
 import { LocalStoreService } from '../custom-storage/localstore.service';
-import { PluginService } from './plugin.service';
+import { SnippetService } from './snippet.service';
 import { ICssVariable } from 'ngx-page-builder/core';
 @Component({
   selector: 'app-builder',
@@ -36,10 +36,10 @@ import { ICssVariable } from 'ngx-page-builder/core';
     providePageBuilder({
       customSources: CustomSources,
       storageType: StorageType.LocalStorage,
-      enableExportAsPlugin: true,
+      enableSaveAsSnippet: true,
       enableShotcuts: true,
-      showPlugins: true,
-      canDeletePlugin: true,
+      showSnippets: true,
+      canDeleteSnippet: true,
       enableHistory: true,
       enableCssVariable: true,
       enableAddCssFile: true,
@@ -56,8 +56,8 @@ import { ICssVariable } from 'ngx-page-builder/core';
     { provide: NGX_PAGE_BUILDER_HTML_EDITOR, useClass: HtmlEditorService },
 
     {
-      provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
-      useExisting: PluginService,
+      provide: NGX_PAGE_BUILDER_SNIPPET_STORE,
+      useExisting: SnippetService,
     },
     // {
     //   provide: NGX_PAGE_BUILDER_STORAGE_SERVICE,

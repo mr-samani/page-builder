@@ -1,23 +1,23 @@
 import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PBPluginService } from '../../services/plugin/plugin.service';
+import { PBSnippetService } from '../../services/snippet/snippet.service';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
 import { CommonModule } from '@angular/common';
-import { IPlugin, LibConsts } from 'ngx-page-builder/core';
+import { ISnippet, LibConsts } from 'ngx-page-builder/core';
 import { Notify } from 'ngx-kit/notify';
 import { PbPanel } from '../panel.layout';
 
 @Component({
-  selector: 'app-plugins',
-  templateUrl: './plugins.component.html',
-  styleUrls: ['./plugins.component.scss'],
+  selector: 'app-snippets',
+  templateUrl: './snippets.component.html',
+  styleUrls: ['./snippets.component.scss'],
   imports: [FormsModule, LoadingComponent, NgxIconComponent, CommonModule, PbPanel],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PBPluginService],
+  providers: [PBSnippetService],
 })
-export class PluginsComponent implements OnInit {
-  plugins: IPlugin[] = [];
+export class SnippetsComponent implements OnInit {
+  snippets: ISnippet[] = [];
   loading = true;
   search = '';
 
@@ -28,9 +28,9 @@ export class PluginsComponent implements OnInit {
   pagination: number[] = [];
   selectedPage = 0;
 
-  canDeletePlugin = LibConsts.canDeletePlugin;
+  canDeleteSnippet = LibConsts.canDeleteSnippet;
   constructor(
-    private pluginService: PBPluginService,
+    private snippetService: PBSnippetService,
     private chdr: ChangeDetectorRef,
   ) {}
 
@@ -40,11 +40,11 @@ export class PluginsComponent implements OnInit {
 
   getList() {
     this.loading = true;
-    this.pluginService
-      .getAllPlugins(this.take, this.skip, this.search)
+    this.snippetService
+      .getAllSnippets(this.take, this.skip, this.search)
       .finally(() => (this.loading = false))
       .then((p) => {
-        this.plugins = p?.items ?? [];
+        this.snippets = p?.items ?? [];
         this.total = p?.total ?? 0;
         this.updatePagination();
         this.chdr.detectChanges();
@@ -55,14 +55,14 @@ export class PluginsComponent implements OnInit {
   }
 
   filterList() {
-    this.plugins = [];
+    this.snippets = [];
     this.skip = 0;
     this.getList();
   }
 
-  ok(plugin: IPlugin) {
-    if (!plugin) return;
-    this.pluginService.addToForm(plugin).catch((err) => Notify.error(err));
+  ok(snippet: ISnippet) {
+    if (!snippet) return;
+    this.snippetService.addToForm(snippet).catch((err) => Notify.error(err instanceof Error ? err.message : err));
   }
 
   updatePagination() {
@@ -77,14 +77,14 @@ export class PluginsComponent implements OnInit {
     this.skip = p * this.take;
     this.getList();
   }
-  deleteItem(item: IPlugin, index: number) {
+  deleteItem(item: ISnippet, index: number) {
     item.loading = true;
-    this.pluginService
-      .deletePlugin(item, this.skip + index)
+    this.snippetService
+      .deleteSnippet(item, this.skip + index)
       .finally(() => (item.loading = false))
       .then((p) => {
         if (p) {
-          this.plugins.splice(index, 1);
+          this.snippets.splice(index, 1);
         }
         this.updatePagination();
         this.chdr.detectChanges();
