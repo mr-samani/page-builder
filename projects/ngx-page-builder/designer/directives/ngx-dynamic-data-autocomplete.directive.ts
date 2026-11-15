@@ -270,8 +270,8 @@ export class DynamicAutocompleteDirective implements OnDestroy {
       }
 
       if (current.type === DynamicValueType.Object) {
-        if (current.values && seg in current.values) {
-          current = current.values.find((x: DynamicDataStructure) => x.name == seg)!;
+        if (current.fields && seg in current.fields) {
+          current = current.fields.find((x: DynamicDataStructure) => x.name == seg)!;
           console.log('✅ Navigated to object property:', seg);
         } else {
           console.log('❌ Property not found:', seg);
@@ -306,7 +306,7 @@ export class DynamicAutocompleteDirective implements OnDestroy {
     let suggestions: string[] = [];
 
     if (current.type === DynamicValueType.Object) {
-      const keys = Object.keys(current.values || {});
+      const keys = Object.keys(current.fields || {});
 
       if (!currentToken) {
         // Show all keys
@@ -322,8 +322,8 @@ export class DynamicAutocompleteDirective implements OnDestroy {
       }
 
       // Suggest item properties
-      if (current.values) {
-        const itemKeys = Object.keys(current.values || {});
+      if (current.fields) {
+        const itemKeys = Object.keys(current.fields || {});
         if (!currentToken) {
           suggestions.push(...itemKeys);
         } else {

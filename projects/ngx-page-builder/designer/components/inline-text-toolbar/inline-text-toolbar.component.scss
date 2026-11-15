@@ -11,7 +11,9 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 2px;
-  max-width: calc(100vw - 8px);
+  /* با scale ی canvas هماهنگ است (بعد از معکوس‌scale دقیقاً به عرض viewport منطقی می‌رسد) */
+  max-width: calc((100vw - 8px) * var(--pb-canvas-scale, 1));
+  transform-origin: 0 0;
   box-sizing: border-box;
   padding: 4px;
   background: #1f1f24;

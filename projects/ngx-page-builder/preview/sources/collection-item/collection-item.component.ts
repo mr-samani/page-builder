@@ -18,7 +18,6 @@ import {
   ComponentDataContext,
   DataSourceSetting,
   DynamicDataService,
-  DynamicDataStructure,
   DynamicElementService,
   IPageItem,
   PageItem,
@@ -49,7 +48,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     children: [],
   };
 
-  dataList: DynamicDataStructure[][] = [];
+  dataList: any[] = [];
 
   private context = inject<ComponentDataContext<DataSourceSetting>>(COMPONENT_DATA);
   constructor(
@@ -58,15 +57,13 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     private dynamicDataService: DynamicDataService,
     private previewService: PagePreviewService,
     private elRef: ElementRef<HTMLElement>,
-  ) {
-    if (this.pageItem) {
-      this.pageItem.dataSource = this.context.data;
-      this.chdRef.detectChanges();
-    }
-    this.getData();
-  }
+  ) {}
 
   ngOnInit() {
+    // the saved settings of the block (normally already on the page item)
+    if (!this.pageItem.dataSource?.id && this.context?.data?.id) {
+      this.pageItem.dataSource = this.context.data;
+    }
     if (!this.pageItem.template) {
       this.pageItem.template = new PageItem(this._template, this.pageItem);
     } else {
@@ -95,7 +92,6 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
       await this.previewService.createBlockElement(cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
-    // console.log('data-collection', this.pageItem.id, this.pageItem);
     this.chdRef.detectChanges();
   }
 

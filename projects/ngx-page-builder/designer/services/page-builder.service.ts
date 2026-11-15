@@ -15,8 +15,10 @@ import {
   PageItem,
   SourceItem,
   cloneDeep,
+  isBlockClass,
   BlockCss,
   Breakpoint,
+  randomStrnig,
 } from 'ngx-page-builder/core';
 import { getDefaultBlockClasses, getDefaultBlockDirective } from '../helper/getDefaultBlockDirective';
 import { ClassManagerService } from '../services/class-manager.service';
@@ -30,6 +32,15 @@ export type PageZone = 'header' | 'body' | 'footer';
 export interface MoveTarget {
   parent?: PageItem;
   zone?: PageZone;
+}
+
+export interface CreateBlockOptions {
+  /**
+   * Do not (re)write the stylesheet rules of the block and its children.
+   * Used for the copies of a collection item: they share the id (and so the css class + rule) of the template,
+   * the rule exists already and writing it again for every copy only invalidates the styles of the page.
+   */
+  skipStyle?: boolean;
 }
 
 export interface PageItemChange {
@@ -55,6 +66,13 @@ export class PageBuilderService implements OnDestroy {
   pageFooterEl?: HTMLElement;
 
   responsive = signal<Breakpoint>(DEFAULT_FIRST_BREAKPOINT);
+
+  /**
+   * نسبت scale ی canvas (iframe) نسبت به اندازه‌ی واقعی؛ ۱ = بدون scale.
+   * فقط InnerContentComponent مقدار می‌دهد. رابط‌هایی که داخل iframe رسم می‌شوند (قاب انتخاب و ...)
+   * با آن اندازه‌ی بصری ثابت می‌گیرند.
+   */
+  canvasScale = signal(1);
 
   /** start from 0 */
   currentPageIndex = signal<number>(0);
@@ -103,6 +121,8 @@ export class PageBuilderService implements OnDestroy {
     await this.removeAllPages();
     this.pageInfo = new PageBuilderDto();
     this.history.clear();
+    this.cls.destroy();
+    this.cls.initialize();
   }
 
   new() {
@@ -498,7 +518,13 @@ export class PageBuilderService implements OnDestroy {
   /**
    *  ایجاد المنت جدید حتما باید با await انجام شود
    */
-  async createBlockElement(editMode: boolean, item: PageItem, container?: HTMLElement | null, index: number = -1) {
+  async createBlockElement(
+    editMode: boolean,
+    item: PageItem,
+    container?: HTMLElement | null,
+    index: number = -1,
+    options?: CreateBlockOptions,
+  ) {
     if (!container) {
       container = this.pageBodyEl;
     }
@@ -506,7 +532,8 @@ export class PageBuilderService implements OnDestroy {
       throw new Error('Required container to create element');
     }
     // فقط خودِ بلاک؛ فرزندان در حلقه‌ی پایین با createBlockElement خودشان اعمال می‌شوند (بدون پیمایش تکراری درخت)
-    if (item.css) {
+    // (skipStyle: کپی‌های یک آیتم کالکشن id و کلاس blk-<id> یکسان دارند و rule آن‌ها قبلا ساخته شده است)
+    if (item.css && !options?.skipStyle) {
       this.cls.addBlockCss(item, false);
     }
     if (editMode) {
@@ -530,7 +557,7 @@ export class PageBuilderService implements OnDestroy {
     let el = await this.dynamicElementService.createBlock(LibConsts.SourceItemList, editMode, container, index, item);
     if (!item.customComponent && item.children && item.children.length > 0 && el) {
       for (const child of item.children) {
-        await this.createBlockElement(editMode, child, el, -1);
+        await this.createBlockElement(editMode, child, el, -1, options);
       }
     }
     return el;
@@ -560,7 +587,7 @@ export class PageBuilderService implements OnDestroy {
   selectBlock(c: PageItem, ev?: PointerEvent) {
     // console.log('click on block', c.el);
     ev?.stopPropagation();
-    ev?.preventDefault();
+    //ev?.preventDefault();
     if (this.activeEl() !== c) this.flushStyleChange();
     this.activeEl.set(c);
     this.onSelectBlock$.next({ ev: ev, item: c });
@@ -652,7 +679,6 @@ export class PageBuilderService implements OnDestroy {
       // item.style = encodeURIComponent(item.el.style.cssText);
       if (item.content && item.content != item.el.textContent) {
         item.el.textContent = item.content;
-        // item.el.textContent = this.dynamicDataService.replaceContentValue(item.content);
       }
     }
     this.cls.addBlockCss(item, false);
@@ -717,36 +743,88 @@ export class PageBuilderService implements OnDestroy {
     Notify.info('Block copied to memory');
   }
 
-  async addBlockToCurrentPage(p: IPageItem) {
+  async addBlockToCurrentPage(p: IPageItem): Promise<PageItem | undefined> {
     try {
-      let item = PageItem.fromJSON(p);
-      item = this.clearIds(item);
+      // ۱) کپی عمیق و مستقل (بدون el/parent/directive ها) تا با بلاک اصلی هیچ object مشترکی (css, options, ...) نماند
+      // ۲) id جدید برای کل درخت + اتصال کلاس اختصاصی blk-<id> به id جدید؛
+      //    وگرنه همه‌ی node ها id خالی/تکراری می‌گیرند و استایل‌ها (که با id کلید می‌خورند) با هم قاطی می‌شوند
+      const item = this.reassignIds(PageItem.fromJSON(this.cloneBlockData(p)));
 
-      let activeBlock = this.activeEl();
+      const activeBlock = this.activeEl();
 
       if (!this.currentPage) {
         await this.addPage();
       }
-      if (activeBlock && activeBlock.canHaveChild) {
-        item.parent = activeBlock;
-        activeBlock.children.push(item);
-        await this.createBlockElement(true, item, activeBlock?.el);
-      } else {
-        this.currentPage!.bodyItems.push(item);
-        await this.createBlockElement(true, item);
+
+      // محل درج:
+      //  - بلاک فعال «container» است → داخل آن، انتهای فرزندان
+      //  - بلاک فعال container نیست → همان‌جا، درست بعد از خودش (هم‌سطح؛ هر بخشی از صفحه: header/body/footer)
+      //  - بلاک فعالی نیست → انتهای body
+      let parentItem: PageItem | undefined;
+      let list: PageItem[] | undefined;
+      let containerEl: HTMLElement | null | undefined;
+      let index = -1;
+
+      if (activeBlock?.el && activeBlock.canHaveChild) {
+        parentItem = activeBlock;
+        list = activeBlock.children;
+        containerEl = activeBlock.el;
+        index = list.length;
+      } else if (activeBlock?.el) {
+        const zone = this.getItemZone(activeBlock);
+        list = activeBlock.parent ? activeBlock.parent.children : zone ? this.getZoneList(zone) : undefined;
+        containerEl = activeBlock.parent ? activeBlock.parent.el : zone ? this.zoneEl(zone) : undefined;
+        const at = list ? list.findIndex((i) => i === activeBlock || i.id === activeBlock.id) : -1;
+        if (list && containerEl && at > -1) {
+          parentItem = activeBlock.parent;
+          index = at + 1;
+        } else {
+          list = undefined; // به انتهای body برمی‌گردیم
+        }
       }
+      if (!list || !containerEl) {
+        parentItem = undefined;
+        list = this.currentPage!.bodyItems;
+        containerEl = this.pageBodyEl;
+        index = list.length;
+      }
+
+      item.parent = parentItem;
+      await this.createBlockElement(true, item, containerEl, index);
+      list.splice(index, 0, item);
+
       this.selectBlock(item);
+      // مثل افزودن با drag&drop: اطلاع به بیرون (autosave/dirty) + ثبت در history
+      this.updateChangeDetection({ item, parent: list, type: 'AddBlock' });
+      this.history.saveAdd(parentItem?.id, index, item, `Add block'${item.id}' to '${parentItem?.id}'`);
       Notify.success('Added successfully');
-    } catch (error) {}
+      return item;
+    } catch (error) {
+      console.error('addBlockToCurrentPage failed', error);
+      Notify.error(error instanceof Error ? error.message : String(error));
+      return undefined;
+    }
   }
 
-  private clearIds(item: PageItem): PageItem {
-    item.id = '';
-    if (item.children) {
-      for (let c of item.children) {
-        this.clearIds(c);
-      }
+  /** کپی عمیق داده‌ی یک بلاک، بدون وابستگی‌های زمان اجرا (المان، parent، directive ها، event ها) */
+  private cloneBlockData(node: IPageItem): IPageItem {
+    const { children, template, el, parent, options, ...rest } = node as any;
+    const copy: any = cloneDeep(rest);
+    if (options) {
+      const { events, directives, inputs, outputs, ...opts } = options;
+      copy.options = cloneDeep(opts);
     }
+    if (children?.length) copy.children = children.map((c: IPageItem) => this.cloneBlockData(c));
+    if (template) copy.template = this.cloneBlockData(template);
+    return copy as IPageItem;
+  }
+
+  /** id جدید برای کل درخت (فرزندان و template) و remap کلاس اختصاصی blk-<id> */
+  private reassignIds(item: PageItem): PageItem {
+    item.id = randomStrnig(5);
+    // item.classList = (item.classList ?? []).map((c) => (isBlockClass(c) ? `blk-${item.id}` : c));
+    for (const c of item.children ?? []) this.reassignIds(c);
+    if (item.template) this.reassignIds(item.template);
     return item;
   }
 }

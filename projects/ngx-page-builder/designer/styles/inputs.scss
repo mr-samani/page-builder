@@ -32,7 +32,6 @@ AFTER CHANGE THIS FILE MUST BE RUN: npm run build:sass
       min-height: 100%;
       box-sizing: border-box;
       font-size: 12px;
-      font-family: system-ui, tahoma;
       height: 24px;
       &:disabled {
         background-color: #2b3138;

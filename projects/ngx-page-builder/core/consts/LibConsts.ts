@@ -25,12 +25,12 @@ export const LibConsts: {
    */
   enableShotcuts: boolean;
   /** show export button in block setting */
-  enableExportAsPlugin: boolean;
+  enableSaveAsSnippet: boolean;
 
   enableCssVariable: boolean;
 
-  showPlugins: boolean;
-  canDeletePlugin: boolean;
+  showSnippets: boolean;
+  canDeleteSnippet: boolean;
 
   toolbarConfig?: PageBuilderToolbarConfig;
 
@@ -47,10 +47,10 @@ export const LibConsts: {
   enableHistory: false,
   enableShotcuts: false,
   enableAddCssFile: false,
-  enableExportAsPlugin: false,
+  enableSaveAsSnippet: false,
   enableCssVariable: false,
-  showPlugins: false,
-  canDeletePlugin: false,
+  showSnippets: false,
+  canDeleteSnippet: false,
   viewMode: 'PrintPage',
   toolbarConfig: new PageBuilderToolbarConfig(),
   publicCss: [],

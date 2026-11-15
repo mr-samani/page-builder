@@ -1,32 +1,32 @@
 import { ChangeDetectorRef, Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PBPluginService } from '../../services/plugin/plugin.service';
+import { PBSnippetService } from '../../services/snippet/snippet.service';
 import { LoadingComponent } from '../../controls/loading/loading.component';
 import { PageBuilderService } from '../../services/page-builder.service';
-import { IPlugin, PageItem } from 'ngx-page-builder/core';
+import { ISnippet, PageItem } from 'ngx-page-builder/core';
 import { NgxDialogModule, DIALOG_DATA, DIALOG_REF } from 'ngx-kit/dialog';
 import { Notify } from 'ngx-kit/notify';
 
 @Component({
-  selector: 'app-export-plugin-dialog',
-  templateUrl: './export-plugin-dialog.component.html',
-  styleUrls: ['./export-plugin-dialog.component.scss'],
+  selector: 'app-save-snippet-dialog',
+  templateUrl: './save-snippet-dialog.component.html',
+  styleUrls: ['./save-snippet-dialog.component.scss'],
   imports: [FormsModule, NgxDialogModule, LoadingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PBPluginService],
+  providers: [PBSnippetService],
 })
-export class ExportPluginDialogComponent implements OnInit {
+export class SaveSnippetDialogComponent implements OnInit {
   name = '';
   img = '';
 
-  plugin?: IPlugin;
+  snippet?: ISnippet;
   loading = true;
   private _data = inject<PageItem>(DIALOG_DATA);
   private dialogRef = inject(DIALOG_REF);
   protected readonly pb = inject(PageBuilderService);
 
   constructor(
-    private pluginService: PBPluginService,
+    private snippetService: PBSnippetService,
     private chdr: ChangeDetectorRef,
   ) {
     this.loading = true;
@@ -39,10 +39,10 @@ export class ExportPluginDialogComponent implements OnInit {
   getData() {
     const tmpShowOutlines = this.pb.showOutlines();
     this.pb.showOutlines.set(false);
-    this.pluginService
-      .getPlugin(this._data)
+    this.snippetService
+      .getSnippet(this._data)
       .then((p) => {
-        this.plugin = p;
+        this.snippet = p;
         this.img = p.image;
         this.name = p.name;
         this.loading = false;
@@ -61,9 +61,11 @@ export class ExportPluginDialogComponent implements OnInit {
       ev.stopPropagation();
       ev.preventDefault();
     }
-    if (!this.plugin || !this.name) return;
-    this.plugin.name = this.name;
-    this.pluginService.save(this.plugin);
-    this.dialogRef.close(true);
+    if (!this.snippet || !this.name) return;
+    this.snippet.name = this.name;
+    // save می‌تواند async باشد (ذخیره روی سرور)؛ تا موفق نشده دیالوگ بسته نمی‌شود
+    Promise.resolve(this.snippetService.save(this.snippet))
+      .then(() => this.dialogRef.close(true))
+      .catch((error) => Notify.error(error instanceof Error ? error.message : error));
   }
 }

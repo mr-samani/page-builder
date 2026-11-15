@@ -1,12 +1,14 @@
 .page-builder-container {
   display: grid;
   grid-template-columns: var(--toolbar-width) minmax(0, var(--panel-width)) minmax(0, 1fr) var(--side-config-width);
-  grid-template-rows: var(--topbar-height) auto;
+  /* ردیف دوم minmax(0,1fr): ارتفاع canvas هیچ‌وقت از محتوای iframe کش نمی‌آید */
+  grid-template-rows: var(--topbar-height) minmax(0, 1fr);
   gap: 0px 5px;
   height: 100dvh;
   background: #0b0e13;
   color: #fff;
-
+  font-size: 12px;
+  font-family: system-ui, sans-serif, tahoma;
   * {
     box-sizing: border-box;
   }
@@ -18,7 +20,6 @@
   border: none var(--tools-border);
   background-color: var(--panel-bg);
   color: var(--side-config-fg);
-  font-family: sans-serif;
   font-size: 12px;
   position: relative;
   .ngx-resize-handler {
@@ -83,6 +84,10 @@
   }
 }
 .page-container {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   padding: 0px;
   background: #fff;
   color: #000;

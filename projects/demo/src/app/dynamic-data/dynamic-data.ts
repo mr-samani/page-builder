@@ -14,30 +14,26 @@ export class InitializeDynamicData {
       displayName: 'Personal Information',
       name: 'personalInfo',
       type: DynamicValueType.Object,
-      values: [
+      fields: [
         {
           displayName: 'First name',
           name: 'firstName',
           type: DynamicValueType.String,
-          value: 'Mohammadreza',
         },
         {
           displayName: 'Last name',
           name: 'lastName',
           type: DynamicValueType.String,
-          value: 'Samani',
         },
         {
           displayName: 'Age',
           name: 'age',
           type: DynamicValueType.Int,
-          value: 36,
         },
         {
           displayName: 'Email',
           name: 'email',
           type: DynamicValueType.String,
-          value: 'example@example.com',
         },
       ],
     },
@@ -47,36 +43,31 @@ export class InitializeDynamicData {
       displayName: 'Job Data',
       name: 'jobData',
       type: DynamicValueType.Object,
-      values: [
+      fields: [
         {
           displayName: 'Title',
           name: 'title',
           type: DynamicValueType.String,
-          value: 'Software Engineer',
         },
         {
           displayName: 'Company',
           name: 'company',
           type: DynamicValueType.String,
-          value: 'Example Corp',
         },
         {
           displayName: 'Location',
           name: 'location',
           type: DynamicValueType.String,
-          value: 'New York',
         },
         {
           displayName: 'Start Date',
           name: 'startDate',
           type: DynamicValueType.Date,
-          value: new Date('2020-01-01'),
         },
         {
           displayName: 'End Date',
           name: 'endDate',
           type: DynamicValueType.Date,
-          value: new Date('2023-12-31'),
         },
       ],
     },
@@ -86,94 +77,7 @@ export class InitializeDynamicData {
       name: 'category',
       displayName: 'Product categories',
       type: DynamicValueType.Array,
-      list: [
-        [
-          {
-            displayName: 'id',
-            name: 'id',
-            type: DynamicValueType.String,
-            value: '123-456',
-          },
-          {
-            displayName: 'name',
-            name: 'name',
-            type: DynamicValueType.String,
-            value: 'Clothing',
-          },
-          {
-            displayName: 'description',
-            name: 'description',
-            type: DynamicValueType.String,
-            value: 'description of clothing and accessories and more',
-          },
-          {
-            displayName: 'image',
-            name: 'image',
-            type: DynamicValueType.String,
-            value: 'image-url.jpg',
-          },
-        ],
-        [
-          {
-            displayName: 'id',
-            name: 'id',
-            type: DynamicValueType.String,
-            value: '785',
-          },
-          {
-            displayName: 'name',
-            name: 'name',
-            type: DynamicValueType.String,
-            value: 'electronics',
-          },
-          {
-            displayName: 'description',
-            name: 'description',
-            type: DynamicValueType.String,
-            value: 'description of electronics and gadgets',
-          },
-          {
-            displayName: 'image',
-            name: 'image',
-            type: DynamicValueType.String,
-            value: 'image-url.jpg',
-          },
-        ],
-      ],
-    }, // products version 1
-    {
-      id: 'products',
-      name: 'products',
-      displayName: 'All Products',
-      type: DynamicValueType.Array,
-      list: [
-        [
-          {
-            name: 'name',
-            displayName: 'عنوان کالا',
-            type: DynamicValueType.String,
-            value: 'Sample Product',
-          },
-          {
-            name: 'price',
-            displayName: 'قیمت کالا',
-            type: DynamicValueType.Int,
-            value: 100,
-          },
-          {
-            name: 'description',
-            displayName: 'توضیحات کالا',
-            type: DynamicValueType.String,
-            value: 'Sample product description',
-          },
-          {
-            name: 'image',
-            displayName: 'تصویر کالا',
-            type: DynamicValueType.String,
-            value: 'image-url.jpg',
-          },
-        ],
-      ],
+      rawData: [],
     },
     // product category version 1
     {
@@ -194,10 +98,9 @@ export class InitializeDynamicData {
             { id: 5, title: 'cat 5' },
             { id: 6, title: 'cat 6' },
           ],
-          value: undefined,
         },
       ],
-      list: (params: DynamicDataInput) => this.getObsrvProducts(params),
+      rawData: (params: DynamicDataInput) => this.getObsrvProducts(params),
     },
 
     /// --------- my data cms
@@ -207,14 +110,12 @@ export class InitializeDynamicData {
       name: 'Product',
       displayName: 'Product',
       type: DynamicValueType.Array,
-      values: [
+      fields: [
         {
           id: 'TenantId',
           name: 'TenantId',
           displayName: 'TenantId',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
           inputData: null,
         },
         {
@@ -222,8 +123,6 @@ export class InitializeDynamicData {
           name: 'CategoryId',
           displayName: 'CategoryId',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
           inputData: null,
         },
         {
@@ -231,8 +130,6 @@ export class InitializeDynamicData {
           name: 'SKU',
           displayName: 'SKU',
           type: DynamicValueType.String,
-          values: null,
-          value: '',
           inputData: null,
         },
         {
@@ -240,8 +137,7 @@ export class InitializeDynamicData {
           name: 'Slug',
           displayName: 'Slug',
           type: DynamicValueType.String,
-          values: null,
-          value: '',
+
           inputData: null,
         },
         {
@@ -249,8 +145,7 @@ export class InitializeDynamicData {
           name: 'IsActive',
           displayName: 'IsActive',
           type: DynamicValueType.Boolean,
-          values: null,
-          value: false,
+
           inputData: null,
         },
         {
@@ -258,8 +153,7 @@ export class InitializeDynamicData {
           name: 'ProductTypeId',
           displayName: 'ProductTypeId',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -267,8 +161,7 @@ export class InitializeDynamicData {
           name: 'Tags',
           displayName: 'Tags',
           type: DynamicValueType.String,
-          values: null,
-          value: '',
+
           inputData: null,
         },
         {
@@ -276,8 +169,7 @@ export class InitializeDynamicData {
           name: 'Id',
           displayName: 'Id',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -285,8 +177,7 @@ export class InitializeDynamicData {
           name: 'CreatedAt',
           displayName: 'CreatedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -294,8 +185,7 @@ export class InitializeDynamicData {
           name: 'CreatedBy',
           displayName: 'CreatedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -303,8 +193,7 @@ export class InitializeDynamicData {
           name: 'ModifiedAt',
           displayName: 'ModifiedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -312,8 +201,7 @@ export class InitializeDynamicData {
           name: 'ModifiedBy',
           displayName: 'ModifiedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -321,8 +209,7 @@ export class InitializeDynamicData {
           name: 'DeletedAt',
           displayName: 'DeletedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -330,8 +217,7 @@ export class InitializeDynamicData {
           name: 'DeletedBy',
           displayName: 'DeletedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -339,8 +225,7 @@ export class InitializeDynamicData {
           name: 'IsDeleted',
           displayName: 'IsDeleted',
           type: DynamicValueType.Boolean,
-          values: null,
-          value: false,
+
           inputData: null,
         },
         {
@@ -348,12 +233,11 @@ export class InitializeDynamicData {
           name: 'RowVersion',
           displayName: 'RowVersion',
           type: DynamicValueType.Array,
-          values: null,
-          value: null,
+
           inputData: null,
         },
       ],
-      value: null,
+
       inputData: null,
     },
     // product category cms
@@ -362,14 +246,13 @@ export class InitializeDynamicData {
       name: 'ProductCategory',
       displayName: 'ProductCategory',
       type: DynamicValueType.Array,
-      values: [
+      fields: [
         {
           id: 'TenantId',
           name: 'TenantId',
           displayName: 'TenantId',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -377,8 +260,7 @@ export class InitializeDynamicData {
           name: 'ParentId',
           displayName: 'ParentId',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -386,8 +268,7 @@ export class InitializeDynamicData {
           name: 'Slug',
           displayName: 'Slug',
           type: DynamicValueType.String,
-          values: null,
-          value: '',
+
           inputData: null,
         },
         {
@@ -395,8 +276,7 @@ export class InitializeDynamicData {
           name: 'Image',
           displayName: 'Image',
           type: DynamicValueType.String,
-          values: null,
-          value: '',
+
           inputData: null,
         },
         {
@@ -404,8 +284,7 @@ export class InitializeDynamicData {
           name: 'OrderIndex',
           displayName: 'OrderIndex',
           type: DynamicValueType.Int,
-          values: null,
-          value: 0,
+
           inputData: null,
         },
         {
@@ -413,8 +292,7 @@ export class InitializeDynamicData {
           name: 'IsActive',
           displayName: 'IsActive',
           type: DynamicValueType.Boolean,
-          values: null,
-          value: false,
+
           inputData: null,
         },
         {
@@ -422,8 +300,7 @@ export class InitializeDynamicData {
           name: 'Id',
           displayName: 'Id',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -431,8 +308,7 @@ export class InitializeDynamicData {
           name: 'CreatedAt',
           displayName: 'CreatedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -440,8 +316,7 @@ export class InitializeDynamicData {
           name: 'CreatedBy',
           displayName: 'CreatedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -449,8 +324,7 @@ export class InitializeDynamicData {
           name: 'ModifiedAt',
           displayName: 'ModifiedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -458,8 +332,7 @@ export class InitializeDynamicData {
           name: 'ModifiedBy',
           displayName: 'ModifiedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -467,8 +340,7 @@ export class InitializeDynamicData {
           name: 'DeletedAt',
           displayName: 'DeletedAt',
           type: DynamicValueType.DateTime,
-          values: null,
-          value: '0001-01-01T00:00:00.0000000Z',
+
           inputData: null,
         },
         {
@@ -476,8 +348,7 @@ export class InitializeDynamicData {
           name: 'DeletedBy',
           displayName: 'DeletedBy',
           type: DynamicValueType.String,
-          values: null,
-          value: '00000000-0000-0000-0000-000000000000',
+
           inputData: null,
         },
         {
@@ -485,8 +356,7 @@ export class InitializeDynamicData {
           name: 'IsDeleted',
           displayName: 'IsDeleted',
           type: DynamicValueType.Boolean,
-          values: null,
-          value: false,
+
           inputData: null,
         },
         {
@@ -494,12 +364,11 @@ export class InitializeDynamicData {
           name: 'RowVersion',
           displayName: 'RowVersion',
           type: DynamicValueType.Array,
-          values: null,
-          value: null,
+
           inputData: null,
         },
       ],
-      value: null,
+
       inputData: null,
     },
   ];
@@ -511,38 +380,34 @@ export class InitializeDynamicData {
         name: 'name',
         displayName: 'عنوان کالا',
         type: DynamicValueType.String,
-        value: 'Sample Product',
       },
       {
         name: 'price',
         displayName: 'قیمت کالا',
         type: DynamicValueType.Int,
-        value: 100,
       },
       {
         name: 'description',
         displayName: 'توضیحات کالا',
         type: DynamicValueType.String,
-        value: 'Sample product description',
       },
       {
         name: 'image',
         displayName: 'تصویر کالا',
         type: DynamicValueType.String,
-        value: 'image-url.jpg',
       },
     ],
   ];
   constructor(private http: HttpClient) {}
 
-  private getPromiseProducts(input: DynamicDataInput): Promise<DynamicDataStructure[][]> {
+  private getPromiseProducts(input: DynamicDataInput): Promise<DynamicDataStructure[]> {
     return new Promise((resolve, reject) => {
       return this.list;
     });
   }
 
-  private getObsrvProducts(input: DynamicDataInput): Observable<DynamicDataStructure[][]> {
-    const api = this.http.post<DynamicDataStructure[][]>('api.test/api/products', input).pipe(
+  private getObsrvProducts(input: DynamicDataInput): Observable<DynamicDataStructure[]> {
+    const api = this.http.post<any>('api.test/api/products', input).pipe(
       catchError((err) => {
         return of(this.list);
       }),

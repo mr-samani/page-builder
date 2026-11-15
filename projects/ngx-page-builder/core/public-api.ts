@@ -10,7 +10,7 @@ export * from './contracts/IPageConfig';
 export * from './contracts/IPageItem';
 export * from './contracts/IPageBuilderOutput';
 export * from './contracts/IStyleSheetFile';
-export * from './contracts/IPlugin';
+export * from './contracts/ISnippet';
 export * from './contracts/ICssVariable';
 
 // Models
@@ -40,6 +40,7 @@ export * from './utiles/block-css';
 export * from './utiles/corner-model';
 export * from './utiles/clone-deep';
 export * from './utiles/collection-helper';
+export * from './utiles/data-binding';
 export * from './utiles/data-schema';
 export * from './utiles/css-parser';
 export * from './utiles/file';

@@ -1,10 +1,10 @@
-<pb-panel label="Plugins" description="">
+<pb-panel label="Snippets" description="">
   <div class="search-field">
     <ngx-icon icon="search" aria-hidden="true" />
     <input
       type="text"
-      aria-label="Search plugins"
-      placeholder="Search plugins..."
+      aria-label="Search snippets"
+      placeholder="Search snippets..."
       [(ngModel)]="search"
       (keydown.enter)="filterList()" />
     @if (search) {
@@ -26,8 +26,8 @@
     </summary>
 
     <div class="list-container">
-      @for (item of plugins; track $index; let i = $index) {
-        <div class="plugin-box" [title]="item.name">
+      @for (item of snippets; track $index; let i = $index) {
+        <div class="snippet-box" [title]="item.name">
           <div class="screenshot-container">
             @if (item.image) {
               <img [src]="item.image" [alt]="item.name" class="screenshot" />
@@ -41,7 +41,7 @@
             <button class="pb-btn" type="button" (click)="ok(item)">
               <ngx-icon icon="plus" />
             </button>
-            @if (canDeletePlugin) {
+            @if (canDeleteSnippet) {
               <button class="pb-btn" type="button" (click)="deleteItem(item, i)">
                 <ngx-icon icon="trash" />
               </button>
@@ -50,8 +50,8 @@
         </div>
       }
 
-      @if (plugins.length == 0 && !loading) {
-        <p>Not exist any plugins!</p>
+      @if (snippets.length == 0 && !loading) {
+        <p>No snippets yet!</p>
       }
     </div>
   </details>

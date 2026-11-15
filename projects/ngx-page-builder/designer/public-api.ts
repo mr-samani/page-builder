@@ -22,6 +22,6 @@ export type { FontOption } from './controls/typography-control/typography-model'
 export * from './services/html-editor/IHtmlEditor';
 export * from './services/html-editor/token.html-editor';
 
-// Plugins
-export * from './services/plugin/plugin.store';
-export * from './services/plugin/plugin.token';
+// Snippets
+export * from './services/snippet/snippet.store';
+export * from './services/snippet/snippet.token';

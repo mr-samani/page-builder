@@ -39,13 +39,15 @@ export const DATA_FILTER_OPERATORS: { value: DataFilterOperator; label: string; 
 ];
 
 export class DataSourceSetting<InputData = { [key: string]: any }> {
-  /** required for search or filter */
+  /** collection blocks only: id of the collection data source (DynamicDataStructure.id) */
   id!: string;
   skipCount?: number;
   maxResultCount?: number;
   /**
-   * The column to which the element is bound (path in the collection schema, e.g. `name` or `address.city`).
-   * Only used on elements INSIDE a collection.
+   * The field the block is bound to. The scope is decided by where the block is:
+   * - inside a collection: path in the record structure of that collection (`name`, `address.city`)
+   * - anywhere else: path starting with the namespace of an object source (`personalInfo.job.title`)
+   * Only non list fields can be bound. `PageItem.content` shows it as `{{<binding>}}`.
    */
   binding?: string;
 

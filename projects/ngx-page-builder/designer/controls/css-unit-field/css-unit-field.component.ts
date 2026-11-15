@@ -161,7 +161,6 @@ import { parseCssNumber, trimNum } from './css-value-utils';
       color: #6d6d78;
     }
     .cuf-raw {
-      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
       font-size: 11px;
     }
     .cuf-unit {

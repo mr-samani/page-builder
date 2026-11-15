@@ -25,14 +25,14 @@
       <ngx-icon icon="blocks" />
     </button>
 
-    @if (showPlugins) {
+    @if (showSnippets) {
     <button
       type="button"
       class="tool"
-      title="Plugins"
-      aria-label="Plugins"
-      (click)="panelService.toggle('plugins')"
-      [class.active]="panelService.activePanel() == 'plugins'">
+      title="Snippets"
+      aria-label="Snippets"
+      (click)="panelService.toggle('snippets')"
+      [class.active]="panelService.activePanel() == 'snippets'">
       <ngx-icon icon="hexagon-plus" />
     </button>
     }

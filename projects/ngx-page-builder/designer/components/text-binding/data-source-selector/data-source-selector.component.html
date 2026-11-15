@@ -1,12 +1,15 @@
-@for (level of levels(); track $index) {
+@for (level of levels(); track level.depth) {
   <div class="pb-input-group pi-row">
-    <select [name]="'ds-level-' + $index" (change)="onSelect($index, $event)">
-      <option value="" [selected]="!level.selected">{{ $index === 0 ? placeholder() : '—' }}</option>
-      @for (field of level.options; track field.name) {
-        <option [value]="field.name" [selected]="field.name === level.selected">
-          {{ field.displayName || field.name }}
+    <select [name]="'binding-level-' + level.depth" (change)="onSelect(level.depth, $event)">
+      <option value="" [selected]="!level.selected">{{ emptyLabel(level.depth) }}</option>
+
+      @for (option of level.options; track option.name) {
+        <option [value]="option.name" [selected]="option.name === level.selected">
+          {{ label(option) }}
         </option>
       }
     </select>
   </div>
+} @empty {
+  <p class="hint">There is no field to bind to.</p>
 }

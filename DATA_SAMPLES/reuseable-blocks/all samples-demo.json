@@ -27,10 +27,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-cta03",
-                    "cta__eyebrow"
-                  ]
+                  "classList": ["blk-cta03", "cta__eyebrow"]
                 },
                 {
                   "id": "mw60t6gg-Ydccl",
@@ -43,10 +40,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-cta04",
-                    "cta__title"
-                  ]
+                  "classList": ["blk-cta04", "cta__title"]
                 },
                 {
                   "id": "mw60t6gg-wmloL",
@@ -59,10 +53,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-cta05",
-                    "cta__text"
-                  ]
+                  "classList": ["blk-cta05", "cta__text"]
                 }
               ],
               "tag": "div",
@@ -73,10 +64,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-cta02",
-                "cta__content"
-              ]
+              "classList": ["blk-cta02", "cta__content"]
             },
             {
               "id": "mw60t6gg-nsCDy",
@@ -90,10 +78,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-cta06",
-                "cta__button"
-              ]
+              "classList": ["blk-cta06", "cta__button"]
             }
           ],
           "tag": "section",
@@ -104,10 +89,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-cta01",
-            "cta"
-          ]
+          "classList": ["blk-cta01", "cta"]
         },
         {
           "id": "mw60t6gg-vVciR",
@@ -119,6 +101,7 @@
                   "id": "mw60t6gg-jPwQH",
                   "children": [],
                   "tag": "summary",
+                  "disableMovement": true,
                   "canHaveChild": false,
                   "content": "Can I edit every part of a saved block?",
                   "options": {
@@ -126,10 +109,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq03",
-                    "faq-question"
-                  ]
+                  "classList": ["blk-faq03", "faq-question"]
                 },
                 {
                   "id": "mw60t6gg-Henpj",
@@ -142,10 +122,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq04",
-                    "faq-answer"
-                  ]
+                  "classList": ["blk-faq04", "faq-answer"]
                 }
               ],
               "tag": "details",
@@ -156,10 +133,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-faq02",
-                "faq-item"
-              ]
+              "classList": ["blk-faq02", "faq-item"]
             },
             {
               "id": "mw60t6gg-KVXEA",
@@ -168,6 +142,7 @@
                   "id": "mw60t6gg-qJnvI",
                   "children": [],
                   "tag": "summary",
+                  "disableMovement": true,
                   "canHaveChild": false,
                   "content": "Will the design work on mobile?",
                   "options": {
@@ -175,10 +150,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq06",
-                    "faq-question"
-                  ]
+                  "classList": ["blk-faq06", "faq-question"]
                 },
                 {
                   "id": "mw60t6gg-awAAj",
@@ -191,10 +163,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq07",
-                    "faq-answer"
-                  ]
+                  "classList": ["blk-faq07", "faq-answer"]
                 }
               ],
               "tag": "details",
@@ -205,10 +174,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-faq05",
-                "faq-item"
-              ]
+              "classList": ["blk-faq05", "faq-item"]
             },
             {
               "id": "mw60t6gg-rNSRB",
@@ -217,6 +183,7 @@
                   "id": "mw60t6gg-wnxgQ",
                   "children": [],
                   "tag": "summary",
+                  "disableMovement": true,
                   "canHaveChild": false,
                   "content": "Can I reuse this on multiple pages?",
                   "options": {
@@ -224,10 +191,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq09",
-                    "faq-question"
-                  ]
+                  "classList": ["blk-faq09", "faq-question"]
                 },
                 {
                   "id": "mw60t6gg-Qnomo",
@@ -240,10 +204,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-faq10",
-                    "faq-answer"
-                  ]
+                  "classList": ["blk-faq10", "faq-answer"]
                 }
               ],
               "tag": "details",
@@ -254,10 +215,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-faq08",
-                "faq-item"
-              ]
+              "classList": ["blk-faq08", "faq-item"]
             }
           ],
           "tag": "section",
@@ -268,10 +226,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-faq01",
-            "faq-list"
-          ]
+          "classList": ["blk-faq01", "faq-list"]
         },
         {
           "id": "mw60t6gg-PfyEY",
@@ -287,10 +242,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea02",
-                "feature-icon"
-              ]
+              "classList": ["blk-fea02", "feature-icon"]
             },
             {
               "id": "mw60t6gg-bafyf",
@@ -303,10 +255,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea03",
-                "feature-title"
-              ]
+              "classList": ["blk-fea03", "feature-title"]
             },
             {
               "id": "mw60t6gg-yTCrV",
@@ -319,10 +268,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea04",
-                "feature-copy"
-              ]
+              "classList": ["blk-fea04", "feature-copy"]
             },
             {
               "id": "mw60t6gg-gRHIO",
@@ -336,10 +282,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea05",
-                "feature-link"
-              ]
+              "classList": ["blk-fea05", "feature-link"]
             }
           ],
           "tag": "article",
@@ -350,10 +293,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-fea01",
-            "feature-card"
-          ]
+          "classList": ["blk-fea01", "feature-card"]
         },
         {
           "id": "mw60t6gg-hEEQS",
@@ -369,10 +309,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea02",
-                "feature-icon"
-              ]
+              "classList": ["blk-fea02", "feature-icon"]
             },
             {
               "id": "mw60t6gg-HldVk",
@@ -385,10 +322,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea03",
-                "feature-title"
-              ]
+              "classList": ["blk-fea03", "feature-title"]
             },
             {
               "id": "mw60t6gg-aQOAL",
@@ -401,10 +335,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea04",
-                "feature-copy"
-              ]
+              "classList": ["blk-fea04", "feature-copy"]
             },
             {
               "id": "mw60t6gg-ydfGD",
@@ -418,10 +349,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fea05",
-                "feature-link"
-              ]
+              "classList": ["blk-fea05", "feature-link"]
             }
           ],
           "tag": "article",
@@ -432,10 +360,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-fea01",
-            "feature-card"
-          ]
+          "classList": ["blk-fea01", "feature-card"]
         },
         {
           "id": "mw60t6gg-DUsxE",
@@ -454,10 +379,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr03",
-                    "features__number"
-                  ]
+                  "classList": ["blk-fgr03", "features__number"]
                 },
                 {
                   "id": "mw60t6gg-HkPXn",
@@ -470,10 +392,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr04",
-                    "features__title"
-                  ]
+                  "classList": ["blk-fgr04", "features__title"]
                 },
                 {
                   "id": "mw60t6gg-OjMZj",
@@ -486,10 +405,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr05",
-                    "features__text"
-                  ]
+                  "classList": ["blk-fgr05", "features__text"]
                 }
               ],
               "tag": "article",
@@ -500,10 +416,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fgr02",
-                "features__item"
-              ]
+              "classList": ["blk-fgr02", "features__item"]
             },
             {
               "id": "mw60t6gg-nsxPc",
@@ -519,10 +432,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr07",
-                    "features__number"
-                  ]
+                  "classList": ["blk-fgr07", "features__number"]
                 },
                 {
                   "id": "mw60t6gg-plQaC",
@@ -535,10 +445,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr08",
-                    "features__title"
-                  ]
+                  "classList": ["blk-fgr08", "features__title"]
                 },
                 {
                   "id": "mw60t6gg-vDiDT",
@@ -551,10 +458,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr09",
-                    "features__text"
-                  ]
+                  "classList": ["blk-fgr09", "features__text"]
                 }
               ],
               "tag": "article",
@@ -565,10 +469,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fgr06",
-                "features__item"
-              ]
+              "classList": ["blk-fgr06", "features__item"]
             },
             {
               "id": "mw60t6gg-KuOhT",
@@ -584,10 +485,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr11",
-                    "features__number"
-                  ]
+                  "classList": ["blk-fgr11", "features__number"]
                 },
                 {
                   "id": "mw60t6gg-qoDlB",
@@ -600,10 +498,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr12",
-                    "features__title"
-                  ]
+                  "classList": ["blk-fgr12", "features__title"]
                 },
                 {
                   "id": "mw60t6gg-TwCdk",
@@ -616,10 +511,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-fgr13",
-                    "features__text"
-                  ]
+                  "classList": ["blk-fgr13", "features__text"]
                 }
               ],
               "tag": "article",
@@ -630,10 +522,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-fgr10",
-                "features__item"
-              ]
+              "classList": ["blk-fgr10", "features__item"]
             }
           ],
           "tag": "section",
@@ -644,10 +533,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-fgr01",
-            "features"
-          ]
+          "classList": ["blk-fgr01", "features"]
         },
         {
           "id": "mw60t6gg-XBxMd",
@@ -664,10 +550,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-frm02",
-                "field-label"
-              ]
+              "classList": ["blk-frm02", "field-label"]
             },
             {
               "id": "mw60t6gg-xkZGO",
@@ -683,10 +566,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-frm04",
-                    "field-icon"
-                  ]
+                  "classList": ["blk-frm04", "field-icon"]
                 },
                 {
                   "id": "mw60t6gg-uMprM",
@@ -703,10 +583,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-frm05",
-                    "field-input"
-                  ]
+                  "classList": ["blk-frm05", "field-input"]
                 }
               ],
               "tag": "div",
@@ -717,10 +594,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-frm03",
-                "field-control"
-              ]
+              "classList": ["blk-frm03", "field-control"]
             },
             {
               "id": "mw60t6gg-HlDNg",
@@ -733,10 +607,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-frm06",
-                "field-hint"
-              ]
+              "classList": ["blk-frm06", "field-hint"]
             },
             {
               "id": "mw60t6gg-QjkEV",
@@ -749,10 +620,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-frm07",
-                "field-error"
-              ]
+              "classList": ["blk-frm07", "field-error"]
             }
           ],
           "tag": "div",
@@ -763,10 +631,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-frm01",
-            "field-wrap"
-          ]
+          "classList": ["blk-frm01", "field-wrap"]
         },
         {
           "id": "mw60t6gg-tbcpM",
@@ -785,10 +650,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal03",
-                    "gallery__eyebrow"
-                  ]
+                  "classList": ["blk-gal03", "gallery__eyebrow"]
                 },
                 {
                   "id": "mw60t6gg-IIDTs",
@@ -801,10 +663,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal04",
-                    "gallery__title"
-                  ]
+                  "classList": ["blk-gal04", "gallery__title"]
                 }
               ],
               "tag": "div",
@@ -815,10 +674,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-gal02",
-                "gallery__heading"
-              ]
+              "classList": ["blk-gal02", "gallery__heading"]
             },
             {
               "id": "mw60t6gg-EGYOx",
@@ -836,10 +692,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal06",
-                    "gallery__one"
-                  ]
+                  "classList": ["blk-gal06", "gallery__one"]
                 },
                 {
                   "id": "mw60t6gg-fySmj",
@@ -854,10 +707,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal07",
-                    "gallery__two"
-                  ]
+                  "classList": ["blk-gal07", "gallery__two"]
                 },
                 {
                   "id": "mw60t6gg-Ibgil",
@@ -872,10 +722,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal08",
-                    "gallery__three"
-                  ]
+                  "classList": ["blk-gal08", "gallery__three"]
                 },
                 {
                   "id": "mw60t6gg-SMhNR",
@@ -890,10 +737,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-gal09",
-                    "gallery__four"
-                  ]
+                  "classList": ["blk-gal09", "gallery__four"]
                 }
               ],
               "tag": "div",
@@ -904,10 +748,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-gal05",
-                "gallery__grid"
-              ]
+              "classList": ["blk-gal05", "gallery__grid"]
             }
           ],
           "tag": "section",
@@ -918,10 +759,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-gal01",
-            "gallery"
-          ]
+          "classList": ["blk-gal01", "gallery"]
         },
         {
           "id": "mw60t6gg-MHuiv",
@@ -940,10 +778,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-her03",
-                    "hero__eyebrow"
-                  ]
+                  "classList": ["blk-her03", "hero__eyebrow"]
                 },
                 {
                   "id": "mw60t6gg-jGFfQ",
@@ -956,10 +791,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-her04",
-                    "hero__title"
-                  ]
+                  "classList": ["blk-her04", "hero__title"]
                 },
                 {
                   "id": "mw60t6gg-hDPvX",
@@ -972,10 +804,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-her05",
-                    "hero__text"
-                  ]
+                  "classList": ["blk-her05", "hero__text"]
                 },
                 {
                   "id": "mw60t6gg-FysBp",
@@ -992,10 +821,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-her07",
-                        "hero__primary"
-                      ]
+                      "classList": ["blk-her07", "hero__primary"]
                     },
                     {
                       "id": "mw60t6gg-gunBn",
@@ -1009,10 +835,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-her08",
-                        "hero__secondary"
-                      ]
+                      "classList": ["blk-her08", "hero__secondary"]
                     }
                   ],
                   "tag": "div",
@@ -1023,10 +846,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-her06",
-                    "hero__actions"
-                  ]
+                  "classList": ["blk-her06", "hero__actions"]
                 }
               ],
               "tag": "div",
@@ -1037,10 +857,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-her02",
-                "hero__copy"
-              ]
+              "classList": ["blk-her02", "hero__copy"]
             },
             {
               "id": "mw60t6gg-GEheB",
@@ -1058,10 +875,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-her10",
-                    "hero__image"
-                  ]
+                  "classList": ["blk-her10", "hero__image"]
                 }
               ],
               "tag": "div",
@@ -1072,10 +886,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-her09",
-                "hero__visual"
-              ]
+              "classList": ["blk-her09", "hero__visual"]
             }
           ],
           "tag": "section",
@@ -1086,10 +897,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-her01",
-            "hero"
-          ]
+          "classList": ["blk-her01", "hero"]
         },
         {
           "id": "mw60t6gg-lIuNs",
@@ -1113,10 +921,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-sto04",
-                        "story-avatar"
-                      ]
+                      "classList": ["blk-sto04", "story-avatar"]
                     }
                   ],
                   "tag": "div",
@@ -1127,10 +932,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto03",
-                    "story-ring"
-                  ]
+                  "classList": ["blk-sto03", "story-ring"]
                 },
                 {
                   "id": "mw60t6gg-Fyeyr",
@@ -1143,10 +945,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto05",
-                    "story-name"
-                  ]
+                  "classList": ["blk-sto05", "story-name"]
                 }
               ],
               "tag": "div",
@@ -1157,10 +956,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-sto02",
-                "story-item"
-              ]
+              "classList": ["blk-sto02", "story-item"]
             },
             {
               "id": "mw60t6gg-bRXuP",
@@ -1181,10 +977,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-sto08",
-                        "story-avatar"
-                      ]
+                      "classList": ["blk-sto08", "story-avatar"]
                     }
                   ],
                   "tag": "div",
@@ -1195,10 +988,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto07",
-                    "story-ring"
-                  ]
+                  "classList": ["blk-sto07", "story-ring"]
                 },
                 {
                   "id": "mw60t6gg-pFYhU",
@@ -1211,10 +1001,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto09",
-                    "story-name"
-                  ]
+                  "classList": ["blk-sto09", "story-name"]
                 }
               ],
               "tag": "div",
@@ -1225,10 +1012,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-sto06",
-                "story-item"
-              ]
+              "classList": ["blk-sto06", "story-item"]
             },
             {
               "id": "mw60t6gg-kJePM",
@@ -1249,10 +1033,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-sto12",
-                        "story-avatar"
-                      ]
+                      "classList": ["blk-sto12", "story-avatar"]
                     }
                   ],
                   "tag": "div",
@@ -1263,10 +1044,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto11",
-                    "story-ring"
-                  ]
+                  "classList": ["blk-sto11", "story-ring"]
                 },
                 {
                   "id": "mw60t6gg-ccMKe",
@@ -1279,10 +1057,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto13",
-                    "story-name"
-                  ]
+                  "classList": ["blk-sto13", "story-name"]
                 }
               ],
               "tag": "div",
@@ -1293,10 +1068,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-sto10",
-                "story-item"
-              ]
+              "classList": ["blk-sto10", "story-item"]
             },
             {
               "id": "mw60t6gg-JCewn",
@@ -1317,10 +1089,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-sto16",
-                        "story-avatar"
-                      ]
+                      "classList": ["blk-sto16", "story-avatar"]
                     }
                   ],
                   "tag": "div",
@@ -1331,10 +1100,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto15",
-                    "story-ring"
-                  ]
+                  "classList": ["blk-sto15", "story-ring"]
                 },
                 {
                   "id": "mw60t6gg-pNSXC",
@@ -1347,10 +1113,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-sto17",
-                    "story-name"
-                  ]
+                  "classList": ["blk-sto17", "story-name"]
                 }
               ],
               "tag": "div",
@@ -1361,10 +1124,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-sto14",
-                "story-item"
-              ]
+              "classList": ["blk-sto14", "story-item"]
             }
           ],
           "tag": "div",
@@ -1375,10 +1135,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-sto01",
-            "stories-row"
-          ]
+          "classList": ["blk-sto01", "stories-row"]
         },
         {
           "id": "mw60t6gg-BGpeV",
@@ -1394,10 +1151,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-log02",
-                "logos__label"
-              ]
+              "classList": ["blk-log02", "logos__label"]
             },
             {
               "id": "mw60t6gg-Vzqeb",
@@ -1413,9 +1167,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-log04"
-                  ]
+                  "classList": ["blk-log04"]
                 },
                 {
                   "id": "mw60t6gg-UepSq",
@@ -1428,9 +1180,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-log05"
-                  ]
+                  "classList": ["blk-log05"]
                 },
                 {
                   "id": "mw60t6gg-aHDjT",
@@ -1443,9 +1193,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-log06"
-                  ]
+                  "classList": ["blk-log06"]
                 },
                 {
                   "id": "mw60t6gg-lzeMA",
@@ -1458,9 +1206,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-log07"
-                  ]
+                  "classList": ["blk-log07"]
                 },
                 {
                   "id": "mw60t6gg-GQOxP",
@@ -1473,9 +1219,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-log08"
-                  ]
+                  "classList": ["blk-log08"]
                 }
               ],
               "tag": "div",
@@ -1486,10 +1230,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-log03",
-                "logos__row"
-              ]
+              "classList": ["blk-log03", "logos__row"]
             }
           ],
           "tag": "section",
@@ -1500,10 +1241,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-log01",
-            "logos"
-          ]
+          "classList": ["blk-log01", "logos"]
         },
         {
           "id": "mw60t6gg-BToCV",
@@ -1522,10 +1260,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-new03",
-                    "newsletter__eyebrow"
-                  ]
+                  "classList": ["blk-new03", "newsletter__eyebrow"]
                 },
                 {
                   "id": "mw60t6gg-LgfPb",
@@ -1538,10 +1273,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-new04",
-                    "newsletter__title"
-                  ]
+                  "classList": ["blk-new04", "newsletter__title"]
                 },
                 {
                   "id": "mw60t6gg-wzJGn",
@@ -1554,10 +1286,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-new05",
-                    "newsletter__text"
-                  ]
+                  "classList": ["blk-new05", "newsletter__text"]
                 }
               ],
               "tag": "div",
@@ -1568,10 +1297,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-new02",
-                "newsletter__copy"
-              ]
+              "classList": ["blk-new02", "newsletter__copy"]
             },
             {
               "id": "mw60t6gg-GgQWP",
@@ -1590,10 +1316,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-new07",
-                    "newsletter__input"
-                  ]
+                  "classList": ["blk-new07", "newsletter__input"]
                 },
                 {
                   "id": "mw60t6gg-yxctI",
@@ -1607,10 +1330,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-new08",
-                    "newsletter__button"
-                  ]
+                  "classList": ["blk-new08", "newsletter__button"]
                 }
               ],
               "tag": "form",
@@ -1621,10 +1341,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-new06",
-                "newsletter__form"
-              ]
+              "classList": ["blk-new06", "newsletter__form"]
             }
           ],
           "tag": "section",
@@ -1635,10 +1352,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-new01",
-            "newsletter"
-          ]
+          "classList": ["blk-new01", "newsletter"]
         },
         {
           "id": "mw60t6gg-Shond",
@@ -1654,10 +1368,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc02",
-                "pricing__badge"
-              ]
+              "classList": ["blk-prc02", "pricing__badge"]
             },
             {
               "id": "mw60t6gg-CGHqb",
@@ -1670,10 +1381,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc03",
-                "pricing__tier"
-              ]
+              "classList": ["blk-prc03", "pricing__tier"]
             },
             {
               "id": "mw60t6gg-JSmgv",
@@ -1689,10 +1397,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prc05",
-                    "pricing__period"
-                  ]
+                  "classList": ["blk-prc05", "pricing__period"]
                 }
               ],
               "tag": "h2",
@@ -1703,10 +1408,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc04",
-                "pricing__price"
-              ]
+              "classList": ["blk-prc04", "pricing__price"]
             },
             {
               "id": "mw60t6gg-MeVUd",
@@ -1719,10 +1421,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc06",
-                "pricing__desc"
-              ]
+              "classList": ["blk-prc06", "pricing__desc"]
             },
             {
               "id": "mw60t6gg-JCHLC",
@@ -1738,9 +1437,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prc08"
-                  ]
+                  "classList": ["blk-prc08"]
                 },
                 {
                   "id": "mw60t6gg-RCdKP",
@@ -1753,9 +1450,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prc09"
-                  ]
+                  "classList": ["blk-prc09"]
                 },
                 {
                   "id": "mw60t6gg-IQiUp",
@@ -1768,9 +1463,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prc10"
-                  ]
+                  "classList": ["blk-prc10"]
                 },
                 {
                   "id": "mw60t6gg-hvgqO",
@@ -1783,9 +1476,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prc11"
-                  ]
+                  "classList": ["blk-prc11"]
                 }
               ],
               "tag": "ul",
@@ -1796,10 +1487,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc07",
-                "pricing__features"
-              ]
+              "classList": ["blk-prc07", "pricing__features"]
             },
             {
               "id": "mw60t6gg-MdsFO",
@@ -1813,10 +1501,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prc12",
-                "pricing__button"
-              ]
+              "classList": ["blk-prc12", "pricing__button"]
             }
           ],
           "tag": "article",
@@ -1827,10 +1512,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-prc01",
-            "pricing"
-          ]
+          "classList": ["blk-prc01", "pricing"]
         },
         {
           "id": "mw60t6gg-wzsly",
@@ -1849,10 +1531,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd03",
-                    "product-card__badge"
-                  ]
+                  "classList": ["blk-prd03", "product-card__badge"]
                 },
                 {
                   "id": "mw60t6gg-yGGdV",
@@ -1867,10 +1546,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd04",
-                    "product-card__favorite"
-                  ]
+                  "classList": ["blk-prd04", "product-card__favorite"]
                 },
                 {
                   "id": "mw60t6gg-PAUPm",
@@ -1885,10 +1561,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd05",
-                    "product-card__image"
-                  ]
+                  "classList": ["blk-prd05", "product-card__image"]
                 }
               ],
               "tag": "div",
@@ -1899,10 +1572,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prd02",
-                "product-card__visual"
-              ]
+              "classList": ["blk-prd02", "product-card__visual"]
             },
             {
               "id": "mw60t6gg-rRPsu",
@@ -1918,10 +1588,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd07",
-                    "product-card__category"
-                  ]
+                  "classList": ["blk-prd07", "product-card__category"]
                 },
                 {
                   "id": "mw60t6gg-lEfKR",
@@ -1934,10 +1601,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd08",
-                    "product-card__title"
-                  ]
+                  "classList": ["blk-prd08", "product-card__title"]
                 },
                 {
                   "id": "mw60t6gg-KjBGt",
@@ -1950,10 +1614,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd09",
-                    "product-card__rating"
-                  ]
+                  "classList": ["blk-prd09", "product-card__rating"]
                 },
                 {
                   "id": "mw60t6gg-URQbd",
@@ -1969,10 +1630,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-prd11",
-                        "product-card__current"
-                      ]
+                      "classList": ["blk-prd11", "product-card__current"]
                     },
                     {
                       "id": "mw60t6gg-EBSmn",
@@ -1985,10 +1643,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-prd12",
-                        "product-card__old"
-                      ]
+                      "classList": ["blk-prd12", "product-card__old"]
                     }
                   ],
                   "tag": "div",
@@ -1999,10 +1654,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd10",
-                    "product-card__price"
-                  ]
+                  "classList": ["blk-prd10", "product-card__price"]
                 },
                 {
                   "id": "mw60t6gg-gHusG",
@@ -2016,10 +1668,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-prd13",
-                    "product-card__cta"
-                  ]
+                  "classList": ["blk-prd13", "product-card__cta"]
                 }
               ],
               "tag": "div",
@@ -2030,10 +1679,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-prd06",
-                "product-card__details"
-              ]
+              "classList": ["blk-prd06", "product-card__details"]
             }
           ],
           "tag": "article",
@@ -2044,10 +1690,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-prd01",
-            "product-card"
-          ]
+          "classList": ["blk-prd01", "product-card"]
         },
         {
           "id": "mw60t6gg-MKPkB",
@@ -2065,10 +1708,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-lst02",
-                "product-row__image"
-              ]
+              "classList": ["blk-lst02", "product-row__image"]
             },
             {
               "id": "mw60t6gg-deHMu",
@@ -2084,10 +1724,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-lst04",
-                    "product-row__tag"
-                  ]
+                  "classList": ["blk-lst04", "product-row__tag"]
                 },
                 {
                   "id": "mw60t6gg-bjQeJ",
@@ -2100,10 +1737,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-lst05",
-                    "product-row__title"
-                  ]
+                  "classList": ["blk-lst05", "product-row__title"]
                 },
                 {
                   "id": "mw60t6gg-FlFah",
@@ -2116,10 +1750,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-lst06",
-                    "product-row__description"
-                  ]
+                  "classList": ["blk-lst06", "product-row__description"]
                 },
                 {
                   "id": "mw60t6gg-bGdiE",
@@ -2132,10 +1763,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-lst07",
-                    "product-row__price"
-                  ]
+                  "classList": ["blk-lst07", "product-row__price"]
                 },
                 {
                   "id": "mw60t6gg-kApCF",
@@ -2149,10 +1777,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-lst08",
-                    "product-row__link"
-                  ]
+                  "classList": ["blk-lst08", "product-row__link"]
                 }
               ],
               "tag": "div",
@@ -2163,10 +1788,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-lst03",
-                "product-row__content"
-              ]
+              "classList": ["blk-lst03", "product-row__content"]
             }
           ],
           "tag": "article",
@@ -2177,10 +1799,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-lst01",
-            "product-row"
-          ]
+          "classList": ["blk-lst01", "product-row"]
         },
         {
           "id": "mw60t6gg-dWdrO",
@@ -2196,10 +1815,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-quo02",
-                "quote__mark"
-              ]
+              "classList": ["blk-quo02", "quote__mark"]
             },
             {
               "id": "mw60t6gg-UaUkp",
@@ -2212,10 +1828,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-quo03",
-                "quote__text"
-              ]
+              "classList": ["blk-quo03", "quote__text"]
             },
             {
               "id": "mw60t6gg-SOVbU",
@@ -2231,10 +1844,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-quo05",
-                    "quote__author"
-                  ]
+                  "classList": ["blk-quo05", "quote__author"]
                 },
                 {
                   "id": "mw60t6gg-KhuyD",
@@ -2247,10 +1857,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-quo06",
-                    "quote__role"
-                  ]
+                  "classList": ["blk-quo06", "quote__role"]
                 }
               ],
               "tag": "footer",
@@ -2261,10 +1868,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-quo04",
-                "quote__footer"
-              ]
+              "classList": ["blk-quo04", "quote__footer"]
             }
           ],
           "tag": "blockquote",
@@ -2275,10 +1879,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-quo01",
-            "quote"
-          ]
+          "classList": ["blk-quo01", "quote"]
         },
         {
           "id": "mw60t6gh-gQerA",
@@ -2297,10 +1898,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev03",
-                    "review__number"
-                  ]
+                  "classList": ["blk-rev03", "review__number"]
                 },
                 {
                   "id": "mw60t6gg-BOkPK",
@@ -2313,10 +1911,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev04",
-                    "review__stars"
-                  ]
+                  "classList": ["blk-rev04", "review__stars"]
                 },
                 {
                   "id": "mw60t6gg-mKvxz",
@@ -2329,10 +1924,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev05",
-                    "review__caption"
-                  ]
+                  "classList": ["blk-rev05", "review__caption"]
                 }
               ],
               "tag": "div",
@@ -2343,10 +1935,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-rev02",
-                "review__score"
-              ]
+              "classList": ["blk-rev02", "review__score"]
             },
             {
               "id": "mw60t6gh-JvHPg",
@@ -2365,10 +1954,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev08",
-                        "review__label"
-                      ]
+                      "classList": ["blk-rev08", "review__label"]
                     },
                     {
                       "id": "mw60t6gg-SsIwe",
@@ -2384,10 +1970,7 @@
                               "class": ""
                             }
                           },
-                          "classList": [
-                            "blk-rev10",
-                            "review__fill5"
-                          ]
+                          "classList": ["blk-rev10", "review__fill5"]
                         }
                       ],
                       "tag": "div",
@@ -2398,10 +1981,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev09",
-                        "review__track"
-                      ]
+                      "classList": ["blk-rev09", "review__track"]
                     },
                     {
                       "id": "mw60t6gg-yPzYo",
@@ -2414,10 +1994,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev11",
-                        "review__percent"
-                      ]
+                      "classList": ["blk-rev11", "review__percent"]
                     }
                   ],
                   "tag": "div",
@@ -2428,10 +2005,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev07",
-                    "review__bar"
-                  ]
+                  "classList": ["blk-rev07", "review__bar"]
                 },
                 {
                   "id": "mw60t6gg-dxPYs",
@@ -2447,10 +2021,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev13",
-                        "review__label"
-                      ]
+                      "classList": ["blk-rev13", "review__label"]
                     },
                     {
                       "id": "mw60t6gg-kPRKg",
@@ -2466,10 +2037,7 @@
                               "class": ""
                             }
                           },
-                          "classList": [
-                            "blk-rev15",
-                            "review__fill4"
-                          ]
+                          "classList": ["blk-rev15", "review__fill4"]
                         }
                       ],
                       "tag": "div",
@@ -2480,10 +2048,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev14",
-                        "review__track"
-                      ]
+                      "classList": ["blk-rev14", "review__track"]
                     },
                     {
                       "id": "mw60t6gg-iMHVo",
@@ -2496,10 +2061,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev16",
-                        "review__percent"
-                      ]
+                      "classList": ["blk-rev16", "review__percent"]
                     }
                   ],
                   "tag": "div",
@@ -2510,10 +2072,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev12",
-                    "review__bar"
-                  ]
+                  "classList": ["blk-rev12", "review__bar"]
                 },
                 {
                   "id": "mw60t6gh-qkHje",
@@ -2529,10 +2088,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev18",
-                        "review__label"
-                      ]
+                      "classList": ["blk-rev18", "review__label"]
                     },
                     {
                       "id": "mw60t6gh-KFVoM",
@@ -2548,10 +2104,7 @@
                               "class": ""
                             }
                           },
-                          "classList": [
-                            "blk-rev20",
-                            "review__fill3"
-                          ]
+                          "classList": ["blk-rev20", "review__fill3"]
                         }
                       ],
                       "tag": "div",
@@ -2562,10 +2115,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev19",
-                        "review__track"
-                      ]
+                      "classList": ["blk-rev19", "review__track"]
                     },
                     {
                       "id": "mw60t6gh-YGHRn",
@@ -2578,10 +2128,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev21",
-                        "review__percent"
-                      ]
+                      "classList": ["blk-rev21", "review__percent"]
                     }
                   ],
                   "tag": "div",
@@ -2592,10 +2139,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev17",
-                    "review__bar"
-                  ]
+                  "classList": ["blk-rev17", "review__bar"]
                 },
                 {
                   "id": "mw60t6gh-DBcbo",
@@ -2611,10 +2155,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev23",
-                        "review__label"
-                      ]
+                      "classList": ["blk-rev23", "review__label"]
                     },
                     {
                       "id": "mw60t6gh-hxoTb",
@@ -2630,10 +2171,7 @@
                               "class": ""
                             }
                           },
-                          "classList": [
-                            "blk-rev25",
-                            "review__fill2"
-                          ]
+                          "classList": ["blk-rev25", "review__fill2"]
                         }
                       ],
                       "tag": "div",
@@ -2644,10 +2182,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev24",
-                        "review__track"
-                      ]
+                      "classList": ["blk-rev24", "review__track"]
                     },
                     {
                       "id": "mw60t6gh-OIgkA",
@@ -2660,10 +2195,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-rev26",
-                        "review__percent"
-                      ]
+                      "classList": ["blk-rev26", "review__percent"]
                     }
                   ],
                   "tag": "div",
@@ -2674,10 +2206,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rev22",
-                    "review__bar"
-                  ]
+                  "classList": ["blk-rev22", "review__bar"]
                 }
               ],
               "tag": "div",
@@ -2688,10 +2217,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-rev06",
-                "review__bars"
-              ]
+              "classList": ["blk-rev06", "review__bars"]
             }
           ],
           "tag": "section",
@@ -2702,10 +2228,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-rev01",
-            "review"
-          ]
+          "classList": ["blk-rev01", "review"]
         },
         {
           "id": "mw60t6gh-bvIJa",
@@ -2724,10 +2247,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm03",
-                    "stats__eyebrow"
-                  ]
+                  "classList": ["blk-stm03", "stats__eyebrow"]
                 },
                 {
                   "id": "mw60t6gh-NhErT",
@@ -2740,10 +2260,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm04",
-                    "stats__title"
-                  ]
+                  "classList": ["blk-stm04", "stats__title"]
                 }
               ],
               "tag": "div",
@@ -2754,10 +2271,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-stm02",
-                "stats__intro"
-              ]
+              "classList": ["blk-stm02", "stats__intro"]
             },
             {
               "id": "mw60t6gh-wDOSx",
@@ -2776,10 +2290,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm07",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm07", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-poHka",
@@ -2792,10 +2303,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm08",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm08", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -2806,10 +2314,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm06",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm06", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-FSrUh",
@@ -2825,10 +2330,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm10",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm10", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-EVvdG",
@@ -2841,10 +2343,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm11",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm11", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -2855,10 +2354,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm09",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm09", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-hxdQw",
@@ -2874,10 +2370,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm13",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm13", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-MjMff",
@@ -2890,10 +2383,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm14",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm14", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -2904,10 +2394,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm12",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm12", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-rBiZX",
@@ -2923,10 +2410,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm16",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm16", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-nkHHE",
@@ -2939,10 +2423,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm17",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm17", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -2953,10 +2434,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm15",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm15", "stats__item"]
                 }
               ],
               "tag": "div",
@@ -2967,10 +2445,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-stm05",
-                "stats__grid"
-              ]
+              "classList": ["blk-stm05", "stats__grid"]
             }
           ],
           "tag": "section",
@@ -2981,10 +2456,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-stm01",
-            "stats"
-          ]
+          "classList": ["blk-stm01", "stats"]
         },
         {
           "id": "mw60t6gh-vKFpo",
@@ -3003,10 +2475,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm03",
-                    "stats__eyebrow"
-                  ]
+                  "classList": ["blk-stm03", "stats__eyebrow"]
                 },
                 {
                   "id": "mw60t6gh-drQNy",
@@ -3019,10 +2488,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm04",
-                    "stats__title"
-                  ]
+                  "classList": ["blk-stm04", "stats__title"]
                 }
               ],
               "tag": "div",
@@ -3033,10 +2499,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-stm02",
-                "stats__intro"
-              ]
+              "classList": ["blk-stm02", "stats__intro"]
             },
             {
               "id": "mw60t6gh-OlnYB",
@@ -3055,10 +2518,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm07",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm07", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-CheuA",
@@ -3071,10 +2531,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm08",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm08", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -3085,10 +2542,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm06",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm06", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-pUtPG",
@@ -3104,10 +2558,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm10",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm10", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-GhVRH",
@@ -3120,10 +2571,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm11",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm11", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -3134,10 +2582,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm09",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm09", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-nAuSI",
@@ -3153,10 +2598,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm13",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm13", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-esMwf",
@@ -3169,10 +2611,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm14",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm14", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -3183,10 +2622,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm12",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm12", "stats__item"]
                 },
                 {
                   "id": "mw60t6gh-kFRNc",
@@ -3202,10 +2638,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm16",
-                        "stats__value"
-                      ]
+                      "classList": ["blk-stm16", "stats__value"]
                     },
                     {
                       "id": "mw60t6gh-FXpzk",
@@ -3218,10 +2651,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-stm17",
-                        "stats__label"
-                      ]
+                      "classList": ["blk-stm17", "stats__label"]
                     }
                   ],
                   "tag": "article",
@@ -3232,10 +2662,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-stm15",
-                    "stats__item"
-                  ]
+                  "classList": ["blk-stm15", "stats__item"]
                 }
               ],
               "tag": "div",
@@ -3246,10 +2673,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-stm05",
-                "stats__grid"
-              ]
+              "classList": ["blk-stm05", "stats__grid"]
             }
           ],
           "tag": "section",
@@ -3260,10 +2684,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-stm01",
-            "stats"
-          ]
+          "classList": ["blk-stm01", "stats"]
         },
         {
           "id": "mw60t6gh-yiOMv",
@@ -3278,10 +2699,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-btn01",
-            "button-primary"
-          ]
+          "classList": ["blk-btn01", "button-primary"]
         },
         {
           "id": "mw60t6gh-EBMNY",
@@ -3299,10 +2717,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-chk02",
-                "check-native"
-              ]
+              "classList": ["blk-chk02", "check-native"]
             },
             {
               "id": "mw60t6gh-kVkPe",
@@ -3315,10 +2730,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-chk03",
-                "check-box"
-              ]
+              "classList": ["blk-chk03", "check-box"]
             },
             {
               "id": "mw60t6gh-hcELy",
@@ -3331,10 +2743,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-chk04",
-                "check-copy"
-              ]
+              "classList": ["blk-chk04", "check-copy"]
             }
           ],
           "tag": "label",
@@ -3345,10 +2754,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-chk01",
-            "check-row"
-          ]
+          "classList": ["blk-chk01", "check-row"]
         },
         {
           "id": "mw60t6gh-EFPPg",
@@ -3370,10 +2776,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad03",
-                    "radio-native"
-                  ]
+                  "classList": ["blk-rad03", "radio-native"]
                 },
                 {
                   "id": "mw60t6gh-AmVmR",
@@ -3386,10 +2789,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad04",
-                    "radio-dot"
-                  ]
+                  "classList": ["blk-rad04", "radio-dot"]
                 },
                 {
                   "id": "mw60t6gh-zYciH",
@@ -3402,10 +2802,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad05",
-                    "radio-title"
-                  ]
+                  "classList": ["blk-rad05", "radio-title"]
                 },
                 {
                   "id": "mw60t6gh-LMHdP",
@@ -3418,10 +2815,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad06",
-                    "radio-sub"
-                  ]
+                  "classList": ["blk-rad06", "radio-sub"]
                 }
               ],
               "tag": "label",
@@ -3432,10 +2826,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-rad02",
-                "radio-option"
-              ]
+              "classList": ["blk-rad02", "radio-option"]
             },
             {
               "id": "mw60t6gh-BZOrT",
@@ -3453,10 +2844,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad08",
-                    "radio-native"
-                  ]
+                  "classList": ["blk-rad08", "radio-native"]
                 },
                 {
                   "id": "mw60t6gh-yCwAJ",
@@ -3469,10 +2857,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad09",
-                    "radio-dot"
-                  ]
+                  "classList": ["blk-rad09", "radio-dot"]
                 },
                 {
                   "id": "mw60t6gh-MlDzR",
@@ -3485,10 +2870,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad10",
-                    "radio-title"
-                  ]
+                  "classList": ["blk-rad10", "radio-title"]
                 },
                 {
                   "id": "mw60t6gh-UvTaL",
@@ -3501,10 +2883,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad11",
-                    "radio-sub"
-                  ]
+                  "classList": ["blk-rad11", "radio-sub"]
                 }
               ],
               "tag": "label",
@@ -3515,10 +2894,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-rad07",
-                "radio-option"
-              ]
+              "classList": ["blk-rad07", "radio-option"]
             },
             {
               "id": "mw60t6gh-PrDXe",
@@ -3536,10 +2912,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad13",
-                    "radio-native"
-                  ]
+                  "classList": ["blk-rad13", "radio-native"]
                 },
                 {
                   "id": "mw60t6gh-FDANf",
@@ -3552,10 +2925,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad14",
-                    "radio-dot"
-                  ]
+                  "classList": ["blk-rad14", "radio-dot"]
                 },
                 {
                   "id": "mw60t6gh-dyyAE",
@@ -3568,10 +2938,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad15",
-                    "radio-title"
-                  ]
+                  "classList": ["blk-rad15", "radio-title"]
                 },
                 {
                   "id": "mw60t6gh-INpEi",
@@ -3584,10 +2951,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-rad16",
-                    "radio-sub"
-                  ]
+                  "classList": ["blk-rad16", "radio-sub"]
                 }
               ],
               "tag": "label",
@@ -3598,10 +2962,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-rad12",
-                "radio-option"
-              ]
+              "classList": ["blk-rad12", "radio-option"]
             }
           ],
           "tag": "div",
@@ -3612,10 +2973,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-rad01",
-            "radio-group"
-          ]
+          "classList": ["blk-rad01", "radio-group"]
         },
         {
           "id": "mw60t6gh-ghsMh",
@@ -3633,10 +2991,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tem02",
-                "team__portrait"
-              ]
+              "classList": ["blk-tem02", "team__portrait"]
             },
             {
               "id": "mw60t6gh-aFHzn",
@@ -3652,10 +3007,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tem04",
-                    "team__name"
-                  ]
+                  "classList": ["blk-tem04", "team__name"]
                 },
                 {
                   "id": "mw60t6gh-rLEgi",
@@ -3668,10 +3020,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tem05",
-                    "team__role"
-                  ]
+                  "classList": ["blk-tem05", "team__role"]
                 },
                 {
                   "id": "mw60t6gh-Uuata",
@@ -3685,10 +3034,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tem06",
-                    "team__link"
-                  ]
+                  "classList": ["blk-tem06", "team__link"]
                 }
               ],
               "tag": "div",
@@ -3699,10 +3045,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tem03",
-                "team__info"
-              ]
+              "classList": ["blk-tem03", "team__info"]
             }
           ],
           "tag": "article",
@@ -3713,10 +3056,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-tem01",
-            "team"
-          ]
+          "classList": ["blk-tem01", "team"]
         },
         {
           "id": "mw60t6gh-mAhMY",
@@ -3737,10 +3077,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tst03",
-                    "testimonial-avatar"
-                  ]
+                  "classList": ["blk-tst03", "testimonial-avatar"]
                 },
                 {
                   "id": "mw60t6gh-yOxpR",
@@ -3756,10 +3093,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tst05",
-                        "testimonial-name"
-                      ]
+                      "classList": ["blk-tst05", "testimonial-name"]
                     },
                     {
                       "id": "mw60t6gh-WOdjO",
@@ -3772,10 +3106,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tst06",
-                        "testimonial-role"
-                      ]
+                      "classList": ["blk-tst06", "testimonial-role"]
                     }
                   ],
                   "tag": "div",
@@ -3786,10 +3117,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tst04",
-                    "testimonial-person"
-                  ]
+                  "classList": ["blk-tst04", "testimonial-person"]
                 },
                 {
                   "id": "mw60t6gh-nUwPz",
@@ -3802,10 +3130,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tst07",
-                    "testimonial-stars"
-                  ]
+                  "classList": ["blk-tst07", "testimonial-stars"]
                 }
               ],
               "tag": "div",
@@ -3816,10 +3141,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tst02",
-                "testimonial-top"
-              ]
+              "classList": ["blk-tst02", "testimonial-top"]
             },
             {
               "id": "mw60t6gh-OYmZg",
@@ -3832,10 +3154,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tst08",
-                "testimonial-quote"
-              ]
+              "classList": ["blk-tst08", "testimonial-quote"]
             }
           ],
           "tag": "article",
@@ -3846,10 +3165,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-tst01",
-            "testimonial-card"
-          ]
+          "classList": ["blk-tst01", "testimonial-card"]
         },
         {
           "id": "mw60t6gh-oyUQl",
@@ -3868,10 +3184,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim03",
-                    "timeline__number"
-                  ]
+                  "classList": ["blk-tim03", "timeline__number"]
                 },
                 {
                   "id": "mw60t6gh-gIlxO",
@@ -3887,10 +3200,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim05",
-                        "timeline__title"
-                      ]
+                      "classList": ["blk-tim05", "timeline__title"]
                     },
                     {
                       "id": "mw60t6gh-xeeok",
@@ -3903,10 +3213,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim06",
-                        "timeline__text"
-                      ]
+                      "classList": ["blk-tim06", "timeline__text"]
                     }
                   ],
                   "tag": "div",
@@ -3917,10 +3224,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim04",
-                    "timeline__body"
-                  ]
+                  "classList": ["blk-tim04", "timeline__body"]
                 }
               ],
               "tag": "li",
@@ -3931,10 +3235,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tim02",
-                "timeline__item"
-              ]
+              "classList": ["blk-tim02", "timeline__item"]
             },
             {
               "id": "mw60t6gh-aoUos",
@@ -3950,10 +3251,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim08",
-                    "timeline__number"
-                  ]
+                  "classList": ["blk-tim08", "timeline__number"]
                 },
                 {
                   "id": "mw60t6gh-OobzH",
@@ -3969,10 +3267,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim10",
-                        "timeline__title"
-                      ]
+                      "classList": ["blk-tim10", "timeline__title"]
                     },
                     {
                       "id": "mw60t6gh-nXqne",
@@ -3985,10 +3280,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim11",
-                        "timeline__text"
-                      ]
+                      "classList": ["blk-tim11", "timeline__text"]
                     }
                   ],
                   "tag": "div",
@@ -3999,10 +3291,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim09",
-                    "timeline__body"
-                  ]
+                  "classList": ["blk-tim09", "timeline__body"]
                 }
               ],
               "tag": "li",
@@ -4013,10 +3302,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tim07",
-                "timeline__item"
-              ]
+              "classList": ["blk-tim07", "timeline__item"]
             },
             {
               "id": "mw60t6gh-loaVd",
@@ -4032,10 +3318,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim13",
-                    "timeline__number"
-                  ]
+                  "classList": ["blk-tim13", "timeline__number"]
                 },
                 {
                   "id": "mw60t6gh-xvFPQ",
@@ -4051,10 +3334,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim15",
-                        "timeline__title"
-                      ]
+                      "classList": ["blk-tim15", "timeline__title"]
                     },
                     {
                       "id": "mw60t6gh-VZQFB",
@@ -4067,10 +3347,7 @@
                           "class": ""
                         }
                       },
-                      "classList": [
-                        "blk-tim16",
-                        "timeline__text"
-                      ]
+                      "classList": ["blk-tim16", "timeline__text"]
                     }
                   ],
                   "tag": "div",
@@ -4081,10 +3358,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-tim14",
-                    "timeline__body"
-                  ]
+                  "classList": ["blk-tim14", "timeline__body"]
                 }
               ],
               "tag": "li",
@@ -4095,10 +3369,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-tim12",
-                "timeline__item"
-              ]
+              "classList": ["blk-tim12", "timeline__item"]
             }
           ],
           "tag": "ol",
@@ -4109,10 +3380,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-tim01",
-            "timeline"
-          ]
+          "classList": ["blk-tim01", "timeline"]
         },
         {
           "id": "mw60t6gh-RUcpl",
@@ -4133,10 +3401,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-msk03",
-                    "mask-image"
-                  ]
+                  "classList": ["blk-msk03", "mask-image"]
                 }
               ],
               "tag": "div",
@@ -4147,10 +3412,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-msk02",
-                "mask-visual"
-              ]
+              "classList": ["blk-msk02", "mask-visual"]
             },
             {
               "id": "mw60t6gh-JutLT",
@@ -4166,10 +3428,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-msk05",
-                    "mask-label"
-                  ]
+                  "classList": ["blk-msk05", "mask-label"]
                 },
                 {
                   "id": "mw60t6gh-kBamZ",
@@ -4182,10 +3441,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-msk06",
-                    "mask-title"
-                  ]
+                  "classList": ["blk-msk06", "mask-title"]
                 },
                 {
                   "id": "mw60t6gh-jnejI",
@@ -4198,10 +3454,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-msk07",
-                    "mask-copy"
-                  ]
+                  "classList": ["blk-msk07", "mask-copy"]
                 },
                 {
                   "id": "mw60t6gh-klBwu",
@@ -4215,10 +3468,7 @@
                       "class": ""
                     }
                   },
-                  "classList": [
-                    "blk-msk08",
-                    "mask-link"
-                  ]
+                  "classList": ["blk-msk08", "mask-link"]
                 }
               ],
               "tag": "div",
@@ -4229,10 +3479,7 @@
                   "class": ""
                 }
               },
-              "classList": [
-                "blk-msk04",
-                "mask-content"
-              ]
+              "classList": ["blk-msk04", "mask-content"]
             }
           ],
           "tag": "article",
@@ -4243,10 +3490,7 @@
               "class": ""
             }
           },
-          "classList": [
-            "blk-msk01",
-            "mask-card"
-          ]
+          "classList": ["blk-msk01", "mask-card"]
         }
       ],
       "footerItems": [],

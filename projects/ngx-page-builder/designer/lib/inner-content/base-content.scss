@@ -1,8 +1,8 @@
 .web-page-view {
-  min-height: 100%;
   display: contents;
+  /* ناحیه‌ی drop حداقل یک viewport ارتفاع دارد (مثل body در Webflow). vh = ارتفاع منطقی iframe که با scale هماهنگ است */
   .page-body {
-    min-height: 100%;
+    min-height: 100vh;
   }
 }
 .show-outlines {

@@ -161,19 +161,21 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
     n[PADDING + 3] = px(cs.paddingLeft);
 
     // جای نوار اکشن: بالا | پایین | داخل بلاک (وقتی بلاک خیلی بلند است)
+    // نوار اکشن اندازه‌ی بصری ثابت دارد؛ در مختصات منطقی iframe باید بر scale ی canvas تقسیم شود
+    const bar = BAR_HEIGHT / this.pb.canvasScale();
     let placement = 0;
     let shiftY = 0;
-    if (rect.top - BAR_HEIGHT < this.headerOffset) {
-      if (rect.bottom + BAR_HEIGHT <= win.innerHeight) {
+    if (rect.top - bar < this.headerOffset) {
+      if (rect.bottom + bar <= win.innerHeight) {
         placement = 1;
       } else {
         placement = 2;
-        shiftY = clamp(this.headerOffset - rect.top, 0, Math.max(0, rect.height - BAR_HEIGHT));
+        shiftY = clamp(this.headerOffset - rect.top, 0, Math.max(0, rect.height - bar));
       }
     }
     n[PLACE] = placement;
     n[SHIFT_Y] = shiftY;
-    n[SHIFT_X] = clamp(-rect.left, 0, Math.max(0, rect.width - BAR_HEIGHT));
+    n[SHIFT_X] = clamp(-rect.left, 0, Math.max(0, rect.width - bar));
 
     const radius = cs.borderRadius;
 

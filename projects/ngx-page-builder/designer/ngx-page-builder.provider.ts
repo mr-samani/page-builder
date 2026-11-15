@@ -6,8 +6,8 @@ import { JsonFileStorageService } from './services/storage/jsonfile.storage.serv
 import { SOURCE_ITEMS } from './sources/SOURCE_ITEMS';
 import { NGX_PAGE_BUILDER_HTML_EDITOR } from './services/html-editor/token.html-editor';
 import { NGX_PAGE_BUILDER_FILE_PICKER } from './services/file-picker/token.filepicker';
-import { NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE } from './services/plugin/plugin.token';
-import { PluginStore } from './services/plugin/plugin.store';
+import { NGX_PAGE_BUILDER_SNIPPET_STORE } from './services/snippet/snippet.token';
+import { SnippetStore } from './services/snippet/snippet.store';
 
 import {
   LibConsts,
@@ -22,11 +22,11 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.enableHistory = config.enableHistory === true;
   LibConsts.enableShotcuts = config.enableShotcuts === true;
   LibConsts.enableAddCssFile = config.enableAddCssFile === true;
-  LibConsts.enableExportAsPlugin = config.enableExportAsPlugin === true;
+  LibConsts.enableSaveAsSnippet = config.enableSaveAsSnippet === true;
   LibConsts.enableCssVariable = config.enableCssVariable === true;
 
-  LibConsts.showPlugins = config.showPlugins === true;
-  LibConsts.canDeletePlugin = config.canDeletePlugin === true;
+  LibConsts.showSnippets = config.showSnippets === true;
+  LibConsts.canDeleteSnippet = config.canDeleteSnippet === true;
 
   if (config.publicCss && Array.isArray(config.publicCss)) {
     LibConsts.publicCss = config.publicCss;
@@ -108,8 +108,8 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
       useValue: '',
     },
     {
-      provide: NGX_PAGE_BUILDER_EXPORT_PLUGIN_STORE,
-      useValue: new PluginStore(),
+      provide: NGX_PAGE_BUILDER_SNIPPET_STORE,
+      useValue: new SnippetStore(),
     },
   ];
 }

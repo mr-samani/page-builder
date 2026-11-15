@@ -117,7 +117,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
 
   subscriptions: Subscription[] = [];
 
-  showPlugins = LibConsts.showPlugins;
+  showSnippets = LibConsts.showSnippets;
 
   private storageService = inject<IStorageService>(NGX_PAGE_BUILDER_STORAGE_SERVICE);
   protected readonly dialog = inject(NgxDialogService);

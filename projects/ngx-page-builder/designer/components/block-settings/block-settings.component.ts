@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, Injector, OnInit, Type, ViewChild, ChangeDetectionStrategy, inject } from '@angular/core';
 import { BaseComponent } from '../BaseComponent';
 import { TextBindingComponent } from '../text-binding/text-binding.component';
-import { DynamicDataService, DynamicDataStructure, LibConsts, PageItem } from 'ngx-page-builder/core';
+import { findParentCollection, LibConsts, PageItem } from 'ngx-page-builder/core';
 import type { SourceSettingField } from 'ngx-page-builder/core';
 import { EditLinkComponent } from '../edit-link/edit-link.component';
 import { NgxDialogService } from 'ngx-kit/dialog';
@@ -22,21 +22,19 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   sourceSettings: SourceSettingField[] = [];
   @ViewChild('settingsContainer', { static: true }) settingsContainer!: HTMLElement;
 
+  /** the collection that contains the selected block (undefined when it is not used in a list) */
   parentCollection?: PageItem;
-  /** structure of the records of the parent collection (known even if the collection is empty) */
-  collectionFields: DynamicDataStructure[] = [];
 
-  enableExportAsPlugin = LibConsts.enableExportAsPlugin;
+  enableSaveAsSnippet = LibConsts.enableSaveAsSnippet;
 
   protected readonly injector = inject(Injector);
   protected readonly dialog = inject(NgxDialogService);
-  protected readonly dynamicDataService = inject(DynamicDataService);
 
   constructor() {
     super();
     effect(async () => {
       this.item = this.pb.activeEl();
-      await this.checkParentIsCollection();
+      this.parentCollection = findParentCollection(this.item);
 
       if (this.item && this.item.customComponent && typeof this.item.customComponent.componentSettings === 'function') {
         this.settingComponent = await this.item.customComponent.componentSettings();
@@ -67,35 +65,11 @@ export class BlockSettingsComponent extends BaseComponent implements OnInit {
   onChangeProperties() {
     if (this.item) this.pb.changedProperties(this.item);
   }
-  async checkParentIsCollection() {
-    const current = this.item;
-    this.parentCollection = this.parentCollectionItem(current);
-    this.collectionFields = [];
-    if (this.parentCollection) {
-      // only the STRUCTURE is needed: binding must work even if the collection has no records
-      const fields = await this.dynamicDataService.resolveSchema(this.parentCollection.dataSource?.id);
-      // another element may have been selected while the schema was loading
-      if (this.item === current) this.collectionFields = fields;
-    }
-  }
-
-  parentCollectionItem(item?: PageItem): PageItem | undefined {
-    if (!item) return undefined;
-    if (item.dataSource?.id) {
-      // if (item.template || item.customComponent?.componentKey == 'NgxPgHeroTable') {
-      return item;
-    }
-    if (item.parent) {
-      return this.parentCollectionItem(item.parent);
-    }
-    return undefined;
-  }
-
-  async exportBlockAsPlugin() {
+  async saveBlockAsSnippet() {
     if (!this.item) return;
-    const { ExportPluginDialogComponent } =
-      await import('../../dialogs/export-plugin-dialog/export-plugin-dialog.component');
-    this.dialog.open(ExportPluginDialogComponent, {
+    const { SaveSnippetDialogComponent } =
+      await import('../../dialogs/save-snippet-dialog/save-snippet-dialog.component');
+    this.dialog.open(SaveSnippetDialogComponent, {
       data: this.item,
       size: 'md',
       header: {

@@ -141,7 +141,6 @@ import { Track, makeTrack, parseTracks, serializeTracks, trackLabel } from './di
       color: #7aa7ff;
       padding: 1px 4px;
       border-radius: 3px;
-      font-family: ui-monospace, Menlo, Consolas, monospace;
     }
     .gt-link:hover,
     .gt-link.on {

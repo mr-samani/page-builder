@@ -8,9 +8,8 @@ import {
   DynamicDataInputType,
   DynamicDataService,
   DynamicDataStructure,
+  DynamicValueType,
   FlatField,
-  flattenFields,
-  isCollectionSource,
 } from 'ngx-page-builder/core';
 import { debounceTime, Subject } from 'rxjs';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
@@ -36,8 +35,9 @@ import { NgxIconComponent } from 'ngx-page-builder/icons';
 export class DataSourceSettingComponent implements ControlValueAccessor {
   private readonly dynamicDataService = inject(DynamicDataService);
 
-  readonly collectionDataSource: DynamicDataStructure[] =
-    this.dynamicDataService.dynamicData.filter(isCollectionSource);
+  readonly collectionDataSource: DynamicDataStructure[] = this.dynamicDataService.dynamicData.filter(
+    (x) => x.type == DynamicValueType.Array,
+  );
   readonly operators = DATA_FILTER_OPERATORS;
   readonly DynamicDataInputType = DynamicDataInputType;
 
@@ -84,9 +84,10 @@ export class DataSourceSettingComponent implements ControlValueAccessor {
       ...f,
       value: this.settings.params?.[f.name] ?? f.value,
     }));
-    this.fieldOptions.set(flattenFields(this.dynamicDataService.getSchema(id)));
+    //todo
+    //this.fieldOptions.set(flattenFields(this.dynamicDataService.getSchema(id)));
     // lazy sources (API): the structure is discovered with one record
-    this.fieldOptions.set(flattenFields(await this.dynamicDataService.resolveSchema(id)));
+    //this.fieldOptions.set(flattenFields(await this.dynamicDataService.resolveSchema(id)));
   }
 
   onChangeDataSource() {
