@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DynamicDataInput, DynamicDataInputType, DynamicDataStructure, DynamicValueType } from 'ngx-page-builder/core';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
+import type { DummyJSONResponse, Product } from './dumm-json/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -36,49 +37,14 @@ export class InitializeDynamicData {
           type: DynamicValueType.String,
         },
       ],
+      rawData: {
+        firstName: 'Mohammad Reza',
+        lastName: 'Samani',
+        age: 37,
+        email: 'mr-samani1368@gmail.com',
+      },
     },
-    // job data
-    {
-      id: '2',
-      displayName: 'Job Data',
-      name: 'jobData',
-      type: DynamicValueType.Object,
-      fields: [
-        {
-          displayName: 'Title',
-          name: 'title',
-          type: DynamicValueType.String,
-        },
-        {
-          displayName: 'Company',
-          name: 'company',
-          type: DynamicValueType.String,
-        },
-        {
-          displayName: 'Location',
-          name: 'location',
-          type: DynamicValueType.String,
-        },
-        {
-          displayName: 'Start Date',
-          name: 'startDate',
-          type: DynamicValueType.Date,
-        },
-        {
-          displayName: 'End Date',
-          name: 'endDate',
-          type: DynamicValueType.Date,
-        },
-      ],
-    },
-    // product categories
-    {
-      id: 'cat-3',
-      name: 'category',
-      displayName: 'Product categories',
-      type: DynamicValueType.Array,
-      rawData: [],
-    },
+
     // product category version 1
     {
       id: 'CategoryProducts',
@@ -112,304 +78,247 @@ export class InitializeDynamicData {
       type: DynamicValueType.Array,
       fields: [
         {
-          id: 'TenantId',
-          name: 'TenantId',
-          displayName: 'TenantId',
+          id: 'id',
+          name: 'id',
+          displayName: 'id',
           type: DynamicValueType.String,
-          inputData: null,
         },
         {
-          id: 'CategoryId',
-          name: 'CategoryId',
-          displayName: 'CategoryId',
+          id: 'title',
+          name: 'title',
+          displayName: 'title',
           type: DynamicValueType.String,
-          inputData: null,
         },
         {
-          id: 'SKU',
-          name: 'SKU',
-          displayName: 'SKU',
+          id: 'description',
+          name: 'description',
+          displayName: 'description',
           type: DynamicValueType.String,
-          inputData: null,
         },
         {
-          id: 'Slug',
-          name: 'Slug',
-          displayName: 'Slug',
+          id: 'category',
+          name: 'category',
+          displayName: 'category',
           type: DynamicValueType.String,
-
-          inputData: null,
         },
         {
-          id: 'IsActive',
-          name: 'IsActive',
-          displayName: 'IsActive',
-          type: DynamicValueType.Boolean,
-
-          inputData: null,
+          id: 'price',
+          name: 'price',
+          displayName: 'price',
+          type: DynamicValueType.Decimal,
         },
         {
-          id: 'ProductTypeId',
-          name: 'ProductTypeId',
-          displayName: 'ProductTypeId',
+          id: 'discountPercentage',
+          name: 'discountPercentage',
+          displayName: 'discountPercentage',
+          type: DynamicValueType.Decimal,
+        },
+        {
+          id: 'tags',
+          name: 'tags',
+          displayName: 'tags',
+          type: DynamicValueType.ArrayString,
+        },
+        {
+          id: 'brand',
+          name: 'brand',
+          displayName: 'brand',
           type: DynamicValueType.String,
-
-          inputData: null,
         },
         {
-          id: 'Tags',
-          name: 'Tags',
-          displayName: 'Tags',
+          id: 'sku',
+          name: 'sku',
+          displayName: 'sku',
           type: DynamicValueType.String,
-
-          inputData: null,
         },
         {
-          id: 'Id',
-          name: 'Id',
-          displayName: 'Id',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'CreatedAt',
-          name: 'CreatedAt',
-          displayName: 'CreatedAt',
-          type: DynamicValueType.DateTime,
-
-          inputData: null,
-        },
-        {
-          id: 'CreatedBy',
-          name: 'CreatedBy',
-          displayName: 'CreatedBy',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'ModifiedAt',
-          name: 'ModifiedAt',
-          displayName: 'ModifiedAt',
-          type: DynamicValueType.DateTime,
-
-          inputData: null,
-        },
-        {
-          id: 'ModifiedBy',
-          name: 'ModifiedBy',
-          displayName: 'ModifiedBy',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'DeletedAt',
-          name: 'DeletedAt',
-          displayName: 'DeletedAt',
-          type: DynamicValueType.DateTime,
-
-          inputData: null,
-        },
-        {
-          id: 'DeletedBy',
-          name: 'DeletedBy',
-          displayName: 'DeletedBy',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'IsDeleted',
-          name: 'IsDeleted',
-          displayName: 'IsDeleted',
-          type: DynamicValueType.Boolean,
-
-          inputData: null,
-        },
-        {
-          id: 'RowVersion',
-          name: 'RowVersion',
-          displayName: 'RowVersion',
-          type: DynamicValueType.Array,
-
-          inputData: null,
-        },
-      ],
-
-      inputData: null,
-    },
-    // product category cms
-    {
-      id: 'ProductCategory',
-      name: 'ProductCategory',
-      displayName: 'ProductCategory',
-      type: DynamicValueType.Array,
-      fields: [
-        {
-          id: 'TenantId',
-          name: 'TenantId',
-          displayName: 'TenantId',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'ParentId',
-          name: 'ParentId',
-          displayName: 'ParentId',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'Slug',
-          name: 'Slug',
-          displayName: 'Slug',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'Image',
-          name: 'Image',
-          displayName: 'Image',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'OrderIndex',
-          name: 'OrderIndex',
-          displayName: 'OrderIndex',
+          id: 'weight',
+          name: 'weight',
+          displayName: 'weight',
           type: DynamicValueType.Int,
-
-          inputData: null,
         },
         {
-          id: 'IsActive',
-          name: 'IsActive',
-          displayName: 'IsActive',
-          type: DynamicValueType.Boolean,
-
-          inputData: null,
+          id: 'dimensions',
+          name: 'dimensions',
+          displayName: 'dimensions',
+          type: DynamicValueType.Object,
+          fields: [
+            {
+              id: 'width',
+              name: 'width',
+              displayName: 'width',
+              type: DynamicValueType.Decimal,
+            },
+            {
+              id: 'height',
+              name: 'height',
+              displayName: 'height',
+              type: DynamicValueType.Decimal,
+            },
+            {
+              id: 'depth',
+              name: 'depth',
+              displayName: 'depth',
+              type: DynamicValueType.Decimal,
+            },
+          ],
         },
         {
-          id: 'Id',
-          name: 'Id',
-          displayName: 'Id',
+          id: 'warrantyInformation',
+          name: 'warrantyInformation',
+          displayName: 'warrantyInformation',
           type: DynamicValueType.String,
-
-          inputData: null,
         },
         {
-          id: 'CreatedAt',
-          name: 'CreatedAt',
-          displayName: 'CreatedAt',
+          id: 'shippingInformation',
+          name: 'shippingInformation',
+          displayName: 'shippingInformation',
           type: DynamicValueType.DateTime,
-
-          inputData: null,
         },
         {
-          id: 'CreatedBy',
-          name: 'CreatedBy',
-          displayName: 'CreatedBy',
+          id: 'availabilityStatus',
+          name: 'availabilityStatus',
+          displayName: 'availabilityStatus',
           type: DynamicValueType.String,
-
-          inputData: null,
         },
         {
-          id: 'ModifiedAt',
-          name: 'ModifiedAt',
-          displayName: 'ModifiedAt',
-          type: DynamicValueType.DateTime,
-
-          inputData: null,
-        },
-        {
-          id: 'ModifiedBy',
-          name: 'ModifiedBy',
-          displayName: 'ModifiedBy',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'DeletedAt',
-          name: 'DeletedAt',
-          displayName: 'DeletedAt',
-          type: DynamicValueType.DateTime,
-
-          inputData: null,
-        },
-        {
-          id: 'DeletedBy',
-          name: 'DeletedBy',
-          displayName: 'DeletedBy',
-          type: DynamicValueType.String,
-
-          inputData: null,
-        },
-        {
-          id: 'IsDeleted',
-          name: 'IsDeleted',
-          displayName: 'IsDeleted',
-          type: DynamicValueType.Boolean,
-
-          inputData: null,
-        },
-        {
-          id: 'RowVersion',
-          name: 'RowVersion',
-          displayName: 'RowVersion',
+          id: 'reviews',
+          name: 'reviews',
+          displayName: 'reviews',
           type: DynamicValueType.Array,
-
-          inputData: null,
+          fields: [
+            {
+              id: 'rating',
+              name: 'rating',
+              displayName: 'rating',
+              type: DynamicValueType.Decimal,
+            },
+            {
+              id: 'comment',
+              name: 'comment',
+              displayName: 'comment',
+              type: DynamicValueType.String,
+            },
+            {
+              id: 'date',
+              name: 'date',
+              displayName: 'date',
+              type: DynamicValueType.DateTime,
+            },
+            {
+              id: 'reviewerName',
+              name: 'reviewerName',
+              displayName: 'reviewerName',
+              type: DynamicValueType.String,
+            },
+            {
+              id: 'reviewerEmail',
+              name: 'reviewerEmail',
+              displayName: 'reviewerEmail',
+              type: DynamicValueType.String,
+            },
+          ],
+        },
+        {
+          id: 'returnPolicy',
+          name: 'returnPolicy',
+          displayName: 'returnPolicy',
+          type: DynamicValueType.String,
+        },
+        {
+          id: 'minimumOrderQuantity',
+          name: 'minimumOrderQuantity',
+          displayName: 'minimumOrderQuantity',
+          type: DynamicValueType.Int,
+        },
+        {
+          id: 'meta',
+          name: 'meta',
+          displayName: 'meta',
+          type: DynamicValueType.Object,
+          fields: [
+            {
+              id: 'createdAt',
+              name: 'createdAt',
+              displayName: 'createdAt',
+              type: DynamicValueType.DateTime,
+            },
+            {
+              id: 'updatedAt',
+              name: 'updatedAt',
+              displayName: 'updatedAt',
+              type: DynamicValueType.DateTime,
+            },
+            {
+              id: 'barcode',
+              name: 'barcode',
+              displayName: 'barcode',
+              type: DynamicValueType.String,
+            },
+            {
+              id: 'qrCode',
+              name: 'qrCode',
+              displayName: 'qrCode',
+              type: DynamicValueType.String,
+            },
+          ],
+        },
+        {
+          id: 'images',
+          name: 'images',
+          displayName: 'images',
+          type: DynamicValueType.ArrayString,
+        },
+        {
+          id: 'thumbnail',
+          name: 'thumbnail',
+          displayName: 'thumbnail',
+          type: DynamicValueType.String,
         },
       ],
-
-      inputData: null,
+      rawData: (params: DynamicDataInput) => this.getObsrvProducts(params),
     },
   ];
 
   /*----------------------------------------------------------------------------------------------------*/
-  private list = [
-    [
-      {
-        name: 'name',
-        displayName: 'عنوان کالا',
-        type: DynamicValueType.String,
-      },
-      {
-        name: 'price',
-        displayName: 'قیمت کالا',
-        type: DynamicValueType.Int,
-      },
-      {
-        name: 'description',
-        displayName: 'توضیحات کالا',
-        type: DynamicValueType.String,
-      },
-      {
-        name: 'image',
-        displayName: 'تصویر کالا',
-        type: DynamicValueType.String,
-      },
-    ],
-  ];
+
   constructor(private http: HttpClient) {}
 
   private getPromiseProducts(input: DynamicDataInput): Promise<DynamicDataStructure[]> {
     return new Promise((resolve, reject) => {
-      return this.list;
+      return [
+        {
+          id: 1,
+          title: 'Essence Mascara Lash Princess',
+          description:
+            'The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.',
+          category: 'beauty',
+          price: 9.99,
+          discountPercentage: 10.48,
+          rating: 2.56,
+          stock: 99,
+          tags: ['beauty', 'mascara'],
+          brand: 'Essence',
+          sku: 'BEA-ESS-ESS-001',
+          weight: 4,
+          dimensions: {
+            width: 15.14,
+            height: 13.08,
+            depth: 22.99,
+          },
+          warrantyInformation: '1 week warranty',
+          shippingInformation: 'Ships in 3-5 business days',
+          availabilityStatus: 'In Stock',
+        },
+      ];
     });
   }
 
-  private getObsrvProducts(input: DynamicDataInput): Observable<DynamicDataStructure[]> {
-    const api = this.http.post<any>('api.test/api/products', input).pipe(
+  private getObsrvProducts(input: DynamicDataInput): Observable<Product[]> {
+    const api = this.http.get<DummyJSONResponse>('https://dummyjson.com/products', input).pipe(
+      map((m) => m.products ?? []),
       catchError((err) => {
-        return of(this.list);
+        return of([]);
       }),
     );
     return api;

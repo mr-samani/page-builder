@@ -74,11 +74,18 @@ export interface DynamicDataInput<InputData = { [key: string]: any }> {
 export enum DynamicValueType {
   String,
   Int,
+  Decimal,
   Boolean,
   Date,
   Time,
   DateTime,
   Array,
+  /**
+   * String of array
+   * @example
+   *   ["fragrances","perfumes"]
+   */
+  ArrayString,
   Object,
 }
 

@@ -1,3 +1,7 @@
-@if (!pageItem.children || !pageItem.children.length || !pageItem.dataSource || !pageItem.dataSource.maxResultCount) {
-  <div class="ngx-page-alert info">No Data to view!</div>
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  @if (!pageItem.children || !pageItem.children.length || !pageItem.dataSource || !pageItem.dataSource.maxResultCount) {
+    <div class="ngx-page-alert info">No Data to view!</div>
+  }
 }

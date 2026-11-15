@@ -288,7 +288,6 @@ export class PagePreviewService {
    */
   async initializePreview(pageContainer: HTMLElement, data: IPagebuilderOutput) {
     console.time('✅ Render complete');
-
     this.pageContainer = pageContainer;
     await this.cleanCanvas();
     this.data = data;
@@ -302,6 +301,7 @@ export class PagePreviewService {
 
     await waitForFontsToLoad();
     await waitForRenderComplete();
+    console.timeEnd('✅ Render complete');
   }
 
   //--------------------------------------------------------------------------

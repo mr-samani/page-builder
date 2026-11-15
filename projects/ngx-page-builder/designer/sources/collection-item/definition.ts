@@ -13,7 +13,6 @@ export const CollectionItemSource = new SourceItem({
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    align-items: center;
     justify-content: center;
     padding: 10px;
   `,

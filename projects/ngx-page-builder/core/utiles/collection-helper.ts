@@ -4,7 +4,15 @@ import { ISourceOptions } from '../models/SourceItem';
 import { CustomComponent } from '../models/CustomComponent';
 import { DEFAULT_IMAGE_URL } from '../consts/defaults';
 import { cloneDeep } from './clone-deep';
-import { escapeHtml, getByPath, hasBindingToken, interpolateBindings, toDisplayText, toImageSrc } from './data-binding';
+import {
+  escapeHtml,
+  getByPath,
+  hasBindingToken,
+  interpolateBindings,
+  toBindingToken,
+  toDisplayText,
+  toImageSrc,
+} from './data-binding';
 
 /**
  * بررسی می‌کند آیا یک آیتم در بین فرزندان یک تمپلیت خاص وجود دارد یا خیر
@@ -71,12 +79,12 @@ export function findParentCollection(item: PageItem | undefined | null): PageIte
 type PlainItem = IPageItem & { customComponent?: CustomComponent };
 
 interface PlainOptions {
-  /** record of the repeated item; undefined when a template snapshot is made */
+  /** record of the repeated item (viewer): bound blocks show its values */
   row?: unknown;
+  /** designer: bound blocks show `{{binding}}` (never the value of a record), so the user sees that they are dynamic */
+  bindingTokens?: boolean;
   /** component inputs / outputs are data of a block, but rows never needed them (kept as before) */
   keepComponentIO: boolean;
-  /** previous template blocks by id: used to keep the binding tokens of a template (see snapshotTemplate) */
-  prevById?: Map<string, PageItem>;
   /** copy customComponent instead of sharing it (template snapshots must not share runtime state) */
   detachComponent?: boolean;
 }
@@ -94,17 +102,14 @@ function copyOptions(options: ISourceOptions | undefined, keepComponentIO: boole
   return copy;
 }
 
-function indexById(root: PageItem, map = new Map<string, PageItem>()): Map<string, PageItem> {
-  map.set(root.id, root);
-  for (const child of root.children ?? []) indexById(child, map);
-  return map;
-}
-
 /** plain (data only) copy of a block tree; `parent`, `el`, `template` and runtime options are not copied */
 function toPlain(item: PageItem, o: PlainOptions): PlainItem {
-  const { parent, el, children, template, options, classList, customComponent, ...rest } = item;
+  const { parent, el, children, template, options, classList, customComponent, dataSource, ...rest } = item;
   const plain = { ...rest, classList: [...(classList ?? [])], children: [] as PlainItem[] } as PlainItem;
 
+  // every copy has its own settings: a shared object would show a changed binding in all copies at once, so the
+  // comparison with the template could never see the change and the other items would not be updated
+  plain.dataSource = cloneDeep(dataSource);
   plain.options = copyOptions(options, o.keepComponentIO);
   if (customComponent) {
     plain.customComponent = o.detachComponent
@@ -112,32 +117,25 @@ function toPlain(item: PageItem, o: PlainOptions): PlainItem {
       : customComponent;
   }
 
-  if (o.row !== undefined && o.prevById === undefined) {
-    // a repeated item: bound blocks show the values of the record
+  if (o.row !== undefined) {
+    // a repeated item of the viewer: bound blocks show the values of the record
     fillFromRow(plain, item, o.row);
-  } else if (o.prevById) {
-    keepTemplateBindings(plain, item, o.prevById.get(item.id), o.row);
+  } else if (o.bindingTokens) {
+    showBindingTokens(plain, item);
   }
 
   plain.children = (children ?? []).map((child) => toPlain(child, o));
   return plain;
 }
 
-/**
- * A template snapshot is made from a repeated item that shows the values of ONE record. The parts that are derived
- * from the record (bound text / image, text with `{{tokens}}`) must not be written to the template:
- * the previous template value is kept unless the user really changed it.
- */
-function keepTemplateBindings(plain: PlainItem, item: PageItem, prev: PageItem | undefined, row: unknown) {
-  if (!prev) return;
-  if (item.dataSource?.binding) {
-    plain.content = prev.content;
-    if (PageItem.isImage(item) && plain.options?.attributes && prev.options?.attributes?.['src'] !== undefined) {
-      plain.options.attributes['src'] = prev.options.attributes['src'];
-    }
-  } else if (row !== undefined && hasBindingToken(prev.content)) {
-    const derived = interpolateBindings(prev.content!, (path) => getByPath(row, path), { escape: true });
-    if (item.content === derived) plain.content = prev.content;
+/** designer: a bound block shows `{{field}}` (an image shows the placeholder), the value of a record is never used */
+function showBindingTokens(plain: PlainItem, item: PageItem) {
+  const binding = item.dataSource?.binding;
+  if (!binding) return;
+  if (PageItem.isImage(item)) {
+    if (plain.options?.attributes) delete plain.options.attributes['src'];
+  } else {
+    plain.content = toBindingToken(binding);
   }
 }
 
@@ -145,32 +143,31 @@ function keepTemplateBindings(plain: PlainItem, item: PageItem, prev: PageItem |
  * Lightweight copy of a block tree to use as the template of a collection.
  * Replaces `cloneDeep(found.root)` (which copied the DOM, Angular internals and the whole page: seconds).
  * Styles (`css`) are shared by reference on purpose: all repeated items must see the same style object.
- * @param root the repeated item that was changed (it shows the values of ONE record)
- * @param prev the current template (keeps the binding tokens, see keepTemplateBindings)
- * @param row the record that `root` shows
+ * @param root the repeated item that was changed
  */
-export function snapshotTemplate(root: PageItem, prev?: PageItem, row?: unknown): PageItem {
-  const plain = toPlain(root, {
-    keepComponentIO: true,
-    detachComponent: true,
-    prevById: prev ? indexById(prev) : new Map(),
-    row,
-  });
+export function snapshotTemplate(root: PageItem): PageItem {
+  const plain = toPlain(root, { keepComponentIO: true, detachComponent: true });
   const template = PageItem.fromJSON(plain);
   template.parent = root.parent;
   return template;
 }
 
 /**
- * Creates one repeated item of a collection from its template and fills the bound elements with the record values.
- * The template is NOT modified.
+ * Creates one repeated item of a collection from its template. The template is NOT modified.
+ * - viewer: bound blocks are filled with the values of the record
+ * - designer (`options.designer`): bound blocks show `{{field}}`, the record is not used
  * @param dataList records of the collection
  * @param template the item template
  * @param index record index
  */
-export function cloneTemplate(dataList: any[], template: PageItem, index: number) {
-  const row = dataList[index];
-  const plain = toPlain(template, { keepComponentIO: false, row: row ?? undefined });
+export function cloneTemplate(
+  dataList: any[],
+  template: PageItem,
+  index: number,
+  options: { designer?: boolean } = {},
+) {
+  const row = options.designer ? undefined : dataList[index];
+  const plain = toPlain(template, { keepComponentIO: false, row: row ?? undefined, bindingTokens: options.designer });
   const root = PageItem.fromJSON(plain);
   // children get their parent from the constructor, the root must keep the collection as parent
   root.parent = template.parent;
@@ -230,13 +227,6 @@ export function isSameData(a: unknown, b: unknown): boolean {
   return true;
 }
 
-/** query strings without the values that come from the record (those differ in every repeated item) */
-function stableCustomData(customData: any): any {
-  const q = customData?.queryString;
-  if (!Array.isArray(q)) return customData;
-  return { ...customData, queryString: q.map((x: any) => (x?.isDynamic ? { ...x, dynamicValue: undefined } : x)) };
-}
-
 /**
  * true when two templates produce exactly the same repeated items (styles are not compared: they live in the
  * stylesheet and are shared by all copies, a style change needs no re-rendering).
@@ -249,15 +239,11 @@ export function isSameTemplate(a: PageItem, b: PageItem): boolean {
   const bc = b.classList ?? [];
   if (ac.length !== bc.length || ac.some((c, i) => c !== bc[i])) return false;
 
-  if (!a.dataSource?.binding && (a.content ?? '') !== (b.content ?? '')) return false;
+  if (a.dataSource?.binding != b.dataSource?.binding) return false;
+  if ((a.content ?? '') !== (b.content ?? '')) return false;
   if (!isSameData(a.dataSource, b.dataSource)) return false;
-  if (!isSameData(a.options?.attributes, b.options?.attributes)) {
-    // the src of a bound image is derived from the record
-    if (!a.dataSource?.binding) return false;
-  }
-  if (!isSameData(stableCustomData(a.options?.customData), stableCustomData(b.options?.customData))) {
-    return false;
-  }
+  if (!isSameData(a.options?.attributes, b.options?.attributes)) return false;
+  if (!isSameData(a.options?.customData, b.options?.customData)) return false;
 
   const ak = a.customComponent;
   const bk = b.customComponent;

@@ -10,6 +10,7 @@ import {
   DynamicDataStructure,
   DynamicValueType,
   FlatField,
+  flattenFields,
 } from 'ngx-page-builder/core';
 import { debounceTime, Subject } from 'rxjs';
 import { NgxIconComponent } from 'ngx-page-builder/icons';
@@ -84,10 +85,20 @@ export class DataSourceSettingComponent implements ControlValueAccessor {
       ...f,
       value: this.settings.params?.[f.name] ?? f.value,
     }));
-    //todo
-    //this.fieldOptions.set(flattenFields(this.dynamicDataService.getSchema(id)));
+    const schema = this.dynamicDataService.getSchema(id);
+    this.fieldOptions.set(flattenFields(schema));
     // lazy sources (API): the structure is discovered with one record
-    //this.fieldOptions.set(flattenFields(await this.dynamicDataService.resolveSchema(id)));
+    // this.fieldOptions.set(
+    //   flattenFields(
+    //     await this.dynamicDataService.queryCollection({
+    //       id: id,
+    //       skipCount: this.settings.skipCount,
+    //       maxResultCount: this.settings.maxResultCount,
+    //       params: this.settings.params,
+    //       filters: this.settings.filters,
+    //     }),
+    //   ),
+    // );
   }
 
   onChangeDataSource() {

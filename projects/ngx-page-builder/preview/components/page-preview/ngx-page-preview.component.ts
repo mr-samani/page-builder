@@ -40,6 +40,7 @@ export class NgxPagePreviewComponent implements AfterViewInit {
   isPrintPage = false;
   @Input('dynamicData') set setDynamicData(val: DynamicDataStructure[]) {
     this.dynamicDataService.dynamicData = val;
+    console.log('ngxPageBuilderDS', this.dynamicDataService.dynamicData);
   }
   data: IPagebuilderOutput = {
     config: new PageBuilderConfig(),

@@ -60,7 +60,7 @@ export async function syncRows(ctx: CollectionSyncContext, origin?: PageItem): P
     host: ctx.host,
     rows: ctx.owner.children,
     wanted: ctx.records.length,
-    buildRow: (index) => cloneTemplate(ctx.records, template, index),
+    buildRow: (index) => cloneTemplate(ctx.records, template, index, { designer: true }),
     origin,
     env: ctx.env,
     yieldToBrowser: ctx.yieldToBrowser,
@@ -79,9 +79,8 @@ export async function applyTemplateChange(ctx: CollectionSyncContext, origin: Pa
   const previous = owner.template;
   if (originIndex < 0 || !previous) return; // it was removed meanwhile
 
-  const template = snapshotTemplate(origin, previous, ctx.records[originIndex]);
+  const template = snapshotTemplate(origin);
   owner.template = template;
-
   if (isSameTemplate(previous, template)) {
     // Only the style changed: the stylesheet rule (one per block id) is shared by all items already, so every item
     // shows the new style without any work. Only the style object is shared again.

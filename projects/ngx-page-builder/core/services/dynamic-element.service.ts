@@ -307,7 +307,9 @@ export class DynamicElementService {
       this.applyLinkQueryString(element, item.options.customData.queryString as CMSPageQueryString[]);
     }
 
-    element.dataset['id'] = item.id;
+    if (item.id != null) {
+      element.setAttribute('data-id', String(item.id));
+    }
 
     if (item.classList?.length) {
       element.classList.add(...item.classList);

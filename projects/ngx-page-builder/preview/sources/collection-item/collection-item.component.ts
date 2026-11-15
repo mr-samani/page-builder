@@ -9,6 +9,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -37,6 +38,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
   @Input() editMode: boolean = false;
   @Input() pageItem!: PageItem;
 
+  readonly loading = signal(false);
   _template: IPageItem = {
     tag: 'article',
     isTemplateContainer: true,
@@ -80,6 +82,7 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
     if (!this.pageItem || !this.pageItem.dataSource || !this.pageItem.template) {
       return;
     }
+    this.loading.set(true);
     const result = await this.dynamicDataService.queryCollection(this.pageItem.dataSource);
     this.dataList = result.rows;
     const childCount = this.dataList.length;
@@ -92,7 +95,8 @@ export class PreviewCollectionItemComponent implements OnInit, OnDestroy, AfterV
       await this.previewService.createBlockElement(cloned, this.elRef.nativeElement);
       this.pageItem.children.push(cloned);
     }
-    this.chdRef.detectChanges();
+    this.loading.set(false);
+    //    this.chdRef.detectChanges();
   }
 
   private async clearContainer() {
