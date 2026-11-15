@@ -12,6 +12,7 @@ export function getDefaultBlockDirective(pageItem: PageItem, onDropFn: Function)
         inputs: {
           // set interactive - input text can edit on designer when  ignoreInteractive: false
           ignoreInteractive: false,
+          disabled: !!pageItem.disableMovement,
         },
       },
     ];

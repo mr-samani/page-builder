@@ -587,7 +587,7 @@ export class PageBuilderService implements OnDestroy {
   selectBlock(c: PageItem, ev?: PointerEvent) {
     // console.log('click on block', c.el);
     ev?.stopPropagation();
-    ev?.preventDefault();
+    //ev?.preventDefault();
     if (this.activeEl() !== c) this.flushStyleChange();
     this.activeEl.set(c);
     this.onSelectBlock$.next({ ev: ev, item: c });
