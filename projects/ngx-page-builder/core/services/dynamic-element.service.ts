@@ -275,6 +275,7 @@ export class DynamicElementService {
    * ## Must be call after insert to dom
    */
   private bindOptions(element: HTMLElement, item: PageItem): HTMLElement {
+    if (!element || !item) return element;
     if (item.options?.attributes) {
       for (const [k, v] of Object.entries(item.options.attributes)) {
         this.applyAttribute(element, k, v);
