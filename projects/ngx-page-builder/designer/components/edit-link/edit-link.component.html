@@ -96,8 +96,8 @@
     @for (q of queryString; track $index) {
       <tr>
         <td>
-          <button type="button" (click)="removeQueryString($index)">
-            <ngx-icon icon="xmark" />
+          <button type="button" class="pb-btn pb-btn-icon" (click)="removeQueryString($index)">
+            <ngx-icon icon="xmark" width="22px" />
           </button>
         </td>
         <td>
@@ -127,8 +127,8 @@
     }
   </tbody>
 </table>
-<button type="button" class="btn btn-icon" (click)="addNewRecordQueryString()">
-  <ngx-icon icon="plus" />
+<button type="button" class="pb-btn pb-btn-icon" (click)="addNewRecordQueryString()">
+  <ngx-icon icon="plus" width="22px" />
 </button>
 <!-- <pre dir="ltr">{{ queryString | json }}</pre> -->
 

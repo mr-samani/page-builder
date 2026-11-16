@@ -2,6 +2,7 @@
 /** Union of all built-in icon names (type only – zero runtime cost). */
 export type NgxIconName =
   | 'arrow-turn-up'
+  | 'bars-progress'
   | 'blocks'
   | 'chevron-down'
   | 'chevron-left'

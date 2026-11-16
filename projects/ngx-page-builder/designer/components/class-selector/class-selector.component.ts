@@ -59,7 +59,7 @@ export class ClassSelectorComponent implements OnInit {
       if (this.item) {
         this.classes = [];
         // کلاس داخلی blk-<id> نگه‌دارنده‌ی استایل خودِ بلاک است؛ نمایش/حذف آن به کاربر داده نمی‌شود
-        for (let c of this.item.classList) {
+        for (let c of this.item.classList.filter((x) => x != 'block-item')) {
           if (!isBlockClass(c)) this.classes.push({ name: c });
         }
         const first = this.classes[0]?.name;

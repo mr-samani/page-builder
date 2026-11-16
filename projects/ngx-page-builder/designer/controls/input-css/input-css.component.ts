@@ -102,7 +102,7 @@ export class InputCssComponent implements OnInit, ControlValueAccessor {
       this.variableName = '';
     }
 
-    console.log(this.value, this.thisIsVariable, this.variableName);
+    // console.log(this.value, this.thisIsVariable, this.variableName);
   }
   searchCssVariable() {
     this.filteredCssVars = this.cls.cssVariables.filter(

@@ -152,7 +152,7 @@ export class NgxPageBuilder extends PageBuilderBaseComponent implements OnInit, 
   }
 
   async ngOnInit(): Promise<void> {
-    this.cls.initialize();
+    // this.cls.initialize();
     this.registerShortcuts();
   }
 

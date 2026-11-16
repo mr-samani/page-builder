@@ -15,7 +15,7 @@ export class SnippetStore implements ISnippetStore {
 
   getAllSnippets(take: number, skip: number, filter: string): Promise<IPaginationSnippet> {
     return new Promise<IPaginationSnippet>((resolve, reject) => {
-      const result = this._snippets.filter((x: ISnippet) => x.name.includes(filter));
+      const result = this._snippets.filter((x: ISnippet) => x.name.toLowerCase().includes(filter.toLowerCase()));
       const list = result.slice(skip, skip + take);
       resolve({
         items: list,

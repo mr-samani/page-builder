@@ -91,31 +91,31 @@ export const SOURCE_ITEMS: SourceItem[] = [
       },
     ],
   }),
-  htmlBlock(
-    'abbr',
-    'Abbreviation',
-    'typography',
-    'paragraph',
-    'An abbreviation with an optional expanded description.',
-    {
-      content: 'HTML',
-      options: { attributes: { title: 'HyperText Markup Language' } },
-      settings: [
-        { name: 'title', title: 'Expanded description', type: 'text', group: 'Accessibility', fullWidth: true },
-      ],
-    },
-  ),
-  htmlBlock('sub', 'Subscript', 'typography', 'paragraph', 'Subscript inline text.', { content: '2' }),
-  htmlBlock('sup', 'Superscript', 'typography', 'paragraph', 'Superscript inline text.', { content: '2' }),
-  htmlBlock('del', 'Deleted Text', 'typography', 'paragraph', 'Text removed from a document.', {
-    content: 'Deleted text',
-  }),
-  htmlBlock('ins', 'Inserted Text', 'typography', 'paragraph', 'Text inserted into a document.', {
-    content: 'Inserted text',
-  }),
-  htmlBlock('cite', 'Citation', 'typography', 'paragraph', 'A citation or reference to a creative work.', {
-    content: 'Citation',
-  }),
+  // htmlBlock(
+  //   'abbr',
+  //   'Abbreviation',
+  //   'typography',
+  //   'paragraph',
+  //   'An abbreviation with an optional expanded description.',
+  //   {
+  //     content: 'HTML',
+  //     options: { attributes: { title: 'HyperText Markup Language' } },
+  //     settings: [
+  //       { name: 'title', title: 'Expanded description', type: 'text', group: 'Accessibility', fullWidth: true },
+  //     ],
+  //   },
+  // ),
+  // htmlBlock('sub', 'Subscript', 'typography', 'paragraph', 'Subscript inline text.', { content: '2' }),
+  // htmlBlock('sup', 'Superscript', 'typography', 'paragraph', 'Superscript inline text.', { content: '2' }),
+  // htmlBlock('del', 'Deleted Text', 'typography', 'paragraph', 'Text removed from a document.', {
+  //   content: 'Deleted text',
+  // }),
+  // htmlBlock('ins', 'Inserted Text', 'typography', 'paragraph', 'Text inserted into a document.', {
+  //   content: 'Inserted text',
+  // }),
+  // htmlBlock('cite', 'Citation', 'typography', 'paragraph', 'A citation or reference to a creative work.', {
+  //   content: 'Citation',
+  // }),
   htmlBlock('q', 'Inline Quote', 'typography', 'paragraph', 'A short inline quotation.', { content: 'Quoted text' }),
   htmlBlock('hr', 'Divider', 'typography', 'section', 'A thematic break between content sections.'),
   htmlBlock('br', 'Line Break', 'typography', 'paragraph', 'A simple line break inside text.'),
@@ -288,9 +288,9 @@ export const SOURCE_ITEMS: SourceItem[] = [
       { name: 'form', title: 'Form ID', type: 'text', group: 'Advanced' },
     ],
   }),
-  htmlBlock('dialog', 'Dialog', 'actions', 'layout', 'A native dialog surface for modal or non-modal content.', {
-    canHaveChild: true,
-  }),
+  // htmlBlock('dialog', 'Dialog', 'actions', 'layout', 'A native dialog surface for modal or non-modal content.', {
+  //   canHaveChild: true,
+  // }),
   htmlBlock('details', 'Disclosure', 'actions', 'layout', 'Expandable content using native disclosure behavior.', {
     canHaveChild: true,
     initialChildren: DISCLOSURE_STARTER_CHILDREN,
@@ -407,27 +407,27 @@ export const SOURCE_ITEMS: SourceItem[] = [
       },
     ],
   }),
-  htmlBlock('select', 'Select', 'forms', 'input', 'A dropdown selection control.', {
-    canHaveChild: true,
-    initialChildren: SELECT_STARTER_CHILDREN,
-    settings: [
-      { name: 'name', title: 'Name', type: 'text', group: 'General' },
-      { name: 'required', title: 'Required', type: 'checkbox', group: 'General' },
-      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'General' },
-      { name: 'multiple', title: 'Allow multiple', type: 'checkbox', group: 'Advanced' },
-      { name: 'size', title: 'Visible options', type: 'number', group: 'Advanced', min: 1, step: 1 },
-    ],
-  }),
-  htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'An option inside a select control.', {
-    content: 'Option',
-    options: { attributes: { value: 'option' } },
-    settings: [
-      { name: 'value', title: 'Submitted value', type: 'text', group: 'Option' },
-      { name: 'label', title: 'Display label', type: 'text', group: 'Option' },
-      { name: 'selected', title: 'Selected by default', type: 'checkbox', group: 'State' },
-      { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'State' },
-    ],
-  }),
+  // htmlBlock('select', 'Select', 'forms', 'input', 'A dropdown selection control.', {
+  //   canHaveChild: true,
+  //   initialChildren: SELECT_STARTER_CHILDREN,
+  //   settings: [
+  //     { name: 'name', title: 'Name', type: 'text', group: 'General' },
+  //     { name: 'required', title: 'Required', type: 'checkbox', group: 'General' },
+  //     { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'General' },
+  //     { name: 'multiple', title: 'Allow multiple', type: 'checkbox', group: 'Advanced' },
+  //     { name: 'size', title: 'Visible options', type: 'number', group: 'Advanced', min: 1, step: 1 },
+  //   ],
+  // }),
+  // htmlBlock('option', 'Select Option', 'forms', 'paragraph', 'An option inside a select control.', {
+  //   content: 'Option',
+  //   options: { attributes: { value: 'option' } },
+  //   settings: [
+  //     { name: 'value', title: 'Submitted value', type: 'text', group: 'Option' },
+  //     { name: 'label', title: 'Display label', type: 'text', group: 'Option' },
+  //     { name: 'selected', title: 'Selected by default', type: 'checkbox', group: 'State' },
+  //     { name: 'disabled', title: 'Disabled', type: 'checkbox', group: 'State' },
+  //   ],
+  // }),
 
   // Lists & data
   htmlBlock('ul', 'Unordered List', 'data', 'collection', 'A ready-to-edit bulleted list with three starter items.', {
@@ -480,38 +480,38 @@ export const SOURCE_ITEMS: SourceItem[] = [
       initialChildren: DESCRIPTION_LIST_STARTER_CHILDREN,
     },
   ),
-  htmlBlock('dt', 'Description Term', 'data', 'paragraph', 'A term in a description list.', { content: 'Term' }),
-  htmlBlock('dd', 'Description Details', 'data', 'paragraph', 'A description for a term.', { content: 'Description' }),
-  htmlBlock('table', 'Table', 'data', 'table', 'A semantic table pre-populated with a header and sample rows.', {
-    canHaveChild: true,
-    initialChildren: TABLE_STARTER_CHILDREN,
-  }),
-  htmlBlock('thead', 'Table Head', 'data', 'table', 'The header section of a table.', { canHaveChild: true }),
-  htmlBlock('tbody', 'Table Body', 'data', 'table', 'The body section of a table.', { canHaveChild: true }),
-  htmlBlock('tr', 'Table Row', 'data', 'table', 'A row inside a table.', { canHaveChild: true }),
-  htmlBlock('th', 'Header Cell', 'data', 'table', 'A semantic table header cell.', {
-    content: 'Heading',
-    canHaveChild: true,
-  }),
-  htmlBlock('td', 'Table Cell', 'data', 'table', 'A standard table data cell.', {
-    content: 'Cell',
-    canHaveChild: true,
-  }),
-  htmlBlock('caption', 'Table Caption', 'data', 'table', 'A title or caption for a table.', {
-    content: 'Table caption',
-  }),
-  htmlBlock('colgroup', 'Column Group', 'data', 'table', 'Groups columns in a table.', { canHaveChild: true }),
-  htmlBlock('col', 'Table Column', 'data', 'table', 'Defines column-level table styling.', {
-    options: { attributes: { span: '1' } },
-    settings: [
-      { name: 'span', title: 'Number of columns', type: 'number', group: 'Column', min: 1, max: 100, step: 1 },
-    ],
-  }),
+  // htmlBlock('dt', 'Description Term', 'data', 'paragraph', 'A term in a description list.', { content: 'Term' }),
+  // htmlBlock('dd', 'Description Details', 'data', 'paragraph', 'A description for a term.', { content: 'Description' }),
+  // htmlBlock('table', 'Table', 'data', 'table', 'A semantic table pre-populated with a header and sample rows.', {
+  //   canHaveChild: true,
+  //   initialChildren: TABLE_STARTER_CHILDREN,
+  // }),
+  // htmlBlock('thead', 'Table Head', 'data', 'table', 'The header section of a table.', { canHaveChild: true }),
+  // htmlBlock('tbody', 'Table Body', 'data', 'table', 'The body section of a table.', { canHaveChild: true }),
+  // htmlBlock('tr', 'Table Row', 'data', 'table', 'A row inside a table.', { canHaveChild: true }),
+  // htmlBlock('th', 'Header Cell', 'data', 'table', 'A semantic table header cell.', {
+  //   content: 'Heading',
+  //   canHaveChild: true,
+  // }),
+  // htmlBlock('td', 'Table Cell', 'data', 'table', 'A standard table data cell.', {
+  //   content: 'Cell',
+  //   canHaveChild: true,
+  // }),
+  // htmlBlock('caption', 'Table Caption', 'data', 'table', 'A title or caption for a table.', {
+  //   content: 'Table caption',
+  // }),
+  // htmlBlock('colgroup', 'Column Group', 'data', 'table', 'Groups columns in a table.', { canHaveChild: true }),
+  // htmlBlock('col', 'Table Column', 'data', 'table', 'Defines column-level table styling.', {
+  //   options: { attributes: { span: '1' } },
+  //   settings: [
+  //     { name: 'span', title: 'Number of columns', type: 'number', group: 'Column', min: 1, max: 100, step: 1 },
+  //   ],
+  // }),
   htmlBlock(
     'progress',
     'Progress',
     'data',
-    'collection',
+    'bars-progress',
     'A native progress indicator with editable value and maximum.',
     {
       options: { attributes: { value: '60', max: '100' } },
@@ -522,7 +522,7 @@ export const SOURCE_ITEMS: SourceItem[] = [
     'meter',
     'Meter',
     'data',
-    'collection',
+    'bars-progress',
     'A scalar measurement with configurable value, range and quality thresholds.',
     {
       options: { attributes: { value: '0.6', min: '0', max: '1', low: '0.25', high: '0.75', optimum: '0.5' } },

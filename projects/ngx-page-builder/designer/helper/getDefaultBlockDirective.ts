@@ -55,6 +55,11 @@ function isTextBlock(pageItem: PageItem) {
   if (pageItem.dataSource?.binding) {
     return false;
   }
-  const textBloxkTags = ['a', 'span', 'strong', 'p', 'pre', 'code', 'samp', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+  // prettier-ignore
+  const textBloxkTags = [
+    'a', 'span', 'strong', 'p', 'pre', 'code', 
+    'samp', 'small', 'em','li',
+    'blockquote','mark',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
   return textBloxkTags.indexOf(pageItem.tag.toLowerCase()) > -1;
 }

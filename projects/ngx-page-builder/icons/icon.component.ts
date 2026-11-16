@@ -104,6 +104,10 @@ export class NgxIconComponent {
   private readonly definition = computed<IconDefinition | undefined>(() => {
     const value = this.icon();
     if (typeof value !== 'string') return value;
+
+    if (value.trimStart().startsWith('<svg')) {
+      return this.parseSvg(value);
+    }
     const def = this.registry.get(value);
     if (!def && isDevMode() && !warned.has(value)) {
       warned.add(value);
@@ -154,5 +158,62 @@ export class NgxIconComponent {
       if (children?.length) this.build(el, children);
       this.renderer.appendChild(parent, el);
     }
+  }
+
+  private parseSvg(source: string): IconDefinition | undefined {
+    if (typeof DOMParser === 'undefined') return;
+
+    const doc = new DOMParser().parseFromString(source, 'image/svg+xml');
+
+    if (doc.querySelector('parsererror')) return;
+
+    const root = doc.documentElement;
+
+    if (root.localName !== 'svg' || root.namespaceURI !== 'http://www.w3.org/2000/svg') {
+      return;
+    }
+
+    const viewBox = root.getAttribute('viewBox');
+
+    if (!viewBox) return;
+
+    const parseNodes = (parent: Element): IconNode[] => {
+      const result: IconNode[] = [];
+
+      for (const child of Array.from(parent.children)) {
+        const tag = child.localName;
+
+        if (child.namespaceURI !== 'http://www.w3.org/2000/svg' || !ALLOWED_TAGS.has(tag)) {
+          continue;
+        }
+
+        const attrs: Record<string, string> = {};
+
+        for (const attr of Array.from(child.attributes)) {
+          if (isSafeAttr(attr.name, attr.value)) {
+            attrs[attr.name] = attr.value;
+          }
+        }
+
+        result.push([tag as IconNode[0], attrs, parseNodes(child)]);
+      }
+
+      return result;
+    };
+
+    const attrs: Record<string, string> = {};
+
+    for (const attr of Array.from(root.attributes)) {
+      if (attr.name !== 'viewBox' && isSafeAttr(attr.name, attr.value)) {
+        attrs[attr.name] = attr.value;
+      }
+    }
+
+    return {
+      name: 'unknown',
+      viewBox,
+      attrs,
+      nodes: parseNodes(root),
+    };
   }
 }
