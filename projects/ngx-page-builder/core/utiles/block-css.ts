@@ -58,6 +58,7 @@ export const PSEUDO_ORDER: readonly RealPseudoState[] = [
   'hover',
   'focus',
   'focus-visible',
+  'focus-within',
   'active',
   'checked',
   'disabled',

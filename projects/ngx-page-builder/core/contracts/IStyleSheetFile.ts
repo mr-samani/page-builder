@@ -29,7 +29,16 @@ export const DEFAULT_BREAKPOINTS: Breakpoint[] = [
  * فقط شبه‌کلاس‌های ساده (بدون آرگومان) مجازند تا خطر تزریق CSS نداشته باشیم.
  * اگر چیزی مثل `:nth-child()` لازم شد، جدا و آگاهانه اضافه کنید.
  */
-export type PseudoState = 'hover' | 'focus' | 'focus-visible' | 'active' | 'visited' | 'disabled' | 'checked' | 'none';
+export type PseudoState =
+  | 'hover'
+  | 'focus'
+  | 'focus-visible'
+  | 'focus-within'
+  | 'active'
+  | 'visited'
+  | 'disabled'
+  | 'checked'
+  | 'none';
 
 /** یک تکه‌ی استایل: مقدار پایه + حالت‌های شبه‌کلاس، به‌صورت متن خام CSS declarations (مثل: "color:red;font-size:14px;") */
 export interface BlockCssChunk {
