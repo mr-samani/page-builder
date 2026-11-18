@@ -1,0 +1,158 @@
+<div class="native-settings textbox-settings" aria-label="Textbox settings">
+  <section class="settings-group">
+    <h4>General</h4>
+    <div class="settings-fields">
+      <label class="setting-field">
+        <span class="field-heading">Input type</span>
+        <select [ngModel]="settings.valueType" (ngModelChange)="onTypeChanged($event)">
+          @for (item of valueTypes; track item.value) {
+            <option [ngValue]="item.value">{{ item.label }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="setting-field full-width">
+        <span class="field-heading">Appearance</span>
+        <div class="appearance-gallery">
+          @for (item of appearances; track item.value) {
+            <button
+              type="button"
+              class="appearance-card"
+              [class.selected]="settings.appearance === item.value"
+              [attr.aria-pressed]="settings.appearance === item.value"
+              (click)="onAppearanceChanged(item.value)">
+              <span class="appearance-mini-label">Email address</span>
+              <span [class]="'appearance-mini-control ' + item.value">
+                <span class="appearance-mini-icon">@</span>
+                <span class="appearance-mini-value">you@example.com</span>
+              </span>
+              <span class="appearance-card-title">{{ item.label }}</span>
+              <small>{{ item.description }}</small>
+            </button>
+          }
+        </div>
+      </div>
+
+      <label class="setting-field full-width">
+        <span class="field-heading">Name</span>
+        <input type="text" [(ngModel)]="settings.name" (ngModelChange)="update()" placeholder="contact-email" />
+        <small>HTML name used when the containing form is submitted.</small>
+      </label>
+
+      <label class="setting-field full-width">
+        <span class="field-heading">Placeholder</span>
+        <input type="text" [(ngModel)]="settings.placeholder" (ngModelChange)="update()" placeholder="Enter your value" />
+      </label>
+
+      <label class="setting-field">
+        <span class="field-heading">Autocomplete</span>
+        <input type="text" [(ngModel)]="settings.autocomplete" (ngModelChange)="update()" placeholder="off / email / name" />
+      </label>
+
+      <label class="setting-field">
+        <span class="field-heading">Initial value</span>
+        <input type="text" [(ngModel)]="settings.value" (ngModelChange)="update()" />
+      </label>
+    </div>
+
+    <div class="settings-flags">
+      <label class="checkbox-control">
+        <input type="checkbox" [(ngModel)]="settings.required" (ngModelChange)="update()" />
+        <span>Required</span>
+      </label>
+      <label class="checkbox-control">
+        <input type="checkbox" [(ngModel)]="settings.disabled" (ngModelChange)="update()" />
+        <span>Disabled</span>
+      </label>
+      <label class="checkbox-control">
+        <input type="checkbox" [(ngModel)]="settings.readOnly" (ngModelChange)="update()" />
+        <span>Read only</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-group">
+    <h4>Validation</h4>
+    <div class="settings-fields">
+      <label class="setting-field full-width">
+        <span class="field-heading">Validation rule</span>
+        <select [(ngModel)]="settings.validationPreset" (ngModelChange)="update()">
+          @for (item of validationPresets; track item.value) {
+            <option [ngValue]="item.value">{{ item.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="setting-field">
+        <span class="field-heading">Minimum length</span>
+        <input type="number" min="0" [(ngModel)]="settings.minLength" (ngModelChange)="update()" />
+      </label>
+      <label class="setting-field">
+        <span class="field-heading">Maximum length</span>
+        <input type="number" min="1" [(ngModel)]="settings.maxLength" (ngModelChange)="update()" />
+      </label>
+
+      @if (settings.valueType === 'number') {
+        <label class="setting-field">
+          <span class="field-heading">Minimum value</span>
+          <input type="number" [(ngModel)]="settings.min" (ngModelChange)="update()" />
+        </label>
+        <label class="setting-field">
+          <span class="field-heading">Maximum value</span>
+          <input type="number" [(ngModel)]="settings.max" (ngModelChange)="update()" />
+        </label>
+        <label class="setting-field">
+          <span class="field-heading">Step</span>
+          <input type="number" min="0" step="any" [(ngModel)]="settings.step" (ngModelChange)="update()" />
+        </label>
+      }
+    </div>
+
+    @if (settings.validationPreset === 'custom') {
+      <div class="custom-regex">
+        <label class="setting-field full-width">
+          <span class="field-heading">Regular expression</span>
+          <textarea rows="3" spellcheck="false" [(ngModel)]="settings.customRegex" (ngModelChange)="update()" placeholder="^[a-zA-Z0-9._-]+$"></textarea>
+        </label>
+
+        @if (customRegexInspection.valid) {
+          <div class="regex-status is-valid">The expression is syntactically valid.</div>
+        } @else {
+          <div class="regex-status is-invalid">{{ customRegexInspection.message }}</div>
+        }
+
+        <div class="regex-test">
+          <label class="setting-field">
+            <span class="field-heading">Test value</span>
+            <input type="text" [(ngModel)]="regexTestValue" placeholder="Value to test" />
+          </label>
+          <button type="button" class="pb-btn" (click)="testCustomRegex()">Test expression</button>
+        </div>
+        @if (regexTestMessage) {
+          <div class="regex-status" [class.is-valid]="regexTestPassed" [class.is-invalid]="regexTestPassed === false">
+            {{ regexTestMessage }}
+          </div>
+        }
+        <small class="settings-note">Custom patterns are length-limited and some high-risk regex constructs are rejected. Always validate submitted values on the server too.</small>
+      </div>
+    }
+  </section>
+
+  <section class="settings-group">
+    <h4>Error messages</h4>
+    <p class="settings-description">Stable message keys are used internally. Edit the text shown to the visitor here.</p>
+    <div class="settings-fields">
+      @for (field of messageFields; track trackMessage($index, field)) {
+        <label class="setting-field full-width">
+          <span class="field-heading">{{ field.label }}</span>
+          <input type="text" [(ngModel)]="settings.messages[field.key]" (ngModelChange)="update()" />
+        </label>
+      }
+    </div>
+  </section>
+
+  <section class="settings-group">
+    <h4>Editable structure</h4>
+    <p class="settings-description">The label, input, icon, hint and error are real page-builder blocks. Select any of them on the canvas to change its content, CSS, states or animation.</p>
+  </section>
+</div>

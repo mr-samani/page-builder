@@ -1,9 +1,11 @@
 import { SourceItem } from 'ngx-page-builder/core';
 import { ChartService } from './chart/chart.service';
 import { SLIDER_BLOCK } from './slider/slider-definition';
+import { TEXT_BOX_SOURCE } from './text-box/textbox.source';
 
 export const CustomSources: SourceItem[] = [
   SLIDER_BLOCK,
+  TEXT_BOX_SOURCE,
   {
     tag: 'input-range',
     title: 'Input Range',
