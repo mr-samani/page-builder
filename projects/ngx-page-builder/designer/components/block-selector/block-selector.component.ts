@@ -266,4 +266,7 @@ export class BlockSelectorComponent extends BaseComponent implements OnDestroy {
       this.pb.selectBlock(this.item.parent, ev);
     }
   }
+  async copyBlock() {
+    if (this.item) await this.pb.createCopyOfBlock(this.item);
+  }
 }

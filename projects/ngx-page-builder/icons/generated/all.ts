@@ -11,6 +11,7 @@ import { cog } from './cog';
 import { collection } from './collection';
 import { colorPallete } from './color-pallete';
 import { column } from './column';
+import { copy } from './copy';
 import { cursor } from './cursor';
 import { desktop } from './desktop';
 import { desktopWide } from './desktop-wide';
@@ -87,6 +88,7 @@ export const ALL_ICONS: readonly IconDefinition[] = [
   collection,
   colorPallete,
   column,
+  copy,
   cursor,
   desktop,
   desktopWide,

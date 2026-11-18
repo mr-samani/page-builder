@@ -16,7 +16,7 @@
           "canHaveChild": true,
           "classList": ["blk-lp-root"],
           "css": {
-            "base": "font-family:Vazirmatn,Tahoma,'Segoe UI',sans-serif;color:#2a2118;background:#fff;line-height:1.9;overflow-x:clip;-webkit-font-smoothing:antialiased;"
+            "base": "color:#2a2118;background:#fff;line-height:1.9;overflow-x:clip;-webkit-font-smoothing:antialiased;"
           },
           "children": [
             {

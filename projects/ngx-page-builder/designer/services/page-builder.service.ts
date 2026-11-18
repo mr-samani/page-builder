@@ -633,6 +633,12 @@ export class PageBuilderService implements OnDestroy {
     this.history.saveDelete(item.parent?.id, index, item, `Delete block '${item.id}' from '${item.parent?.id}'`);
   }
 
+  async createCopyOfBlock(item: PageItem) {
+    if (!item) return;
+    const copy = Object.assign({}, item);
+    await this.addBlockToCurrentPage(copy);
+  }
+
   //---------------------------------- تغییر استایل بلاک (پنل تنظیمات) ----------------------------------
   // کاربر هنگام درگ اسلایدر/رنگ ده‌ها رویداد در ثانیه می‌فرستد. CSSOM همان لحظه به‌روز می‌شود (ارزان)،
   // ولی کارهای سنگین (deep clone برای history و اعلان تغییر به بیرون) فقط یک بار بعد از توقف انجام می‌شود.
@@ -743,7 +749,7 @@ export class PageBuilderService implements OnDestroy {
     Notify.info('Block copied to memory');
   }
 
-  async addBlockToCurrentPage(p: IPageItem): Promise<PageItem | undefined> {
+  async addBlockToCurrentPage(p: IPageItem, insertInSelf = false): Promise<PageItem | undefined> {
     try {
       // ۱) کپی عمیق و مستقل (بدون el/parent/directive ها) تا با بلاک اصلی هیچ object مشترکی (css, options, ...) نماند
       // ۲) id جدید برای کل درخت + اتصال کلاس اختصاصی blk-<id> به id جدید؛
@@ -765,7 +771,7 @@ export class PageBuilderService implements OnDestroy {
       let containerEl: HTMLElement | null | undefined;
       let index = -1;
 
-      if (activeBlock?.el && activeBlock.canHaveChild) {
+      if (activeBlock?.el && activeBlock.canHaveChild && insertInSelf) {
         parentItem = activeBlock;
         list = activeBlock.children;
         containerEl = activeBlock.el;

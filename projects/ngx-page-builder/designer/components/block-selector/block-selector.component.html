@@ -10,12 +10,15 @@
           <ngx-icon icon="arrow-turn-up" />
         </button>
       }
-
       @if (!item.disableDelete) {
         <button type="button" (click)="deleteBlock()" title="Delete">
           <ngx-icon icon="trash" />
         </button>
       }
+      <button type="button" (click)="copyBlock()" title="Copy">
+        <ngx-icon icon="copy" />
+      </button>
+
       <span class="tag">{{ item.tag ? (item.tag | uppercase) : item.customComponent?.componentKey }}</span>
     </div>
   }

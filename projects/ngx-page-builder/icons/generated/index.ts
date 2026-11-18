@@ -10,6 +10,7 @@ export { cog } from './cog';
 export { collection } from './collection';
 export { colorPallete } from './color-pallete';
 export { column } from './column';
+export { copy } from './copy';
 export { cursor } from './cursor';
 export { desktop } from './desktop';
 export { desktopWide } from './desktop-wide';

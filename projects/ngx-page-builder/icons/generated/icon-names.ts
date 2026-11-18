@@ -12,6 +12,7 @@ export type NgxIconName =
   | 'collection'
   | 'color-pallete'
   | 'column'
+  | 'copy'
   | 'cursor'
   | 'desktop'
   | 'desktop-wide'
