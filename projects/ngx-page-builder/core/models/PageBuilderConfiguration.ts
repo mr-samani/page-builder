@@ -1,3 +1,4 @@
+import type { Provider } from '@angular/core';
 import { CMSPage } from './CMSPage';
 import { SourceItem } from './SourceItem';
 import { StorageType } from './storage-type';
@@ -16,6 +17,12 @@ export class PageBuilderConfiguration {
   showSnippets?: boolean = false;
   publicCss?: string[] = [];
   publicJs?: string[] = [];
+
+  /**
+   * Providers for CANVAS
+   * - set providers on create iframe application
+   */
+  providers?: Provider[];
 }
 
 export class PageBuilderToolbarConfig {

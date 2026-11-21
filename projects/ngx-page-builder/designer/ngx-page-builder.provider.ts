@@ -28,6 +28,8 @@ export function providePageBuilder(config: PageBuilderConfiguration) {
   LibConsts.showSnippets = config.showSnippets === true;
   LibConsts.canDeleteSnippet = config.canDeleteSnippet === true;
 
+  LibConsts.providers = config.providers ?? [];
+
   if (config.publicCss && Array.isArray(config.publicCss)) {
     LibConsts.publicCss = config.publicCss;
   }

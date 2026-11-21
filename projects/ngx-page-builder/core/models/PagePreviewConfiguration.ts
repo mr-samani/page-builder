@@ -1,3 +1,4 @@
+import type { Provider } from '@angular/core';
 import { SourceItem } from './SourceItem';
 
 export class PagePreviewConfiguration {

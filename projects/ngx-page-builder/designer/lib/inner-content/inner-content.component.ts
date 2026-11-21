@@ -273,6 +273,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
           provide: PageBuilderService,
           useValue: this.pb,
         },
+        ...LibConsts.providers,
       ],
     });
     if (this.destroyed) {

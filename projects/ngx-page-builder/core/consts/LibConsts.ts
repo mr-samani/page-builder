@@ -2,6 +2,7 @@ import { ViewMode } from './ViewMode';
 import { PageBuilderToolbarConfig } from '../models/PageBuilderConfiguration';
 import { SourceItem } from '../models/SourceItem';
 import { CMSPage } from '../models/CMSPage';
+import type { Provider } from '@angular/core';
 
 /** loaded from initial provider
  *
@@ -41,6 +42,12 @@ export const LibConsts: {
    * used in link tag
    */
   cmsPages: CMSPage[];
+
+  /**
+   * Providers for CANVAS
+   * - set providers on create iframe application
+   */
+  providers: Provider[];
 } = {
   SourceItemList: [],
   backendProxyImportUrl: 'http://localhost:3000/api/render',
@@ -56,4 +63,5 @@ export const LibConsts: {
   publicCss: [],
   publicJs: [],
   cmsPages: [],
+  providers: [],
 };
