@@ -1,1 +1,0 @@
-import{f as e$1}from"./main-JNRHOO7Q.js";var e=class extends e$1{useDynamicData=!1};export{e as t};

@@ -1,0 +1,1 @@
+import{n as e$1}from"./chunk--jqn6Cqt.js";var e=class extends e$1{useDynamicData=!1};export{e as t};
