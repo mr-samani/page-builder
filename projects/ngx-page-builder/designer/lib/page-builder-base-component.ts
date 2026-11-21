@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, DOCUMENT, inject } from '@angular/core';
-import { PageBuilderShortcutService } from '../services/shortcut.service';
 import { DynamicDataService, DynamicElementService, LibConsts, ViewMode } from 'ngx-page-builder/core';
 import { PageBuilderService } from '../services/page-builder.service';
 
@@ -10,7 +9,6 @@ export abstract class PageBuilderBaseComponent {
 
   readonly dynamicDataService = inject(DynamicDataService);
 
-  readonly shortcuts = inject(PageBuilderShortcutService);
   readonly doc = inject(DOCUMENT);
 
   set viewMode(val: ViewMode) {

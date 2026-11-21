@@ -22,6 +22,7 @@ import { BaseContentComponent } from './base-content';
 import { PageBuilderService } from '../../services/page-builder.service';
 import { DragDropService } from 'ngx-kit/drag-resize';
 import { ALL_ICONS, provideIcons } from 'ngx-page-builder/icons';
+import { FocusContext, PageBuilderShortcutService } from '../../services/shortcut.service';
 
 const MIN_SCALE = 0.1;
 const THUMB_MIN_HEIGHT = 32;
@@ -141,6 +142,8 @@ const HIDDEN_THUMB: ThumbState = { show: false, height: 0, y: 0 };
   imports: [],
 })
 export class InnerContentComponent extends PageBuilderBaseComponent implements OnInit, OnDestroy {
+  readonly shortcuts = inject(PageBuilderShortcutService);
+
   private readonly iframe = viewChild<ElementRef<HTMLIFrameElement>>('iframe');
   private readonly canvas = viewChild<ElementRef<HTMLElement>>('canvas');
 
@@ -291,6 +294,8 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     this.syncScaleVar(this.scale());
     this.loadJs();
     this.observeContent(iframe);
+
+    this.registerShortcuts(doc);
   }
 
   /** با تغییر محتوا/اسکرول، scrollbar بیرونی هماهنگ می‌شود */
@@ -356,6 +361,7 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const doc = this.iframe()?.nativeElement.contentDocument;
     if (doc) this.injector.get(DynamicElementService).unregisterDocument(doc);
     this.iframeApp?.destroy();
+    this.unregisterShortcuts();
   }
 
   siteSettingsToCss(): string {
@@ -462,5 +468,225 @@ export class InnerContentComponent extends PageBuilderBaseComponent implements O
     const rectTop = (ev.currentTarget as HTMLElement).getBoundingClientRect().top;
     const dir = ev.clientY - rectTop < t.y ? -1 : 1;
     sc.scrollBy({ top: dir * sc.clientHeight * 0.9, behavior: 'smooth' });
+  }
+
+  /**
+   * ✅ Register all page builder shortcuts
+   */
+  private registerShortcuts(doc: Document): void {
+    this.shortcuts.initShortcutListener(doc);
+    // ========================================
+    // DELETE - حذف بلاک (فقط در CANVAS context)
+    // ========================================
+    this.shortcuts.register('delete-block', {
+      key: 'Delete',
+      contexts: [FocusContext.CANVAS], // 👈 فقط وقتی focus روی canvas است
+      description: 'Delete selected block',
+      action: async () => {
+        const currentBlock = this.pb.activeEl();
+        if (currentBlock) {
+          await this.pb.removeBlock(currentBlock);
+        }
+      },
+    });
+
+    // همچنین Backspace برای Mac users
+    this.shortcuts.register('delete-block-backspace', {
+      key: 'Backspace',
+      contexts: [FocusContext.CANVAS],
+      description: 'Delete selected block',
+      action: async () => {
+        const currentBlock = this.pb.activeEl();
+        if (currentBlock) {
+          await this.pb.removeBlock(currentBlock);
+        }
+      },
+    });
+
+    // ========================================
+    // COPY - کپی بلاک (فقط در CANVAS)
+    // ========================================
+    this.shortcuts.register('copy-block', {
+      key: 'c',
+      ctrl: true,
+      contexts: [FocusContext.CANVAS],
+      description: 'Copy selected block',
+      action: () => {
+        const currentBlock = this.pb.activeEl();
+        if (currentBlock) {
+          this.pb.copyBlock(currentBlock);
+        }
+      },
+    });
+
+    // ========================================
+    // PASTE - پیست بلاک (فقط در CANVAS)
+    // ========================================
+    this.shortcuts.register('paste-block', {
+      key: 'v',
+      ctrl: true,
+      contexts: [FocusContext.CANVAS],
+      description: 'Paste copied block',
+      action: () => {
+        this.pb.pasteBlock();
+      },
+    });
+
+    // ========================================
+    // DUPLICATE - دوبل کردن بلاک
+    // ========================================
+    this.shortcuts.register('duplicate-block', {
+      key: 'd',
+      ctrl: true,
+      contexts: [FocusContext.CANVAS],
+      description: 'Duplicate selected block',
+      action: () => {
+        const currentBlock = this.pb.activeEl();
+        if (currentBlock) {
+          this.pb.duplicateBlock(currentBlock);
+        }
+      },
+    });
+
+    // ========================================
+    // UNDO / REDO
+    // ========================================
+    this.shortcuts.register('undo', {
+      key: 'z',
+      ctrl: true,
+      contexts: [FocusContext.CANVAS, FocusContext.SIDEBAR], // در canvas و sidebar
+      description: 'Undo last action',
+      action: () => {
+        this.pb.undo();
+      },
+    });
+
+    this.shortcuts.register('redo', {
+      key: 'z',
+      ctrl: true,
+      shift: true,
+      contexts: [FocusContext.CANVAS, FocusContext.SIDEBAR],
+      description: 'Redo last action',
+      action: () => {
+        this.pb.redo();
+      },
+    });
+
+    // ========================================
+    // ESCAPE - لغو انتخاب
+    // ========================================
+    this.shortcuts.register('deselect', {
+      key: 'Escape',
+      contexts: [FocusContext.CANVAS, FocusContext.TEXT_EDITING],
+      description: 'Deselect / Exit edit mode',
+      action: () => {
+        const context = this.shortcuts.getCurrentContext();
+        if (context === FocusContext.TEXT_EDITING) {
+          // خروج از حالت ویرایش متن
+          (this.doc.activeElement as HTMLElement)?.blur();
+        } else {
+          // لغو انتخاب بلاک
+          this.pb.deSelectBlock();
+        }
+      },
+    });
+
+    // ========================================
+    // SAVE - ذخیره (در همه context ها)
+    // ========================================
+    this.shortcuts.register('save', {
+      key: 's',
+      ctrl: true,
+      contexts: [FocusContext.CANVAS, FocusContext.TEXT_EDITING, FocusContext.SIDEBAR],
+      description: 'Save page',
+      action: () => {
+        this.pb.save();
+      },
+    });
+
+    // ========================================
+    // ARROW KEYS - حرکت بلاک (فقط در CANVAS)
+    // ========================================
+    // const moveDistance = 1;
+    // const moveDistanceLarge = 10;
+
+    // this.shortcuts.register('move-up', {
+    //   key: 'ArrowUp',
+    //   contexts: [FocusContext.CANVAS],
+    //   description: 'Move block up',
+    //   action: (event) => {
+    //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
+    //     this.pb.moveActiveBlock(0, -distance);
+    //   },
+    // });
+
+    // this.shortcuts.register('move-down', {
+    //   key: 'ArrowDown',
+    //   contexts: [FocusContext.CANVAS],
+    //   description: 'Move block down',
+    //   action: (event) => {
+    //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
+    //     this.pb.moveActiveBlock(0, distance);
+    //   },
+    // });
+
+    // this.shortcuts.register('move-left', {
+    //   key: 'ArrowLeft',
+    //   contexts: [FocusContext.CANVAS],
+    //   description: 'Move block left',
+    //   action: (event) => {
+    //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
+    //     this.pb.moveActiveBlock(-distance, 0);
+    //   },
+    // });
+
+    // this.shortcuts.register('move-right', {
+    //   key: 'ArrowRight',
+    //   contexts: [FocusContext.CANVAS],
+    //   description: 'Move block right',
+    //   action: (event) => {
+    //     const distance = event.shiftKey ? moveDistanceLarge : moveDistance;
+    //     this.pb.moveActiveBlock(distance, 0);
+    //   },
+    // });
+
+    // ========================================
+    // debuge log pageinfo
+    // ========================================
+    this.shortcuts.register('logconsole', {
+      key: 'p',
+      ctrl: true,
+      shift: true,
+      alt: true,
+      contexts: [FocusContext.CANVAS, FocusContext.TEXT_EDITING, FocusContext.SIDEBAR],
+      description: 'log console',
+      action: () => {
+        console.log(this.pb.pageInfo);
+      },
+    });
+  }
+
+  /**
+   * ✅ Unregister shortcuts
+   */
+  private unregisterShortcuts(): void {
+    const shortcutIds = [
+      'delete-block',
+      'delete-block-backspace',
+      'copy-block',
+      'paste-block',
+      'duplicate-block',
+      'undo',
+      'redo',
+      'select-all',
+      'deselect',
+      'save',
+      'move-up',
+      'move-down',
+      'move-left',
+      'move-right',
+    ];
+
+    shortcutIds.forEach((id) => this.shortcuts.unregister(id));
   }
 }

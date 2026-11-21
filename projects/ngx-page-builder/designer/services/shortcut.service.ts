@@ -32,15 +32,10 @@ export interface ShortcutCommand {
   providedIn: 'root',
 })
 export class PageBuilderShortcutService {
-  private readonly doc = inject(DOCUMENT);
+  private doc!: Document;
   private subscriptions: Subscription[] = [];
   private commands = new Map<string, ShortcutCommand>();
   private isEnabledShortCut = LibConsts.enableShotcuts;
-
-  constructor() {
-    this.initShortcutListener();
-    // console.log('isEnabledShortCut', this.isEnabledShortCut);
-  }
 
   /**
    * ✅ Register a keyboard shortcut
@@ -129,7 +124,8 @@ export class PageBuilderShortcutService {
   /**
    * ✅ Initialize keyboard listener
    */
-  private initShortcutListener(): void {
+  public initShortcutListener(doc: Document): void {
+    this.doc = doc;
     const keydown$ = fromEvent<KeyboardEvent>(this.doc, 'keydown');
 
     this.subscriptions.push(
