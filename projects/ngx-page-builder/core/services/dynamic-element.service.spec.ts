@@ -48,7 +48,31 @@ function makeCustomItem(component: Type<any>, init: Record<string, any> = {}): P
     ...init,
   });
 }
+import { InjectionToken, Injectable, makeEnvironmentProviders } from '@angular/core';
 
+const SCOPE_TOKEN = new InjectionToken<string>('SCOPE_TOKEN');
+const ENV_ONLY = new InjectionToken<number>('ENV_ONLY');
+
+@Injectable()
+class SharedService {
+  ngOnDestroy() {
+    log.push('shared:destroy');
+  }
+}
+
+let lastDi: DiBlockComponent;
+@Component({ selector: 'test-di-block', template: '' })
+class DiBlockComponent implements OnDestroy {
+  readonly scopeToken = inject(SCOPE_TOKEN);
+  readonly shared = inject(SharedService);
+  readonly data = inject<ComponentDataContext>(COMPONENT_DATA);
+  constructor() {
+    lastDi = this;
+  }
+  ngOnDestroy() {
+    log.push('di:destroy');
+  }
+}
 // ───────────────────────── test directives ─────────────────────────
 
 let lastDecorator: DecoratorDirective;
@@ -152,7 +176,7 @@ describe('DynamicElementService', () => {
 
   beforeEach(() => {
     log.length = 0;
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [{ provide: SCOPE_TOKEN, useValue: 'main' }] });
     service = TestBed.inject(DynamicElementService);
     host = document.createElement('div');
     document.body.appendChild(host);
@@ -505,6 +529,110 @@ describe('DynamicElementService', () => {
       await service.destroy(cmpItem);
       service.unregisterDocument(foreignDoc);
       env.destroy();
+    });
+
+    describe('dependency injection of custom components', () => {
+      const diItem = () =>
+        makeCustomItem(DiBlockComponent, {
+          customComponent: {
+            providers: [SharedService, makeEnvironmentProviders([{ provide: ENV_ONLY, useValue: 42 }])],
+            componentData: 'data-0',
+            compInjector: undefined,
+          },
+        });
+
+      it('main document: app services come from the main app', async () => {
+        await service.createBlock([], false, host, -1, diItem());
+        expect(lastDi.scopeToken).toBe('main');
+      });
+
+      it('iframe: app-level services come from the iframe app, not the main app', async () => {
+        const foreignDoc = document.implementation.createHTMLDocument('foreign');
+        const env = createEnvironmentInjector(
+          [
+            { provide: DOCUMENT, useValue: foreignDoc },
+            { provide: SCOPE_TOKEN, useValue: 'iframe' },
+          ],
+          TestBed.inject(EnvironmentInjector),
+        );
+        service.registerDocument(foreignDoc, env);
+
+        const item = diItem();
+        const el = await service.createBlock([], false, foreignDoc.body, -1, item);
+
+        expect(el.ownerDocument).toBe(foreignDoc);
+        expect(lastDi.scopeToken).toBe('iframe');
+        // پنل تنظیمات (اپ اصلی) از همان scope استفاده می‌کند و به‌جای iframe، اپ اصلی را می‌بیند
+        expect(item.customComponent!.compInjector!.get(SCOPE_TOKEN)).toBe('main');
+
+        await service.destroy(item);
+        service.unregisterDocument(foreignDoc);
+        env.destroy();
+      });
+
+      it('settings injector and block share the same provider instances and COMPONENT_DATA', async () => {
+        const item = diItem();
+        await service.createBlock([], false, host, -1, item);
+        const settingsInjector = item.customComponent!.compInjector!;
+
+        expect(settingsInjector.get(SharedService)).toBe(lastDi.shared);
+        expect(settingsInjector.get(COMPONENT_DATA)).toBe(lastDi.data);
+        expect(settingsInjector.get(ENV_ONLY)).toBe(42); // EnvironmentProviders پشتیبانی می‌شود
+
+        // تبادل داده بین تنظیمات و بلاک
+        settingsInjector.get<ComponentDataContext>(COMPONENT_DATA).onChange.next('data-1');
+        expect(lastDi.data.data).toBe('data-1');
+      });
+
+      it('destroys the component first and then the scope services', async () => {
+        const item = diItem();
+        await service.createBlock([], false, host, -1, item);
+        await service.destroy(item);
+
+        expect(log.indexOf('di:destroy')).toBeGreaterThanOrEqual(0);
+        expect(log.indexOf('di:destroy')).toBeLessThan(log.indexOf('shared:destroy'));
+        expect(item.customComponent!.compInjector).toBeUndefined();
+      });
+    });
+
+    describe('in-place updates', () => {
+      it('setInputs updates a component input without recreating it', async () => {
+        const item = makeCustomItem(BlockComponent, { options: { inputs: { title: 'A' } } });
+        const el = await service.createBlock([], false, host, -1, item);
+        const block = lastBlock;
+
+        service.setInputs(item, { title: 'B', editMode: true });
+
+        expect(item.el).toBe(el);
+        expect(lastBlock).toBe(block);
+        expect(block.title()).toBe('B');
+        expect(block.editMode()).toBe(true);
+        expect(el.querySelector('.inner')!.textContent).toContain('B|');
+      });
+
+      it('patchBlock updates attributes and classes in place', async () => {
+        const item = makeItem({ classList: ['a'], options: { attributes: { title: 'x', 'data-k': 1 } } });
+        const el = await service.createBlock([], false, host, -1, item);
+
+        const next = makeItem({ classList: ['b'], options: { attributes: { title: 'y' } } });
+        expect(service.patchBlock(item, next as any)).toBe(true);
+
+        expect(item.el).toBe(el);
+        expect(el.getAttribute('title')).toBe('y');
+        expect(el.hasAttribute('data-k')).toBe(false);
+        expect(el.classList.contains('b')).toBe(true);
+        expect(el.classList.contains('a')).toBe(false);
+        expect(el.dataset['id']).toBe(item.id);
+      });
+
+      it('patchBlock refuses (and changes nothing) when text changes on a block with children', async () => {
+        const item = makeItem({ content: 'a', children: [makeItem()] });
+        const el = await service.createBlock([], false, host, -1, item);
+
+        const next = makeItem({ content: 'b', children: [makeItem()] });
+        expect(service.patchBlock(item, next as any)).toBe(false);
+        expect(el.innerHTML).toBe('a');
+      });
     });
   });
 });
